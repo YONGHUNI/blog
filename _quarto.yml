@@ -21,9 +21,8 @@ website:
       #- icon: twitter
       #  href: https://twitter.com
   comments: 
-    hypothesis:
-      theme: clean
-      openSidebar: false
+    giscus: 
+      repo: YONGHUNI/blog
 format:
   html:
     theme:

@@ -1,4 +1,4 @@
-# blog
-You can access my blog via a following link.
+# Blog
+You can check out my blog using the link below.
 
 * https://yonghuni.github.io/blog/

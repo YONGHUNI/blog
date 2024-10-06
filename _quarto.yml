@@ -4,10 +4,15 @@ project:
 
 website:
   title: "Welcome to Yonghun's Geo-Blog"
+  favicon: ./data/favicon/geography-icon.png
   navbar:
     left:
-      - text: test
+      - text: News
         href: /#category=news
+      - text: Code
+        href: /#category=Code
+      - text: Research
+        href: /#category=Research
     right:
       - about.qmd
       - icon: github

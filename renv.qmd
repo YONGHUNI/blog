@@ -21,9 +21,9 @@ library(sf)
 library(terra)
 
 
-renv::activate(profile = "armyknives")
-renv::deactivate(clean = T)
-renv::snapshot()
+#renv::activate(profile = "armyknives")
+#renv::snapshot()
+#renv::deactivate(clean = T)
 
 ```
 

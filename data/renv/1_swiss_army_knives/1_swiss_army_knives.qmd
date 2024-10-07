@@ -1,0 +1,27 @@
+---
+title: "Env Settings"
+author: "Yonghun Suh"
+date: today
+#categories: [news]
+comments: false
+---
+
+This is for an environment setting.
+
+![](thumbnail.jpg)
+
+For registering regularly used packages as `swiss_army_knives`
+
+```{r eval=FALSE}
+library(yaml)
+library(tidyverse)
+library(data.table)
+library(sf)
+library(terra)
+
+
+#renv::activate()
+#renv::snapshot()
+
+```
+

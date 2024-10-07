@@ -1,5 +1,5 @@
 ---
-title: "Yonghuni's Cyber Home"
+title: "Welcome to Yonghuni's Cyber Home"
 listing:
   contents: posts
   sort: "date desc"

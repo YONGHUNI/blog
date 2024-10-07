@@ -3,7 +3,7 @@ project:
   #output-dir: docs
 
 website:
-  title: "Welcome to Yonghun's Geo-Blog"
+  title: "Yonghun's Computational Geo-Blog"
   favicon: ./data/favicon/geography-icon.png
   navbar:
     left:

@@ -14,6 +14,8 @@ For registering regularly used packages as `swiss_army_knives`
 
 ```{r eval=FALSE}
 library(yaml)
+library(knitr)
+library(rmarkdown)
 library(renv)
 library(tidyverse)
 library(data.table)
@@ -21,6 +23,7 @@ library(sf)
 library(terra)
 
 
+#setwd("C:/Users/dydgn/OneDrive/blog/quarto")
 #renv::activate(profile = "armyknives")
 #renv::snapshot()
 #renv::deactivate(clean = T)

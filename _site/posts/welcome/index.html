@@ -9,7 +9,7 @@
 <meta name="author" content="Yonghun Suh">
 <meta name="dcterms.date" content="2024-10-07">
 
-<title>Welcome to Yonghun’s Geo-Blog - Welcome To My Blog</title>
+<title>Welcome to Yonghun’s Geo-Blog - R dependency testing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,6 +66,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../.././data/favicon/geography-icon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -94,7 +129,15 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../#category=news"> 
-<span class="menu-text">test</span></a>
+<span class="menu-text">News</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Code"> 
+<span class="menu-text">Code</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Research"> 
+<span class="menu-text">Research</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -119,9 +162,9 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome To My Blog</h1>
+      <h1 class="title">R dependency testing</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">Code</div>
               </div>
                   </div>
   </div>
@@ -159,8 +202,224 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="thumbnail.jpg" class="img-fluid"></p>
-<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+<p><img src="https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png" class="img-fluid"></p>
+<p><br>
+<br>
+</p>
+<p>See: <code>https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md</code></p>
+<p><br>
+<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yaml)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/SVI_2000_US.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 65081 Columns: 82
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (9): STATE_FIPS, CNTY_FIPS, STCOFIPS, TRACT, FIPS, STATE_NAME, STATE_AB...
+dbl (73): G1V1R, G1V2R, G1V3R, G1V4R, G2V1R, G2V2R, G2V3R, G2V4R, G3V1R, G3V...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 65,081 × 82
+   STATE_FIPS CNTY_FIPS STCOFIPS TRACT FIPS  STATE_NAME STATE_ABBR COUNTY  G1V1R
+   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt;
+ 1 01         001       01001    0201… 0100… Alabama    AL         Autau… 0.127 
+ 2 01         001       01001    0202… 0100… Alabama    AL         Autau… 0.227 
+ 3 01         001       01001    0203… 0100… Alabama    AL         Autau… 0.0766
+ 4 01         001       01001    0204… 0100… Alabama    AL         Autau… 0.0454
+ 5 01         001       01001    0205… 0100… Alabama    AL         Autau… 0.0367
+ 6 01         001       01001    0206… 0100… Alabama    AL         Autau… 0.152 
+ 7 01         001       01001    0207… 0100… Alabama    AL         Autau… 0.11  
+ 8 01         001       01001    0208… 0100… Alabama    AL         Autau… 0.0844
+ 9 01         001       01001    0209… 0100… Alabama    AL         Autau… 0.138 
+10 01         001       01001    0210… 0100… Alabama    AL         Autau… 0.176 
+# ℹ 65,071 more rows
+# ℹ 73 more variables: G1V2R &lt;dbl&gt;, G1V3R &lt;dbl&gt;, G1V4R &lt;dbl&gt;, G2V1R &lt;dbl&gt;,
+#   G2V2R &lt;dbl&gt;, G2V3R &lt;dbl&gt;, G2V4R &lt;dbl&gt;, G3V1R &lt;dbl&gt;, G3V2R &lt;dbl&gt;,
+#   G4V1R &lt;dbl&gt;, G4V2R &lt;dbl&gt;, G4V3R &lt;dbl&gt;, G4V4R &lt;dbl&gt;, G4V5R &lt;dbl&gt;,
+#   USG1V1P &lt;dbl&gt;, USG1V2P &lt;dbl&gt;, USG1V3P &lt;dbl&gt;, USG1V4P &lt;dbl&gt;, USG1TP &lt;dbl&gt;,
+#   USG2V1P &lt;dbl&gt;, USG2V2P &lt;dbl&gt;, USG2V3P &lt;dbl&gt;, USG2V4P &lt;dbl&gt;, USG2TP &lt;dbl&gt;,
+#   USG3V1P &lt;dbl&gt;, USG3V2P &lt;dbl&gt;, USG3TP &lt;dbl&gt;, USG4V1P &lt;dbl&gt;, USG4V2P &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"./data/SVI_2000_US.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       STATE_FIPS CNTY_FIPS STCOFIPS  TRACT        FIPS STATE_NAME STATE_ABBR
+            &lt;int&gt;     &lt;int&gt;    &lt;int&gt;  &lt;int&gt;       &lt;i64&gt;     &lt;char&gt;     &lt;char&gt;
+    1:          1         1     1001  20100  1001020100    Alabama         AL
+    2:          1         1     1001  20200  1001020200    Alabama         AL
+    3:          1         1     1001  20300  1001020300    Alabama         AL
+    4:          1         1     1001  20400  1001020400    Alabama         AL
+    5:          1         1     1001  20500  1001020500    Alabama         AL
+   ---                                                                       
+65077:         56        43    56043    200 56043000200    Wyoming         WY
+65078:         56        43    56043    301 56043000301    Wyoming         WY
+65079:         56        43    56043    302 56043000302    Wyoming         WY
+65080:         56        45    56045 951100 56045951100    Wyoming         WY
+65081:         56        45    56045 951300 56045951300    Wyoming         WY
+         COUNTY  G1V1R  G1V2R G1V3R  G1V4R  G2V1R     G2V2R     G2V3R
+         &lt;char&gt;  &lt;num&gt;  &lt;num&gt; &lt;num&gt;  &lt;num&gt;  &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
+    1:  Autauga 0.1268 0.0527 17771 0.1841 0.0782 0.2783000 0.2032000
+    2:  Autauga 0.2270 0.0997 14217 0.3249 0.1215 0.2735000 0.3466000
+    3:  Autauga 0.0766 0.0288 18346 0.1699 0.1338 0.2890000 0.1902000
+    4:  Autauga 0.0454 0.0351 19741 0.1341 0.1510 0.2500000 0.1842000
+    5:  Autauga 0.0367 0.0166 24510 0.0863 0.0682 0.3079000 0.1193000
+   ---                                                               
+65077: Washakie 0.1334 0.0530 17207 0.1238 0.1316 0.2966351 0.1474245
+65078: Washakie 0.1614 0.1043 17607 0.1788 0.1890 0.2440103 0.2074789
+65079: Washakie 0.1274 0.0972 18664 0.1282 0.1538 0.2707753 0.1122098
+65080:   Weston 0.0991 0.0496 19191 0.1275 0.1360 0.2314908 0.2106248
+65081:   Weston 0.0982 0.0606 15877 0.1651 0.1727 0.2467887 0.2021403
+            G2V4R      G3V1R      G3V2R      G4V1R      G4V2R  G4V3R  G4V4R
+            &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;  &lt;num&gt;  &lt;num&gt;
+    1: 0.10180000 0.04470000 0.00000000 0.00000000 0.20750000 0.0090 0.0409
+    2: 0.11760000 0.66910000 0.00450000 0.00920000 0.01980000 0.0544 0.0705
+    3: 0.11300000 0.17940000 0.00560000 0.03170000 0.01430000 0.0141 0.0582
+    4: 0.05600000 0.06210000 0.00000000 0.03100000 0.04920000 0.0181 0.0301
+    5: 0.06540000 0.11210000 0.00590000 0.02460000 0.00700000 0.0182 0.0241
+   ---                                                                     
+65077: 0.07901444 0.14243711 0.02377670 0.00000000 0.22379182 0.0376 0.0247
+65078: 0.04584775 0.15702174 0.00000000 0.00000000 0.08869701 0.0156 0.0364
+65079: 0.10509885 0.08071570 0.00376096 0.02222222 0.10241545 0.0000 0.0523
+65080: 0.03832752 0.05795644 0.00105300 0.01137884 0.29049531 0.0061 0.0079
+65081: 0.07434695 0.04728067 0.00347322 0.00633275 0.22394933 0.0255 0.0369
+            G4V5R USG1V1P USG1V2P USG1V3P USG1V4P USG1TP USG2V1P USG2V2P
+            &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;
+    1: 0.03890000   0.604   0.541   0.566   0.518  0.591   0.214   0.675
+    2: 0.01400000   0.829   0.837   0.790   0.814  0.904   0.495   0.641
+    3: 0.02700000   0.390   0.211   0.533   0.473  0.367   0.580   0.739
+    4: 0.00400000   0.209   0.306   0.452   0.355  0.264   0.687   0.456
+    5: 0.00000000   0.153   0.061   0.258   0.194  0.067   0.162   0.829
+   ---                                                                  
+65077: 0.02842208   0.626   0.545   0.604   0.319  0.544   0.566   0.780
+65078: 0.01437523   0.706   0.850   0.577   0.502  0.728   0.851   0.410
+65079: 0.02862823   0.606   0.829   0.513   0.334  0.611   0.702   0.621
+65080: 0.05896147   0.498   0.507   0.482   0.332  0.445   0.595   0.320
+65081: 0.03388904   0.493   0.621   0.693   0.457  0.605   0.792   0.431
+       USG2V3P USG2V4P USG2TP USG3V1P USG3V2P USG3TP USG4V1P USG4V2P USG4V3P
+         &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;
+    1:   0.547   0.754  0.609   0.169   0.000  0.000   0.000   0.872   0.048
+    2:   0.971   0.850  0.935   0.828   0.061  0.375   0.332   0.592   0.421
+    3:   0.473   0.820  0.818   0.488   0.072  0.142   0.477   0.571   0.070
+    4:   0.439   0.315  0.440   0.233   0.000  0.002   0.474   0.662   0.107
+    5:   0.119   0.421  0.236   0.370   0.081  0.078   0.441   0.512   0.109
+   ---                                                                      
+65077:   0.239   0.695  0.659   0.428   0.934  0.956   0.000   0.886   0.892
+65078:   0.571   0.230  0.539   0.453   0.000  0.328   0.000   0.730   0.462
+65079:   0.096   0.859  0.658   0.292   0.271  0.427   0.429   0.751   0.000
+65080:   0.587   0.138  0.295   0.219   0.081  0.184   0.353   0.932   0.131
+65081:   0.541   0.625  0.717   0.179   0.241  0.287   0.297   0.886   0.745
+       USG4V4P USG4V5P USG4TP  USTP USG1V1F USG1V2F USG1V3F USG1V4F USG1TF
+         &lt;num&gt;   &lt;num&gt;  &lt;num&gt; &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;
+    1:   0.316   0.945  0.574 0.450       0       0       0       0      0
+    2:   0.532   0.846  0.782 0.854       0       0       0       0      0
+    3:   0.454   0.879  0.682 0.522       0       0       0       0      0
+    4:   0.215   0.000  0.280 0.183       0       0       0       0      0
+    5:   0.159   0.000  0.206 0.078       0       0       0       0      0
+   ---                                                                    
+65077:   0.165   0.853  0.765 0.704       0       0       0       0      0
+65078:   0.275   0.710  0.482 0.537       0       0       0       0      0
+65079:   0.410   0.842  0.578 0.571       0       0       0       0      0
+65080:   0.037   0.949  0.565 0.357       0       0       0       0      0
+65081:   0.279   0.817  0.859 0.647       0       0       0       0      0
+       USG2V1F USG2V2F USG2V3F USG2V4F USG2TF USG3V1F USG3V2F USG3TF USG4V1F
+         &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;
+    1:       0       0       0       0      0       0       0      0       0
+    2:       0       0       1       0      1       0       0      0       0
+    3:       0       0       0       0      0       0       0      0       0
+    4:       0       0       0       0      0       0       0      0       0
+    5:       0       0       0       0      0       0       0      0       0
+   ---                                                                      
+65077:       0       0       0       0      0       0       1      1       0
+65078:       0       0       0       0      0       0       0      0       0
+65079:       0       0       0       0      0       0       0      0       0
+65080:       0       0       0       0      0       0       0      0       0
+65081:       0       0       0       0      0       0       0      0       0
+       USG4V2F USG4V3F USG4V4F USG4V5F USG4TF  USTF Totpop2000 Totalhu G1V1N
+         &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt; &lt;num&gt;      &lt;num&gt;   &lt;num&gt; &lt;num&gt;
+    1:       0       0       0       1      1     1       1879     742   227
+    2:       0       0       0       0      0     1       1934     758   433
+    3:       0       0       0       0      0     0       3339    1263   250
+    4:       0       0       0       0      0     0       4556    1871   207
+    5:       0       0       0       0      0     0       6040    2277   222
+   ---                                                                      
+65077:       0       0       0       0      0     1       3061    1345   397
+65078:       0       0       0       0      0     0       2713    1274   431
+65079:       0       0       0       0      0     0       2515    1035   312
+65080:       1       0       0       1      2     2       2985    1494   277
+65081:       0       0       0       0      0     0       3659    1737   351
+       G1V2N G1V4N G2V1N G2V2N G2V3N G2V4N G3V1N G3V2N G4V1N G4V2N G4V3N G4V4N
+       &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;
+    1:    46   226   147   523   339    73    84     0     0   154     6    27
+    2:    80   376   235   529   603    74  1294     8     7    15    37    48
+    3:    42   362   447   965   549   136   599    17    40    18    17    70
+    4:    77   412   688  1139   777    98   283     0    58    92    32    53
+    5:    49   326   412  1860   644   143   677    33    56    16    40    53
+   ---                                                                        
+65077:    84   245   403   908   415    93   436    69     0   301    44    29
+65078:   141   330   513   662   516    53   426     0     0   113    18    42
+65079:   125   210   387   681   261   101   203     9    23   106     0    50
+65080:    71   265   406   691   563    44   173     3    17   434     7     9
+65081:   106   409   632   903   680   111   173    12    11   389    38    55
+       G4V5N                                     Shape Shape.STArea()
+       &lt;num&gt;                                    &lt;char&gt;          &lt;num&gt;
+    1:    73   (-86.49001754505039, 32.47712149572407)   0.0009407913
+    2:    27   (-86.47336703419953, 32.47430466837865)   0.0003177997
+    3:    90    (-86.4602033958281, 32.47548170589444)   0.0005147620
+    4:    18   (-86.44371817489963, 32.47198623491002)   0.0006099415
+    5:     0   (-86.42267086235849, 32.45886190833748)   0.0011041460
+   ---                                                               
+65077:    87   (-107.68206596100941, 43.9046373706028)   0.6487899121
+65078:    39  (-107.95653375391056, 44.01462059937625)   0.0002163272
+65079:    72 (-107.94962693442113, 44.027602544901015)   0.0018040033
+65080:   176  (-104.57359144338824, 43.84013947679257)   0.6832347478
+65081:   124  (-104.25428023193054, 43.85901516451474)   0.0124555713
+       Shape.STLength()
+                  &lt;num&gt;
+    1:       0.15003547
+    2:       0.09226531
+    3:       0.10013704
+    4:       0.11676753
+    5:       0.16854121
+   ---                 
+65077:       4.54588818
+65078:       0.06190661
+65079:       0.32537337
+65080:       4.01409181
+65081:       0.60579248</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sf</span>(<span class="st">"./data/test.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">st_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vect</span>(<span class="st">"./data/test.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 
@@ -718,6 +977,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="YONGHUNI/blog" data-repo-id="R_kgDOM8VPhg" data-category="General" data-category-id="DIC_kwDOM8VPhs4CjHhk" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
 </div> <!-- /content -->
 
 

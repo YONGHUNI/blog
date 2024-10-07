@@ -1,13 +1,49 @@
 ---
-title: "Welcome To My Blog"
+title: "R dependency testing"
 author: "Yonghun Suh"
 date: today
-categories: [news]
-comments: false
+categories: [Code]
+#comments: false
 ---
 
 This is the first post in a Quarto blog. Welcome!
 
-![](thumbnail.jpg)
+![](https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png)
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+\
+\
+
+See: `https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md`
+
+\
+\
+
+```{r warning=FALSE, message=FALSE}
+library(yaml)
+library(tidyverse)
+library(data.table)
+library(sf)
+library(terra)
+```
+
+
+```{r}
+read_csv("./data/SVI_2000_US.csv")
+```
+
+
+```{r}
+fread("./data/SVI_2000_US.csv")
+
+```
+
+```{r}
+read_sf("./data/test.gpkg") |> st_geometry() |> plot()
+```
+
+
+```{r}
+vect("./data/test.gpkg") |> plot()
+
+```
+

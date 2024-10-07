@@ -16,7 +16,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages:
-          any::renv
+            any::renv
       - uses: r-lib/actions/setup-renv@v2
         with:
           profile: '"./data/1_swiss_army_knives"'

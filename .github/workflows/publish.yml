@@ -13,17 +13,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
+      - uses: r-lib/actions/setup-renv@v2
+        with:
+          profile: '"./data/1_swiss_army_knives"'
+          cache-version: 1
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
+      
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: r-lib/actions/setup-renv@v2
-        with:
-          profile: '"./data/1_swiss_army_knives"'
-          cache-version: 1

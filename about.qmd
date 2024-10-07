@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: profile.jpg
+image: https://avatars.githubusercontent.com/u/62800337?v=4
 about:
   template: trestles
   links:
@@ -20,13 +20,13 @@ format:
 ---
 
 # Welcome to my blog!
-I recently got a Master’s degree in Geography at Seoul National University(SNU), and am working as an assistant at Office of Information & Computing Center, College of Engineering, SNU.
+I recently got a Master's degree in Geography at Seoul National University(SNU), and am working as an assistant at Office of Information & Computing Center, College of Engineering, SNU.
 
 I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
 
-I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science, with a cumulative GPA of 3.81/4.50. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.
+I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science, with a cumulative GPA of 3.81/4.50. Throughout my academic journey, I've published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.
 
-In addition to my research, I’m involved in a community-based air quality project at the University at Buffalo and manage GPU clusters for the College of Engineering at SNU. I’m skilled in programming with R, Python, and CUDA, and I have extensive experience with GIS and remote sensing software.
+In addition to my research, I'm involved in a community-based air quality project at the University at Buffalo and manage GPU clusters for the College of Engineering at SNU. I'm skilled in programming with R, Python, and CUDA, and I have extensive experience with GIS and remote sensing software.
 
 I also have served as a teaching assistant for courses in spatial analytics and computer cartography, helping to nurture the next generation of spatial experts.
 
@@ -34,7 +34,7 @@ Feel free to explore my blog for insights into my research, projects!
 
 # CV
 
-You can either view or download my CV here!
+You can either view or [download](https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh_240912.pdf){target="_blank"} my CV here!
 
 ![](./data/about/CV_Yonghun_Suh_240912.pdf){width=100% height=1000px}
 

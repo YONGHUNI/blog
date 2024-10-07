@@ -1,0 +1,15 @@
+{
+  "hash": "d64f6aeafbdb62881ddbc26462229854",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Env Settings\"\nauthor: \"Yonghun Suh\"\ndate: today\n#categories: [news]\ncomments: false\n---\n\n\nThis is for an environment setting.\n\n![](thumbnail.jpg)\n\nFor registering regularly used packages as `swiss_army_knives`\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(yaml)\nlibrary(knitr)\nlibrary(rmarkdown)\nlibrary(renv)\nlibrary(tidyverse)\nlibrary(data.table)\nlibrary(sf)\nlibrary(terra)\n\n\n#setwd(\"C:/Users/dydgn/OneDrive/blog/quarto\")\n#renv::activate(profile = \"armyknives\")\n#renv::snapshot()\n#renv::deactivate(clean = T)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

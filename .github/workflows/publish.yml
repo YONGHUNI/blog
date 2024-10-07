@@ -17,7 +17,7 @@ jobs:
       - uses: r-lib/actions/setup-renv@v2
         with:
           profile: '"data/1_swiss_army_knives"'
-          working-directory: "data/1_swiss_army_knives"
+          working-directory: "data/1_swiss_army_knives/"
           #cache-version: 1
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

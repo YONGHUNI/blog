@@ -25,26 +25,64 @@ library(tidyverse)
 library(data.table)
 library(sf)
 library(terra)
+library(tmap)
+library(leafem)
 ```
 
+# Tidyverse
 
 ```{r}
 read_csv("./data/SVI_2000_US.csv")
 ```
 
+# data.table
 
 ```{r}
-fread("./data/SVI_2000_US.csv")
+fread("./data/SVI_2000_US.csv") |> head()
 
 ```
+
+# Simple Features
 
 ```{r}
 read_sf("./data/test.gpkg") |> st_geometry() |> plot()
 ```
-
+# Terra
 
 ```{r}
 vect("./data/test.gpkg") |> plot()
+
+```
+
+
+# Themetic Map(tmap) & leafem
+
+```{r}
+
+
+tmap_mode("view")
+
+
+{
+  tm_basemap(c("OpenStreetMap.HOT",
+               "https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}",
+               "https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}"),
+             group = list(c("OpenStreetMap.HOT",
+                       "Google Satellite Imagery w/ label",
+                       "Google Satellite Imagery wo/ label"))) +
+    tm_shape(read_sf("./data/test.gpkg"))  +                                  
+    tm_dots(size=.1,
+            col = "red", 
+            border.col="white",
+            border.lwd=3,
+            id="name") -> themap
+  
+  
+  
+  tmap_leaflet(themap)|>
+    addMouseCoordinates()
+  
+}
 
 ```
 

@@ -18,14 +18,14 @@
     "href": "renv.html",
     "title": "Env Settings",
     "section": "",
-    "text": "This is for an environment setting.\n\nFor registering regularly used packages as swiss_army_knives\n\nlibrary(yaml)\nlibrary(knitr)\nlibrary(rmarkdown)\nlibrary(renv)\nlibrary(tidyverse)\nlibrary(data.table)\nlibrary(sf)\nlibrary(terra)\n\n\n#setwd(\"C:/Users/dydgn/OneDrive/blog/quarto\")\n#renv::activate(profile = \"armyknives\")\n#renv::snapshot()\n#renv::deactivate(clean = T)"
+    "text": "This is for an environment setting.\n\nFor registering regularly used packages as swiss_army_knives\n\nlibrary(yaml)\nlibrary(knitr)\nlibrary(rmarkdown)\nlibrary(renv)\n\nlibrary(doParallel)\n\nlibrary(sgsR)\nlibrary(skimr)\nlibrary(tidymodels)\nlibrary(finetune)\nlibrary(spatialsample)\nlibrary(vip)\nlibrary(fastshap)\nlibrary(treeshap)\n\n\n\nlibrary(tidyverse)\nlibrary(data.table)\nlibrary(lubridate)\nlibrary(xml2)\nlibrary(reshape2)\n\n\nlibrary(rvest)\n\nlibrary(sf)\nlibrary(geojsonsf)\n\n\nlibrary(stars)\nlibrary(raster)\nlibrary(terra)\nlibrary(tidyterra)\n\n\nlibrary(reticulate)\nlibrary(JuliaCall)\n\nlibrary(magick)\nlibrary(gganimate)\n\n\nlibrary(tmap)\nlibrary(leafem)\nlibrary(tmaptools)\nlibrary(ggspatial)\n\n\nlibrary(leafem)\nlibrary(shapviz)\n\n\n\n\nsetwd(\"C:/Users/dydgn/OneDrive/blog/quarto\")\nrenv::activate(profile = \"armyknives\")\nrenv::snapshot()\nrenv::deactivate(clean = T)"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Welcome to Yonghuni’s Cyber Home",
     "section": "",
-    "text": "R Dependency Test\n\n\n\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\nNo matching items"
+    "text": "R Dependency Test\n\n\n\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 8, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nOct 8, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/update/index.html",

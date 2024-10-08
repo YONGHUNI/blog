@@ -18,7 +18,7 @@ jobs:
         with:
           environment-name: base
           cache-environment: true
-          environment-file: pyenv/base/environment.yml
+          environment-file: ${{ github.workspace }}/pyenv/base/environment.yml
           create-args: >-
             python=3.11.9
       - run: which python

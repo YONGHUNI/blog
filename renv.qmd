@@ -12,21 +12,68 @@ This is for an environment setting.
 
 For registering regularly used packages as `swiss_army_knives`
 
-```{r eval=FALSE}
+```{r eval=FALSE, message=FALSE}
+
 library(yaml)
 library(knitr)
 library(rmarkdown)
 library(renv)
+
+library(doParallel)
+
+library(sgsR)
+library(skimr)
+library(tidymodels)
+library(finetune)
+library(spatialsample)
+library(vip)
+library(fastshap)
+library(treeshap)
+
+
+
 library(tidyverse)
 library(data.table)
+library(lubridate)
+library(xml2)
+library(reshape2)
+
+
+library(rvest)
+
 library(sf)
+library(geojsonsf)
+
+
+library(stars)
+library(raster)
 library(terra)
+library(tidyterra)
 
 
-#setwd("C:/Users/dydgn/OneDrive/blog/quarto")
-#renv::activate(profile = "armyknives")
-#renv::snapshot()
-#renv::deactivate(clean = T)
+library(reticulate)
+library(JuliaCall)
+
+library(magick)
+library(gganimate)
+
+
+library(tmap)
+library(leafem)
+library(tmaptools)
+library(ggspatial)
+
+
+library(leafem)
+library(shapviz)
+
+
+
+
+setwd("C:/Users/dydgn/OneDrive/blog/quarto")
+renv::activate(profile = "armyknives")
+renv::snapshot()
+renv::deactivate(clean = T)
 
 ```
 

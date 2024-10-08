@@ -14,7 +14,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       - run: pwd
-      - run: ${{ github.workspace }}/pyenv/base/environment.yml
+      - run: sudo cat ${{ github.workspace }}/pyenv/base/environment.yml
       - name: Install conda environment
         uses: mamba-org/setup-micromamba@v1
         with:

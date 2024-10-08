@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Yonghun Suh">
+<meta name="dcterms.date" content="2024-10-07">
+
+<title>Yonghun’s Computational Geo-Blog - R Dependency Test</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././data/favicon/geography-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="../../site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="../../site_libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="../../site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="../../site_libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="../../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="../../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="../../site_libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+<script src="../../site_libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="../../site_libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
+<script src="../../site_libs/clipboard-0.0.1/setClipboardText.js"></script>
+
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Yonghun’s Computational Geo-Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=news"> 
+<span class="menu-text">News</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Code"> 
+<span class="menu-text">Code</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Research"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/YONGHUNI" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">R Dependency Test</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Yonghun Suh </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 7, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>This is the first post in a Quarto blog. Welcome!</p>
+<p><img src="https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png" class="img-fluid"></p>
+<p><br>
+<br>
+</p>
+<p>See: <code>https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md</code></p>
+<p><br>
+<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yaml)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leafem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="tidyverse" class="level1">
+<h1>Tidyverse</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/SVI_2000_US.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 65081 Columns: 82
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (9): STATE_FIPS, CNTY_FIPS, STCOFIPS, TRACT, FIPS, STATE_NAME, STATE_AB...
+dbl (73): G1V1R, G1V2R, G1V3R, G1V4R, G2V1R, G2V2R, G2V3R, G2V4R, G3V1R, G3V...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 65,081 × 82
+   STATE_FIPS CNTY_FIPS STCOFIPS TRACT FIPS  STATE_NAME STATE_ABBR COUNTY  G1V1R
+   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt;
+ 1 01         001       01001    0201… 0100… Alabama    AL         Autau… 0.127 
+ 2 01         001       01001    0202… 0100… Alabama    AL         Autau… 0.227 
+ 3 01         001       01001    0203… 0100… Alabama    AL         Autau… 0.0766
+ 4 01         001       01001    0204… 0100… Alabama    AL         Autau… 0.0454
+ 5 01         001       01001    0205… 0100… Alabama    AL         Autau… 0.0367
+ 6 01         001       01001    0206… 0100… Alabama    AL         Autau… 0.152 
+ 7 01         001       01001    0207… 0100… Alabama    AL         Autau… 0.11  
+ 8 01         001       01001    0208… 0100… Alabama    AL         Autau… 0.0844
+ 9 01         001       01001    0209… 0100… Alabama    AL         Autau… 0.138 
+10 01         001       01001    0210… 0100… Alabama    AL         Autau… 0.176 
+# ℹ 65,071 more rows
+# ℹ 73 more variables: G1V2R &lt;dbl&gt;, G1V3R &lt;dbl&gt;, G1V4R &lt;dbl&gt;, G2V1R &lt;dbl&gt;,
+#   G2V2R &lt;dbl&gt;, G2V3R &lt;dbl&gt;, G2V4R &lt;dbl&gt;, G3V1R &lt;dbl&gt;, G3V2R &lt;dbl&gt;,
+#   G4V1R &lt;dbl&gt;, G4V2R &lt;dbl&gt;, G4V3R &lt;dbl&gt;, G4V4R &lt;dbl&gt;, G4V5R &lt;dbl&gt;,
+#   USG1V1P &lt;dbl&gt;, USG1V2P &lt;dbl&gt;, USG1V3P &lt;dbl&gt;, USG1V4P &lt;dbl&gt;, USG1TP &lt;dbl&gt;,
+#   USG2V1P &lt;dbl&gt;, USG2V2P &lt;dbl&gt;, USG2V3P &lt;dbl&gt;, USG2V4P &lt;dbl&gt;, USG2TP &lt;dbl&gt;,
+#   USG3V1P &lt;dbl&gt;, USG3V2P &lt;dbl&gt;, USG3TP &lt;dbl&gt;, USG4V1P &lt;dbl&gt;, USG4V2P &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="data.table" class="level1">
+<h1>data.table</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"./data/SVI_2000_US.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   STATE_FIPS CNTY_FIPS STCOFIPS TRACT       FIPS STATE_NAME STATE_ABBR  COUNTY
+        &lt;int&gt;     &lt;int&gt;    &lt;int&gt; &lt;int&gt;      &lt;i64&gt;     &lt;char&gt;     &lt;char&gt;  &lt;char&gt;
+1:          1         1     1001 20100 1001020100    Alabama         AL Autauga
+2:          1         1     1001 20200 1001020200    Alabama         AL Autauga
+3:          1         1     1001 20300 1001020300    Alabama         AL Autauga
+4:          1         1     1001 20400 1001020400    Alabama         AL Autauga
+5:          1         1     1001 20500 1001020500    Alabama         AL Autauga
+6:          1         1     1001 20600 1001020600    Alabama         AL Autauga
+    G1V1R  G1V2R G1V3R  G1V4R  G2V1R  G2V2R  G2V3R  G2V4R  G3V1R  G3V2R  G4V1R
+    &lt;num&gt;  &lt;num&gt; &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;
+1: 0.1268 0.0527 17771 0.1841 0.0782 0.2783 0.2032 0.1018 0.0447 0.0000 0.0000
+2: 0.2270 0.0997 14217 0.3249 0.1215 0.2735 0.3466 0.1176 0.6691 0.0045 0.0092
+3: 0.0766 0.0288 18346 0.1699 0.1338 0.2890 0.1902 0.1130 0.1794 0.0056 0.0317
+4: 0.0454 0.0351 19741 0.1341 0.1510 0.2500 0.1842 0.0560 0.0621 0.0000 0.0310
+5: 0.0367 0.0166 24510 0.0863 0.0682 0.3079 0.1193 0.0654 0.1121 0.0059 0.0246
+6: 0.1521 0.0550 16395 0.2386 0.0938 0.3034 0.2214 0.1101 0.2078 0.0185 0.0000
+    G4V2R  G4V3R  G4V4R  G4V5R USG1V1P USG1V2P USG1V3P USG1V4P USG1TP USG2V1P
+    &lt;num&gt;  &lt;num&gt;  &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;
+1: 0.2075 0.0090 0.0409 0.0389   0.604   0.541   0.566   0.518  0.591   0.214
+2: 0.0198 0.0544 0.0705 0.0140   0.829   0.837   0.790   0.814  0.904   0.495
+3: 0.0143 0.0141 0.0582 0.0270   0.390   0.211   0.533   0.473  0.367   0.580
+4: 0.0492 0.0181 0.0301 0.0040   0.209   0.306   0.452   0.355  0.264   0.687
+5: 0.0070 0.0182 0.0241 0.0000   0.153   0.061   0.258   0.194  0.067   0.162
+6: 0.3373 0.0182 0.0571 0.0000   0.682   0.566   0.658   0.659  0.706   0.306
+   USG2V2P USG2V3P USG2V4P USG2TP USG3V1P USG3V2P USG3TP USG4V1P USG4V2P
+     &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;
+1:   0.675   0.547   0.754  0.609   0.169   0.000  0.000   0.000   0.872
+2:   0.641   0.971   0.850  0.935   0.828   0.061  0.375   0.332   0.592
+3:   0.739   0.473   0.820  0.818   0.488   0.072  0.142   0.477   0.571
+4:   0.456   0.439   0.315  0.440   0.233   0.000  0.002   0.474   0.662
+5:   0.829   0.119   0.421  0.236   0.370   0.081  0.078   0.441   0.512
+6:   0.811   0.644   0.811  0.802   0.527   0.289  0.344   0.000   0.954
+   USG4V3P USG4V4P USG4V5P USG4TP  USTP USG1V1F USG1V2F USG1V3F USG1V4F USG1TF
+     &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt; &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;
+1:   0.048   0.316   0.945  0.574 0.450       0       0       0       0      0
+2:   0.421   0.532   0.846  0.782 0.854       0       0       0       0      0
+3:   0.070   0.454   0.879  0.682 0.522       0       0       0       0      0
+4:   0.107   0.215   0.000  0.280 0.183       0       0       0       0      0
+5:   0.109   0.159   0.000  0.206 0.078       0       0       0       0      0
+6:   0.109   0.446   0.000  0.302 0.557       0       0       0       0      0
+   USG2V1F USG2V2F USG2V3F USG2V4F USG2TF USG3V1F USG3V2F USG3TF USG4V1F
+     &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;
+1:       0       0       0       0      0       0       0      0       0
+2:       0       0       1       0      1       0       0      0       0
+3:       0       0       0       0      0       0       0      0       0
+4:       0       0       0       0      0       0       0      0       0
+5:       0       0       0       0      0       0       0      0       0
+6:       0       0       0       0      0       0       0      0       0
+   USG4V2F USG4V3F USG4V4F USG4V5F USG4TF  USTF Totpop2000 Totalhu G1V1N G1V2N
+     &lt;num&gt;   &lt;num&gt;   &lt;num&gt;   &lt;num&gt;  &lt;num&gt; &lt;num&gt;      &lt;num&gt;   &lt;num&gt; &lt;num&gt; &lt;num&gt;
+1:       0       0       0       1      1     1       1879     742   227    46
+2:       0       0       0       0      0     1       1934     758   433    80
+3:       0       0       0       0      0     0       3339    1263   250    42
+4:       0       0       0       0      0     0       4556    1871   207    77
+5:       0       0       0       0      0     0       6040    2277   222    49
+6:       1       0       0       0      1     1       3378    1352   514    90
+   G1V4N G2V1N G2V2N G2V3N G2V4N G3V1N G3V2N G4V1N G4V2N G4V3N G4V4N G4V5N
+   &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;
+1:   226   147   523   339    73    84     0     0   154     6    27    73
+2:   376   235   529   603    74  1294     8     7    15    37    48    27
+3:   362   447   965   549   136   599    17    40    18    17    70    90
+4:   412   688  1139   777    98   283     0    58    92    32    53    18
+5:   326   412  1860   644   143   677    33    56    16    40    53     0
+6:   487   317  1025   689   132   702    58     0   456    22    69     0
+                                     Shape Shape.STArea() Shape.STLength()
+                                    &lt;char&gt;          &lt;num&gt;            &lt;num&gt;
+1: (-86.49001754505039, 32.47712149572407)   0.0009407913       0.15003547
+2: (-86.47336703419953, 32.47430466837865)   0.0003177997       0.09226531
+3:  (-86.4602033958281, 32.47548170589444)   0.0005147620       0.10013704
+4: (-86.44371817489963, 32.47198623491002)   0.0006099415       0.11676753
+5: (-86.42267086235849, 32.45886190833748)   0.0011041460       0.16854121
+6: (-86.47834504936274, 32.44206725458296)   0.0007950631       0.16149683</code></pre>
+</div>
+</div>
+</section>
+<section id="simple-features" class="level1">
+<h1>Simple Features</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sf</span>(<span class="st">"./data/test.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">st_geometry</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="terra" class="level1">
+<h1>Terra</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vect</span>(<span class="st">"./data/test.gpkg"</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="themetic-maptmap-leafem" class="level1">
+<h1>Themetic Map(tmap) &amp; leafem</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>tmap mode set to interactive viewing</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>(<span class="fu">c</span>(<span class="st">"OpenStreetMap.HOT"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"https://mt1.google.com/vt/lyrs=y&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">"https://mt1.google.com/vt/lyrs=s&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"OpenStreetMap.HOT"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Google Satellite Imagery w/ label"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Google Satellite Imagery wo/ label"</span>))) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_shape</span>(<span class="fu">read_sf</span>(<span class="st">"./data/test.gpkg"</span>)<span class="sc">%&gt;%</span> head)  <span class="sc">+</span>                                  </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_dots</span>(<span class="at">size=</span>.<span class="dv">1</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">col =</span> <span class="st">"red"</span>, </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">border.col=</span><span class="st">"white"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">border.lwd=</span><span class="dv">3</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">id=</span><span class="st">"name"</span>) <span class="ot">-&gt;</span> themap</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tmap_leaflet</span>(themap)<span class="sc">|&gt;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addMouseCoordinates</span>()</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-5f8365fa374b2b552c05" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5f8365fa374b2b552c05">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["OpenStreetMap.HOT",null,"OpenStreetMap.HOT",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addTiles","args":["https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}",null,"Google Satellite Imagery w/ label",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addTiles","args":["https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}",null,"Google Satellite Imagery wo/ label",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[37.371378,37.509628,37.508443,37.493844,37.496021,37.496164],[126.813132,127.628406,127.627414,127.5093259,127.4082162,127.4123259],[6.324555320336759,6.324555320336759,6.324555320336759,6.324555320336759,6.324555320336759,6.324555320336759],[null,null,null,null,null,null],"read_sf(\"./data/test.gpkg\") %>% head",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#FFFFFF","weight":3,"opacity":0.5,"fill":true,"fillColor":["#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000"],"fillOpacity":[1,1,1,1,1,1]},null,null,["<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41390-00084<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>승지공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>근린공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 시흥시 능곡중앙로 85<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 시흥시 능곡동 552<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>10842<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>조합놀이대<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>도서관<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>2004-11-10<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 시흥시청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-310-3869<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2022-11-28<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4010000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 시흥시<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41830-00017<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>광탄2호 소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 용문면 광탄리 711<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>856<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>1994-02-25<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-770-2358<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2023-05-26<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4170000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41830-00031<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>광탄3호 소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 용문면 광탄리 762<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>847<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>1994-02-25<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-770-2358<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2023-05-26<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4170000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41830-00018<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>공흥 소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 양평읍 공흥리 885-1<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>1276<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>2012-11-22<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-770-2358<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2023-05-26<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4170000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41830-00019<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>한강아트로드 공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 강하면 운심리 43-25<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>3300<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>2012-08-30<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-770-2358<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2023-05-26<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4170000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군<\/nobr><\/td><\/tr><\/table><\/div>","<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:15px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>관리번호<\/nobr><\/td><td align=\"right\"><nobr>41830-00020<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원명<\/nobr><\/td><td align=\"right\"><nobr>강하 소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원구분<\/nobr><\/td><td align=\"right\"><nobr>소공원<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지도로명주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 강하면 운심길 58<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>소재지지번주소<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군 강하면 운심리 28-1<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원면적<\/nobr><\/td><td align=\"right\"><nobr>394<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(운동시설)<\/nobr><\/td><td align=\"right\"><nobr>농구장+축구장+테니스장<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(유희시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(편익시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(교양시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>공원보유시설(기타시설)<\/nobr><\/td><td align=\"right\"><nobr>NA<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>지정고시일<\/nobr><\/td><td align=\"right\"><nobr>2012-08-30<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>관리기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군청<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>전화번호<\/nobr><\/td><td align=\"right\"><nobr>031-770-2358<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>데이터기준일자<\/nobr><\/td><td align=\"right\"><nobr>2023-05-26<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관코드<\/nobr><\/td><td align=\"right\"><nobr>4170000<\/nobr><\/td><\/tr><tr><td style=\"color: #888888;\"><nobr>제공기관명<\/nobr><\/td><td align=\"right\"><nobr>경기도 양평군<\/nobr><\/td><\/tr><\/table><\/div>"],null,[null,null,null,null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["OpenStreetMap.HOT","Google Satellite Imagery w/ label","Google Satellite Imagery wo/ label"],"read_sf(\"./data/test.gpkg\") %>% head",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[37.371378,37.509628],"lng":[126.813132,127.628406]},"fitBounds":[37.371378,126.813132,37.509628,127.628406,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="YONGHUNI/blog" data-repo-id="R_kgDOM8VPhg" data-category="General" data-category-id="DIC_kwDOM8VPhs4CjHhk" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+</div> <!-- /content -->
+
+
+
+
+</body></html>

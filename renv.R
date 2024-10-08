@@ -1,18 +1,3 @@
----
-title: "Env Settings"
-author: "Yonghun Suh"
-date: today
-#categories: [news]
-comments: false
----
-
-This is for an environment setting.
-
-![](thumbnail.jpg)
-
-For registering regularly used packages as `swiss_army_knives`
-
-```{r eval=FALSE, message=FALSE}
 
 library(yaml)
 library(knitr)
@@ -70,10 +55,10 @@ library(shapviz)
 
 
 
-setwd("C:/Users/dydgn/OneDrive/blog/quarto")
-renv::activate(profile = "armyknives")
-renv::snapshot()
-renv::deactivate(clean = T)
+#setwd("C:/Users/dydgn/OneDrive/blog/quarto")
+#renv::activate(profile = "armyknives")
+#renv::snapshot()
+#renv::deactivate(clean = F)
+#renv::deactivate(clean = T)
 
-```
 

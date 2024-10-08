@@ -1,7 +1,7 @@
 ---
 title: "R Dependency Test"
 author: "Yonghun Suh"
-date: today
+date: "Oct 7, 2024"
 categories: [Code]
 image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
 #comments: false

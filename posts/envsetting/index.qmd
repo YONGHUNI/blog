@@ -62,6 +62,9 @@ vect("./data/test.gpkg") |> plot()
 
 tmap_mode("view")
 
+park_list <- read_sf("./data/test.gpkg") %>% 
+    filter(grepl("서울",소재지지번주소)) %>%
+    select(공원명,소재지지번주소)
 
 {
   tm_basemap(c("OpenStreetMap.HOT",
@@ -70,7 +73,7 @@ tmap_mode("view")
              group = list(c("OpenStreetMap.HOT",
                        "Google Satellite Imagery w/ label",
                        "Google Satellite Imagery wo/ label"))) +
-    tm_shape(read_sf("./data/test.gpkg"))  +                                  
+    tm_shape(park_list)  +                                  
     tm_dots(size=.1,
             col = "red", 
             border.col="white",

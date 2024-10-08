@@ -18,7 +18,7 @@ jobs:
       - name: Install conda environment
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-name: base
+          #environment-name: base
           cache-environment: true
           environment-file: ${{ github.workspace }}/pyenv/base/environment.yml
           create-args: >-

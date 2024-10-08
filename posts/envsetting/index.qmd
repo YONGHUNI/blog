@@ -70,7 +70,7 @@ tmap_mode("view")
              group = list(c("OpenStreetMap.HOT",
                        "Google Satellite Imagery w/ label",
                        "Google Satellite Imagery wo/ label"))) +
-    tm_shape(read_sf("./data/test.gpkg")%>% head)  +                                  
+    tm_shape(read_sf("./data/test.gpkg"))  +                                  
     tm_dots(size=.1,
             col = "red", 
             border.col="white",

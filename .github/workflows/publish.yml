@@ -16,10 +16,11 @@ jobs:
       - run: pwd
       - run: sudo cat ${{ github.workspace }}/pyenv/base/environment.yml
       - name: Install conda environment
-        uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v4
         with:
           auto-update-conda: true
-          channels: conda-forge
+          channels: conda-forge, spyder-ide
+          channel-priority: flexible
           activate-environment: pdalenv
           environment-file: pyenv/base/environment.yml
           #auto-activate-base: false

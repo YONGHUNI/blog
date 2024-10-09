@@ -19,19 +19,6 @@ format:
     page-layout: full
 ---
 
-# YONGHUNI a.k.a. 옹동!
-
-I am known as various nicknames.
-
-![](images/clipboard-2641290819.png)
-
--   ***옹동***
--   ***스컹굴***
--   ***대굴***
--   ***도귤***
--   ***붕붕이***
--   ***꺽굴이***
-
 # Welcome to my blog!
 
 I recently got a Master's degree in Geography at Seoul National University(SNU), and am working as an assistant at Office of Information & Computing Center, College of Engineering, SNU.

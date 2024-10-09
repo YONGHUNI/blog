@@ -2,22 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://YONGHUNI.github.io/blog/posts/update/index.html</loc>
-    <lastmod>2024-10-09T13:21:45.044Z</lastmod>
-  </url>
-  <url>
-    <loc>https://YONGHUNI.github.io/blog/posts/envsetting/index.html</loc>
-    <lastmod>2024-10-09T13:21:45.040Z</lastmod>
-  </url>
-  <url>
-    <loc>https://YONGHUNI.github.io/blog/about.html</loc>
-    <lastmod>2024-10-09T13:21:44.860Z</lastmod>
+    <lastmod>2024-10-09T14:38:56.554Z</lastmod>
   </url>
   <url>
     <loc>https://YONGHUNI.github.io/blog/index.html</loc>
-    <lastmod>2024-10-09T13:21:44.868Z</lastmod>
+    <lastmod>2024-10-09T14:38:56.382Z</lastmod>
   </url>
   <url>
-    <loc>https://YONGHUNI.github.io/blog/posts/pyenvsetting/index.html</loc>
-    <lastmod>2024-10-09T13:21:45.044Z</lastmod>
+    <loc>https://YONGHUNI.github.io/blog/about.html</loc>
+    <lastmod>2024-10-09T14:38:56.374Z</lastmod>
+  </url>
+  <url>
+    <loc>https://YONGHUNI.github.io/blog/posts/envsetting/index.html</loc>
+    <lastmod>2024-10-09T14:38:56.554Z</lastmod>
   </url>
 </urlset>

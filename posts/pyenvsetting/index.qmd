@@ -1,0 +1,244 @@
+---
+title: "Python Dependency Test"
+subtitle: "Test Case of Handling a Binary Data with Python"
+author: "Yonghun Suh"
+date: "Oct 9, 2024"
+categories: [Code]
+image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
+format: 
+  html:
+    toc: true
+    number_sections: true
+    code-copy: true
+    code-fold: show
+    code-tools: true
+    code-overflow: scroll
+    code-link: true
+    number-sections: true
+    toc_depth: 3
+    lightbox: true
+#comments: false
+---
+
+# Setup Reticulate
+
+```{r}
+library(reticulate)
+
+# For my Windows Environment
+use_condaenv("C:\\Users\\dydgn\\anaconda3\\envs\\baseline\\python.exe", required = TRUE)
+
+# For github actions to activate CI/CD
+#use_miniconda("/usr/share/miniconda/envs/baseline/bin/python", required = TRUE)
+
+```
+
+
+# The First step with Python
+
+## Import Some Packages
+
+```{python}
+
+import sys
+print(sys.executable)
+
+```
+
+This will show where the python executable binary is.
+
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import struct
+import gzip
+```
+
+Importing basic packages
+
+
+## Handling Various File Formats
+
+### Get the Size of a Compressed Gunzip, **i.e.,** Raw File
+
+```{python}
+
+file = "./data/RDR_HSR_22_20220808/RDR_CMP_HSR_PUB_202208082200.bin.gz"
+
+
+
+# # Get the size of the binary data file in bytes
+file_size = os.path.getsize(file)
+
+print("The compressed data file size is {} bytes.".format(file_size))
+
+```
+
+### Get the Size of a Binary file
+
+```{python}
+
+def getuncompressedsize(filename):
+    with open(filename, 'rb') as f:
+        f.seek(-4, 2)
+        return struct.unpack('I', f.read(4))[0]
+
+file_size = getuncompressedsize(file)
+
+print("The binary data file size is {} bytes.".format(file_size))
+
+```
+
+
+## Hmm.. Do you know how to cook a binary file?
+
+I had to read a manual provided to convert a binary file into so-called `raster`
+
+```{r, echo=FALSE, out.width="100%", out.height=600, fig.align = "center"}
+
+knitr::include_graphics("./data/manual/레이더 합성자료 포맷 정의서_외부제공용.pdf")
+
+```
+
+### Read a binary as a numpy array
+
+```{python}
+
+header_size = 1024
+
+
+# Check if the file size is non-zero
+if file_size == 0:
+    print("The binary data file is empty.")
+else:
+  f = gzip.GzipFile(file)
+  f.seek(header_size)
+  file_content = f.read()
+  data = np.frombuffer(file_content, dtype=np.short)
+  f.close()
+
+
+```
+
+### Reshape the array using the number from the official manual
+
+```{python}
+# Reshape the data into a 2D array
+data = data.reshape(2881, 2305)
+# data needs to be flipped!
+data = np.flipud(data)
+
+data.shape
+```
+### Initial plotting
+
+```{python}
+#### Plotting
+
+def matplot(x):
+  
+  plt.clf()
+  plt.imshow(x)
+  plt.colorbar()
+  plt.show()
+
+
+matplot(data)
+```
+
+
+### Munging data
+
+I had to change the radar reflectance into the amount of rainfall
+
+```{python}
+
+# Scale factor
+
+#define PUB_OUT   -30000 // Outside of the observed region
+
+#define PUB_IN    -25000 // Unobserved areas within the observed region
+
+#define PUB_MIN   -20000 // Minimum value for representation within the observed area
+
+
+data = np.where(data<-20000, 0, data)
+
+echo = data*0.01
+
+
+
+
+# Z-R Relation
+
+ZRa = 148.
+
+ZRb = 1.59
+
+# converting dBZ to rain
+
+def dbz2rain(x):
+
+    rain = (x*0.1 - np.log10(ZRa))/ZRb
+
+    rain = 10**rain
+
+    return rain
+
+
+R = dbz2rain(echo)
+
+R[R<=0.04315743] = 0.0
+
+
+```
+
+
+After the conversion, then we get the actual amount of rainfall
+
+```{python}
+# Unit: millimeter per hour
+
+matplot(R)
+
+```
+
+# Back to the R environment!
+
+## Plot using raster::plot()
+
+```{r}
+#handy R-python interface: reticulate
+
+pcp <- py$R
+
+library(raster)
+
+
+test <- raster(pcp,
+       xmn=(-1121*500),
+       xmx=((2305-1121)*500),
+       ymn=(-1681*500),
+       ymx=(2881-1681)*500,
+       crs = CRS("+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs")
+       )
+
+
+plot(test)
+
+```
+## Plot using tmap::qtm()
+
+```{r}
+tmap::tmap_mode("view")
+
+test[test==0]=NA
+tmap::qtm(test)
+```
+
+### Extra: Compairing with the plot from Korea Meteorological Agency
+
+![](data/RDR_CMI_202208082200.png)
+

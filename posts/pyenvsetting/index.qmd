@@ -4,7 +4,7 @@ subtitle: "Test Case of Handling a Binary Data with Python"
 author: "Yonghun Suh"
 date: "Oct 9, 2024"
 categories: [Code]
-image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
+image: https://db0dce98.rocketcdn.me/en/files/2020/04/Diapositive1-1.png
 format: 
   html:
     toc: true

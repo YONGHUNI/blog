@@ -13,17 +13,26 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - run: pwd
-      - run: sudo cat ${{ github.workspace }}/pyenv/base/environment.yml
+      - name: Cache conda
+        uses: actions/cache@v3
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('etc/example-environment.yml') }}
       - name: Install conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          auto-update-conda: true
+          #auto-update-conda: true
           #channels: conda-forge
-          #channel-priority: flexible
+          channel-priority: strict
           environment-file: pyenv/base/environment.yml
           activate-environment: baseline
           #auto-activate-base: false
+          use-only-tar-bz2: true
       - run: which python
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev

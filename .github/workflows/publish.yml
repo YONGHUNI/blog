@@ -22,7 +22,7 @@ jobs:
           #channels: conda-forge
           #channel-priority: flexible
           environment-file: pyenv/base/environment.yml
-          activate-environment: pdalenv
+          activate-environment: baseline
           #auto-activate-base: false
       - run: which python
       - name: Install ubuntu dependencies

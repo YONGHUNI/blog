@@ -19,8 +19,8 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
-          channels: conda-forge, spyder-ide
-          channel-priority: flexible
+          #channels: conda-forge
+          #channel-priority: flexible
           environment-file: pyenv/base/environment.yml
           activate-environment: pdalenv
           #auto-activate-base: false

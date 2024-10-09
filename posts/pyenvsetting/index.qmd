@@ -26,10 +26,10 @@ format:
 library(reticulate)
 
 # For my Windows Environment
-use_condaenv("C:\\Users\\dydgn\\anaconda3\\envs\\baseline\\python.exe", required = TRUE)
+#use_condaenv("C:\\Users\\dydgn\\anaconda3\\envs\\baseline\\python.exe", required = TRUE)
 
 # For github actions to activate CI/CD
-#use_miniconda("/usr/share/miniconda/envs/baseline/bin/python", required = TRUE)
+use_miniconda("/usr/share/miniconda/envs/baseline/bin/python", required = TRUE)
 
 ```
 

@@ -14,6 +14,48 @@
     "text": "R Dependency Test\n\n\n\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\nNo matching items"
   },
   {
+    "objectID": "data/pyenvsetting/index.html",
+    "href": "data/pyenvsetting/index.html",
+    "title": "Python Dependency Test",
+    "section": "",
+    "text": "Code\nlibrary(reticulate)\n\n# For my Windows Environment\n#use_condaenv(\"C:\\\\Users\\\\dydgn\\\\anaconda3\\\\envs\\\\baseline\\\\python.exe\", required = TRUE)\n\n# For github actions to activate CI/CD\nuse_condaenv(\"/usr/share/miniconda/envs/baseline/bin/python\", required = TRUE)"
+  },
+  {
+    "objectID": "data/pyenvsetting/index.html#import-some-packages",
+    "href": "data/pyenvsetting/index.html#import-some-packages",
+    "title": "Python Dependency Test",
+    "section": "2.1 Import Some Packages",
+    "text": "2.1 Import Some Packages\n\n\nCode\nimport sys\nprint(sys.executable)\n\n\n/usr/share/miniconda/envs/baseline/bin/python\n\n\nThis will show where the python executable binary is.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport struct\nimport gzip\n\n\nImporting basic packages"
+  },
+  {
+    "objectID": "data/pyenvsetting/index.html#handling-various-file-formats",
+    "href": "data/pyenvsetting/index.html#handling-various-file-formats",
+    "title": "Python Dependency Test",
+    "section": "2.2 Handling Various File Formats",
+    "text": "2.2 Handling Various File Formats\n\n2.2.1 Get the Size of a Compressed Gunzip, i.e., Raw File\n\n\nCode\nfile = \"./data/RDR_HSR_22_20220808/RDR_CMP_HSR_PUB_202208082200.bin.gz\"\n\n\n\n# # Get the size of the binary data file in bytes\nfile_size = os.path.getsize(file)\n\nprint(\"The compressed data file size is {} bytes.\".format(file_size))\n\n\nThe compressed data file size is 608837 bytes.\n\n\n\n\n2.2.2 Get the Size of a Binary file\n\n\nCode\ndef getuncompressedsize(filename):\n    with open(filename, 'rb') as f:\n        f.seek(-4, 2)\n        return struct.unpack('I', f.read(4))[0]\n\nfile_size = getuncompressedsize(file)\n\nprint(\"The binary data file size is {} bytes.\".format(file_size))\n\n\nThe binary data file size is 13282434 bytes."
+  },
+  {
+    "objectID": "data/pyenvsetting/index.html#hmm..-do-you-know-how-to-cook-a-binary-file",
+    "href": "data/pyenvsetting/index.html#hmm..-do-you-know-how-to-cook-a-binary-file",
+    "title": "Python Dependency Test",
+    "section": "2.3 Hmm.. Do you know how to cook a binary file?",
+    "text": "2.3 Hmm.. Do you know how to cook a binary file?\nI had to read a manual provided to convert a binary file into so-called raster\n\n\n\n\n\n\n\n\n\n\n2.3.1 Read a binary as a numpy array\n\n\nCode\nheader_size = 1024\n\n\n# Check if the file size is non-zero\nif file_size == 0:\n    print(\"The binary data file is empty.\")\nelse:\n  f = gzip.GzipFile(file)\n  f.seek(header_size)\n  file_content = f.read()\n  data = np.frombuffer(file_content, dtype=np.short)\n  f.close()\n\n\n1024\n\n\n\n\n2.3.2 Reshape the array using the number from the official manual\n\n\nCode\n# Reshape the data into a 2D array\ndata = data.reshape(2881, 2305)\n# data needs to be flipped!\ndata = np.flipud(data)\n\ndata.shape\n\n\n(2881, 2305)\n\n\n\n\n2.3.3 Initial plotting\n\n\nCode\n#### Plotting\n\ndef matplot(x):\n  \n  plt.clf()\n  plt.imshow(x)\n  plt.colorbar()\n  plt.show()\n\n\nmatplot(data)\n\n\n\n\n\n\n\n\n\n\n\n2.3.4 Munging data\nI had to change the radar reflectance into the amount of rainfall\n\n\nCode\n\n# Scale factor\n\n#define PUB_OUT   -30000 // Outside of the observed region\n\n#define PUB_IN    -25000 // Unobserved areas within the observed region\n\n#define PUB_MIN   -20000 // Minimum value for representation within the observed area\n\n\ndata = np.where(data&lt;-20000, 0, data)\n\necho = data*0.01\n\n\n\n\n# Z-R Relation\n\nZRa = 148.\n\nZRb = 1.59\n\n# converting dBZ to rain\n\ndef dbz2rain(x):\n\n    rain = (x*0.1 - np.log10(ZRa))/ZRb\n\n    rain = 10**rain\n\n    return rain\n\n\nR = dbz2rain(echo)\n\nR[R&lt;=0.04315743] = 0.0\n\n\nAfter the conversion, then we get the actual amount of rainfall\n\n\nCode\n# Unit: millimeter per hour\n\nmatplot(R)"
+  },
+  {
+    "objectID": "data/pyenvsetting/index.html#plot-using-rasterplot",
+    "href": "data/pyenvsetting/index.html#plot-using-rasterplot",
+    "title": "Python Dependency Test",
+    "section": "3.1 Plot using raster::plot()",
+    "text": "3.1 Plot using raster::plot()\n\n\nCode\n#handy R-python interface: reticulate\n\npcp &lt;- py$R\n\nlibrary(raster)\n\n\nLoading required package: sp\n\n\nCode\ntest &lt;- raster(pcp,\n       xmn=(-1121*500),\n       xmx=((2305-1121)*500),\n       ymn=(-1681*500),\n       ymx=(2881-1681)*500,\n       crs = CRS(\"+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs\")\n       )\n\n\nplot(test)"
+  },
+  {
+    "objectID": "data/pyenvsetting/index.html#plot-using-tmapqtm",
+    "href": "data/pyenvsetting/index.html#plot-using-tmapqtm",
+    "title": "Python Dependency Test",
+    "section": "3.2 Plot using tmap::qtm()",
+    "text": "3.2 Plot using tmap::qtm()\n\n\nCode\ntmap::tmap_mode(\"view\")\n\n\ntmap mode set to interactive viewing\n\n\nCode\ntest[test==0]=NA\ntmap::qtm(test)\n\n\nstars object downsampled to 895 by 1118 cells. See tm_shape manual (argument raster.downsample)\n\n\n\n\n\n\n\n3.2.1 Extra: Compairing with the plot from Korea Meteorological Agency"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",

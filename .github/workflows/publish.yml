@@ -19,6 +19,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
+          channels: conda-forge
           activate-environment: pdalenv
           environment-file: pyenv/base/environment.yml
           #auto-activate-base: false

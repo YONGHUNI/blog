@@ -32,7 +32,9 @@ jobs:
           activate-environment: baseline
           #auto-activate-base: false
           use-only-tar-bz2: true
-      - run: which python
+      - run: |
+          conda activate baseline
+          which python
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest

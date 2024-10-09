@@ -18,13 +18,13 @@ jobs:
       - name: Install conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          #auto-update-conda: true
+          auto-update-conda: true
           channels: conda-forge, spyder-ide
           channel-priority: flexible
-          #activate-environment: pdalenv
           environment-file: pyenv/base/environment.yml
+          activate-environment: pdalenv
           #auto-activate-base: false
-      #- run: which python
+      - run: which python
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest

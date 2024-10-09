@@ -34,6 +34,7 @@ jobs:
           use-only-tar-bz2: true
       - run: |
           conda init bash
+          source ~./bashrc
           conda activate baseline
           which python
       - name: Install ubuntu dependencies

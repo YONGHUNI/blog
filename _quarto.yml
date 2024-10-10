@@ -16,8 +16,13 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/YONGHUNI
-        target: _blank
+        menu:
+          - text: My Profile
+            href: https://github.com/YONGHUNI
+            target: _blank
+          - text: Source Code
+            href: https://github.com/YONGHUNI/blog
+            target: _blank
       #- icon: twitter
       #  href: https://twitter.com
   comments: 

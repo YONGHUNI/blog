@@ -9,11 +9,19 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        
+
+      - name: Install ubuntu dependencies
+        #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with: 
+          packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev
+          version: 1      
+
       - name: Cache conda
         uses: actions/cache@v4
         env:
@@ -29,6 +37,7 @@ jobs:
         with:
           #auto-update-conda: true
           #channels: conda-forge
+          conda-frontend: mamba
           channel-priority: strict
           environment-file: pyenv/base/environment.yml
           activate-environment: baseline
@@ -41,13 +50,6 @@ jobs:
           source /home/runner/.bashrc
           conda activate baseline
           which python
-
-      - name: Install ubuntu dependencies
-        #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with: 
-          packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev
-          version: 1
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2

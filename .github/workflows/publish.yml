@@ -14,11 +14,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      
-      - name: apt update
-        run: |
-          /usr/bin/sudo DEBIAN_FRONTEND=noninteractive apt-get update -y -qq
-          /usr/bin/sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gdebi-core qpdf devscripts ghostscript 
 
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev

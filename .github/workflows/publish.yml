@@ -26,12 +26,13 @@ jobs:
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: pyenv/base/environment.yml
-          init-shell: bash
+          #init-shell: bash
           cache-environment: true
           cache-environment-key: ${{ runner.os }}-mamba-${{ env.CACHE_NUMBER }}-${{ hashFiles('pyenv/base/environment.yml') }}
 
       - name: activate conda environment
         run: |
+          micromamba shell hook --shell bash
           micromamba activate baseline
           which python
 

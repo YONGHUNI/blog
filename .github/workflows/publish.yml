@@ -21,35 +21,20 @@ jobs:
         with: 
           packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev
           version: 1      
-
-      - name: Cache conda
-        uses: actions/cache@v4
-        env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
+      
+      - name: Install mamba environment
+        uses: mamba-org/setup-micromamba@v1
         with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('pyenv/base/environment.yml') }}
-
-      - name: Install conda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          #auto-update-conda: true
-          #channels: conda-forge
-          use-mamba: true
-          miniforge-variant: Mambaforge
-          channel-priority: strict
           environment-file: pyenv/base/environment.yml
-          activate-environment: baseline
-          #auto-activate-base: false
-          use-only-tar-bz2: true
+          init-shell: bash
+          cache-environment: true
+          cache-environment-key: ${{ runner.os }}-mamba-${{ env.CACHE_NUMBER }}-${{ hashFiles('pyenv/base/environment.yml') }}
 
       - name: activate conda environment
         run: |
-          conda init bash
+          mamba init bash
           source /home/runner/.bashrc
-          conda activate baseline
+          mamba activate baseline
           which python
 
       - name: Install R

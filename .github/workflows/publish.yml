@@ -32,7 +32,6 @@ jobs:
 
       - name: activate conda environment
         run: |
-          which micromamba
           micromamba activate baseline
           which python
 

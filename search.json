@@ -32,14 +32,14 @@
     "href": "posts/pyenvsetting/index.html",
     "title": "Python Dependency Test",
     "section": "",
-    "text": "Code\nlibrary(reticulate)\n\n# For my Windows Environment\n#use_condaenv(\"C:\\\\Users\\\\dydgn\\\\anaconda3\\\\envs\\\\baseline\\\\python.exe\", required = TRUE)\n\n# For github actions to activate CI/CD\nuse_condaenv(\"/usr/share/miniconda/envs/baseline/bin/python\", required = TRUE)"
+    "text": "Code\nlibrary(reticulate)\n\n# For my Windows Environment\n#use_condaenv(\"C:\\\\Users\\\\dydgn\\\\anaconda3\\\\envs\\\\baseline\\\\python.exe\", required = TRUE)\n\n# For github actions to activate CI/CD\nuse_condaenv(\"/home/runner/micromamba/envs/baseline/bin/python\", required = TRUE)"
   },
   {
     "objectID": "posts/pyenvsetting/index.html#import-some-packages",
     "href": "posts/pyenvsetting/index.html#import-some-packages",
     "title": "Python Dependency Test",
     "section": "2.1 Import Some Packages",
-    "text": "2.1 Import Some Packages\n\n\nCode\nimport sys\nprint(sys.executable)\n\n\n/usr/share/miniconda/envs/baseline/bin/python\n\n\nThis will show where the python executable binary is.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport struct\nimport gzip\n\n\nImporting basic packages"
+    "text": "2.1 Import Some Packages\n\n\nCode\nimport sys\nprint(sys.executable)\n\n\n/home/runner/micromamba/envs/baseline/bin/python\n\n\nThis will show where the python executable binary is.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport struct\nimport gzip\n\n\nImporting basic packages"
   },
   {
     "objectID": "posts/pyenvsetting/index.html#handling-various-file-formats",

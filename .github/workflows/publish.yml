@@ -32,9 +32,6 @@ jobs:
 
       - name: activate conda environment
         run: |
-          mamba init bash
-          source /home/runner/.bashrc
-          mamba activate baseline
           which python
 
       - name: Install R

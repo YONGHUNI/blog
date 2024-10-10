@@ -9,7 +9,7 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     permissions:
-      actions: write
+      #actions: write
       contents: write
     steps:
       - name: Check out repository
@@ -32,7 +32,7 @@ jobs:
 
       - name: activate conda environment
         run: |
-          micromamba shell hook --shell bash
+          eval "$(micromamba shell hook --shell bash)"
           micromamba activate baseline
           which python
 

@@ -37,7 +37,8 @@ jobs:
         with:
           #auto-update-conda: true
           #channels: conda-forge
-          conda-frontend: mamba
+          use-mamba: true
+          miniforge-variant: Mambaforge
           channel-priority: strict
           environment-file: pyenv/base/environment.yml
           activate-environment: baseline

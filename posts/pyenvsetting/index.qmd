@@ -17,6 +17,8 @@ format:
     number-sections: true
     toc_depth: 3
     lightbox: true
+#execute:
+#  freeze: true
 #comments: false
 ---
 

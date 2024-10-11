@@ -53,7 +53,7 @@ jobs:
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
       - name: Quarto render all locally
-        run: quarto publish
+        run: quarto render . --use-freezer
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

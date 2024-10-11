@@ -17,7 +17,7 @@ website:
         href: /#category=Research
     right:
       - about.qmd
-      - text: "![]( ./data/_quarto/icon/512px-ORCID_iD.svg_.png ){style='position:relative; top:-2px' height=17.5px}"
+      - text:  "{{< ai orcid >}}"
         href: https://orcid.org/0009-0003-6800-2731
         target: _blank
       - icon: github

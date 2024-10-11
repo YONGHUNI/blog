@@ -8,11 +8,12 @@ function getOS()
 	local fh,err = assert(io.popen("uname -o 2>/dev/null","r"))
 	if fh then
 		osname = fh:read()
+  -- Windows?
+  else
+    local handle = io.popen("ver")
+    local version = handle:read("*a")
+    handle:close()
 	end
-
-  local handle = io.popen("ver")
-  local version = handle:read("*a")
-  handle:close()
 
 	return osname or version
 end

@@ -1,7 +1,9 @@
 ---
 title: "Welcome to Yonghuni's Cyber Home"
 listing:
-  contents: posts
+  id: all
+  contents:
+    - posts
   sort: "date desc"
   type: default
   categories: true

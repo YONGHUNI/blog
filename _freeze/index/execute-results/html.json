@@ -1,0 +1,15 @@
+{
+  "hash": "5e726946da44fce0a52ace5a2cfac681",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Welcome to Yonghuni's Cyber Home\"\nlisting:\n  contents: posts\n  sort: \"date desc\"\n  type: default\n  categories: true\n  sort-ui: false\n  filter-ui: false\npage-layout: full\ntitle-block-banner: true\ncomments: false\n\n---\n\n\n\n::: {.hero-banner}\n\n\n::: {.content-block}\n\n::: {.hero-text}\n# Welcome to Quarto^[®]{.trademark}^ {.mt-1}\n\n### An open-source scientific and technical publishing system\n\n- Author using [Jupyter](https://jupyter.org) notebooks or with plain text markdown in your favorite editor.\n- Create dynamic content with [Python](/docs/computations/python.qmd), [R](/docs/computations/r.qmd), [Julia](/docs/computations/julia.qmd), and [Observable](/docs/computations/ojs.qmd).\n- Publish reproducible, production quality articles, presentations, dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more.\n- Share knowledge and insights organization-wide by publishing to [Posit Connect](/docs/publishing/rstudio-connect.qmd), [Confluence](/docs/publishing/confluence.qmd), or other publishing systems. \n- Write using [Pandoc](https://pandoc.org) markdown, including equations, citations, crossrefs, figure panels, callouts, advanced layout, and more.\n\n### Analyze. Share. Reproduce. You have a story to tell with data---tell it with Quarto.\n\n::: {.hero-buttons}\n[Get Started](/docs/get-started/index.qmd){.btn-action-primary .btn-action .btn .btn-success .btn-lg role=\"button\"}\n[Guide](/docs/guide/){#btn-guide .btn-action .btn .btn-info .btn-lg role=\"button\"}\n::: \n:::\n\n::: {.hero-animation}\n\n<video autoplay muted playsinline loop>\n<source src=\"images/hero_animation.mp4\" type=\"video/mp4\"/>\n</video>\n:::\n\n:::\n\n\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nfor (i in 1:10) {\n    \n    j <- i+1\n    \n}\n\nj\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 11\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

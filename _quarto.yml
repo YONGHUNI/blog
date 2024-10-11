@@ -4,7 +4,9 @@ project:
 
 website:
   title: "Yonghun's Computational Geo-Blog"
-  favicon: ./data/favicon/geography-icon.png
+  favicon: ./data/_quarto/favicon/geography-icon.png
+  page-footer:
+    left: "Powered by [Quarto](https://quarto.org/) <?quarto.version?>"
   navbar:
     left:
       - text: News
@@ -15,6 +17,9 @@ website:
         href: /#category=Research
     right:
       - about.qmd
+      - text: "![]( ./data/_quarto/icon/512px-ORCID_iD.svg_.png ){style='position:relative; top:-2px' height=17.5px}"
+        href: https://orcid.org/0009-0003-6800-2731
+        target: _blank
       - icon: github
         menu:
           - text: My Profile
@@ -23,20 +28,22 @@ website:
           - text: Source Code
             href: https://github.com/YONGHUNI/blog
             target: _blank
-      #- icon: twitter
-      #  href: https://twitter.com
+
   comments: 
     giscus: 
       repo: YONGHUNI/blog
 format:
   html:
     theme:
-      light: cosmo
-      dark: darkly
+      light: cosmo #sketchy
+      dark: [cosmo, theme-dark.scss]
     css: styles.css
     
 execute:
   freeze: auto
-  
+
+filters:
+  - quarto-version.lua
+
 #editor: visual
 

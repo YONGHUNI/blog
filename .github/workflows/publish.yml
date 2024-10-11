@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      
-      - run: ls -l
 
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
@@ -61,3 +59,10 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Push Quarto freeze
+        run: |
+          git config --global user.name 'YONGHUNI'
+          git config --global user.email 'dydgns0556@gmail.com'
+          git commit -am "Quarto Freeze by GH actions"
+          git push

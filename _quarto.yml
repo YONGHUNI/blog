@@ -32,6 +32,9 @@ website:
   comments: 
     giscus: 
       repo: YONGHUNI/blog
+      theme:
+        light: light
+        dark: cobalt
 format:
   html:
     theme:

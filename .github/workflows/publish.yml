@@ -59,9 +59,7 @@ jobs:
         run: |
           git config --global user.name 'YONGHUNI'
           git config --global user.email 'dydgns0556@gmail.com'
-          git add _freeze
-          git commit -m "Quarto Freeze by GH actions"
-          git push
+          git diff --quiet || (git add _freeze && git commit -m "Quarto Freeze by GH actions" && git push)
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

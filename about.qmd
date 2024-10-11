@@ -4,15 +4,15 @@ image: https://avatars.githubusercontent.com/u/62800337?v=4
 about:
   template: trestles
   links:
-#    - icon: twitter
-#      text: Twitter
-#      href: https://twitter.com
+    - text: "{{< ai orcid >}}  ORCID"
+      href: https://orcid.org/0009-0003-6800-2731
+      target: _blank
 #    - icon: linkedin
 #      text: LinkedIn
 #      href: https://linkedin.com
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/YONGHUNI
       target: _blank
 format: 
   html:

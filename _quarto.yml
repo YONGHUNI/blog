@@ -29,25 +29,24 @@ website:
             href: https://github.com/YONGHUNI/blog
             target: _blank
 
-  comments: 
-    giscus: 
-      repo: YONGHUNI/blog
-      loading: lazy
-      theme:
-        light: light
-        dark: cobalt
+#  comments: 
+#    giscus: 
+#      repo: YONGHUNI/blog
+#      theme:
+#        light: light
+#        dark: cobalt
 format:
   html:
     theme:
       light: cosmo #sketchy
-      dark: [cosmo, theme-dark.scss]
-    css: styles.css
+      dark: [cosmo, ./misc/theme-dark.scss]
+    css: ./misc/styles.css
     
 execute:
   freeze: auto
 
 filters:
-  - quarto-version.lua
+  - ./misc/quarto-version.lua
 
 #editor: visual
 

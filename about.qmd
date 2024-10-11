@@ -17,6 +17,9 @@ about:
 format: 
   html:
     page-layout: full
+
+include-in-header: ./misc/giscus-mode-toggle.html
+include-after-body: ./misc/div-giscus.html
 ---
 
 # Welcome to my blog!

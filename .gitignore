@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 
-
-!.quarto/
 !_freeze/
-!_site/
+
+/.quarto/

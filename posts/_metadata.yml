@@ -4,5 +4,8 @@
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: auto
 
+include-in-header: ./../misc/giscus-mode-toggle.html
+include-after-body: ./../misc/div-giscus.html
+
 # Enable banner style title blocks
 title-block-banner: true

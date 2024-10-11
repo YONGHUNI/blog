@@ -11,7 +11,8 @@ listing:
   filter-ui: false
 page-layout: full
 title-block-banner: true
-comments: false
-
+#comments: false
+include-in-header: ./misc/div-giscus.html
+include-after-body: ./misc/div-giscus.html
 ---
 

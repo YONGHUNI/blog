@@ -52,8 +52,8 @@ jobs:
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
-      - name: Quarto render
-        run: quarto publish gh-pages
+      - name: Quarto render all locally
+        run: quarto publish
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

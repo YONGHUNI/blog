@@ -55,16 +55,17 @@ jobs:
       - name: Quarto render all locally
         run: quarto render . --use-freezer
       
+      - name: Push Quarto freeze
+        run: |
+          git diff
+          git config --global user.name 'YONGHUNI'
+          git config --global user.email 'dydgns0556@gmail.com'
+          git commit -am "Quarto Freeze by GH actions"
+          git push
+      
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Push Quarto freeze
-        run: |
-          git config --global user.name 'YONGHUNI'
-          git config --global user.email 'dydgns0556@gmail.com'
-          git commit -am "Quarto Freeze by GH actions"
-          git push

@@ -62,7 +62,7 @@ jobs:
           git config --global user.name 'YONGHUNI'
           git config --global user.email 'dydgns0556@gmail.com'
           git add _freeze
-          git commit m "Quarto Freeze by GH actions"
+          git commit -m "Quarto Freeze by GH actions"
           git push
       
       - name: Render and Publish

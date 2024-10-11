@@ -43,7 +43,7 @@ format:
     css: styles.css
     
 execute:
-  freeze: auto
+  freeze: false
 
 filters:
   - quarto-version.lua

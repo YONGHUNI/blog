@@ -57,6 +57,7 @@ jobs:
       
       - name: Push Quarto freeze
         run: |
+          ls -alrt
           git diff
           git config --global user.name 'YONGHUNI'
           git config --global user.email 'dydgns0556@gmail.com'

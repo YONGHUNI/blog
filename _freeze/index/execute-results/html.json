@@ -1,0 +1,15 @@
+{
+  "hash": "b3c2aea1d6f658124ce40201ce996800",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Welcome to Yonghuni's Cyber Home\"\nlisting:\n  id: all\n  contents:\n    - posts\n  sort: \"date desc\"\n  type: default\n  categories: true\n  sort-ui: false\n  filter-ui: false\npage-layout: full\ntitle-block-banner: true\ncode-copy: true\n#comments: false\n---\n\n\n\n`asdf1234`\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1+1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n\n```{.r .cell-code}\nprint(\"loveya\")\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"loveya\"\n```\n\n\n:::\n:::\n\n\n\n::: {.callout-note}\nNote that there are five types of callouts, including:\n`note`, `warning`, `important`, `tip`, and `caution`.\n:::\n\n::: {.callout-tip}\n## Tip with Title\n\nThis is an example of a callout with a title.\n:::\n\n::: {.callout-caution collapse=\"true\"}\n## Expand To Learn About Collapse\n\nThis is an example of a 'folded' caution callout that can be expanded by the user. You can use `collapse=\"true\"` to collapse it by default or `collapse=\"false\"` to make a collapsible callout that is expanded by default.\n:::\n\n\n>12321asa",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

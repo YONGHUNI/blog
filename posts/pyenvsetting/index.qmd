@@ -237,7 +237,26 @@ plot(test)
 tmap::tmap_mode("view")
 
 test[test==0]=NA
-tmap::qtm(test)
+
+{
+  tm_basemap(c("OpenStreetMap.HOT",
+               "https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}",
+               "https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}"),
+             group = list(c("OpenStreetMap.HOT",
+                       "Google Satellite Imagery w/ label",
+                       "Google Satellite Imagery wo/ label"))) +
+    tm_shape(test)  +                                  
+    tm_raster(title = "Max Rainfall Intensity[mm/hr]",
+              palette = "-Spectral",
+              style = "cont") -> themap
+  
+  
+  
+  tmap_leaflet(themap)|>
+    addMouseCoordinates()
+  
+}
+
 ```
 
 ### Extra: Compairing with the plot from Korea Meteorological Agency

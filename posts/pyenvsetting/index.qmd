@@ -234,7 +234,9 @@ plot(test)
 ## Plot using tmap::qtm()
 
 ```{r}
-tmap::tmap_mode("view")
+library(tmap)
+
+tmap_mode("view")
 
 test[test==0]=NA
 

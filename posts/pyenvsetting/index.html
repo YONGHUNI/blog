@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script>
+//https://jihongzhang.org/posts/2023-06-26-moving-to-quarto/
 function getGiscusTheme() {
   const quartoTheme = localStorage.getItem("quarto-color-scheme");
   const giscusTheme = quartoTheme === "alternate" ? "dark" : "light";
@@ -1242,11 +1243,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      &nbsp;
-    </div>
+<p>Made with ❤️ by <a href="about.qmd">YONGHUNI</a></p>
+</div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

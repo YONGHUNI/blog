@@ -18,7 +18,49 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Welcome to my blog!\nI recently got a Master’s degree in Geography at Seoul National University(SNU), and am working as an assistant at Office of Information & Computing Center, College of Engineering, SNU.\nI am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.\nI completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.\nIn addition to my research, I’m involved in a community-based air quality project at the State University at Buffalo and manage GPU clusters for the College of Engineering at SNU. I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.\nI also have served as a teaching assistant for courses in spatial analytics and computer cartography, helping to nurture the next generation of spatial experts.\nFeel free to explore my blog for insights into my research, projects!\n\n\nCV\nYou can either view or download my CV here!"
+    "text": "ORCID\n  \n  \n    \n     Github\n  \n\n  \n  \n\n\nI am a system administrator of two GPU clusters in the Office of Information & Computing Center, at College of Engineering, Seoul National University (SNU). I finished my master’s in Geography at SNU in Feb. 2024, advised by Dr. Gunhak Lee.\nI am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.\nI completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.\nIn addition to my research, I’m involved in a community-based air quality project at the State University of New York at Buffalo(UB Clean Air) and manage GPU clusters for the College of Engineering at SNU. I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software."
+  },
+  {
+    "objectID": "about.html#seoul-national-university",
+    "href": "about.html#seoul-national-university",
+    "title": "About",
+    "section": "Seoul National University",
+    "text": "Seoul National University\n\nSeoul, South Korea | Sept 2021 – Feb 2024\n\nM.A. in Geography"
+  },
+  {
+    "objectID": "about.html#kongju-national-university",
+    "href": "about.html#kongju-national-university",
+    "title": "About",
+    "section": "Kongju National University",
+    "text": "Kongju National University\n\nSouth Chungcheong Province, South Korea | Mar 2015 – Aug 2021\n\nB.A. in Geography\nB.Sc. in Atmospheric Science"
+  },
+  {
+    "objectID": "about.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
+    "href": "about.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
+    "title": "About",
+    "section": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach",
+    "text": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach\n\n\n\n\n\n\n\n\nThis study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.\nThe findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
+  },
+  {
+    "objectID": "about.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
+    "href": "about.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
+    "title": "About",
+    "section": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis",
+    "text": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis\n\n\n\n\n\n\n\n\nThis study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.\nThe analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.\nPublished in Social Science & Medicine with Dr. Eun-Hye Yoo and Dr. John E. Roberts."
+  },
+  {
+    "objectID": "about.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
+    "href": "about.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
+    "title": "About",
+    "section": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR",
+    "text": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR\n\n\n\n\n\n\n\n\nThis study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.\nBy utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
+  },
+  {
+    "objectID": "about.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
+    "href": "about.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
+    "title": "About",
+    "section": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population",
+    "text": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population\n\n\n\n\n\n\n\n\nThis study aimed to identify vulnerable areas and inform heatwave policy decisions.\nIt examined vulnerability using local Bi-var Moran’s I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.\nThe findings were presented at the 2022 Annual Conference of the Korean Geographical Society."
   },
   {
     "objectID": "index.html",

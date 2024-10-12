@@ -43,6 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,6 +74,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <script>
+//https://jihongzhang.org/posts/2023-06-26-moving-to-quarto/
 function getGiscusTheme() {
   const quartoTheme = localStorage.getItem("quarto-color-scheme");
   const giscusTheme = quartoTheme === "alternate" ? "dark" : "light";
@@ -195,6 +199,11 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- margin-sidebar -->
     
 <!-- main -->
+<main class="content column-page" id="quarto-document-content">
+
+
+
+
 <div class="quarto-about-trestles column-page">
   <div class="about-entity">
     <img src="https://avatars.githubusercontent.com/u/62800337?v=4" class="about-image
@@ -216,26 +225,131 @@ document.addEventListener('DOMContentLoaded', function () {
   </a>
 </div>
   </div>
-  <div class="about-contents"><main class="content column-page" id="quarto-document-content">
-<section id="welcome-to-my-blog" class="level1">
-<h1>Welcome to my blog!</h1>
-<p>I recently got a Master’s degree in Geography at Seoul National University(SNU), and am working as an assistant at Office of Information &amp; Computing Center, College of Engineering, SNU.</p>
+  <div class="about-contents"><div id="hero-heading">
+<section id="about-me" class="level1">
+<h1>About Me</h1>
+<p>I am a system administrator of two GPU clusters in the Office of Information &amp; Computing Center, at College of Engineering, Seoul National University (SNU). I finished my master’s in Geography at SNU in Feb.&nbsp;2024, advised by Dr.&nbsp;Gunhak Lee.</p>
 <p>I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.</p>
 <p>I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.</p>
-<p>In addition to my research, I’m involved in a community-based air quality project at the State University at Buffalo and manage GPU clusters for the College of Engineering at SNU. I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.</p>
-<p>I also have served as a teaching assistant for courses in spatial analytics and computer cartography, helping to nurture the next generation of spatial experts.</p>
-<p>Feel free to explore my blog for insights into my research, projects!</p>
+<p>In addition to my research, I’m involved in a community-based air quality project at the State University of New York at Buffalo(<a href="https://ubairqualitystudy.github.io/EPA-Website/index.html">UB Clean Air</a>) and manage GPU clusters for the College of Engineering at SNU. I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.</p>
+</section>
+</div></div>
+</div>
+
+<section id="education" class="level1">
+<h1>Education</h1>
+<section id="seoul-national-university" class="level2">
+<h2 data-anchor-id="seoul-national-university">Seoul National University</h2>
+<section id="seoul-south-korea-sept-2021-feb-2024" class="level4">
+<h4 data-anchor-id="seoul-south-korea-sept-2021-feb-2024">Seoul, South Korea | Sept 2021 – Feb 2024</h4>
+<ul>
+<li>M.A.&nbsp;in Geography</li>
+</ul>
+</section>
+</section>
+<section id="kongju-national-university" class="level2">
+<h2 data-anchor-id="kongju-national-university">Kongju National University</h2>
+<section id="south-chungcheong-province-south-korea-mar-2015-aug-2021" class="level4">
+<h4 data-anchor-id="south-chungcheong-province-south-korea-mar-2015-aug-2021">South Chungcheong Province, South Korea | Mar 2015 – Aug 2021</h4>
+<ul>
+<li>B.A. in Geography</li>
+<li>B.Sc. in Atmospheric Science</li>
+</ul>
+<p><br>
+</p>
+</section>
+</section>
+</section>
+<section id="research-highlights" class="level1">
+<h1>Research Highlights</h1>
+<section id="predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach" class="level2">
+<h2 data-anchor-id="predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach">Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach</h2>
+<p><br>
+</p>
+<div class="grid">
+<div class="g-col-6">
+<p><a href="./data/about/publication_figure/landslide.PNG" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="./data/about/publication_figure/landslide.PNG" class="img-fluid"></a></p>
+</div>
+<div class="g-col-6">
+<ul>
+<li><p>This study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.</p></li>
+<li><p>The findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.</p></li>
+<li><p><a href="https://journal.cartography.or.kr/articles/article/GmX8/" target="_blank">Published</a> in <em>Journal of the Korean Cartographic Association</em> with <a href="https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&amp;mode=VIEW&amp;num=11&amp;category=&amp;findType=&amp;findWord=&amp;sort1=&amp;sort2=&amp;it_id=&amp;shop_flag=&amp;mobile_flag=&amp;language=EN&amp;page=1" target="_blank">Dr.&nbsp;Gunhak Lee</a>.</p></li>
+</ul>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis" class="level2">
+<h2 data-anchor-id="delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis">Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis</h2>
+<p><br>
+</p>
+<div class="grid">
+<div class="g-col-6">
+<p><a href="./data/about/publication_figure/PBS.PNG" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="./data/about/publication_figure/PBS.PNG" class="img-fluid"></a></p>
+</div>
+<div class="g-col-6">
+<ul>
+<li><p>This study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.</p></li>
+<li><p>The analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.</p></li>
+<li><p><a href="https://doi.org/10.1016/j.socscimed.2024.117030" target="_blank">Published</a> in <em>Social Science &amp; Medicine</em> with <a href="https://scholar.google.com/citations?user=eDHJqA8AAAAJ&amp;hl=en&amp;oi=sra" target="_blank">Dr.&nbsp;Eun-Hye Yoo</a> and <a href="https://scholar.google.com/citations?user=KaPG9wwAAAAJ&amp;hl=en&amp;oi=sra" target="_blank">Dr.&nbsp;John E. Roberts</a>.</p></li>
+</ul>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr" class="level2">
+<h2 data-anchor-id="estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr">Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR</h2>
+<p><br>
+</p>
+<div class="grid">
+<div class="g-col-6">
+<p><a href="./data/about/publication_figure/dasymetric.PNG" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="./data/about/publication_figure/dasymetric.PNG" class="img-fluid"></a></p>
+</div>
+<div class="g-col-6">
+<ul>
+<li>This study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.</li>
+<li>By utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.</li>
+<li><a href="https://journal.cartography.or.kr/articles/article/Ad7w/#Abstract" target="_blank">Published</a> in <em>Journal of the Korean Cartographic Association</em> with <a href="https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&amp;mode=VIEW&amp;num=11&amp;category=&amp;findType=&amp;findWord=&amp;sort1=&amp;sort2=&amp;it_id=&amp;shop_flag=&amp;mobile_flag=&amp;language=EN&amp;page=1" target="_blank">Dr.&nbsp;Gunhak Lee</a>.</li>
+</ul>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population" class="level2">
+<h2 data-anchor-id="accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population">Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population</h2>
+<p><br>
+</p>
+<div class="grid">
+<div class="g-col-6">
+<p><a href="./data/about/publication_figure/heatwave_vulnerability.PNG" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="./data/about/publication_figure/heatwave_vulnerability.PNG" class="img-fluid"></a></p>
+</div>
+<div class="g-col-6">
+<ul>
+<li>This study aimed to identify vulnerable areas and inform heatwave policy decisions.</li>
+<li>It examined vulnerability using local Bi-var Moran’s I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.</li>
+<li>The findings were presented at the <em>2022 Annual Conference of the Korean Geographical Society</em>.</li>
+</ul>
+</div>
+</div>
+<p><br>
+<br>
+</p>
+</section>
 </section>
 <section id="cv" class="level1">
 <h1>CV</h1>
 <p>You can either view or <a href="https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh_240912.pdf" target="_blank">download</a> my CV here!</p>
-<p><embed src="./data/about/CV_Yonghun_Suh_240912.pdf" style="width:100.0%" height="1000"></p>
+<p><a href="./data/about/CV_Yonghun_Suh_240912.pdf" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><embed src="./data/about/CV_Yonghun_Suh_240912.pdf" style="width:100.0%" height="1000"></a></p>
+
 
 
 </section>
-</main></div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <div class="giscus">
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -804,10 +918,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      &nbsp;
-    </div>
+<p>Made with ❤️ by <a href="./about.html">YONGHUNI</a></p>
+</div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

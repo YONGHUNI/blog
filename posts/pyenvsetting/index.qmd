@@ -235,6 +235,7 @@ plot(test)
 
 ```{r}
 library(tmap)
+library(leafem)
 
 tmap_mode("view")
 

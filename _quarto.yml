@@ -7,7 +7,7 @@ website:
   favicon: ./data/_quarto/favicon/geography-icon.png
   page-footer:
     left: "Powered by [Quarto](https://quarto.org/) <?quarto.version?>"
-    right: "Made with ❤️ by [YONGHUNI](./about.qmd)"
+    right: "Made with ❤️ by [YONGHUNI](https://yonghuni.github.io/blog/about)"
   navbar:
     left:
       - text: News

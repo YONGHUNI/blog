@@ -23,8 +23,8 @@ jobs:
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
           packages: >- 
-            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev
-            libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript 
+            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
+            libudunits2-dev libgdal-dev
           #execute_install_scripts: true
           version: 1
       - name: testing apt cache 

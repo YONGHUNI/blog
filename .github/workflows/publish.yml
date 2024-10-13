@@ -75,7 +75,9 @@ jobs:
             perl-openssl-defaults poppler-data python3-gpg python3-nacl python3-paramiko
             python3-unidiff python3-xdg qpdf t1utils wdiff xfonts-encodings xfonts-utils
           execute_install_scripts: true
-          version: 1      
+          version: 1
+      - name: testing apt cache 
+        run: sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gdebi-core qpdf devscripts ghostscript
       
       - name: Install mamba environment
         uses: mamba-org/setup-micromamba@v1

@@ -18,7 +18,12 @@ website:
         href: /#category=Research
     right:
       - text: About
-        href: about.qmd
+        menu:
+          - text: Me
+            href: about.qmd
+          - text: This Blog
+            href: https://github.com/YONGHUNI/blog
+        
       - text:  "{{< ai orcid >}}"
         href: https://orcid.org/0009-0003-6800-2731
         target: _blank

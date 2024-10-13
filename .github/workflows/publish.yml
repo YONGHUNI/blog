@@ -22,7 +22,8 @@ jobs:
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
-          packages: >- libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript 
+          packages: >- 
+            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript 
             dctrl-tools devscripts diffstat dput fonts-droid-fallback fonts-noto-mono
             fonts-urw-base35 gdebi-core gettext ghostscript intltool-debian
             libaliased-perl libapt-pkg-perl libarchive-zip-perl libarray-intspan-perl

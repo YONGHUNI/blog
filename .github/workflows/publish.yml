@@ -23,58 +23,9 @@ jobs:
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
           packages: >- 
-            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript 
-            dctrl-tools devscripts diffstat dput fonts-droid-fallback fonts-noto-mono
-            fonts-urw-base35 gdebi-core gettext ghostscript intltool-debian
-            libaliased-perl libapt-pkg-perl libarchive-zip-perl libarray-intspan-perl
-            libauthen-sasl-perl libb-hooks-endofscope-perl libb-hooks-op-check-perl
-            libberkeleydb-perl libcapture-tiny-perl libclass-data-inheritable-perl
-            libclass-method-modifiers-perl libclass-xsaccessor-perl libconfig-tiny-perl
-            libconst-fast-perl libcpanel-json-xs-perl libdata-dpath-perl
-            libdata-dump-perl libdata-messagepack-perl libdata-optlist-perl
-            libdata-validate-domain-perl libdata-validate-ip-perl
-            libdata-validate-uri-perl libdevel-callchecker-perl libdevel-size-perl
-            libdevel-stacktrace-perl libdistro-info-perl libdynaloader-functions-perl
-            libemail-address-xs-perl libexception-class-perl libexporter-tiny-perl
-            libfile-basedir-perl libfile-chdir-perl libfile-dirlist-perl
-            libfile-find-rule-perl libfile-homedir-perl libfile-listing-perl
-            libfile-touch-perl libfile-which-perl libfont-afm-perl libfont-ttf-perl
-            libfreezethaw-perl libgit-wrapper-perl libgs-common libgs10 libgs10-common
-            libhtml-form-perl libhtml-format-perl libhtml-html5-entities-perl
-            libhtml-tokeparser-simple-perl libhtml-tree-perl libhttp-cookies-perl
-            libhttp-daemon-perl libhttp-negotiate-perl libidn12 libijs-0.35
-            libimport-into-perl libindirect-perl libio-interactive-perl libio-pty-perl
-            libio-socket-ssl-perl libio-string-perl libipc-run-perl libipc-run3-perl
-            libipc-system-simple-perl libiterator-perl libiterator-util-perl
-            libjbig2dec0 libjson-maybexs-perl liblist-compare-perl
-            liblist-someutils-perl liblist-someutils-xs-perl liblist-utilsby-perl
-            liblog-any-adapter-screen-perl liblog-any-perl liblwp-protocol-https-perl
-            libmailtools-perl libmarkdown2 libmath-base85-perl libmldbm-perl
-            libmodule-implementation-perl libmodule-runtime-perl libmoo-perl
-            libmoox-aliases-perl libmouse-perl libnamespace-clean-perl
-            libnet-domain-tld-perl libnet-http-perl libnet-ipv6addr-perl
-            libnet-netmask-perl libnet-smtp-ssl-perl libnet-ssleay-perl
-            libnetaddr-ip-perl libnumber-compare-perl libobject-pad-perl
-            libpackage-stash-perl libpackage-stash-xs-perl libpaper-utils libpaper1
-            libparams-classify-perl libparams-util-perl libpath-iterator-rule-perl
-            libpath-tiny-perl libperlio-gzip-perl libperlio-utf8-strict-perl
-            libpod-constants-perl libpod-parser-perl libqpdf29t64 libre-engine-re2-perl
-            libregexp-pattern-license-perl libregexp-pattern-perl
-            libregexp-wildcards-perl librole-tiny-perl libsereal-decoder-perl
-            libsereal-encoder-perl libset-intspan-perl libsocket6-perl
-            libsort-versions-perl libstrictures-perl libstring-copyright-perl
-            libstring-escape-perl libstring-license-perl libstring-shellquote-perl
-            libsub-exporter-perl libsub-exporter-progressive-perl libsub-identify-perl
-            libsub-install-perl libsub-name-perl libsub-quote-perl
-            libsyntax-keyword-try-perl libtext-glob-perl libtext-levenshteinxs-perl
-            libtext-markdown-discount-perl libtext-xslate-perl libtime-duration-perl
-            libtime-moment-perl libtry-tiny-perl libunicode-utf8-perl
-            libvariable-magic-perl libwww-mechanize-perl libwww-perl
-            libwww-robotrules-perl libxs-parse-keyword-perl libxs-parse-sublike-perl
-            libyaml-libyaml-perl licensecheck lintian lzip lzop patchutils
-            perl-openssl-defaults poppler-data python3-gpg python3-nacl python3-paramiko
-            python3-unidiff python3-xdg qpdf t1utils wdiff xfonts-encodings xfonts-utils
-          execute_install_scripts: true
+            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev
+            libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript 
+          #execute_install_scripts: true
           version: 1
       - name: testing apt cache 
         run: gdal-config --version

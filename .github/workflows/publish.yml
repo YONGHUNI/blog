@@ -52,15 +52,15 @@ jobs:
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
-      - name: Quarto render all locally
+      - name: Quarto render - to inspect rendering cache
         run: quarto render . --use-freezer
       
-      - name: Push Quarto freeze
+      - name: Push Quarto render cache if diff detected
         run: |
-          ls -lrt
           git config --global user.name 'YONGHUNI'
           git config --global user.email 'dydgns0556@gmail.com'
-          git diff-index --quiet --cached HEAD || (git add _freeze && git commit -m "[BOT]Quarto Freeze by GH actions" && git push)
+          git add _freeze
+          ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

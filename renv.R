@@ -3,6 +3,7 @@ library(yaml)
 library(knitr)
 library(rmarkdown)
 library(renv)
+library(downlit)
 
 library(doParallel)
 
@@ -15,16 +16,23 @@ library(vip)
 library(fastshap)
 library(treeshap)
 
+library(spatialreg)
+library(sfdep)
+library(spdep)
+library(rgeoda)
 
 
 library(tidyverse)
 library(data.table)
 library(lubridate)
-library(xml2)
 library(reshape2)
+library(matrixStats)
+library(SpatialAcc)
 
 
 library(rvest)
+library(xml2)
+
 
 library(sf)
 library(geojsonsf)

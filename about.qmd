@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "Yonghun Suh"
 about:
   id: hero-heading
   image: https://avatars.githubusercontent.com/u/62800337?v=4
@@ -19,6 +19,7 @@ format:
   html:
     page-layout: full
     lightbox: true
+    css: ./data/about/grid.css
 
 include-in-header: ./misc/giscus-mode-toggle.html
 include-after-body: ./misc/div-giscus.html

@@ -77,7 +77,7 @@ jobs:
           execute_install_scripts: true
           version: 1
       - name: testing apt cache 
-        run: sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gdebi-core qpdf devscripts ghostscript
+        run: gdal-config --version
       
       - name: Install mamba environment
         uses: mamba-org/setup-micromamba@v1

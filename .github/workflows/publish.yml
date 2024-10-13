@@ -22,7 +22,7 @@ jobs:
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
-          packages: !file ./misc/packages.txt 
+          packages: ./misc/packages.txt 
           version: 1      
       
       - name: Install mamba environment

@@ -16,13 +16,13 @@ jobs:
         uses: actions/checkout@v4
       
       - name: apt update
-        run: sudo apt update
+        run: sudo DEBIAN_FRONTEND=noninteractive apt-get update -y -qq
 
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
-          packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript
+          packages: !file ./misc/packages.txt 
           version: 1      
       
       - name: Install mamba environment

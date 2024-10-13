@@ -17,7 +17,8 @@ website:
       - text: Research
         href: /#category=Research
     right:
-      - about.qmd
+      - text: About
+        href: about.qmd
       - text:  "{{< ai orcid >}}"
         href: https://orcid.org/0009-0003-6800-2731
         target: _blank

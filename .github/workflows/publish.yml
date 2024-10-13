@@ -74,7 +74,7 @@ jobs:
             libyaml-libyaml-perl licensecheck lintian lzip lzop patchutils
             perl-openssl-defaults poppler-data python3-gpg python3-nacl python3-paramiko
             python3-unidiff python3-xdg qpdf t1utils wdiff xfonts-encodings xfonts-utils
-          
+          execute_install_scripts: true
           version: 1      
       
       - name: Install mamba environment

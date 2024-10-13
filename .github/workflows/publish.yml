@@ -14,12 +14,15 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      
+      - name: apt update
+        run: sudo apt update
 
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
-          packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev
+          packages: libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev libmagick++-dev gdebi-core qpdf devscripts ghostscript
           version: 1      
       
       - name: Install mamba environment

@@ -60,7 +60,7 @@
     "href": "posts/pyenvsetting/index.html#import-some-packages",
     "title": "Python Dependency Test",
     "section": "\n3.1 Import Some Packages",
-    "text": "3.1 Import Some Packages\n\nCodeimport sys\nprint(sys.executable)\n\nC:\\Users\\dydgn\\ANACON~1\\envs\\baseline\\python.exe\n\n\nThis will show where the python executable binary is.\n\nCodeimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport struct\nimport gzip\n\n\nImporting basic packages"
+    "text": "3.1 Import Some Packages\n\nCodeimport sys\nprint(sys.executable)\n\n/home/runner/micromamba/envs/baseline/bin/python\n\n\nThis will show where the python executable binary is.\n\nCodeimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport struct\nimport gzip\n\n\nImporting basic packages"
   },
   {
     "objectID": "posts/pyenvsetting/index.html#handling-various-file-formats",

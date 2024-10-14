@@ -1,5 +1,7 @@
 ---
 title: Uh oh... It Seems Something Went wrong
+aliases:
+  - /404/
 comments: false
 image: data/404/carto_404.jpg
 about:

@@ -27,7 +27,7 @@ format:
 :::{#hero-heading}
 # About Me
 
-I am a system administrator of two GPU clusters in the Office of Information & Computing Center, at College of Engineering, Seoul National University (SNU). I finished my master's in Geography at SNU in Feb. 2024, advised by Dr. Gunhak Lee.
+I am a system administrator of two GPU clusters in the Office of Information & Computing Center, at College of Engineering, Seoul National University (SNU). I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
 

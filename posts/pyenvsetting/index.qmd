@@ -22,7 +22,18 @@ format:
 #comments: false
 ---
 
+# Intro - Backdrop
+
+This example demonstrates how Quarto documents can be rendered in GitHub-Actions **CI/CD** environment with the required Python/R package dependencies. This need pre-setup - see: [my `.github/workflows`](https://github.com/YONGHUNI/blog/tree/main/.github/workflows){target="_blank"} and [GitHub Actions](https://github.com/features/actions){target="_blank"} for more details.
+
+The code below is part of what I used for my Master's thesis. In my thesis, I used the binary data provided from Korea Meteorological Agency(KMA) which contains radar reflectance of precipitation. Using the code below, I derived the rainfall intensity and the amount of antecedent rainfall and plugged them into my machine learning models.
+
+
 # Setup Reticulate
+
+
+I am kinda `R` person and not a big fan of python(because of the indentation... You know... hard to do `for` loops and `if` statements), but I had no choice but use `Python` because I needed the greatest package of all time, *i.e.*, `NumPy` for handling multidimensional array. Also, the handling of binary data sucks in R made me to use it.
+
 
 ```{r}
 library(reticulate)
@@ -36,7 +47,7 @@ if (Sys.info()[[1]]=="Windows") {
     
     } else{
     
-    # For github actions to activate CI/CD
+    # For github actions to utilize CI/CD
     use_condaenv("/home/runner/micromamba/envs/baseline/bin/python", required = TRUE)   
     
 }
@@ -105,7 +116,7 @@ print("The binary data file size is {} bytes.".format(file_size))
 
 ## Hmm.. Do you know how to cook a binary file?
 
-I had to read a manual provided to convert a binary file into so-called `raster`
+I had to read the manual provided to convert a binary file into so-called `raster`
 
 ```{r, echo=FALSE, out.width="100%", out.height=600, fig.align = "center"}
 
@@ -162,7 +173,7 @@ matplot(data)
 
 ### Munging data
 
-I had to change the radar reflectance into the amount of rainfall
+To use as a feature of the model, I had to change the radar reflectance into the amount of rainfall intensity by using [Z-R relationship](https://www.scirp.org/journal/paperinformation?paperid=71153){target="_blank"}.
 
 ```{python}
 
@@ -207,7 +218,7 @@ R[R<=0.04315743] = 0.0
 ```
 
 
-After the conversion, then we get the actual amount of rainfall
+After the conversion, then we get the actual amount of rainfall intensity in `mm/hr`.
 
 ```{python}
 # Unit: millimeter per hour
@@ -240,7 +251,7 @@ test <- raster(pcp,
 plot(test)
 
 ```
-## Plot using tmap::qtm()
+## Plot using tmap package
 
 ```{r}
 library(tmap)
@@ -268,6 +279,7 @@ test[test==0]=NA
     addMouseCoordinates()
   
 }
+
 
 ```
 

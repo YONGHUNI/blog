@@ -1,7 +1,5 @@
 ---
 title: "Yonghun Suh"
-aliases:
-  - about/
 about:
   id: hero-heading
   image: https://avatars.githubusercontent.com/u/62800337?v=4
@@ -21,10 +19,8 @@ format:
   html:
     page-layout: full
     lightbox: true
-    css: ./data/about/grid.css
-
-include-in-header: ./misc/giscus-mode-toggle.html
-include-after-body: ./misc/div-giscus.html
+    css: ./../../data/about/grid.css
+    
 ---
 
 :::{#hero-heading}
@@ -69,7 +65,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.g-col-6}
 
-![](./data/about/publication_figure/landslide.PNG)
+![](./../../data/about/publication_figure/landslide.PNG)
 
 :::
 
@@ -96,7 +92,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.g-col-6}
 
-![](./data/about/publication_figure/PBS.PNG)
+![](./../../data/about/publication_figure/PBS.PNG)
 
 :::
 
@@ -122,7 +118,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.g-col-6}
 
-![](./data/about/publication_figure/dasymetric.PNG)
+![](./../../data/about/publication_figure/dasymetric.PNG)
 
 :::
 
@@ -148,7 +144,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.g-col-6}
 
-![](./data/about/publication_figure/heatwave_vulnerability.PNG)
+![](./../../data/about/publication_figure/heatwave_vulnerability.PNG)
 
 :::
 
@@ -170,7 +166,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 You can either view or [download](https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh_240912.pdf){target="_blank"} my CV here!
 
-![](./data/about/CV_Yonghun_Suh_240912.pdf){width="100%" height="1000px"}
+![](./../../data/about/CV_Yonghun_Suh_240912.pdf){width="100%" height="1000px"}
 
 
 

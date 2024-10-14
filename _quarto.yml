@@ -20,9 +20,9 @@ website:
       - text: About
         menu:
           - text: Me
-            href: ./about/
+            href: ./about/me/index.qmd
           - text: This Blog
-            href: https://github.com/YONGHUNI/blog
+            href: ./about/blog/index.qmd
         
       - text:  "{{< ai orcid >}}"
         href: https://orcid.org/0009-0003-6800-2731

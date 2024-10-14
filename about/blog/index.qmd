@@ -1,0 +1,34 @@
+---
+title: "About My Blog"
+about:
+  id: hero-heading
+  image: https://rstudio.github.io/cheatsheets/html/images/logo-quarto.png
+  template: jolla
+  links:
+    - icon: github
+      text: Source code for this blog
+      href: https://github.com/YONGHUNI
+      target: _blank
+    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Creating a Website with Quarto'
+      href: https://quarto.org/docs/websites/
+      target: _blank
+    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Quarto Official Website'
+      href: https://quarto.org/
+      target: _blank
+
+
+#format: 
+#  html:
+#    page-layout: full
+---
+
+:::{#hero-heading}
+
+## YONGHUNI's CI/CD enabled blog using GitHub-Actions!
+
+
+:::
+
+
+<center> More Info will soon be updated! </center> 
+

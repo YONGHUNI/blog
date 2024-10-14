@@ -9,10 +9,10 @@ about:
       text: Source code for this blog
       href: https://github.com/YONGHUNI
       target: _blank
-    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Creating a Website with Quarto'
+    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Creating a website with quarto'
       href: https://quarto.org/docs/websites/
       target: _blank
-    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Quarto Official Website'
+    - text: '![Quarto](./../../data/_quarto/icon/logo-quarto.png) Quarto official website'
       href: https://quarto.org/
       target: _blank
 
@@ -30,5 +30,5 @@ about:
 :::
 
 
-<center> More Info will soon be updated! </center> 
+<center> More info will soon be updated! </center> 
 

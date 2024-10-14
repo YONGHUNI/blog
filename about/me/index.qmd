@@ -19,7 +19,7 @@ format:
   html:
     page-layout: full
     lightbox: true
-    css: ./../../data/about/grid.css
+    css: /data/about/grid.css
     
 ---
 
@@ -61,16 +61,19 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 \
 
+
 ::: {.grid}
 
-::: {.g-col-6}
 
-![](./../../data/about/publication_figure/landslide.PNG)
+<div>
 
-:::
+![](/data/about/publication_figure/landslide.PNG)
 
-::: {.g-col-6}
 
+</div>
+
+
+<div>
 * This study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.
 
 * The findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.
@@ -78,7 +81,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 * [Published](https://journal.cartography.or.kr/articles/article/GmX8/){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 
-:::
+</div>
 
 :::
 
@@ -90,14 +93,16 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.grid}
 
-::: {.g-col-6}
+<div>
+    
 
-![](./../../data/about/publication_figure/PBS.PNG)
+![](/data/about/publication_figure/PBS.PNG)
+    
 
-:::
+</div>
 
-::: {.g-col-6}
-
+<div>
+    
 * This study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.
 
 * The analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.
@@ -105,7 +110,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 * [Published](https://doi.org/10.1016/j.socscimed.2024.117030){target="_blank"} in *Social Science & Medicine* with [Dr. Eun-Hye Yoo](https://scholar.google.com/citations?user=eDHJqA8AAAAJ&hl=en&oi=sra){target="_blank"} and [Dr. John E. Roberts](https://scholar.google.com/citations?user=KaPG9wwAAAAJ&hl=en&oi=sra){target="_blank"}.
 
 
-:::
+</div>
 
 :::
 
@@ -116,19 +121,23 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.grid}
 
-::: {.g-col-6}
+<div>
 
-![](./../../data/about/publication_figure/dasymetric.PNG)
 
-:::
+![](/data/about/publication_figure/dasymetric.PNG)
 
-::: {.g-col-6}
+
+</div>
+
+<div>
+
 
 * This study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.
 * By utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.
 * [Published](https://journal.cartography.or.kr/articles/article/Ad7w/#Abstract){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
-:::
+</div>
+
 
 :::
 
@@ -142,19 +151,22 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 ::: {.grid}
 
-::: {.g-col-6}
+<div>
 
-![](./../../data/about/publication_figure/heatwave_vulnerability.PNG)
 
-:::
+![](/data/about/publication_figure/heatwave_vulnerability.PNG)
 
-::: {.g-col-6}
+
+</div>
+
+<div>
+
 
 * This study aimed to identify vulnerable areas and inform heatwave policy decisions.
 * It examined vulnerability using local Bi-var Moran's I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.
 * The findings were presented at the *2022 Annual Conference of the Korean Geographical Society*.
 
-:::
+</div>
 
 :::
 
@@ -166,7 +178,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 You can either view or [download](https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh_240912.pdf){target="_blank"} my CV here!
 
-![](./../../data/about/CV_Yonghun_Suh_240912.pdf){width="100%" height="1000px"}
+![](/data/about/CV_Yonghun_Suh_240912.pdf){width="100%" height="1000px"}
 
 
 

@@ -4,7 +4,7 @@ project:
 
 website:
   title: "Yonghun's Computational Geo-Blog"
-  favicon: ./data/_quarto/favicon/geography-icon.png
+  favicon: /data/_quarto/favicon/geography-icon.png
   page-footer:
     left: "Powered by [Quarto](https://quarto.org/) <?quarto.version?>"
     right: "Made with ❤️ by [YONGHUNI](https://yonghuni.github.io/blog/about)"

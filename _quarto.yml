@@ -20,7 +20,7 @@ website:
       - text: About
         menu:
           - text: Me
-            href: ./about.qmd
+            href: ./about/
           - text: This Blog
             href: https://github.com/YONGHUNI/blog
         

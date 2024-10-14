@@ -1,7 +1,7 @@
 ---
 title: "Yonghun Suh"
 aliases:
-  - /about/
+  - about/
 about:
   id: hero-heading
   image: https://avatars.githubusercontent.com/u/62800337?v=4

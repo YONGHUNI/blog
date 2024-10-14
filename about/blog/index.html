@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Uh oh… It Seems Something Went wrong – Yonghun's Computational Geo-Blog</title>
+<title>About My Blog – Yonghun’s Computational Geo-Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +23,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="/blog/site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="/blog/site_libs/quarto-nav/headroom.min.js"></script>
-<script src="/blog/site_libs/clipboard/clipboard.min.js"></script>
-<script src="/blog/site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="/blog/site_libs/quarto-search/fuse.min.js"></script>
-<script src="/blog/site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="/blog/">
-<link href="/blog/././data/_quarto/favicon/geography-icon.png" rel="icon" type="image/png">
-<script src="/blog/site_libs/quarto-html/quarto.js"></script>
-<script src="/blog/site_libs/quarto-html/popper.min.js"></script>
-<script src="/blog/site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="/blog/site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="/blog/site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="/blog/site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="/blog/site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="/blog/site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="/blog/site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="/blog/site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="/blog/site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
-<link href="/blog/site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././data/_quarto/favicon/geography-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,19 +70,70 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+//https://jihongzhang.org/posts/2023-06-26-moving-to-quarto/
+function getGiscusTheme() {
+  const quartoTheme = localStorage.getItem("quarto-color-scheme");
+  const giscusTheme = quartoTheme === "alternate" ? "dark" : "light";
+  return giscusTheme;
+}
+
+function setGiscusTheme() {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(),
+    },
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const giscusAttributes = {
+    "src": "https://giscus.app/client.js",
+    "data-repo": "YONGHUNI/blog",
+    "data-repo-id": "R_kgDOM8VPhg",
+    "data-category": "General",
+    "data-category-id": "DIC_kwDOM8VPhs4CjHhk",
+    "data-mapping": "title",
+    "data-strict": "0",
+    "data-reactions-enabled": "1",
+    "data-emit-metadata": "1",
+    "data-input-position": "top",
+    "data-theme": getGiscusTheme(),
+    "data-lang": "en",
+    "crossorigin": "anonymous",
+    "async": "",
+  };
+
+  // Dynamically create script tag
+  const giscusScript = document.createElement("script");
+  Object.entries(giscusAttributes).forEach(([key, value]) => giscusScript.setAttribute(key, value));
+  document.body.appendChild(giscusScript);
+
+  // Update giscus theme when theme switcher is clicked
+  const toggle = document.querySelector('.quarto-color-scheme-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', setGiscusTheme);
+  }
+});
+</script>
 
 
-<link rel="stylesheet" href="/blog/misc/styles.css">
+<link rel="stylesheet" href="../../misc/styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="/blog/index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Yonghun’s Computational Geo-Blog</span>
     </a>
   </div>
@@ -93,15 +144,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="/blog/#category=news"> 
+    <a class="nav-link" href="../../#category=news"> 
 <span class="menu-text">News</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/blog/#category=Code"> 
+    <a class="nav-link" href="../../#category=Code"> 
 <span class="menu-text">Code</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/blog/#category=Research"> 
+    <a class="nav-link" href="../../#category=Research"> 
 <span class="menu-text">Research</span></a>
   </li>  
 </ul>
@@ -112,11 +163,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
         <li>
-    <a class="dropdown-item" href="/blog/about/me/index.html">
+    <a class="dropdown-item" href="../../about/me/index.html">
  <span class="dropdown-text">Me</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="/blog/about/blog/index.html">
+    <a class="dropdown-item" href="../../about/blog/index.html">
  <span class="dropdown-text">This Blog</span></a>
   </li>  
     </ul>
@@ -151,28 +202,57 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">About My Blog</h1>
+                      </div>
+  </div>
+  <div class="quarto-title-meta">
+    </div>
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
 <div class="quarto-about-jolla">
-  <img src="data/404/carto_404.jpg" class="about-image
+  <img src="https://rstudio.github.io/cheatsheets/html/images/logo-quarto.png" class="about-image
   round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Uh oh… It Seems Something Went wrong</h1>
+ <div id="hero-heading">
+<section id="yonghunis-cicd-enabled-blog-using-github-actions" class="level2">
+<h2 data-anchor-id="yonghunis-cicd-enabled-blog-using-github-actions">YONGHUNI’s CI/CD enabled blog using GitHub-Actions!</h2>
+</section>
+</div> 
+  <hr class="about-sep">
+   <div class="about-links">
+  <a href="https://github.com/YONGHUNI" class="about-link" rel="" target="_blank">
+    <i class="bi bi-github"></i>
+     <span class="about-link-text">Source code for this blog</span>
+  </a>
+  <a href="https://quarto.org/docs/websites/" class="about-link" rel="" target="_blank">
+     <span class="about-link-text"><img src="./../../data/_quarto/icon/logo-quarto.png" class="img-fluid" alt="Quarto"> Creating a Website with Quarto</span>
+  </a>
+  <a href="https://quarto.org/" class="about-link" rel="" target="_blank">
+     <span class="about-link-text"><img src="./../../data/_quarto/icon/logo-quarto.png" class="img-fluid" alt="Quarto"> Quarto Official Website</span>
+  </a>
 </div>
-<div class="quarto-title-meta">
-  </div>
-</header><main class="content" id="quarto-document-content">
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page’s new location.</p>
+</div>
+
+<center>
+More Info will soon be updated!
+</center>
 
 
-</main>  
-</div>
- <!-- /main -->
+
+
+</main> <!-- /main -->
+<div class="giscus">
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -748,4 +828,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+</div></body></html>

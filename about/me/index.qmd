@@ -1,5 +1,6 @@
 ---
 title: "Yonghun Suh"
+subtitle: "*Enabling HPC in Geography*"
 about:
   id: hero-heading
   image: https://avatars.githubusercontent.com/u/62800337?v=4

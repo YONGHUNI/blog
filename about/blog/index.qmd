@@ -15,6 +15,7 @@ about:
     - text: '![Quarto](/data/_quarto/icon/logo-quarto.png) Quarto official website'
       href: https://quarto.org/
       target: _blank
+title-block-banner: true
 
 
 #format: 

@@ -54,6 +54,9 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+      
+      - name: install quarto dependency
+        run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

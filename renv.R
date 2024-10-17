@@ -52,6 +52,8 @@ library(gganimate)
 
 
 library(tmap)
+library(leaflet)
+library(leafgl)
 library(leafem)
 library(tmaptools)
 library(ggspatial)
@@ -59,8 +61,11 @@ library(ggspatial)
 
 library(leafem)
 library(shapviz)
+library(shiny)
+library(shinylive)
+library(bslib)
 
-
+library(devtools)
 
 
 #setwd("C:/Users/dydgn/OneDrive/blog/quarto")

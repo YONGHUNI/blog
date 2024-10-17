@@ -68,10 +68,10 @@ library(bslib)
 library(devtools)
 
 
-#setwd("C:/Users/dydgn/OneDrive/blog/quarto")
-#renv::activate(profile = "armyknives")
-#renv::snapshot()
-#renv::deactivate(clean = F)
+# setwd("C:/Users/dydgn/OneDrive/blog/quarto")
+# renv::activate(profile = "armyknives")
+# renv::snapshot()
+# renv::deactivate(clean = F)
 #renv::deactivate(clean = T)
 
 

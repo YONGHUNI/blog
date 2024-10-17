@@ -56,7 +56,7 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
       
       - name: install quarto dependency
-        run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt && Rscript -e "devtools::install_github("https://github.com/posit-dev/r-shinylive")"
+        run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt && Rscript -e "devtools::install_github('https://github.com/posit-dev/r-shinylive')"
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

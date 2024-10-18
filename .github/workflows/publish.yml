@@ -64,28 +64,10 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: pre-release
+        #with:
+        #  version: pre-release
 
       - run: sudo cp -f /opt/hostedtoolcache/pandoc/3.5/x64/pandoc /opt/quarto/bin/tools/
-
-      - name: check Quarto
-        run: |
-          (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"
-          (which R && which Rscript) || which Rscript || echo "check R path again"
-          /opt/R/4.4.1/bin/Rscript -e '?shinylive::quarto_ext()'
-          echo $R_LIBS_USER
-          Rscript -e 'library(shinylive)'
-          quarto check
-          (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
-#          export PATH="/opt/R/4.4.1/bin:$PATH"
-#          export PATH="/usr/local/bin/:$PATH"
-#          echo $PATH
-
-      #- name: install quarto dep
-      #  run: sudo quarto add quarto-ext/shinylive --no-prompt
-        #- name: Install quarto extension
-        #run: quarto install --no-prompt extension schochastics/academicons
         
       - name: Quarto render - to inspect rendering cache
         run: sudo quarto render ./posts/ --use-freezer

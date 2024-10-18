@@ -65,12 +65,6 @@ jobs:
 
       - run: sudo cp -f /opt/hostedtoolcache/pandoc/3.5/x64/pandoc /opt/quarto/bin/tools/
 
-      - name: "Setup R dependencies for Quarto's knitr engine"
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages:
-            cran::shinylive@0.2.0
-
       - name: check Quarto
         run: |
           (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"
@@ -84,7 +78,17 @@ jobs:
       - name: install quarto dependency
         run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt
 
-
+        #- name: Install quarto extension
+        #run: quarto install --no-prompt extension schochastics/academicons
+      - name: Quarto render - to inspect rendering cache
+        uses: quarto-dev/quarto-actions/render@v2 #quarto render ./posts/ --use-freezer
+      
+      - name: Push Quarto render cache if diff detected
+        run: |
+          git config --global user.name 'YONGHUNI'
+          git config --global user.email 'dydgns0556@gmail.com'
+          git add _freeze
+          ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

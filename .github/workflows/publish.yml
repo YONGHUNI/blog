@@ -73,7 +73,7 @@ jobs:
         run: |
           (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"
           (which R && which Rscript) || which Rscript || echo "check R path again"
-          Rscript -e '.libPaths()'
+          Rscript -e '?shinylive::quarto_ext()'
           echo $R_LIBS_USER
           Rscript -e 'library(shinylive)'
           quarto check

@@ -1,5 +1,5 @@
 ---
-title: "A Testdrive of Quarto-Shinylive & Quartolive"
+title: "A Testdrive for Quarto-Shinylive & Quartolive"
 author: "Yonghun Suh"
 date: "Oct 18, 2024"
 categories: [Code]

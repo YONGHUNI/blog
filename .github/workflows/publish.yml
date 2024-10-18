@@ -75,8 +75,6 @@ jobs:
           quarto check
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
           
-      - name: install quarto dependency
-        run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

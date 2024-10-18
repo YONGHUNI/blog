@@ -7,6 +7,8 @@ categories: [Code]
 #engine: knitr
 format: 
   html:
+    resources:
+      - ./data/shinylive-sw.js
     #page-layout: full
     ##https://quarto.org/docs/authoring/article-layout.html
     toc: false

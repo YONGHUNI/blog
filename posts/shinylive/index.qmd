@@ -44,7 +44,6 @@ This is one of the Harvard PRIM-H project data sets. They in turn obtained it fr
 
 :::{.column-screen-inset}
 
-Credit: [Using Leaflet with Shiny](https://rstudio.github.io/leaflet/articles/shiny.html#modifying-existing-maps-with-leafletproxy){target="_blank"}
 
 ```{shinylive-r}
 #| standalone: true
@@ -52,7 +51,6 @@ Credit: [Using Leaflet with Shiny](https://rstudio.github.io/leaflet/articles/sh
 
 
 library(shiny)
-library(shinylive)
 library(leaflet)
 library(RColorBrewer)
 
@@ -124,6 +122,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 
 ```
+Credit: [Using Leaflet with Shiny](https://rstudio.github.io/leaflet/articles/shiny.html#modifying-existing-maps-with-leafletproxy){target="_blank"}
 
 :::
 

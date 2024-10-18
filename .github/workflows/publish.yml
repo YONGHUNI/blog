@@ -56,9 +56,10 @@ jobs:
       
       - name: check Quarto
         run: |
-          ls -lrt /usr/local/bin/quarto/bin/tools/
+          ls -lrt /usr/local/bin/tools/
           (which R && which Rscript) || which Rscript || echo "check R path again"
           Rscript -e '.libPaths()'
+          echo $R_LIBS_USER
           Rscript -e 'library(shinylive)'
           quarto check
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"

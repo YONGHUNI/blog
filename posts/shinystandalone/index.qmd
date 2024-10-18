@@ -3,7 +3,7 @@ title: "Quarto-shinylive & Quartolive Testdrive"
 author: "Yonghun Suh"
 date: "Oct 17, 2024"
 categories: [Code]
-#image: 
+image: https://hypebright.nl/wp-content/uploads/2023/09/shinylive-blog-2-930x620.png
 #engine: knitr
 format: 
   live-html:

@@ -78,7 +78,9 @@ jobs:
           Rscript -e 'library(shinylive)'
           quarto check
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
-          export PATH="/opt/R/4.4.1/bin/:$PATH"
+          export PATH="/opt/R/4.4.1/bin:$PATH"
+          export PATH="/usr/local/bin/:$PATH"
+          echo $PATH
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

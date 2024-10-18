@@ -56,9 +56,9 @@ jobs:
       #  with: 
       #    pandoc-version: latest
 
-      - run: |
-          which pandoc
-          pandoc --version
+      #- run: |
+      #    which pandoc
+      #    pandoc --version
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

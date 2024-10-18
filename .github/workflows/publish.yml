@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: write
+      pages: write
       contents: write
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -74,12 +76,11 @@ jobs:
           Rscript -e 'library(shinylive)'
           quarto check
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
-          
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
       - name: Quarto render - to inspect rendering cache
-        uses: quarto-dev/quarto-actions/render@v2 #quarto render ./posts/ --use-freezer
+        run: quarto render ./posts/ --use-freezer
       
       - name: Push Quarto render cache if diff detected
         run: |

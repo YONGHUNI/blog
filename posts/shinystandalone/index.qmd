@@ -6,7 +6,7 @@ categories: [Code]
 #image: 
 #engine: knitr
 format: 
-  html:
+  live-html:
     resources:
       - ./data/shinylive-sw.js
     #page-layout: full

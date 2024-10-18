@@ -70,7 +70,7 @@ end
 -- @param input: string to pipe into to r-shinylive
 function callRShinylive(args, input)
   args = { "-e",
-    "shinylive:::quarto_ext()",
+    ".libPaths(); shinylive:::quarto_ext()",
     table.unpack(args) }
 
   -- Try calling `pandoc.pipe('Rscript', ...)` and if it fails, print a message
@@ -78,6 +78,7 @@ function callRShinylive(args, input)
   local res
   local status, err = pcall(
     function()
+      -- os.setenv(name, nil)
       res = pandoc.pipe("Rscript", args, input)
     end
   )

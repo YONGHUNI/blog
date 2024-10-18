@@ -56,7 +56,7 @@ jobs:
       
       - name: check Quarto
         run: |
-          ls -lrt /usr/local/bin/tools/
+          (ls -lrt /usr/local/bin/) || echo "chk dir"
           (which R && which Rscript) || which Rscript || echo "check R path again"
           Rscript -e '.libPaths()'
           echo $R_LIBS_USER

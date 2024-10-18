@@ -63,7 +63,7 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - run: sudo cp -f /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc /opt/quarto/bin/tools/
+      - run: sudo cp -f /opt/hostedtoolcache/pandoc/3.5/x64/pandoc /opt/quarto/bin/tools/
 
       - name: check Quarto
         run: |

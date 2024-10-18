@@ -65,6 +65,12 @@ jobs:
 
       - run: sudo cp -f /opt/hostedtoolcache/pandoc/3.5/x64/pandoc /opt/quarto/bin/tools/
 
+      - name: "Setup R dependencies for Quarto's knitr engine"
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages:
+            cran::shinylive@0.2.0
+
       - name: check Quarto
         run: |
           (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"
@@ -81,7 +87,7 @@ jobs:
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
       - name: Quarto render - to inspect rendering cache
-        run: quarto render ./posts/ #--use-freezer
+        run: quarto render ./posts/ --use-freezer
       
       - name: Push Quarto render cache if diff detected
         run: |

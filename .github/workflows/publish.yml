@@ -82,10 +82,13 @@ jobs:
 #          export PATH="/usr/local/bin/:$PATH"
 #          echo $PATH
 
+      - name: install quarto dep
+        run: sudo quarto add quarto-ext/shinylive --no-prompt
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
+        
       - name: Quarto render - to inspect rendering cache
-        run: quarto render ./posts/ --use-freezer
+        run: sudo quarto render ./posts/ --use-freezer
       
       - name: Push Quarto render cache if diff detected
         run: |

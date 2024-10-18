@@ -51,13 +51,13 @@ jobs:
           #working-directory: "quarto/data/1_swiss_army_knives/"
           cache-version: 3
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-      
       - name: "Setup pandoc"
         uses: r-lib/actions/setup-pandoc@v2
 
       - run: which pandoc
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: check Quarto
         run: |
@@ -71,9 +71,6 @@ jobs:
           
       - name: install quarto dependency
         run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt
-      
-      - name: path r packages
-        run: R_LIBS_USER=/home/runner/work/blog/blog/renv/profiles/armyknives/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

@@ -56,7 +56,9 @@ jobs:
       
       - name: "Setup pandoc"
         uses: r-lib/actions/setup-pandoc@v2
-        
+
+      - run: which pandoc
+
       - name: check Quarto
         run: |
           (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"

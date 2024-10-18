@@ -49,14 +49,14 @@ jobs:
           profile: '"armyknives"'
           #bypass-cache: never
           #working-directory: "quarto/data/1_swiss_army_knives/"
-          cache-version: 2
+          cache-version: 3
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       
       - name: check Quarto
         run: |
-          (ls -lrt /usr/local/bin/) || echo "chk dir"
+          (ls -lrt /opt/quarto/bin/) || echo "chk dir"
           (which R && which Rscript) || which Rscript || echo "check R path again"
           Rscript -e '.libPaths()'
           echo $R_LIBS_USER

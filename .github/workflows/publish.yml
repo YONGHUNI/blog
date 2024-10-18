@@ -56,11 +56,13 @@ jobs:
       
       - name: check Quarto
         run: |
+          ls -lrt /usr/local/bin/quarto/bin/tools/
           (which R && which Rscript) || which Rscript || echo "check R path again"
           Rscript -e '.libPaths()'
+          Rscript -e 'library(shinylive)'
           quarto check
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
-
+          
       - name: install quarto dependency
         run: quarto add quarto-ext/shinylive --no-prompt #&& quarto add r-wasm/quarto-live --no-prompt
 

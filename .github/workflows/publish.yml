@@ -76,6 +76,8 @@ jobs:
           git config --global user.email 'dydgns0556@gmail.com'
           git add _freeze
           ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
+        
+      - run: sudo chmod -R u+w /home/runner/work/blog/blog/
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

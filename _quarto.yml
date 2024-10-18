@@ -52,8 +52,8 @@ format:
 execute:
   freeze: auto
 
-filters:
-  - ./misc/quarto-version.lua
+#filters:
+#  - ./misc/quarto-version.lua
 
 #editor: visual
 

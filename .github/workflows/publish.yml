@@ -53,6 +53,7 @@ jobs:
 
       - name: "Setup pandoc"
         uses: r-lib/actions/setup-pandoc@v2
+        with: pandoc-version: latest
 
       - run: |
           which pandoc

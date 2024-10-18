@@ -6,7 +6,7 @@ categories: [Code]
 #image: 
 #engine: knitr
 format: 
-  live-html:
+  html:
     #page-layout: full
     ##https://quarto.org/docs/authoring/article-layout.html
     toc: false

@@ -1,7 +1,7 @@
 ---
-title: "Quarto-shinylive & Quartolive Testdrive"
+title: "A Testdrive of Quarto-Shinylive & Quartolive"
 author: "Yonghun Suh"
-date: "Oct 17, 2024"
+date: "Oct 18, 2024"
 categories: [Code]
 image: https://hypebright.nl/wp-content/uploads/2023/09/shinylive-blog-2-930x620.png
 #engine: knitr
@@ -36,6 +36,25 @@ filters:
 
 
 # Quarto-Shinylive
+
+Shinylive allows you to run Shiny applications entirely in a web browser, without the need for a separate server running Python.
+
+The traditional way of deploying Shiny involves in a separate server and client: the server runs Python and Shiny, and clients connect via the web browser. Each client keeps an open websocket connection as long as they are using the application.
+
+![](https://shiny.posit.co/py/docs/shinylive-shiny-deployment-model.png){width=100%}
+
+
+When an application is deployed with Shinylive, Python and Shiny run in the web browser: the browser is effectively both the client and server for the application. There is a web server that serves files, but it does not run Python or Shiny—it can be a “dumb” static web server.
+
+![](https://shiny.posit.co/py/docs/shinylive-shinylive-deployment-model.png){width=100%}
+
+However, there's a downside. The overhead **i.e.,** the speed for configuring the web browser of local machine is painfully slow.
+
+This example takes up to `50 seconds` for the loading. So, please be patient.
+
+
+I render this post using [GitHub Actions](https://github.com/YONGHUNI/blog/actions/runs/11403350650){target="_blank"} only. So you can reproduce this by just forking/cloning [this repository](https://github.com/YONGHUNI/blog){target="_blank"}.
+
 
 ## Locations of Earthquakes off Fiji
 
@@ -146,46 +165,34 @@ You can play around with it. Plus, you can modify the code for a better understa
 ```{webr}
 ### You can play ALL by YOURSELF!
 
-
 print("Hello quarto-live world!")
 
 
-
-{
-  # set seed for reproducability
-  set.seed(10)
-  givne_num <- sample(1:999, 20)
-}
-
-
+# set seed for reproducability
+set.seed(10)
+givne_num <- sample(1:999, 20)
 
 
 # merge two sorted array
 merge <- function(a, b) {
-  
+    
   # create temp array
   temp <- numeric(length(a) + length(b))
-  
   
   # array a, array b, setting the init value of temp array index i 
   a_i <- 1
   b_i <- 1
   temp_i <- 1
   
-  
   # loop through till the index temp_i reaches length of the temp array
   for(temp_i in 1 : length(temp)) {
-    
+      
     # if
     # the index of `a` does not exceedes the length of `a`(a present)
     # a[a_i] < b[b_i]  or,
     
-      
     # the index of `b` does exceedes the length of `b`(i.e., b does not presnt)
-    if((a_i <= length(a) &&
-        a[a_i] < b[b_i]) ||
-       b_i > length(b)) {
-      
+    if((a_i <= length(a) && a[a_i] < b[b_i]) || b_i > length(b)) {
       
       # assign an element of `a[a_i]` into temp[a_i], then i++ the index of `a`
       temp[temp_i] <- a[a_i]
@@ -195,7 +202,6 @@ merge <- function(a, b) {
     # else
     else {
       
-
       # assign b[b_i] into temp[temp_i] then i++ the index
       temp[temp_i] <- b[b_i]
       b_i <- b_i + 1      
@@ -207,26 +213,19 @@ merge <- function(a, b) {
   return(temp)
 }
 
-
-
-
 # merge sort algorithm(splitting included) - recursive function
 mergesort <- function(arr) {
-  
-
+ 
   # if length of the given array exceeds 1 then
   if(length(arr) > 1) {
     
-    # 분할할 중간 지점
     # midpoint for the split
     # e.g., an array size of 5: celing(5/2) = 3
     half <- ceiling(length(arr)/2)
     
-    
     # calling recursive function: split untill the single element then sort
     # 1 to midpoint
     a <- mergesort(arr[1:half])
-    
     
     # midpoint+1 to last
     b <- mergesort(arr[(half+1):length(arr)])
@@ -243,8 +242,6 @@ mergesort <- function(arr) {
 }
 
 
-
-
 minmax <- function(arr){
   
   temp <- mergesort(arr)
@@ -257,40 +254,14 @@ minmax <- function(arr){
 # function call
 output <- minmax(givne_num)
 
-
-
 # max
 output$max
-
 # min
 output$min
-
-
 
 # Use the R built-in function to check the answer
 max(givne_num)
 min(givne_num)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ###
 ```

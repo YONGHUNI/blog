@@ -56,7 +56,7 @@ jobs:
       
       - name: check Quarto
         run: |
-          (ls -lrt /opt/quarto/bin/) || echo "chk dir"
+          (ls -lrt /opt/quarto/bin/tools/) || echo "chk dir"
           (which R && which Rscript) || which Rscript || echo "check R path again"
           Rscript -e '.libPaths()'
           echo $R_LIBS_USER
@@ -65,7 +65,7 @@ jobs:
           (which quarto && quarto --version && quarto pandoc --version) || echo "no quarto detected"
           
       - name: install quarto dependency
-        run: quarto add quarto-ext/shinylive --no-prompt #&& quarto add r-wasm/quarto-live --no-prompt
+        run: quarto add quarto-ext/shinylive --no-prompt && quarto add r-wasm/quarto-live --no-prompt
 
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons

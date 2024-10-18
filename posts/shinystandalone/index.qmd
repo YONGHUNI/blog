@@ -4,7 +4,7 @@ author: "Yonghun Suh"
 date: "Oct 17, 2024"
 categories: [Code]
 #image: 
-engine: knitr
+#engine: knitr
 format: 
   live-html:
     #page-layout: full

@@ -9,7 +9,7 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     permissions:
-      #actions: write
+      actions: write
       contents: write
     steps:
       - name: Check out repository
@@ -89,7 +89,6 @@ jobs:
         
       - run: |
           sudo chmod -R 777 /home/runner/work/blog/blog
-          sudo chown $USER /root/.cache/shinylive
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

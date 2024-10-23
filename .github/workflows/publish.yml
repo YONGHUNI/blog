@@ -86,4 +86,13 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /root/.cache/shinylive
+            /home/runner/.cache/shinylive
+          key: ${{ runner.os }}-shinylive-${{ hashFiles('**/shinystandalone/index.qmd') }}
           

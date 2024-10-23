@@ -70,7 +70,7 @@ end
 -- @param input: string to pipe into to r-shinylive
 function callRShinylive(args, input)
   args = { "-e",
-    ".libPaths(new = c('/home/runner/.cache/R/renv/sandbox/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu/22bdb599','/home/runner/work/blog/blog/renv/profiles/armyknives/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu')); renv::activate(profile = 'armyknives'); shinylive::assets_download(dir = '/home/runner/.cache/shinylive'); shinylive:::quarto_ext()",
+    ".libPaths(new = c('/home/runner/.cache/R/renv/sandbox/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu/22bdb599','/home/runner/work/blog/blog/renv/profiles/armyknives/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu')); renv::activate(profile = 'armyknives'); shinylive:::quarto_ext()",
     table.unpack(args) }
 
   -- Try calling `pandoc.pipe('Rscript', ...)` and if it fails, print a message

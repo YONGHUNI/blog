@@ -87,7 +87,9 @@ jobs:
           git add -f _freeze .quarto
           ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
         
-      - run: sudo chmod -R 777 /home/runner/work/blog/blog
+      - run: |
+          sudo chmod -R 777 /home/runner/work/blog/blog
+          sudo chmod -R 777 /root/.cache
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

@@ -89,7 +89,7 @@ jobs:
         
       - run: |
           sudo chmod -R 777 /home/runner/work/blog/blog
-          sudo chmod -R 777 /root/.cache
+          sudo chown $USER /root/.cache/shinylive
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

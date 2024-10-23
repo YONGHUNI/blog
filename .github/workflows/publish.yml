@@ -66,7 +66,16 @@ jobs:
         #  version: pre-release
 
       #- run: sudo cp -f /opt/hostedtoolcache/pandoc/3.5/x64/pandoc /opt/quarto/bin/tools/
-        
+      
+      - name: Restore cached shinylive dependencies
+        id: cache-shinylive-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /root/.cache/shinylive
+            /home/runner/.cache/shinylive
+          key: ${{ runner.os }}-shinylive-${{ hashFiles('**/shinystandalone/index.qmd') }}
+
       - name: Quarto render - to inspect rendering cache
         run: sudo quarto render ./posts/ --use-freezer
       
@@ -86,13 +95,13 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Restore cached Primes
-        id: cache-primes-restore
-        uses: actions/cache/restore@v4
+
+      - name: Save cache
+        id: cache-shinylive-save
+        uses: actions/cache/save@v4
         with:
           path: |
             /root/.cache/shinylive
             /home/runner/.cache/shinylive
-          key: ${{ runner.os }}-shinylive-${{ hashFiles('**/shinystandalone/index.qmd') }}
+          key: ${{ steps.cache-shinylive-restore.outputs.cache-primary-key }}
           

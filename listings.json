@@ -2,10 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/shinystandalone/index.html",
       "/posts/pyenvsetting/index.html",
-      "/posts/envsetting/index.html",
-      "/posts/update/index.html"
+      "/posts/update/index.html",
+      "/posts/envsetting/index.html"
     ]
   }
 ]

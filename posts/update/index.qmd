@@ -7,8 +7,6 @@ categories: [news]
 image: "https://upload.wikimedia.org/wikipedia/commons/c/c0/Coming_Soon_Under_Construction.jpg"
 ---
 
-
-![](https://upload.wikimedia.org/wikipedia/commons/c/c0/Coming_Soon_Under_Construction.jpg){width=100%}
-
+![](./data/comingsoon.png){width="100%"}
 
 More update will soon be followed! Stay tuned!

@@ -26,7 +26,7 @@ jobs:
           version: 1
       
       - name: Install mamba environment
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: pyenv/base/environment.yml
           #init-shell: bash
@@ -43,7 +43,7 @@ jobs:
         uses: r-lib/actions/setup-r@v2
         with:
           Ncpus: '4'
-          r-version: '4.4.1'
+          r-version: '4.5.0'
 
       - name: Install R dependency
         uses: r-lib/actions/setup-renv@v2
@@ -59,18 +59,19 @@ jobs:
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
       - name: Quarto render - to inspect rendering cache
-        run: quarto render ./posts/ --use-freezer
+        run: quarto render ./ --use-freezer
       
       - name: Push Quarto render cache if diff detected
         run: |
           git config --global user.name 'YONGHUNI'
           git config --global user.email 'dydgns0556@gmail.com'
-          git add _freeze
+          git add -f _freeze
           ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -43,7 +43,7 @@ library(reticulate)
 if (Sys.info()[[1]]=="Windows") {
         
     # For my Windows Environment
-    use_condaenv("C:\\Users\\dydgn\\anaconda3\\envs\\baseline\\python.exe", required = TRUE)    
+    use_condaenv("C:\\Users\\dydgn\\miniforge3\\envs\\baseline\\python.exe", required = TRUE)    
     
     } else{
     
@@ -262,21 +262,21 @@ tmap_mode("view")
 test[test==0]=NA
 
 {
-  tm_basemap(c("OpenStreetMap.HOT",
-               "https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}",
-               "https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}"),
-             group = list(c("OpenStreetMap.HOT",
-                       "Google Satellite Imagery w/ label",
-                       "Google Satellite Imagery wo/ label"))) +
-    tm_shape(test)  +                                  
-    tm_raster(title = "Max Rainfall Intensity[mm/hr]",
-              palette = "-Spectral",
-              style = "cont") -> themap
+    tm_basemap("OpenStreetMap.HOT", group = "Open Street Map - HOT")+
+        tm_basemap("https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}", group = "Google Satellite Imagery w/ label")+
+        tm_basemap("https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}", group = "Google Satellite Imagery wo/ label")+
+        tm_shape(test)  +                                  
+        tm_raster(
+            col.legend = tm_legend(title = "Max Rainfall Intensity [mm/hr]"),
+            col.scale = tm_scale_continuous(
+                values = "-spectral",
+                ),
+            group = "Rainfall" ) -> themap
   
   
   
-  tmap_leaflet(themap)|>
-    addMouseCoordinates()
+      tmap_leaflet(themap)|>
+          addMouseCoordinates()
   
 }
 

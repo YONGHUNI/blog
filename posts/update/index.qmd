@@ -4,7 +4,7 @@ author: "Yonghun Suh"
 date: "Oct 7, 2024"
 #categories: [news, code, analysis]
 categories: [news]
-image: "https://upload.wikimedia.org/wikipedia/commons/c/c0/Coming_Soon_Under_Construction.jpg"
+image: "./data/comingsoon.png"
 ---
 
 ![](./data/comingsoon.png){width="100%"}

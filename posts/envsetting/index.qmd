@@ -67,25 +67,21 @@ park_list <- read_sf("./data/test.gpkg") %>%
     select(공원명,소재지지번주소)
 
 {
-  tm_basemap(c("OpenStreetMap.HOT",
-               "https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}",
-               "https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}"),
-             group = list(c("OpenStreetMap.HOT",
-                       "Google Satellite Imagery w/ label",
-                       "Google Satellite Imagery wo/ label"))) +
-    tm_shape(park_list)  +                                  
-    tm_dots(size=.1,
-            col = "red", 
-            border.col="white",
-            border.lwd=3,
-            id="name") -> themap
+    tm_basemap("OpenStreetMap.HOT", group = "Open Street Map - HOT")+
+        tm_basemap("https://mt1.google.com/vt/lyrs=y&hl=en&z={z}&x={x}&y={y}", group = "Google Satellite Imagery w/ label")+
+        tm_basemap("https://mt1.google.com/vt/lyrs=s&hl=en&z={z}&x={x}&y={y}", group = "Google Satellite Imagery wo/ label")+
+        tm_shape(park_list)  +                                  
+        tm_dots(size=.5,
+                fill = "red",
+                id="공원명") -> themap
   
   
   
-  tmap_leaflet(themap)|>
-    addMouseCoordinates()
+    tmap_leaflet(themap)|>
+        addMouseCoordinates()
   
 }
+
 
 ```
 

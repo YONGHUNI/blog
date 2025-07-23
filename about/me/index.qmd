@@ -6,12 +6,12 @@ about:
   image: https://avatars.githubusercontent.com/u/62800337?v=4
   template: trestles
   links:
+    - icon: envelope-at
+      text: Email
+      href: mailto:%73%75%68%79%6f%6e%67%68%75%6e%40%67%6d%61%69%6c%2e%63%6f%6d
     - text: "{{< ai orcid >}}  ORCID"
       href: https://orcid.org/0009-0003-6800-2731
       target: _blank
-#    - icon: linkedin
-#      text: LinkedIn
-#      href: https://linkedin.com
     - icon: github
       text: Github
       href: https://github.com/YONGHUNI
@@ -27,13 +27,20 @@ format:
 :::{#hero-heading}
 # About Me
 
-I am a system administrator of two GPU clusters in the Office of Information & Computing Center, at College of Engineering, Seoul National University (SNU). I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
+
+
+
+
+I’m currently an intern in the **[Data Science for Humanity Group](https://www.mpi-sp.org/cha){target="_blank"}** at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing. I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
 
 I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I've published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.
 
-In addition to my research, I'm involved in a community-based air quality project at the State University of New York at Buffalo([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html)) and manage GPU clusters for the College of Engineering at SNU. I'm skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.
+In addition to my research, I'm involved in a community-based air quality project at the State University of New York at Buffalo([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"}). I'm skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.
+
+
+
 
 :::
 
@@ -179,7 +186,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 You can either view or [download](https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh_240912.pdf){target="_blank"} my CV here!
 
-![](/data/about/CV_Yonghun_Suh_240912.pdf){width="100%" height="1000px"}
+![](/data/about/CV_Yonghun_Suh.pdf){width="100%" height="1000px"}
 
 
 

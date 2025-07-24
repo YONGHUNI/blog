@@ -2,7 +2,7 @@
 title: "Yonghun Suh"
 subtitle: "*Enabling HPC in Geography*"
 resources:
-  - /data/about/CV_Yonghun_Suh.pdf
+  - ./data/CV_Yonghun_Suh.pdf
 about:
   id: hero-heading
   image: https://avatars.githubusercontent.com/u/62800337?v=4
@@ -22,7 +22,7 @@ format:
   html:
     page-layout: full
     lightbox: true
-    css: /data/about/grid.css
+    css: data/grid.css
     self-contained: false
     embed-resources: true
     
@@ -83,7 +83,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 <div>
 
-![](/data/about/publication_figure/landslide.PNG)
+![](data/publication_figure/landslide.PNG)
 
 
 </div>
@@ -112,7 +112,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 <div>
     
 
-![](/data/about/publication_figure/PBS.PNG)
+![](data/publication_figure/PBS.PNG)
     
 
 </div>
@@ -140,7 +140,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 <div>
 
 
-![](/data/about/publication_figure/dasymetric.PNG)
+![](data/publication_figure/dasymetric.PNG)
 
 
 </div>
@@ -170,7 +170,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 <div>
 
 
-![](/data/about/publication_figure/heatwave_vulnerability.PNG)
+![](data/publication_figure/heatwave_vulnerability.PNG)
 
 
 </div>
@@ -197,12 +197,12 @@ Feel free to check out my CV below! ![](https://partyparrotasaservice.vercel.app
 
 
 <object 
-  data="/data/about/CV_Yonghun_Suh.pdf" 
+  data="./data/CV_Yonghun_Suh.pdf" 
   type="application/pdf" 
   width="100%" 
   height="1000px">
   If the PDF is not visible on mobile, 
-  <a href="https://github.com/YONGHUNI/blog/blob/main/data/about/CV_Yonghun_Suh.pdf?raw=true">click here</a>.
+  <a href="https://github.com/YONGHUNI/blog/blob/main/about/me/data/CV_Yonghun_Suh.pdf?raw=true">click here</a>.
 </object>
 
 

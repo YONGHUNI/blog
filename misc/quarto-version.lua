@@ -9,10 +9,14 @@ function getOS()
 	if fh then
 		osname = fh:read()
 	end
-
-  local handle = io.popen("ver")
-  local version = handle:read("*a")
-  handle:close()
+	
+	if osname then
+	    return osname
+	end
+	
+	local handle = io.popen("ver")
+    local version = handle:read("*a")
+    handle:close()
 
 	return osname or version
 end

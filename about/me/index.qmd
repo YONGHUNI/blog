@@ -191,7 +191,7 @@ Feel free to check out my CV below! ![](https://partyparrotasaservice.vercel.app
 
 
 <object 
-  data="../../data/about/CV_Yonghun_Suh.pdf" 
+  data="/data/about/CV_Yonghun_Suh.pdf" 
   type="application/pdf" 
   width="100%" 
   height="1000px">

@@ -22,6 +22,9 @@ format:
     lightbox: true
     css: /data/about/grid.css
     embed-resources: true
+resources:
+  - /data/about/CV_Yonghun_Suh.pdf
+
 
     
 ---

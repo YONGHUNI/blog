@@ -59,7 +59,7 @@ jobs:
         #- name: Install quarto extension
         #run: quarto install --no-prompt extension schochastics/academicons
       - name: Quarto render - to inspect rendering cache
-        run: quarto render ./ --use-freezer
+        run: quarto render ./ --execute-debug
       
       - name: Push Quarto render cache if diff detected
         run: |

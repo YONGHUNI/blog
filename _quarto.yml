@@ -48,7 +48,9 @@ format:
       light: cosmo #sketchy
       dark: [cosmo, ./misc/theme-dark.scss]
     css: ./misc/styles.css
-    
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
 execute:
   freeze: auto
 

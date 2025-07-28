@@ -190,7 +190,7 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 # CV
 
-You can either view or [download](https://github.com/YONGHUNI/blog/blob/main/about/me/data/CV_Yonghun_Suh.pdf?raw=true){target="_blank"} my CV here! <img src="./data/partyparrot.gif" alt="" width="25px" height="25px" style="vertical-align: middle;" />
+You can either view or [download](https://yonghuni.github.io/blog/about/me/data/CV_Yonghun_Suh.pdf){target="_blank"} my CV here! <img src="./data/partyparrot.gif" alt="" width="25px" height="25px" style="vertical-align: middle;" />
 
 
 ![](./data/CV_Yonghun_Suh.pdf){width="100%" height="1000px"}

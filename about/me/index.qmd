@@ -37,7 +37,7 @@ format:
 
 
 
-I’m currently an intern in the **[Data Science for Humanity Group](https://www.mpi-sp.org/cha){target="_blank"}** at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing. I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
+I’m currently an intern in the **[Data Science for Humanity Group](https://www.mpi-sp.org/cha){target="_blank"}** at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment. I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
 

@@ -23,176 +23,136 @@ format:
     css: data/grid.css
     self-contained: false
     embed-resources: true
-    
-
-
-
-    
 ---
 
-:::{#hero-heading}
+::: {#hero-heading}
 # About Me
 
-
-
-
-
-I’m currently an intern in the **[Data Science for Humanity Group](https://www.mpi-sp.org/cha){target="_blank"}** at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment. I finished my master's in Geography at SNU in Feb. 2024, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
+I’m currently a research intern at the [**Data Science for Humanity Group**](https://www.mpi-sp.org/cha){target="_blank"} at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment.
 
 I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
 
-I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I've published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution.
+I earned my Master’s degree in Geography from Seoul National University, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I've published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution on active transportation.
 
 In addition to my research, I'm involved in a community-based air quality project at the State University of New York at Buffalo([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"}). I'm skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.
-
-
-
-
 :::
-
 
 # Education
 
 ## Seoul National University
 
-#### Seoul, South Korea | Sept 2021 – Feb 2024
+#### Seoul, South Korea \| Sept 2021 – Feb 2024
 
-* M.A. in Geography
-
+-   M.A. in Geography
+    -   Thesis: Real-time Landslide Susceptibility Monitoring Using Spatio-temporal High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach ([available in Korean](https://s-space.snu.ac.kr/handle/10371/210790){target="_blank"})
+    -   Advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}
 
 ## Kongju National University
 
-#### South Chungcheong Province, South Korea | Mar 2015 – Aug 2021
-* B.A.  in Geography
-* B.Sc. in Atmospheric Science
+#### South Chungcheong Province, South Korea \| Mar 2015 – Aug 2021
+
+-   B.A. in Geography
+-   B.Sc. in Atmospheric Science
 
 \
 
 # Research Highlights
 
-
 ## Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach
 
 \
 
-
-::: {.grid}
-
-
+::::: grid
 <div>
 
 ![](data/publication_figure/landslide.PNG)
 
-
 </div>
-
 
 <div>
-* This study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.
 
-* The findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.
+-   This study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.
 
-* [Published](https://journal.cartography.or.kr/articles/article/GmX8/){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
+-   The findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.
 
+-   [Published](https://journal.cartography.or.kr/articles/article/GmX8/){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 </div>
-
-:::
-
+:::::
 
 \
 
 ## Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis
+
 \
 
-::: {.grid}
-
+::::: grid
 <div>
-    
 
 ![](data/publication_figure/PBS.PNG)
-    
 
 </div>
 
 <div>
-    
-* This study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.
 
-* The analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.
+-   This study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.
 
-* [Published](https://doi.org/10.1016/j.socscimed.2024.117030){target="_blank"} in *Social Science & Medicine* with [Dr. Eun-Hye Yoo](https://scholar.google.com/citations?user=eDHJqA8AAAAJ&hl=en&oi=sra){target="_blank"} and [Dr. John E. Roberts](https://scholar.google.com/citations?user=KaPG9wwAAAAJ&hl=en&oi=sra){target="_blank"}.
+-   The analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.
 
+-   [Published](https://doi.org/10.1016/j.socscimed.2024.117030){target="_blank"} in *Social Science & Medicine* with [Dr. Eun-Hye Yoo](https://scholar.google.com/citations?user=eDHJqA8AAAAJ&hl=en&oi=sra){target="_blank"} and [Dr. John E. Roberts](https://scholar.google.com/citations?user=KaPG9wwAAAAJ&hl=en&oi=sra){target="_blank"}.
 
 </div>
-
-:::
+:::::
 
 \
 
 ## Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR
+
 \
 
-::: {.grid}
-
+::::: grid
 <div>
-
 
 ![](data/publication_figure/dasymetric.PNG)
 
-
 </div>
 
 <div>
 
-
-* This study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.
-* By utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.
-* [Published](https://journal.cartography.or.kr/articles/article/Ad7w/#Abstract){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
+-   This study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.
+-   By utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.
+-   [Published](https://journal.cartography.or.kr/articles/article/Ad7w/#Abstract){target="_blank"} in *Journal of the Korean Cartographic Association* with [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}.
 
 </div>
-
-
-:::
+:::::
 
 \
-
-
 
 ## Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population
 
 \
 
-::: {.grid}
-
+::::: grid
 <div>
-
 
 ![](data/publication_figure/heatwave_vulnerability.PNG)
 
-
 </div>
 
 <div>
 
-
-* This study aimed to identify vulnerable areas and inform heatwave policy decisions.
-* It examined vulnerability using local Bi-var Moran's I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.
-* The findings were presented at the *2022 Annual Conference of the Korean Geographical Society*.
+-   This study aimed to identify vulnerable areas and inform heatwave policy decisions.
+-   It examined vulnerability using local Bi-var Moran's I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.
+-   The findings were presented at the *2022 Annual Conference of the Korean Geographical Society*.
 
 </div>
-
-:::
+:::::
 
 \
 \
-
 
 # CV
 
-You can either view or [download](https://yonghuni.github.io/blog/about/me/data/CV_Yonghun_Suh.pdf){target="_blank"} my CV here! <img src="./data/partyparrot.gif" alt="" width="25px" height="25px" style="vertical-align: middle;" />
-
+You can either view or [download](https://yonghuni.github.io/blog/about/me/data/CV_Yonghun_Suh.pdf){target="_blank"} my CV here! <img src="./data/partyparrot.gif" width="25px" height="25px" style="vertical-align: middle;"/>
 
 ![](./data/CV_Yonghun_Suh.pdf){width="100%" height="1000px"}
-
-

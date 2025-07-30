@@ -20,8 +20,12 @@ jobs:
         uses: awalsh128/cache-apt-pkgs-action@latest
         with: 
           packages: >- 
-            libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
-            libudunits2-dev libgdal-dev libmagick++-dev
+            cmake gdal-bin gsfonts libcurl4-openssl-dev 
+            libfontconfig1-dev libfreetype6-dev libgdal-dev 
+            libgeos-dev libjpeg-dev libmagick++-dev libpng-dev 
+            libudunits2-dev libx11-dev pandoc libharfbuzz-dev 
+            libfribidi-dev 
+
           #execute_install_scripts: true
           version: 1
       

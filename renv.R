@@ -16,6 +16,11 @@ library(vip)
 library(fastshap)
 library(treeshap)
 
+library(torch)
+library(torchvision)
+library(torchdatasets)
+library(torchvisionlib)
+
 library(spatialreg)
 library(sfdep)
 library(spdep)
@@ -44,9 +49,6 @@ library(terra)
 library(tidyterra)
 
 
-library(reticulate)
-library(JuliaCall)
-
 library(magick)
 library(gganimate)
 
@@ -61,12 +63,19 @@ library(leafem)
 library(shapviz)
 
 
-
+library(reticulate)
+library(JuliaCall)
+library(Rcpp)
+library(RcppParallel)
+library(RcppProgress)
+library(RcppArmadillo)
+library(RcppEigen)
 
 #setwd("C:/Users/dydgn/OneDrive/blog/quarto")
-#renv::activate(profile = "armyknives")
-#renv::snapshot()
-#renv::deactivate(clean = F)
-#renv::deactivate(clean = T)
+# renv::init(profile = "armyknives")
+# renv::activate(profile = "armyknives")
+# renv::snapshot()
+# renv::deactivate(clean = F)
+# renv::deactivate(clean = T)
 
 

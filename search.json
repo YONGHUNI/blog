@@ -74,7 +74,7 @@
     "href": "about/me/index.html",
     "title": "Yonghun Suh",
     "section": "",
-    "text": "Email\n  \n  \n      ORCID\n  \n  \n    \n     Github\n  \n\n  \n  \n\n\nI’m currently a research intern at the Data Science for Humanity Group at the Max Planck Institute for Security and Privacy, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment.\nI am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.\nI earned my Master’s degree in Geography from Seoul National University, advised by Dr. Gunhak Lee. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution on active transportation.\nIn addition to my research, I’m involved in a community-based air quality project at the State University of New York at Buffalo(UB Clean Air). I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software."
+    "text": "Email\n  \n  \n      ORCID\n  \n  \n    \n     Github\n  \n  \n    \n     CV\n  \n\n  \n  \n\n\nI’m currently a research intern at the Data Science for Humanity Group at the Max Planck Institute for Security and Privacy, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment.\nI am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.\nI earned my Master’s degree in Geography from Seoul National University, advised by Dr. Gunhak Lee. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I’ve published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution on active transportation.\nIn addition to my research, I’m involved in a community-based air quality project at the State University of New York at Buffalo(UB Clean Air). I’m skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software."
   },
   {
     "objectID": "about/me/index.html#seoul-national-university",
@@ -89,6 +89,13 @@
     "title": "Yonghun Suh",
     "section": "Kongju National University",
     "text": "Kongju National University\n\nSouth Chungcheong Province, South Korea | Mar 2015 – Aug 2021\n\nB.A. in Geography\nB.Sc. in Atmospheric Science"
+  },
+  {
+    "objectID": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
+    "href": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
+    "title": "Yonghun Suh",
+    "section": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring",
+    "text": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring\n\n\n\n\n\n\n\n\nThis project deployed 30 low-cost air sensors across East Buffalo to capture hyperlocal PM2.5 data, revealing pollution patterns overlooked by official monitors.\nA community-designed dashboard improved real-time access to air quality data, supporting environmental awareness and public health equity.\nThe findings were presented at the Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025).\nLinks to the Poster & Source Code"
   },
   {
     "objectID": "about/me/index.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",

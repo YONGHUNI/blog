@@ -16,6 +16,10 @@ about:
       text: Github
       href: https://github.com/YONGHUNI
       target: _blank
+    - icon: person-vcard-fill
+      text: CV
+      href: https://yonghuni.github.io/blog/about/me/data/CV_Yonghun_Suh.pdf
+      target: _blank
 format: 
   html:
     page-layout: full
@@ -57,6 +61,32 @@ In addition to my research, I'm involved in a community-based air quality projec
 \
 
 # Research Highlights
+
+## From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring
+
+\
+
+::::: grid
+<div>
+
+![](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/Dashboard.png?raw=true)
+
+</div>
+
+<div>
+
+-   This project deployed 30 low-cost air sensors across East Buffalo to capture hyperlocal PM2.5 data, revealing pollution patterns overlooked by official monitors.
+
+-   A community-designed dashboard improved real-time access to air quality data, supporting environmental awareness and public health equity.
+
+-   The findings were presented at the *Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025)*.
+
+-   Links to the [Poster](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/Creating_Dashboards_for_Buffalo_African_American_Community_based_Participatory_Air_Monitoring_final.pdf?raw=true){target="_blank"} \& [Source Code](https://github.com/YONGHUNI/Breathe-Buffalo){target="_blank"}
+
+</div>
+:::::
+
+\
 
 ## Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach
 

@@ -67,15 +67,22 @@ In addition to my research, I'm involved in a community-based air quality projec
 \
 
 ::::: grid
+
 <div>
 
-![](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/Dashboard.png?raw=true)
+::: {#UBcleanAir layout-ncol=2 style="text-align: center;"}
+
+![Breathe Buffalo: UB Air Quality Monitoring Dashboard](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/Dashboard.png?raw=true)
+
+![Architecture Overview](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/BB_diagram.drawio_DB.png?raw=true){width=60%}
+
+:::
 
 </div>
 
 <div>
 
--   This project deployed 30 low-cost air sensors across East Buffalo to capture hyperlocal PM2.5 data, revealing pollution patterns overlooked by official monitors.
+-   [This project](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"} deployed 30 low-cost air sensors across East Buffalo to capture local PM2.5 data, revealing pollution patterns overlooked by official monitors.
 
 -   A community-designed dashboard improved real-time access to air quality data, supporting environmental awareness and public health equity.
 

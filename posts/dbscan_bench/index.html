@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Yonghun Suh">
+<meta name="dcterms.date" content="2025-09-09">
+<title>How to boost a DBSCAN task – Yonghun’s Computational Geo-Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//data/_quarto/favicon/geography-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d3b1631f4722382dd39bbee6576dd6ee.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-301f078a9ada584aacf72e3abf6cdb20.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-d3b1631f4722382dd39bbee6576dd6ee.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script>
+//https://jihongzhang.org/posts/2023-06-26-moving-to-quarto/
+function getGiscusTheme() {
+  const quartoTheme = localStorage.getItem("quarto-color-scheme");
+  const giscusTheme = quartoTheme === "alternate" ? "dark" : "light";
+  return giscusTheme;
+}
+
+function setGiscusTheme() {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(),
+    },
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const giscusAttributes = {
+    "src": "https://giscus.app/client.js",
+    "data-repo": "YONGHUNI/blog",
+    "data-repo-id": "R_kgDOM8VPhg",
+    "data-category": "General",
+    "data-category-id": "DIC_kwDOM8VPhs4CjHhk",
+    "data-mapping": "title",
+    "data-strict": "0",
+    "data-reactions-enabled": "1",
+    "data-emit-metadata": "1",
+    "data-input-position": "top",
+    "data-theme": getGiscusTheme(),
+    "data-lang": "en",
+    "crossorigin": "anonymous",
+    "async": "",
+  };
+
+  // Dynamically create script tag
+  const giscusScript = document.createElement("script");
+  Object.entries(giscusAttributes).forEach(([key, value]) => giscusScript.setAttribute(key, value));
+  document.body.appendChild(giscusScript);
+
+  // Update giscus theme when theme switcher is clicked
+  const toggle = document.querySelector('.quarto-color-scheme-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', setGiscusTheme);
+  }
+});
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="../../misc/styles.css">
+</head>
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Yonghun’s Computational Geo-Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../#category=news"> 
+<span class="menu-text">News</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Code"> 
+<span class="menu-text">Code</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../#category=Research"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">
+<li>
+    <a class="dropdown-item" href="../../about/me/index.html">
+ <span class="dropdown-text">Me</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../about/blog/index.html">
+ <span class="dropdown-text">This Blog</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0009-0003-6800-2731" target="_blank"> 
+<span class="menu-text"><i class="ai  ai-orcid"></i></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">
+<li>
+    <a class="dropdown-item" href="https://github.com/YONGHUNI" target="_blank">
+ <span class="dropdown-text">My Profile</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/YONGHUNI/blog" target="_blank">
+ <span class="dropdown-text">Source Code</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">How to boost a DBSCAN task</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+            <p class="subtitle lead">Utilizing High Performance Library from Python</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Yonghun Suh </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 9, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#backdrop" id="toc-backdrop" class="nav-link active" data-scroll-target="#backdrop"><span class="header-section-number">1</span> Backdrop</a>
+  <ul class="collapse">
+<li><a href="#analyzing-complexity-factors" id="toc-analyzing-complexity-factors" class="nav-link" data-scroll-target="#analyzing-complexity-factors"><span class="header-section-number">1.1</span> <strong>Analyzing complexity factors</strong></a></li>
+  <li><a href="#dbscan-time-complexity" id="toc-dbscan-time-complexity" class="nav-link" data-scroll-target="#dbscan-time-complexity"><span class="header-section-number">1.2</span> DBSCAN time complexity</a></li>
+  <li><a href="#core-steps-and-cost-drivers" id="toc-core-steps-and-cost-drivers" class="nav-link" data-scroll-target="#core-steps-and-cost-drivers"><span class="header-section-number">1.3</span> Core steps and cost drivers</a></li>
+  <li>
+<a href="#complexity-by-neighborhood-search-strategy" id="toc-complexity-by-neighborhood-search-strategy" class="nav-link" data-scroll-target="#complexity-by-neighborhood-search-strategy"><span class="header-section-number">1.4</span> Complexity by neighborhood search strategy</a>
+  <ul class="collapse">
+<li><a href="#brute-force-no-index" id="toc-brute-force-no-index" class="nav-link" data-scroll-target="#brute-force-no-index"><span class="header-section-number">1.4.1</span> 1) Brute-force (no index)</a></li>
+  <li><a href="#space-partitioning-trees-kd-tree-ball-tree-r-tree-like" id="toc-space-partitioning-trees-kd-tree-ball-tree-r-tree-like" class="nav-link" data-scroll-target="#space-partitioning-trees-kd-tree-ball-tree-r-tree-like"><span class="header-section-number">1.4.2</span> 2) Space-partitioning trees (kd-tree, ball tree, R-tree-like)</a></li>
+  <li><a href="#uniform-grid-fixed-radius-hashing-in-low-dimensions" id="toc-uniform-grid-fixed-radius-hashing-in-low-dimensions" class="nav-link" data-scroll-target="#uniform-grid-fixed-radius-hashing-in-low-dimensions"><span class="header-section-number">1.4.3</span> 3) Uniform grid (fixed-radius hashing) in low dimensions</a></li>
+  </ul>
+</li>
+  <li><a href="#what-influences-the-runtime" id="toc-what-influences-the-runtime" class="nav-link" data-scroll-target="#what-influences-the-runtime"><span class="header-section-number">1.5</span> What influences the runtime</a></li>
+  <li><a href="#practical-scenarios" id="toc-practical-scenarios" class="nav-link" data-scroll-target="#practical-scenarios"><span class="header-section-number">1.6</span> Practical scenarios</a></li>
+  <li><a href="#solution-at-least-for-this-case" id="toc-solution-at-least-for-this-case" class="nav-link" data-scroll-target="#solution-at-least-for-this-case"><span class="header-section-number">1.7</span> Solution…? At least for this case :)</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#experiments" id="toc-experiments" class="nav-link" data-scroll-target="#experiments"><span class="header-section-number">2</span> Experiments</a>
+  <ul class="collapse">
+<li>
+<a href="#setups" id="toc-setups" class="nav-link" data-scroll-target="#setups"><span class="header-section-number">2.1</span> Setups</a>
+  <ul class="collapse">
+<li><a href="#used-r-packages" id="toc-used-r-packages" class="nav-link" data-scroll-target="#used-r-packages"><span class="header-section-number">2.1.1</span> Used R Packages</a></li>
+  <li><a href="#python-setup" id="toc-python-setup" class="nav-link" data-scroll-target="#python-setup"><span class="header-section-number">2.1.2</span> Python Setup</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#generated-lab-dataset" id="toc-generated-lab-dataset" class="nav-link" data-scroll-target="#generated-lab-dataset"><span class="header-section-number">2.2</span> Generated Lab Dataset</a>
+  <ul class="collapse">
+<li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r"><span class="header-section-number">2.2.1</span> R</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python"><span class="header-section-number">2.2.2</span> Python</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">2.2.3</span> Results</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#some-real-world-dataset" id="toc-some-real-world-dataset" class="nav-link" data-scroll-target="#some-real-world-dataset"><span class="header-section-number">2.3</span> Some Real World Dataset</a>
+  <ul class="collapse">
+<li><a href="#r-1" id="toc-r-1" class="nav-link" data-scroll-target="#r-1"><span class="header-section-number">2.3.1</span> R</a></li>
+  <li><a href="#python-1" id="toc-python-1" class="nav-link" data-scroll-target="#python-1"><span class="header-section-number">2.3.2</span> Python</a></li>
+  <li><a href="#results-1" id="toc-results-1" class="nav-link" data-scroll-target="#results-1"><span class="header-section-number">2.3.3</span> Results</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#take-home-message" id="toc-take-home-message" class="nav-link" data-scroll-target="#take-home-message"><span class="header-section-number">3</span> Take-home message</a>
+  <ul class="collapse">
+<li><a href="#dbscan-is-a-slow-algorithm" id="toc-dbscan-is-a-slow-algorithm" class="nav-link" data-scroll-target="#dbscan-is-a-slow-algorithm"><span class="header-section-number">3.1</span> DBSCAN is a slow algorithm</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="backdrop" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Backdrop</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="data/background.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Chat"><img src="data/background.jpg" class="img-fluid figure-img" style="width:80.0%" alt="Chat"></a></p>
+<figcaption>Chat</figcaption></figure>
+</div>
+<blockquote class="blockquote">
+<p>[Frodo, 2:37 PM] I’m working on finding representative points for census tracts using nationwide residential building data, weighted by the population of each tract.<br> [Frodo, 2:38 PM] But DBSCAN is taking forever lol, so I’m running it in parallel.<br> [Frodo, 2:38 PM] Using something like the future package in R.<br> [Yong-Hun Suh, 2:41 PM] Yeah, DBSCAN’s time complexity isn’t great…<br> [Yong-Hun Suh, 4:47 PM] Are you still working on that (DBSCAN)?<br> [Yong-Hun Suh, 4:47 PM] If it’s a project you’re going to continue, I can give you a tip…<br> [Frodo, 4:53 PM] Just fixed the code and running it now haha, results should come out in a <strong>few days</strong> if it’s fast.<br></p>
+</blockquote>
+<p>I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.</p>
+<section id="analyzing-complexity-factors" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="analyzing-complexity-factors">
+<span class="header-section-number">1.1</span> <strong>Analyzing complexity factors</strong>
+</h2>
+</section><section id="dbscan-time-complexity" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="dbscan-time-complexity">
+<span class="header-section-number">1.2</span> DBSCAN time complexity</h2>
+<p>DBSCAN’s runtime is dominated by how you perform neighborhood (range) queries. The classic “it’s <span class="math inline">\(O(n²)\)</span>” is only the worst case of a spectrum that depends on data distribution, dimensionality, the index used, and the radius parameter $ $.</p>
+<hr></section><section id="core-steps-and-cost-drivers" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="core-steps-and-cost-drivers">
+<span class="header-section-number">1.3</span> Core steps and cost drivers</h2>
+<ul>
+<li>
+<strong>Range queries:</strong> For each point, find all neighbors within radius $ $. Distance evaluation for one pair costs <span class="math inline">\(O(d)\)</span> in <span class="math inline">\(d\)</span>-dimensional Euclidean space.</li>
+<li>
+<strong>Cluster expansion:</strong> A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least $ $ neighbors within $ $).</li>
+</ul>
+<p>Asymptotically, the number and cost of range queries dominate; the expansion logic is linear in the number of discovered neighbors but tied to the same range-query results.</p>
+<hr></section><section id="complexity-by-neighborhood-search-strategy" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="complexity-by-neighborhood-search-strategy">
+<span class="header-section-number">1.4</span> Complexity by neighborhood search strategy</h2>
+<section id="brute-force-no-index" class="level3" data-number="1.4.1"><h3 data-number="1.4.1" class="anchored" data-anchor-id="brute-force-no-index">
+<span class="header-section-number">1.4.1</span> 1) Brute-force (no index)</h3>
+<ul>
+<li>Per range query: compute distance to all points ⇒ <span class="math inline">\(O(n \cdot d)\)</span>.</li>
+<li>One query per point in the simplest implementation ⇒ <span class="math inline">\(O(n^2 \cdot d)\)</span>.</li>
+<li>Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains $ (n^2 d) $ in the worst case.</li>
+</ul></section><section id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like" class="level3" data-number="1.4.2"><h3 data-number="1.4.2" class="anchored" data-anchor-id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like">
+<span class="header-section-number">1.4.2</span> 2) Space-partitioning trees (kd-tree, ball tree, R-tree-like)</h3>
+<ul>
+<li>Index build: typically <span class="math inline">\(O(n \log n)\)</span> time, <span class="math inline">\(O(n)\)</span> space.</li>
+<li>Range query cost:
+<ul>
+<li>Best/average (well-behaved low–moderate <span class="math inline">\(d\)</span>, balanced tree, moderate $ $): <span class="math inline">\(O(\log n + k)\)</span>, where <span class="math inline">\(k\)</span> is the number of reported neighbors.</li>
+<li>Worst case (high <span class="math inline">\(d\)</span>, large $ $, or adversarial data): degenerates to <span class="math inline">\(O(n)\)</span>.</li>
+</ul>
+</li>
+<li>Overall:
+<ul>
+<li>Best/average: <span class="math inline">\(O(n \log n + \sum \limits_{i=1}^{n} (\log n + k_i)) = O(n \log n + K)\)</span>, where <span class="math inline">\(K = \sum k_i\)</span> is total neighbor reports. If density per query is bounded, <span class="math inline">\(K = O(n)\)</span>, giving <span class="math inline">\(O(n \log n)\)</span> plus distance cost factor <span class="math inline">\(O(d)\)</span>.</li>
+<li>Worst: <span class="math inline">\(O(n^2 \cdot d)\)</span>.</li>
+</ul>
+</li>
+</ul></section><section id="uniform-grid-fixed-radius-hashing-in-low-dimensions" class="level3" data-number="1.4.3"><h3 data-number="1.4.3" class="anchored" data-anchor-id="uniform-grid-fixed-radius-hashing-in-low-dimensions">
+<span class="header-section-number">1.4.3</span> 3) Uniform grid (fixed-radius hashing) in low dimensions</h3>
+<ul>
+<li>Build grid hashing once: expected <span class="math inline">\(O(n)\)</span>.</li>
+<li>Range query: constant number of adjacent cells, expected <span class="math inline">\(O(1 + k)\)</span> in 2D/3D if $ $ is aligned with cell size and data are not pathologically skewed.</li>
+<li>Overall in practice: near-linear <span class="math inline">\(O(n + K)\)</span>, again with distance cost <span class="math inline">\(O(d)\)</span>, but this approach becomes brittle as <span class="math inline">\(d\)</span> grows.</li>
+</ul>
+<blockquote class="blockquote">
+<p>In all cases, include the distance computation factor <span class="math inline">\(O(d)\)</span>. For high dimensions, tree and grid pruning effectiveness collapses, pushing complexity toward $ (n^2 d) $.</p>
+</blockquote>
+<hr></section></section><section id="what-influences-the-runtime" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="what-influences-the-runtime">
+<span class="header-section-number">1.5</span> What influences the runtime</h2>
+<ul>
+<li>
+<strong>Dimensionality <span class="math inline">\(d\)</span>:</strong> Distance costs scale with <span class="math inline">\(O(d)\)</span>, and index pruning degrades with the curse of dimensionality, often turning tree queries into <span class="math inline">\(O(n)\)</span>.</li>
+<li>
+<strong>Neighborhood radius $ $:</strong> Larger $ $ increases average neighbor count <span class="math inline">\(k\)</span>, raises <span class="math inline">\(K=\sum k_i\)</span>, and triggers more expansions; in the limit, most points neighbor each other ⇒ near <span class="math inline">\(O(n^2 \cdot d)\)</span>.</li>
+<li>
+<strong>Data distribution and density:</strong> Well-separated, roughly uniform, low-density data favor subquadratic performance with indexes. Dense clusters or large connected components increase expansions and repeats.</li>
+<li>
+<strong>minPts:</strong> Affects how many points become core (thus how much expansion occurs). It changes constants and practical behavior but not the worst-case big-O bound.</li>
+<li>
+<strong>Distance metric:</strong> Non-Euclidean metrics can alter pruning efficacy and per-distance cost.</li>
+<li>
+<strong>Implementation details:</strong> Caching of range queries, deduplication, and “expand only once per point” optimizations materially reduce constants.</li>
+</ul>
+<hr></section><section id="practical-scenarios" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="practical-scenarios">
+<span class="header-section-number">1.6</span> Practical scenarios</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Scenario</th>
+<th>Assumptions</th>
+<th>Typical complexity</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Brute-force baseline</td>
+<td>Any <span class="math inline">\(d\)</span>, no index</td>
+<td>$ (n^2 d) $</td>
+</tr>
+<tr class="even">
+<td>Tree index, low–moderate <span class="math inline">\(d\)</span>
+</td>
+<td>Balanced tree, moderate $ $, bounded neighbor counts</td>
+<td>$ O(n n d) $</td>
+</tr>
+<tr class="odd">
+<td>Tree index, high <span class="math inline">\(d\)</span> or large $ $</td>
+<td>Poor pruning, dense neighborhoods</td>
+<td>$ (n^2 d) $</td>
+</tr>
+<tr class="even">
+<td>Grid index (2D/3D)</td>
+<td>Well-chosen cell size, non-pathological data</td>
+<td>Near $ O(n d) $</td>
+</tr>
+<tr class="odd">
+<td>Approximate NN/range</td>
+<td>ANN structure (e.g., HNSW), approximate neighbors</td>
+<td>Subquadratic wall-time; formal bounds vary</td>
+</tr>
+</tbody>
+</table>
+<p>Notes: - The index build cost <span class="math inline">\(O(n \log n)\)</span> (trees) or <span class="math inline">\(O(n)\)</span> (grid) is typically amortized across all range queries. - If each point’s neighbor count <span class="math inline">\(k_i\)</span> is bounded by a small constant on average, and pruning works, the total neighbor reports <span class="math inline">\(K\)</span> is <span class="math inline">\(O(n)\)</span>, leading to near <span class="math inline">\(O(n \log n)\)</span> behavior with trees.</p>
+<blockquote class="blockquote">
+<p>But… What if you cannot reduce your dataset… nor change the parameter of the DBSCAN?</p>
+</blockquote>
+</section><section id="solution-at-least-for-this-case" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="solution-at-least-for-this-case">
+<span class="header-section-number">1.7</span> Solution…? At least for this case :)</h2>
+<p><strong>Use the better algorithms that utilizes your hardware’s full potential!</strong></p>
+<p>For this case, I used <code>dbscan-python</code>, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “<a href="https://github.com/wangyiqiu/dbscan-python" target="_blank">Theoretically Efficient and Practical Parallel DBSCAN</a>.”</p>
+</section></section><section id="experiments" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> Experiments</h1>
+<section id="setups" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="setups">
+<span class="header-section-number">2.1</span> Setups</h2>
+<section id="used-r-packages" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="used-r-packages">
+<span class="header-section-number">2.1.1</span> Used R Packages</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dbscan'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    as.dendrogram</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'arrow'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:utils':
+
+    timestamp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: future</code></pre>
+</div>
+</div>
+</section><section id="python-setup" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="python-setup">
+<span class="header-section-number">2.1.2</span> Python Setup</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/">reticulate</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">==</span><span class="st">"Windows"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        </span>
+<span>    <span class="co"># For my Windows Environment</span></span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html">use_condaenv</a></span><span class="op">(</span><span class="st">"C:/Users/dydgn/miniforge3/envs/dbscan/python.exe"</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
+<span>    </span>
+<span>    </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"micromamba install -n baseline -c conda-forge dbscan -y"</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="co"># For github actions to utilize CI/CD</span></span>
+<span></span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html">use_condaenv</a></span><span class="op">(</span><span class="st">"/home/runner/micromamba/envs/baseline/bin/python"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   </span>
+<span></span>
+<span>    </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/import.html">import</a></span><span class="op">(</span><span class="st">"sys"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sys</span><span class="op">$</span><span class="va">executable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "/home/runner/micromamba/envs/baseline/bin/python"</code></pre>
+</div>
+</div>
+</section></section><section id="generated-lab-dataset" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="generated-lab-dataset">
+<span class="header-section-number">2.2</span> Generated Lab Dataset</h2>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">generate_random_semicircle</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">center_x</span>, <span class="va">center_y</span>, <span class="va">radius</span>, <span class="va">start_angle</span>, <span class="va">end_angle</span>, <span class="va">n_points</span> <span class="op">=</span> <span class="fl">100</span>, <span class="va">noise</span> <span class="op">=</span> <span class="fl">0.08</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>      <span class="va">angles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n_points</span>, min <span class="op">=</span> <span class="va">start_angle</span>, max <span class="op">=</span> <span class="va">end_angle</span><span class="op">)</span></span>
+<span>      <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">center_x</span> <span class="op">+</span> <span class="va">radius</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="va">angles</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_points</span>, <span class="fl">0</span>, <span class="va">noise</span><span class="op">)</span></span>
+<span>      <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">center_y</span> <span class="op">+</span> <span class="va">radius</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">angles</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_points</span>, <span class="fl">0</span>, <span class="va">noise</span><span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu">as.data.table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1e+5L</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># 첫 번째 반원</span></span>
+<span><span class="va">semicircle1</span> <span class="op">&lt;-</span> <span class="fu">generate_random_semicircle</span><span class="op">(</span>center_x <span class="op">=</span> <span class="fl">0</span>, center_y <span class="op">=</span> <span class="fl">0.25</span>, radius <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                          start_angle <span class="op">=</span> <span class="va">pi</span>, end_angle <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span>, n_points <span class="op">=</span> <span class="va">N</span><span class="op">)</span></span>
+<span><span class="va">semicircle1</span><span class="op">[</span>, <span class="va">group</span> <span class="op">:=</span> <span class="st">"Semicircle 1"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># 두 번째 반원</span></span>
+<span><span class="va">semicircle2</span> <span class="op">&lt;-</span> <span class="fu">generate_random_semicircle</span><span class="op">(</span>center_x <span class="op">=</span> <span class="fl">1</span>, center_y <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span>, radius <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                          start_angle <span class="op">=</span> <span class="fl">0</span>, end_angle <span class="op">=</span> <span class="va">pi</span>, n_points <span class="op">=</span> <span class="va">N</span><span class="op">)</span></span>
+<span><span class="va">semicircle2</span><span class="op">[</span>, <span class="va">group</span> <span class="op">:=</span> <span class="st">"Semicircle 2"</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># 데이터 결합</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">rbindlist</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">semicircle1</span>, <span class="va">semicircle2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># 시각화</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Randomized Overlapping Semicircles"</span>, x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lab_data</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"group"</span><span class="op">)</span>, with <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="r" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="r">
+<span class="header-section-number">2.2.1</span> R</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lab_data_r</span> <span class="op">&lt;-</span> <span class="va">lab_data</span></span>
+<span></span>
+<span><span class="va">epsilon</span> <span class="op">&lt;-</span>  <span class="fl">.08</span></span>
+<span><span class="va">minpts</span> <span class="op">&lt;-</span> <span class="fl">200L</span> <span class="co">#should be an integer for the python env</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">stime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">db_result_r</span> <span class="op">&lt;-</span> <span class="fu">dbscan</span><span class="op">(</span><span class="va">lab_data_r</span>, eps <span class="op">=</span> <span class="va">epsilon</span>, minPts <span class="op">=</span> <span class="va">minpts</span><span class="op">)</span></span>
+<span><span class="va">etime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">delta_t_r</span> <span class="op">&lt;-</span> <span class="va">etime</span><span class="op">-</span><span class="va">stime</span>; <span class="va">delta_t_r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 9.155792 secs</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># result</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>
+    0     1     2 
+  143 99925 99932 </code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lab_data_r</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># visualization</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">lab_data_r</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Randomized Overlapping Semicircles"</span>, x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="python" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="python">
+<span class="header-section-number">2.2.2</span> Python</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lab_data_py</span> <span class="op">&lt;-</span> <span class="va">lab_data</span></span>
+<span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">lab_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">lab_data_py</span><span class="op">)</span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">epsilon</span> <span class="op">&lt;-</span> <span class="va">epsilon</span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">minpts</span> <span class="op">&lt;-</span> <span class="va">minpts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(lab_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>type(X): &lt;class 'numpy.ndarray'&gt;</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(lab_data, <span class="st">'shape'</span>, <span class="va">None</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>shape(X): (200000, 2)</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(lab_data, eps <span class="op">=</span> epsilon, min_samples <span class="op">=</span> minpts)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Elapsed time: 0.0612 seconds</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 R로 반환</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#r.labels = labels</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#r.core_mask = core_samples_mask</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># result</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">py</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>
+   -1     0     1 
+  143 99925 99932 </code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lab_data_py</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">py</span><span class="op">$</span><span class="va">labels</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span> <span class="co"># as index number starts from 0</span></span>
+<span></span>
+<span><span class="co"># visualization</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">lab_data_r</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_fixed</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Randomized Overlapping Semicircles"</span>, x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="results" class="level3" data-number="2.2.3"><h3 data-number="2.2.3" class="anchored" data-anchor-id="results">
+<span class="header-section-number">2.2.3</span> Results</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#speedup</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">delta_t_r</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">/</span><span class="va">py</span><span class="op">$</span><span class="va">delta_t</span>,<span class="st">" times speed-up\n"</span>,sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>149.6187 times speed-up</code></pre>
+</div>
+</div>
+</section></section><section id="some-real-world-dataset" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="some-real-world-dataset">
+<span class="header-section-number">2.3</span> Some Real World Dataset</h2>
+<p>Source: <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">NYC Taxi Data</a></p>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">months</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"</span>,<span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"%02d"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">months</span><span class="op">)</span>,<span class="st">".parquet"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu">plan</span><span class="op">(</span><span class="va">multisession</span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">taxi_list</span> <span class="op">&lt;-</span> <span class="fu">future_lapply</span><span class="op">(</span><span class="va">urls</span>, <span class="kw">function</span><span class="op">(</span><span class="va">url</span><span class="op">)</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="fu">read_parquet</span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">rbindlist</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html">gc</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>           used  (Mb) gc trigger  (Mb)  max used  (Mb)
+Ncells  2629385 140.5    4683532 250.2   4245902 226.8
+Vcells 55371243 422.5  104111586 794.4 102824799 784.5</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">taxi_list</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>   VendorID tpep_pickup_datetime tpep_dropoff_datetime passenger_count
+      &lt;int&gt;               &lt;POSc&gt;                &lt;POSc&gt;           &lt;int&gt;
+1:        2  2024-01-01 00:57:55   2024-01-01 01:17:43               1
+2:        1  2024-01-01 00:03:00   2024-01-01 00:09:36               1
+3:        1  2024-01-01 00:17:06   2024-01-01 00:35:01               1
+4:        1  2024-01-01 00:36:38   2024-01-01 00:44:56               1
+5:        1  2024-01-01 00:46:51   2024-01-01 00:52:57               1
+6:        1  2024-01-01 00:54:08   2024-01-01 01:26:31               1
+   trip_distance RatecodeID store_and_fwd_flag PULocationID DOLocationID
+           &lt;num&gt;      &lt;int&gt;             &lt;char&gt;        &lt;int&gt;        &lt;int&gt;
+1:          1.72          1                  N          186           79
+2:          1.80          1                  N          140          236
+3:          4.70          1                  N          236           79
+4:          1.40          1                  N           79          211
+5:          0.80          1                  N          211          148
+6:          4.70          1                  N          148          141
+   payment_type fare_amount extra mta_tax tip_amount tolls_amount
+          &lt;int&gt;       &lt;num&gt; &lt;num&gt;   &lt;num&gt;      &lt;num&gt;        &lt;num&gt;
+1:            2        17.7   1.0     0.5       0.00            0
+2:            1        10.0   3.5     0.5       3.75            0
+3:            1        23.3   3.5     0.5       3.00            0
+4:            1        10.0   3.5     0.5       2.00            0
+5:            1         7.9   3.5     0.5       3.20            0
+6:            1        29.6   3.5     0.5       6.90            0
+   improvement_surcharge total_amount congestion_surcharge Airport_fee
+                   &lt;num&gt;        &lt;num&gt;                &lt;num&gt;       &lt;num&gt;
+1:                     1        22.70                  2.5           0
+2:                     1        18.75                  2.5           0
+3:                     1        31.30                  2.5           0
+4:                     1        17.00                  2.5           0
+5:                     1        16.10                  2.5           0
+6:                     1        41.50                  2.5           0</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># select numeric rows &amp; filtering out NAs</span></span>
+<span><span class="va">taxi_numeric_dt</span> <span class="op">&lt;-</span> <span class="va">taxi_list</span><span class="op">[</span></span>
+<span>  <span class="va">trip_distance</span> <span class="op">&gt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">fare_amount</span> <span class="op">&gt;</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">trip_distance</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">fare_amount</span><span class="op">)</span>,</span>
+<span>  <span class="fu">.</span><span class="op">(</span><span class="va">trip_distance</span>, <span class="va">fare_amount</span><span class="op">)</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">taxi_list</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html">gc</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>           used  (Mb) gc trigger  (Mb)  max used  (Mb)
+Ncells  2635969 140.8    4683532 250.2   4245902 226.8
+Vcells 13705004 104.6   83289269 635.5 102824799 784.5</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">taxi_numeric_dt_200k</span> <span class="op">&lt;-</span> <span class="va">taxi_numeric_dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">.N</span>, <span class="fl">200000</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]</span></span>
+<span></span>
+<span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">taxi_numeric_dt_200k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">taxi_numeric_dt_200k</span><span class="op">)</span></span>
+<span><span class="co">#py$taxi_numeric_dt_10m &lt;- as.matrix(taxi_numeric_dt_10m)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="r-1" class="level3" data-number="2.3.1"><h3 data-number="2.3.1" class="anchored" data-anchor-id="r-1">
+<span class="header-section-number">2.3.1</span> R</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">epsilon</span> <span class="op">&lt;-</span>  <span class="fl">0.3</span></span>
+<span><span class="va">minpts</span> <span class="op">&lt;-</span> <span class="fl">10L</span></span>
+<span></span>
+<span></span>
+<span><span class="va">stime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">db_result_r</span> <span class="op">&lt;-</span> <span class="fu">dbscan</span><span class="op">(</span><span class="va">taxi_numeric_dt_200k</span>, eps <span class="op">=</span> <span class="va">epsilon</span>, minPts <span class="op">=</span> <span class="va">minpts</span><span class="op">)</span></span>
+<span><span class="va">etime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">delta_t_r</span> <span class="op">&lt;-</span> <span class="va">etime</span><span class="op">-</span><span class="va">stime</span>; <span class="va">delta_t_r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 11.56615 secs</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>
+     0      1      2      3      4      5      6      7      8      9     10 
+  4389 163774   6336   4349     79     24   1035   6355    206   1185   2048 
+    11     12     13     14     15     16     17     18     19     20     21 
+  1503   1218    270    301    617    893    311    106    145    313    247 
+    22     23     24     25     26     27     28     29     30     31     32 
+   244    161     74     70    224    205    155    155    437    137    449 
+    33     34     35     36     37     38     39     40     41     42     43 
+    39    135     68     76    164     29    167     37     39    118     40 
+    44     45     46     47     48     49     50     51     52     53     54 
+    27     39     18     17     16    142     49     72     44     19     11 
+    55     56     57     58     59     60     61     62     63     64     65 
+    15      7     14     32     14     31     11     10     21     31     12 
+    66     67     68     69     70     71     72     73     74     75     76 
+    11     18     24     20     30     12     11     20     10     33     14 
+    77     78     79     80     81     82     83     84     85     86     87 
+    10     13      9     10     11     16     11     12      9     10      7 
+    88     89     90     91     92     93     94     95     96     97     98 
+    10     10     10      3     10     10      7     10     10     10     10 </code></pre>
+</div>
+</div>
+</section><section id="python-1" class="level3" data-number="2.3.2"><h3 data-number="2.3.2" class="anchored" data-anchor-id="python-1">
+<span class="header-section-number">2.3.2</span> Python</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">py</span><span class="op">$</span><span class="va">taxi_numeric_dt_200k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">taxi_numeric_dt_200k</span><span class="op">)</span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">epsilon</span> <span class="op">&lt;-</span> <span class="va">epsilon</span></span>
+<span><span class="va">py</span><span class="op">$</span><span class="va">minpts</span> <span class="op">&lt;-</span> <span class="va">minpts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(taxi_numeric_dt_200k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>type(X): &lt;class 'numpy.ndarray'&gt;</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(taxi_numeric_dt_200k, <span class="st">'shape'</span>, <span class="va">None</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>shape(X): (200000, 2)</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(taxi_numeric_dt_200k, eps<span class="op">=</span><span class="fl">0.3</span>, min_samples<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Elapsed time: 0.0386 seconds</code></pre>
+</div>
+</div>
+</section><section id="results-1" class="level3" data-number="2.3.3"><h3 data-number="2.3.3" class="anchored" data-anchor-id="results-1">
+<span class="header-section-number">2.3.3</span> Results</h3>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Count how many rows are assigned to each label, sort the counts in ascending order, and return the difference between the two label distributions</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">py</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1]  3  0  1  3  1  1  0  0  0  0  0  0  0  0  0  0  0  0  1  1  0  0  0  0  1
+[26]  1  0  0  1  0  0  0  0  0  0  0  0 -1  0 -1  0  0  0  0  0  1  0  0  0  0
+[51]  1  0  0  0  0  0  0  0  0  0  0  0  0 -1 -2  0  0  0  0  0  0  0  0  0  0
+[76] -3  0  0  0  0  0  0  0  0  0 -1  0  0  0 -2  3  0 -2  0  0  0  0  0 -6</code></pre>
+</div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># A slight difference is observed, but it appears to stem from floating-point or grid based operations == negligible.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#speedup</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">delta_t_r</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">/</span><span class="va">py</span><span class="op">$</span><span class="va">delta_t</span>,<span class="st">" times speed-up\n"</span>,sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>299.5211 times speed-up</code></pre>
+</div>
+</div>
+</section></section></section><section id="take-home-message" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> Take-home message</h1>
+<section id="dbscan-is-a-slow-algorithm" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="dbscan-is-a-slow-algorithm">
+<span class="header-section-number">3.1</span> DBSCAN is a slow algorithm</h2>
+<ul>
+<li>Worst-case time: <span class="math inline">\(\Theta(n^2 \cdot d)\)</span> regardless of indexing.</li>
+<li>Well-behaved low-dimensional data with effective indexing can approach <span class="math inline">\(O(n \log n \cdot d)\)</span>.</li>
+<li>As <span class="math inline">\(d\)</span> or <span class="math inline">\(\varepsilon\)</span> grow, expect degradation toward quadratic behavior.</li>
+<li>Tuning <span class="math inline">\(\varepsilon\)</span>, choosing appropriate indexes, and reducing <span class="math inline">\(d\)</span> (e.g., via PCA) often matter more than micro-optimizations.</li>
+<li>If you cannot apply the above strategies, <strong>use a high-performance implementation</strong>.</li>
+</ul>
+
+
+<!-- -->
+
+</section></section></main><!-- /main --><div class="giscus">
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/YONGHUNI\.github\.io\/blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Powered by <a href="https://quarto.org/">Quarto</a> 1.7.34, compiled on GNU/Linux</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with ❤️ by <a href="https://yonghuni.github.io/blog/about/me/">YONGHUNI</a></p>
+</div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb51" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "How to boost a DBSCAN task"</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Utilizing High Performance Library from Python"</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Yonghun Suh"</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "Sep. 9, 2025"</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [Code]</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> https://raw.githubusercontent.com/wangyiqiu/dbscan-python/0.0.12-dev/compare.png</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="co">    number_sections: true</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: scroll</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc_depth: 3</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a><span class="co">    lightbox: true</span></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a><span class="co">#execute:</span></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  freeze: true</span></span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a><span class="co">#comments: false</span></span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a><span class="fu"># Backdrop</span></span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a><span class="al">![Chat](data/background.jpg)</span>{width=80%}</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span><span class="co">[</span><span class="ot">Frodo, 2:37 PM</span><span class="co">]</span><span class="at"> I'm working on finding representative points for census tracts using nationwide residential building data, weighted by the population of each tract.</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Frodo, 2:38 PM</span><span class="co">]</span><span class="at"> But DBSCAN is taking forever lol, so I'm running it in parallel.</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Frodo, 2:38 PM</span><span class="co">]</span><span class="at"> Using something like the future package in R.</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Yong-Hun Suh, 2:41 PM</span><span class="co">]</span><span class="at"> Yeah, DBSCAN’s time complexity isn’t great…</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Yong-Hun Suh, 4:47 PM</span><span class="co">]</span><span class="at"> Are you still working on that (DBSCAN)?</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Yong-Hun Suh, 4:47 PM</span><span class="co">]</span><span class="at"> If it’s a project you’re going to continue, I can give you a tip…</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Frodo, 4:53 PM</span><span class="co">]</span><span class="at"> Just fixed the code and running it now haha, results should come out in a **few days** if it’s fast.</span><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-40"><a href="#cb51-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-41"><a href="#cb51-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-42"><a href="#cb51-42" aria-hidden="true" tabindex="-1"></a>I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.</span>
+<span id="cb51-43"><a href="#cb51-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-44"><a href="#cb51-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-45"><a href="#cb51-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## **Analyzing complexity factors**</span></span>
+<span id="cb51-46"><a href="#cb51-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-47"><a href="#cb51-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-48"><a href="#cb51-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## DBSCAN time complexity</span></span>
+<span id="cb51-49"><a href="#cb51-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-50"><a href="#cb51-50" aria-hidden="true" tabindex="-1"></a>DBSCAN’s runtime is dominated by how you perform neighborhood (range) queries. The classic “it’s $O(n²)$” is only the worst case of a spectrum that depends on data distribution, dimensionality, the index used, and the radius parameter $ \varepsilon $.</span>
+<span id="cb51-51"><a href="#cb51-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-52"><a href="#cb51-52" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb51-53"><a href="#cb51-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-54"><a href="#cb51-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core steps and cost drivers</span></span>
+<span id="cb51-55"><a href="#cb51-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-56"><a href="#cb51-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Range queries:** For each point, find all neighbors within radius $ \varepsilon $. Distance evaluation for one pair costs $O(d)$ in $d$-dimensional Euclidean space.</span>
+<span id="cb51-57"><a href="#cb51-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cluster expansion:** A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least $ \text{minPts} $ neighbors within $ \varepsilon $).</span>
+<span id="cb51-58"><a href="#cb51-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-59"><a href="#cb51-59" aria-hidden="true" tabindex="-1"></a>Asymptotically, the number and cost of range queries dominate; the expansion logic is linear in the number of discovered neighbors but tied to the same range-query results.</span>
+<span id="cb51-60"><a href="#cb51-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-61"><a href="#cb51-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb51-62"><a href="#cb51-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-63"><a href="#cb51-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Complexity by neighborhood search strategy</span></span>
+<span id="cb51-64"><a href="#cb51-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-65"><a href="#cb51-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Brute-force (no index)</span></span>
+<span id="cb51-66"><a href="#cb51-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Per range query: compute distance to all points ⇒ $O(n \cdot d)$.</span>
+<span id="cb51-67"><a href="#cb51-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>One query per point in the simplest implementation ⇒ $O(n^2 \cdot d)$.</span>
+<span id="cb51-68"><a href="#cb51-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains $ \Theta(n^2 \cdot d) $ in the worst case.</span>
+<span id="cb51-69"><a href="#cb51-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-70"><a href="#cb51-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) Space-partitioning trees (kd-tree, ball tree, R-tree-like)</span></span>
+<span id="cb51-71"><a href="#cb51-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Index build: typically $O(n \log n)$ time, $O(n)$ space.</span>
+<span id="cb51-72"><a href="#cb51-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range query cost:</span>
+<span id="cb51-73"><a href="#cb51-73" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Best/average (well-behaved low–moderate $d$, balanced tree, moderate $ \varepsilon $): $O(\log n + k)$, where $k$ is the number of reported neighbors.</span>
+<span id="cb51-74"><a href="#cb51-74" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Worst case (high $d$, large $ \varepsilon $, or adversarial data): degenerates to $O(n)$.</span>
+<span id="cb51-75"><a href="#cb51-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Overall:</span>
+<span id="cb51-76"><a href="#cb51-76" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Best/average: $O(n \log n + \sum \limits_{i=1}^{n} (\log n + k_i)) = O(n \log n + K)$, where $K = \sum k_i$ is total neighbor reports. If density per query is bounded, $K = O(n)$, giving $O(n \log n)$ plus distance cost factor $O(d)$.</span>
+<span id="cb51-77"><a href="#cb51-77" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Worst: $O(n^2 \cdot d)$.</span>
+<span id="cb51-78"><a href="#cb51-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-79"><a href="#cb51-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Uniform grid (fixed-radius hashing) in low dimensions</span></span>
+<span id="cb51-80"><a href="#cb51-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Build grid hashing once: expected $O(n)$.</span>
+<span id="cb51-81"><a href="#cb51-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range query: constant number of adjacent cells, expected $O(1 + k)$ in 2D/3D if $ \varepsilon $ is aligned with cell size and data are not pathologically skewed.</span>
+<span id="cb51-82"><a href="#cb51-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Overall in practice: near-linear $O(n + K)$, again with distance cost $O(d)$, but this approach becomes brittle as $d$ grows.</span>
+<span id="cb51-83"><a href="#cb51-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-84"><a href="#cb51-84" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; In all cases, include the distance computation factor $O(d)$. For high dimensions, tree and grid pruning effectiveness collapses, pushing complexity toward $ \Theta(n^2 \cdot d) $.</span></span>
+<span id="cb51-85"><a href="#cb51-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-86"><a href="#cb51-86" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb51-87"><a href="#cb51-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-88"><a href="#cb51-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## What influences the runtime</span></span>
+<span id="cb51-89"><a href="#cb51-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-90"><a href="#cb51-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Dimensionality $d$:** Distance costs scale with $O(d)$, and index pruning degrades with the curse of dimensionality, often turning tree queries into $O(n)$.</span>
+<span id="cb51-91"><a href="#cb51-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Neighborhood radius $ \varepsilon $:** Larger $ \varepsilon $ increases average neighbor count $k$, raises $K=\sum k_i$, and triggers more expansions; in the limit, most points neighbor each other ⇒ near $O(n^2 \cdot d)$.</span>
+<span id="cb51-92"><a href="#cb51-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data distribution and density:** Well-separated, roughly uniform, low-density data favor subquadratic performance with indexes. Dense clusters or large connected components increase expansions and repeats.</span>
+<span id="cb51-93"><a href="#cb51-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**minPts:** Affects how many points become core (thus how much expansion occurs). It changes constants and practical behavior but not the worst-case big-O bound.</span>
+<span id="cb51-94"><a href="#cb51-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distance metric:** Non-Euclidean metrics can alter pruning efficacy and per-distance cost.</span>
+<span id="cb51-95"><a href="#cb51-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Implementation details:** Caching of range queries, deduplication, and “expand only once per point” optimizations materially reduce constants.</span>
+<span id="cb51-96"><a href="#cb51-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-97"><a href="#cb51-97" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb51-98"><a href="#cb51-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-99"><a href="#cb51-99" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical scenarios</span></span>
+<span id="cb51-100"><a href="#cb51-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-101"><a href="#cb51-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Scenario <span class="pp">|</span> Assumptions <span class="pp">|</span> Typical complexity <span class="pp">|</span></span>
+<span id="cb51-102"><a href="#cb51-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb51-103"><a href="#cb51-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Brute-force baseline <span class="pp">|</span> Any $d$, no index <span class="pp">|</span> $ \Theta(n^2 \cdot d) $ <span class="pp">|</span></span>
+<span id="cb51-104"><a href="#cb51-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tree index, low–moderate $d$ <span class="pp">|</span> Balanced tree, moderate $ \varepsilon $, bounded neighbor counts <span class="pp">|</span> $ O(n \log n \cdot d) $ <span class="pp">|</span></span>
+<span id="cb51-105"><a href="#cb51-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tree index, high $d$ or large $ \varepsilon $ <span class="pp">|</span> Poor pruning, dense neighborhoods <span class="pp">|</span> $ \Theta(n^2 \cdot d) $ <span class="pp">|</span></span>
+<span id="cb51-106"><a href="#cb51-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Grid index (2D/3D) <span class="pp">|</span> Well-chosen cell size, non-pathological data <span class="pp">|</span> Near $ O(n \cdot d) $ <span class="pp">|</span></span>
+<span id="cb51-107"><a href="#cb51-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Approximate NN/range <span class="pp">|</span> ANN structure (e.g., HNSW), approximate neighbors <span class="pp">|</span> Subquadratic wall-time; formal bounds vary <span class="pp">|</span></span>
+<span id="cb51-108"><a href="#cb51-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-109"><a href="#cb51-109" aria-hidden="true" tabindex="-1"></a>Notes:</span>
+<span id="cb51-110"><a href="#cb51-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The index build cost $O(n \log n)$ (trees) or $O(n)$ (grid) is typically amortized across all range queries.</span>
+<span id="cb51-111"><a href="#cb51-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If each point’s neighbor count $k_i$ is bounded by a small constant on average, and pruning works, the total neighbor reports $K$ is $O(n)$, leading to near $O(n \log n)$ behavior with trees.</span>
+<span id="cb51-112"><a href="#cb51-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-113"><a href="#cb51-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-114"><a href="#cb51-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-115"><a href="#cb51-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-116"><a href="#cb51-116" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; But... What if you cannot reduce your dataset... nor change the parameter of the DBSCAN?</span></span>
+<span id="cb51-117"><a href="#cb51-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-118"><a href="#cb51-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-119"><a href="#cb51-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-120"><a href="#cb51-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution...? At least for this case :)</span></span>
+<span id="cb51-121"><a href="#cb51-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-122"><a href="#cb51-122" aria-hidden="true" tabindex="-1"></a>**Use the better algorithms that utilizes your hardware's full potential!**</span>
+<span id="cb51-123"><a href="#cb51-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-124"><a href="#cb51-124" aria-hidden="true" tabindex="-1"></a>For this case, I used <span class="in">`dbscan-python`</span>, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “<span class="co">[</span><span class="ot">Theoretically Efficient and Practical Parallel DBSCAN</span><span class="co">](https://github.com/wangyiqiu/dbscan-python)</span>{target="_blank"}.”</span>
+<span id="cb51-125"><a href="#cb51-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-126"><a href="#cb51-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-127"><a href="#cb51-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-128"><a href="#cb51-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-129"><a href="#cb51-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-130"><a href="#cb51-130" aria-hidden="true" tabindex="-1"></a><span class="fu"># Experiments</span></span>
+<span id="cb51-131"><a href="#cb51-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-132"><a href="#cb51-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setups</span></span>
+<span id="cb51-133"><a href="#cb51-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-134"><a href="#cb51-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### Used R Packages</span></span>
+<span id="cb51-135"><a href="#cb51-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-136"><a href="#cb51-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, warning=FALSE}</span></span>
+<span id="cb51-137"><a href="#cb51-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-138"><a href="#cb51-138" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbscan)</span>
+<span id="cb51-139"><a href="#cb51-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-140"><a href="#cb51-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-141"><a href="#cb51-141" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb51-142"><a href="#cb51-142" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb51-143"><a href="#cb51-143" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb51-144"><a href="#cb51-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-145"><a href="#cb51-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-146"><a href="#cb51-146" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb51-147"><a href="#cb51-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-148"><a href="#cb51-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-149"><a href="#cb51-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-150"><a href="#cb51-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-151"><a href="#cb51-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-152"><a href="#cb51-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python Setup</span></span>
+<span id="cb51-153"><a href="#cb51-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-156"><a href="#cb51-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-157"><a href="#cb51-157" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb51-158"><a href="#cb51-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-159"><a href="#cb51-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-160"><a href="#cb51-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-161"><a href="#cb51-161" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.info</span>()[[<span class="dv">1</span>]]<span class="sc">==</span><span class="st">"Windows"</span>) {</span>
+<span id="cb51-162"><a href="#cb51-162" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb51-163"><a href="#cb51-163" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For my Windows Environment</span></span>
+<span id="cb51-164"><a href="#cb51-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"C:/Users/dydgn/miniforge3/envs/dbscan/python.exe"</span>)</span>
+<span id="cb51-165"><a href="#cb51-165" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-166"><a href="#cb51-166" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb51-167"><a href="#cb51-167" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-168"><a href="#cb51-168" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-169"><a href="#cb51-169" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"micromamba install -n baseline -c conda-forge dbscan -y"</span>)</span>
+<span id="cb51-170"><a href="#cb51-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-171"><a href="#cb51-171" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For github actions to utilize CI/CD</span></span>
+<span id="cb51-172"><a href="#cb51-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-173"><a href="#cb51-173" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"/home/runner/micromamba/envs/baseline/bin/python"</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb51-174"><a href="#cb51-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-175"><a href="#cb51-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-176"><a href="#cb51-176" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-177"><a href="#cb51-177" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-178"><a href="#cb51-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-179"><a href="#cb51-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-180"><a href="#cb51-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-181"><a href="#cb51-181" aria-hidden="true" tabindex="-1"></a>sys <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"sys"</span>)</span>
+<span id="cb51-182"><a href="#cb51-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-183"><a href="#cb51-183" aria-hidden="true" tabindex="-1"></a>sys<span class="sc">$</span>executable</span>
+<span id="cb51-184"><a href="#cb51-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-185"><a href="#cb51-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-186"><a href="#cb51-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-187"><a href="#cb51-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-188"><a href="#cb51-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-189"><a href="#cb51-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generated Lab Dataset</span></span>
+<span id="cb51-190"><a href="#cb51-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-191"><a href="#cb51-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-192"><a href="#cb51-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-195"><a href="#cb51-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-196"><a href="#cb51-196" aria-hidden="true" tabindex="-1"></a>generate_random_semicircle <span class="ot">&lt;-</span> <span class="cf">function</span>(center_x, center_y, radius, start_angle, end_angle, <span class="at">n_points =</span> <span class="dv">100</span>, <span class="at">noise =</span> <span class="fl">0.08</span>) {</span>
+<span id="cb51-197"><a href="#cb51-197" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb51-198"><a href="#cb51-198" aria-hidden="true" tabindex="-1"></a>      angles <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_points, <span class="at">min =</span> start_angle, <span class="at">max =</span> end_angle)</span>
+<span id="cb51-199"><a href="#cb51-199" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">&lt;-</span> center_x <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">cos</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
+<span id="cb51-200"><a href="#cb51-200" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> center_y <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">sin</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
+<span id="cb51-201"><a href="#cb51-201" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb51-202"><a href="#cb51-202" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">as.data.table</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)))</span>
+<span id="cb51-203"><a href="#cb51-203" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-204"><a href="#cb51-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-205"><a href="#cb51-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-206"><a href="#cb51-206" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb51-207"><a href="#cb51-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-208"><a href="#cb51-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-209"><a href="#cb51-209" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fl">1e+5</span>L</span>
+<span id="cb51-210"><a href="#cb51-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-211"><a href="#cb51-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-212"><a href="#cb51-212" aria-hidden="true" tabindex="-1"></a><span class="co"># 첫 번째 반원</span></span>
+<span id="cb51-213"><a href="#cb51-213" aria-hidden="true" tabindex="-1"></a>semicircle1 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">0</span>, <span class="at">center_y =</span> <span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
+<span id="cb51-214"><a href="#cb51-214" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> pi, <span class="at">end_angle =</span> <span class="dv">2</span> <span class="sc">*</span> pi, <span class="at">n_points =</span> N)</span>
+<span id="cb51-215"><a href="#cb51-215" aria-hidden="true" tabindex="-1"></a>semicircle1[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 1"</span>]</span>
+<span id="cb51-216"><a href="#cb51-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-217"><a href="#cb51-217" aria-hidden="true" tabindex="-1"></a><span class="co"># 두 번째 반원</span></span>
+<span id="cb51-218"><a href="#cb51-218" aria-hidden="true" tabindex="-1"></a>semicircle2 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">1</span>, <span class="at">center_y =</span> <span class="sc">-</span><span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
+<span id="cb51-219"><a href="#cb51-219" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> <span class="dv">0</span>, <span class="at">end_angle =</span> pi, <span class="at">n_points =</span> N)</span>
+<span id="cb51-220"><a href="#cb51-220" aria-hidden="true" tabindex="-1"></a>semicircle2[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 2"</span>]</span>
+<span id="cb51-221"><a href="#cb51-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-222"><a href="#cb51-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-223"><a href="#cb51-223" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 결합</span></span>
+<span id="cb51-224"><a href="#cb51-224" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(semicircle1, semicircle2))</span>
+<span id="cb51-225"><a href="#cb51-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-226"><a href="#cb51-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-227"><a href="#cb51-227" aria-hidden="true" tabindex="-1"></a><span class="co"># 시각화</span></span>
+<span id="cb51-228"><a href="#cb51-228" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb51-229"><a href="#cb51-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb51-230"><a href="#cb51-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb51-231"><a href="#cb51-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb51-232"><a href="#cb51-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb51-233"><a href="#cb51-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb51-234"><a href="#cb51-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-235"><a href="#cb51-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-236"><a href="#cb51-236" aria-hidden="true" tabindex="-1"></a>lab_data <span class="ot">&lt;-</span> df[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"group"</span>), with <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb51-237"><a href="#cb51-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-238"><a href="#cb51-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-239"><a href="#cb51-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-240"><a href="#cb51-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-241"><a href="#cb51-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-242"><a href="#cb51-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-243"><a href="#cb51-243" aria-hidden="true" tabindex="-1"></a><span class="fu">### R</span></span>
+<span id="cb51-244"><a href="#cb51-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-247"><a href="#cb51-247" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-248"><a href="#cb51-248" aria-hidden="true" tabindex="-1"></a>lab_data_r <span class="ot">&lt;-</span> lab_data</span>
+<span id="cb51-249"><a href="#cb51-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-250"><a href="#cb51-250" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  .<span class="dv">08</span></span>
+<span id="cb51-251"><a href="#cb51-251" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">200</span>L <span class="co">#should be an integer for the python env</span></span>
+<span id="cb51-252"><a href="#cb51-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-253"><a href="#cb51-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-254"><a href="#cb51-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-255"><a href="#cb51-255" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb51-256"><a href="#cb51-256" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(lab_data_r, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
+<span id="cb51-257"><a href="#cb51-257" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb51-258"><a href="#cb51-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-259"><a href="#cb51-259" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
+<span id="cb51-260"><a href="#cb51-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-261"><a href="#cb51-261" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
+<span id="cb51-262"><a href="#cb51-262" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb51-263"><a href="#cb51-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-264"><a href="#cb51-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-265"><a href="#cb51-265" aria-hidden="true" tabindex="-1"></a>lab_data_r<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb51-266"><a href="#cb51-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-267"><a href="#cb51-267" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
+<span id="cb51-268"><a href="#cb51-268" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_r, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb51-269"><a href="#cb51-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb51-270"><a href="#cb51-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb51-271"><a href="#cb51-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb51-272"><a href="#cb51-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb51-273"><a href="#cb51-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb51-274"><a href="#cb51-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-275"><a href="#cb51-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-276"><a href="#cb51-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-277"><a href="#cb51-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-278"><a href="#cb51-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python</span></span>
+<span id="cb51-279"><a href="#cb51-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-282"><a href="#cb51-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-283"><a href="#cb51-283" aria-hidden="true" tabindex="-1"></a>lab_data_py <span class="ot">&lt;-</span> lab_data</span>
+<span id="cb51-284"><a href="#cb51-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-285"><a href="#cb51-285" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>lab_data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(lab_data_py)</span>
+<span id="cb51-286"><a href="#cb51-286" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
+<span id="cb51-287"><a href="#cb51-287" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
+<span id="cb51-288"><a href="#cb51-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-289"><a href="#cb51-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-290"><a href="#cb51-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-291"><a href="#cb51-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-292"><a href="#cb51-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-295"><a href="#cb51-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb51-296"><a href="#cb51-296" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb51-297"><a href="#cb51-297" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb51-298"><a href="#cb51-298" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb51-299"><a href="#cb51-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-300"><a href="#cb51-300" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(lab_data))</span>
+<span id="cb51-301"><a href="#cb51-301" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(lab_data, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb51-302"><a href="#cb51-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-303"><a href="#cb51-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-304"><a href="#cb51-304" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb51-305"><a href="#cb51-305" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(lab_data, eps <span class="op">=</span> epsilon, min_samples <span class="op">=</span> minpts)</span>
+<span id="cb51-306"><a href="#cb51-306" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
+<span id="cb51-307"><a href="#cb51-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-308"><a href="#cb51-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-309"><a href="#cb51-309" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb51-310"><a href="#cb51-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-311"><a href="#cb51-311" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
+<span id="cb51-312"><a href="#cb51-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-313"><a href="#cb51-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-314"><a href="#cb51-314" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 R로 반환</span></span>
+<span id="cb51-315"><a href="#cb51-315" aria-hidden="true" tabindex="-1"></a><span class="co">#r.labels = labels</span></span>
+<span id="cb51-316"><a href="#cb51-316" aria-hidden="true" tabindex="-1"></a><span class="co">#r.core_mask = core_samples_mask</span></span>
+<span id="cb51-317"><a href="#cb51-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-318"><a href="#cb51-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-319"><a href="#cb51-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-320"><a href="#cb51-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-321"><a href="#cb51-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-322"><a href="#cb51-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-323"><a href="#cb51-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-326"><a href="#cb51-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-327"><a href="#cb51-327" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
+<span id="cb51-328"><a href="#cb51-328" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(py<span class="sc">$</span>labels)</span>
+<span id="cb51-329"><a href="#cb51-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-330"><a href="#cb51-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-331"><a href="#cb51-331" aria-hidden="true" tabindex="-1"></a>lab_data_py<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(py<span class="sc">$</span>labels<span class="sc">+</span><span class="dv">1</span>) <span class="co"># as index number starts from 0</span></span>
+<span id="cb51-332"><a href="#cb51-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-333"><a href="#cb51-333" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
+<span id="cb51-334"><a href="#cb51-334" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_r, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb51-335"><a href="#cb51-335" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb51-336"><a href="#cb51-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb51-337"><a href="#cb51-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb51-338"><a href="#cb51-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb51-339"><a href="#cb51-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb51-340"><a href="#cb51-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-341"><a href="#cb51-341" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-342"><a href="#cb51-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-343"><a href="#cb51-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-344"><a href="#cb51-344" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb51-345"><a href="#cb51-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-348"><a href="#cb51-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-349"><a href="#cb51-349" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
+<span id="cb51-350"><a href="#cb51-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-351"><a href="#cb51-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-352"><a href="#cb51-352" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb51-353"><a href="#cb51-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-354"><a href="#cb51-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-355"><a href="#cb51-355" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-356"><a href="#cb51-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-357"><a href="#cb51-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-358"><a href="#cb51-358" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some Real World Dataset</span></span>
+<span id="cb51-359"><a href="#cb51-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-360"><a href="#cb51-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-361"><a href="#cb51-361" aria-hidden="true" tabindex="-1"></a>Source: <span class="co">[</span><span class="ot">NYC Taxi Data</span><span class="co">](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)</span></span>
+<span id="cb51-362"><a href="#cb51-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-365"><a href="#cb51-365" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-366"><a href="#cb51-366" aria-hidden="true" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb51-367"><a href="#cb51-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-368"><a href="#cb51-368" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"</span>,<span class="fu">sprintf</span>(<span class="st">"%02d"</span>, <span class="dv">1</span><span class="sc">:</span>months),<span class="st">".parquet"</span>)</span>
+<span id="cb51-369"><a href="#cb51-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-370"><a href="#cb51-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-371"><a href="#cb51-371" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession,<span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb51-372"><a href="#cb51-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-373"><a href="#cb51-373" aria-hidden="true" tabindex="-1"></a>taxi_list <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(urls, <span class="cf">function</span>(url) <span class="fu">as.data.table</span>(<span class="fu">read_parquet</span>(url))) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span>
+<span id="cb51-374"><a href="#cb51-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-375"><a href="#cb51-375" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
+<span id="cb51-376"><a href="#cb51-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-377"><a href="#cb51-377" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(taxi_list)</span>
+<span id="cb51-378"><a href="#cb51-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-379"><a href="#cb51-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-380"><a href="#cb51-380" aria-hidden="true" tabindex="-1"></a><span class="co"># select numeric rows &amp; filtering out NAs</span></span>
+<span id="cb51-381"><a href="#cb51-381" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt <span class="ot">&lt;-</span> taxi_list[</span>
+<span id="cb51-382"><a href="#cb51-382" aria-hidden="true" tabindex="-1"></a>  trip_distance <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fare_amount <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(trip_distance) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(fare_amount),</span>
+<span id="cb51-383"><a href="#cb51-383" aria-hidden="true" tabindex="-1"></a>  .(trip_distance, fare_amount)</span>
+<span id="cb51-384"><a href="#cb51-384" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb51-385"><a href="#cb51-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-386"><a href="#cb51-386" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(taxi_list)</span>
+<span id="cb51-387"><a href="#cb51-387" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
+<span id="cb51-388"><a href="#cb51-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-389"><a href="#cb51-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-390"><a href="#cb51-390" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt_200k <span class="ot">&lt;-</span> taxi_numeric_dt[<span class="fu">sample</span>(.N, <span class="dv">200000</span>)]</span>
+<span id="cb51-391"><a href="#cb51-391" aria-hidden="true" tabindex="-1"></a><span class="co">#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]</span></span>
+<span id="cb51-392"><a href="#cb51-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-393"><a href="#cb51-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-394"><a href="#cb51-394" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
+<span id="cb51-395"><a href="#cb51-395" aria-hidden="true" tabindex="-1"></a><span class="co">#py$taxi_numeric_dt_10m &lt;- as.matrix(taxi_numeric_dt_10m)</span></span>
+<span id="cb51-396"><a href="#cb51-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-397"><a href="#cb51-397" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-398"><a href="#cb51-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-399"><a href="#cb51-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-400"><a href="#cb51-400" aria-hidden="true" tabindex="-1"></a><span class="fu">### R</span></span>
+<span id="cb51-401"><a href="#cb51-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-404"><a href="#cb51-404" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-405"><a href="#cb51-405" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  <span class="fl">0.3</span></span>
+<span id="cb51-406"><a href="#cb51-406" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">10</span>L</span>
+<span id="cb51-407"><a href="#cb51-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-408"><a href="#cb51-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-409"><a href="#cb51-409" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb51-410"><a href="#cb51-410" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(taxi_numeric_dt_200k, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
+<span id="cb51-411"><a href="#cb51-411" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb51-412"><a href="#cb51-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-413"><a href="#cb51-413" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
+<span id="cb51-414"><a href="#cb51-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-415"><a href="#cb51-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-416"><a href="#cb51-416" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb51-417"><a href="#cb51-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-418"><a href="#cb51-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-419"><a href="#cb51-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-420"><a href="#cb51-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-421"><a href="#cb51-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-422"><a href="#cb51-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-423"><a href="#cb51-423" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python</span></span>
+<span id="cb51-424"><a href="#cb51-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-427"><a href="#cb51-427" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-428"><a href="#cb51-428" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
+<span id="cb51-429"><a href="#cb51-429" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
+<span id="cb51-430"><a href="#cb51-430" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
+<span id="cb51-431"><a href="#cb51-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-432"><a href="#cb51-432" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-433"><a href="#cb51-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-434"><a href="#cb51-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-435"><a href="#cb51-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-438"><a href="#cb51-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb51-439"><a href="#cb51-439" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb51-440"><a href="#cb51-440" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb51-441"><a href="#cb51-441" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb51-442"><a href="#cb51-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-443"><a href="#cb51-443" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(taxi_numeric_dt_200k))</span>
+<span id="cb51-444"><a href="#cb51-444" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(taxi_numeric_dt_200k, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb51-445"><a href="#cb51-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-446"><a href="#cb51-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-447"><a href="#cb51-447" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb51-448"><a href="#cb51-448" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(taxi_numeric_dt_200k, eps<span class="op">=</span><span class="fl">0.3</span>, min_samples<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb51-449"><a href="#cb51-449" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
+<span id="cb51-450"><a href="#cb51-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-451"><a href="#cb51-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-452"><a href="#cb51-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-453"><a href="#cb51-453" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb51-454"><a href="#cb51-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-455"><a href="#cb51-455" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
+<span id="cb51-456"><a href="#cb51-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-457"><a href="#cb51-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-458"><a href="#cb51-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-459"><a href="#cb51-459" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-460"><a href="#cb51-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-461"><a href="#cb51-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-462"><a href="#cb51-462" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb51-463"><a href="#cb51-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-466"><a href="#cb51-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-467"><a href="#cb51-467" aria-hidden="true" tabindex="-1"></a><span class="co"># Count how many rows are assigned to each label, sort the counts in ascending order, and return the difference between the two label distributions</span></span>
+<span id="cb51-468"><a href="#cb51-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-469"><a href="#cb51-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-470"><a href="#cb51-470" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(py<span class="sc">$</span>labels)))) <span class="sc">-</span> <span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster))))</span>
+<span id="cb51-471"><a href="#cb51-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-472"><a href="#cb51-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-473"><a href="#cb51-473" aria-hidden="true" tabindex="-1"></a><span class="co"># A slight difference is observed, but it appears to stem from floating-point or grid based operations == negligible.</span></span>
+<span id="cb51-474"><a href="#cb51-474" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-475"><a href="#cb51-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-476"><a href="#cb51-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-477"><a href="#cb51-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-478"><a href="#cb51-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-481"><a href="#cb51-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb51-482"><a href="#cb51-482" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
+<span id="cb51-483"><a href="#cb51-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-484"><a href="#cb51-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-485"><a href="#cb51-485" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb51-486"><a href="#cb51-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-487"><a href="#cb51-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-488"><a href="#cb51-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-489"><a href="#cb51-489" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb51-490"><a href="#cb51-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-491"><a href="#cb51-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-492"><a href="#cb51-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-493"><a href="#cb51-493" aria-hidden="true" tabindex="-1"></a><span class="fu"># Take-home message</span></span>
+<span id="cb51-494"><a href="#cb51-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-495"><a href="#cb51-495" aria-hidden="true" tabindex="-1"></a><span class="fu">## DBSCAN is a slow algorithm</span></span>
+<span id="cb51-496"><a href="#cb51-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-497"><a href="#cb51-497" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Worst-case time: $\Theta(n^2 \cdot d)$ regardless of indexing.</span>
+<span id="cb51-498"><a href="#cb51-498" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Well-behaved low-dimensional data with effective indexing can approach $O(n \log n \cdot d)$.</span>
+<span id="cb51-499"><a href="#cb51-499" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>As $d$ or $\varepsilon$ grow, expect degradation toward quadratic behavior.</span>
+<span id="cb51-500"><a href="#cb51-500" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tuning $\varepsilon$, choosing appropriate indexes, and reducing $d$ (e.g., via PCA) often matter more than micro-optimizations.</span>
+<span id="cb51-501"><a href="#cb51-501" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you cannot apply the above strategies, **use a high-performance implementation**.</span>
+<span id="cb51-502"><a href="#cb51-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-503"><a href="#cb51-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-504"><a href="#cb51-504" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div>
+
+
+</body></html>

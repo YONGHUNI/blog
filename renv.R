@@ -4,6 +4,7 @@ library(knitr)
 library(rmarkdown)
 library(renv)
 library(downlit)
+library(tictoc)
 
 library(doParallel)
 
@@ -15,6 +16,7 @@ library(spatialsample)
 library(vip)
 library(fastshap)
 library(treeshap)
+library(dbscan)
 
 library(torch)
 library(torchvision)
@@ -28,6 +30,7 @@ library(rgeoda)
 
 
 library(tidyverse)
+library(arrow)
 library(data.table)
 library(lubridate)
 library(reshape2)

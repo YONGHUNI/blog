@@ -460,19 +460,16 @@ window.Quarto = {
 <a href="#backdrop" id="toc-backdrop" class="nav-link active" data-scroll-target="#backdrop"><span class="header-section-number">1</span> Backdrop</a>
   <ul class="collapse">
 <li><a href="#analyzing-complexity-factors" id="toc-analyzing-complexity-factors" class="nav-link" data-scroll-target="#analyzing-complexity-factors"><span class="header-section-number">1.1</span> <strong>Analyzing complexity factors</strong></a></li>
-  <li><a href="#dbscan-time-complexity" id="toc-dbscan-time-complexity" class="nav-link" data-scroll-target="#dbscan-time-complexity"><span class="header-section-number">1.2</span> DBSCAN time complexity</a></li>
-  <li><a href="#core-steps-and-cost-drivers" id="toc-core-steps-and-cost-drivers" class="nav-link" data-scroll-target="#core-steps-and-cost-drivers"><span class="header-section-number">1.3</span> Core steps and cost drivers</a></li>
   <li>
-<a href="#complexity-by-neighborhood-search-strategy" id="toc-complexity-by-neighborhood-search-strategy" class="nav-link" data-scroll-target="#complexity-by-neighborhood-search-strategy"><span class="header-section-number">1.4</span> Complexity by neighborhood search strategy</a>
+<a href="#dbscan-time-complexity" id="toc-dbscan-time-complexity" class="nav-link" data-scroll-target="#dbscan-time-complexity"><span class="header-section-number">1.2</span> DBSCAN time complexity</a>
   <ul class="collapse">
-<li><a href="#brute-force-no-index" id="toc-brute-force-no-index" class="nav-link" data-scroll-target="#brute-force-no-index"><span class="header-section-number">1.4.1</span> Brute-force (no index)</a></li>
-  <li><a href="#space-partitioning-trees-kd-tree-ball-tree-r-tree-like" id="toc-space-partitioning-trees-kd-tree-ball-tree-r-tree-like" class="nav-link" data-scroll-target="#space-partitioning-trees-kd-tree-ball-tree-r-tree-like"><span class="header-section-number">1.4.2</span> Space-partitioning trees (kd-tree, ball tree, R-tree-like)</a></li>
-  <li><a href="#uniform-grid-fixed-radius-hashing-in-low-dimensions" id="toc-uniform-grid-fixed-radius-hashing-in-low-dimensions" class="nav-link" data-scroll-target="#uniform-grid-fixed-radius-hashing-in-low-dimensions"><span class="header-section-number">1.4.3</span> Uniform grid (fixed-radius hashing) in low dimensions</a></li>
+<li><a href="#core-steps-and-cost-drivers" id="toc-core-steps-and-cost-drivers" class="nav-link" data-scroll-target="#core-steps-and-cost-drivers"><span class="header-section-number">1.2.1</span> Core steps and cost drivers</a></li>
+  <li><a href="#complexity-by-neighborhood-search-strategy" id="toc-complexity-by-neighborhood-search-strategy" class="nav-link" data-scroll-target="#complexity-by-neighborhood-search-strategy"><span class="header-section-number">1.2.2</span> Complexity by neighborhood search strategy</a></li>
   </ul>
 </li>
-  <li><a href="#what-influences-the-runtime" id="toc-what-influences-the-runtime" class="nav-link" data-scroll-target="#what-influences-the-runtime"><span class="header-section-number">1.5</span> What influences the runtime</a></li>
-  <li><a href="#practical-scenarios" id="toc-practical-scenarios" class="nav-link" data-scroll-target="#practical-scenarios"><span class="header-section-number">1.6</span> Practical scenarios</a></li>
-  <li><a href="#solution-at-least-for-this-case" id="toc-solution-at-least-for-this-case" class="nav-link" data-scroll-target="#solution-at-least-for-this-case"><span class="header-section-number">1.7</span> Solution…? At least for this case :)</a></li>
+  <li><a href="#what-influences-the-runtime" id="toc-what-influences-the-runtime" class="nav-link" data-scroll-target="#what-influences-the-runtime"><span class="header-section-number">1.3</span> What influences the runtime</a></li>
+  <li><a href="#practical-scenarios" id="toc-practical-scenarios" class="nav-link" data-scroll-target="#practical-scenarios"><span class="header-section-number">1.4</span> Practical scenarios</a></li>
+  <li><a href="#solution-at-least-for-this-case" id="toc-solution-at-least-for-this-case" class="nav-link" data-scroll-target="#solution-at-least-for-this-case"><span class="header-section-number">1.5</span> Solution…? At least for this case :)</a></li>
   </ul>
 </li>
   <li>
@@ -518,7 +515,7 @@ window.Quarto = {
 <p>[Frodo, 2:37 PM] I’m working on finding representative points for census tracts using nationwide residential building data, weighted by the population of each tract.<br> [Frodo, 2:38 PM] But DBSCAN is taking forever lol, so I’m running it in parallel.<br> [Frodo, 2:38 PM] Using something like the future package in R.<br> [Yong-Hun Suh, 2:41 PM] Yeah, DBSCAN’s time complexity isn’t great…<br> [Yong-Hun Suh, 4:47 PM] Are you still working on that (DBSCAN)?<br> [Yong-Hun Suh, 4:47 PM] If it’s a project you’re going to continue, I can give you a tip…<br> [Frodo, 4:53 PM] Just fixed the code and running it now haha, results should come out in a <strong>few days</strong> if it’s fast.<br></p>
 </blockquote>
 <p>I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.</p>
-<p>He was already been using high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.</p>
+<p>He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.</p>
 <p>I thought, ‘Why not help him out and turn this into a blog article?’</p>
 <section id="analyzing-complexity-factors" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="analyzing-complexity-factors">
 <span class="header-section-number">1.1</span> <strong>Analyzing complexity factors</strong>
@@ -585,8 +582,9 @@ What is Time Complexity?
 </section><section id="dbscan-time-complexity" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="dbscan-time-complexity">
 <span class="header-section-number">1.2</span> DBSCAN time complexity</h2>
 <p>DBSCAN’s runtime is dominated by how you perform neighborhood (range) queries. The classic “it’s <span class="math inline">\(O(n²)\)</span>” is only the worst case of a spectrum that depends on data distribution, dimensionality, the index used, and the radius parameter <span class="math inline">\(\varepsilon\)</span>.</p>
-<hr></section><section id="core-steps-and-cost-drivers" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="core-steps-and-cost-drivers">
-<span class="header-section-number">1.3</span> Core steps and cost drivers</h2>
+<hr>
+<section id="core-steps-and-cost-drivers" class="level3" data-number="1.2.1"><h3 data-number="1.2.1" class="anchored" data-anchor-id="core-steps-and-cost-drivers">
+<span class="header-section-number">1.2.1</span> Core steps and cost drivers</h3>
 <ul>
 <li>
 <strong>Range queries:</strong> For each point, find all neighbors within radius <span class="math inline">\(\varepsilon\)</span>. Distance evaluation for one pair costs <span class="math inline">\(O(d)\)</span> in <span class="math inline">\(d\)</span>-dimensional Euclidean space.</li>
@@ -594,16 +592,16 @@ What is Time Complexity?
 <strong>Cluster expansion:</strong> A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least <span class="math inline">\(\text{minPts}\)</span> neighbors within <span class="math inline">\(\varepsilon\)</span>).</li>
 </ul>
 <p>Asymptotically, the number and cost of range queries dominate; the expansion logic is linear in the number of discovered neighbors but tied to the same range-query results.</p>
-<hr></section><section id="complexity-by-neighborhood-search-strategy" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="complexity-by-neighborhood-search-strategy">
-<span class="header-section-number">1.4</span> Complexity by neighborhood search strategy</h2>
-<section id="brute-force-no-index" class="level3" data-number="1.4.1"><h3 data-number="1.4.1" class="anchored" data-anchor-id="brute-force-no-index">
-<span class="header-section-number">1.4.1</span> Brute-force (no index)</h3>
+<hr></section><section id="complexity-by-neighborhood-search-strategy" class="level3" data-number="1.2.2"><h3 data-number="1.2.2" class="anchored" data-anchor-id="complexity-by-neighborhood-search-strategy">
+<span class="header-section-number">1.2.2</span> Complexity by neighborhood search strategy</h3>
+<section id="brute-force-no-index" class="level4" data-number="1.2.2.1"><h4 data-number="1.2.2.1" class="anchored" data-anchor-id="brute-force-no-index">
+<span class="header-section-number">1.2.2.1</span> Brute-force (no index)</h4>
 <ul>
 <li>Per range query: compute distance to all points ⇒ <span class="math inline">\(O(n \cdot d)\)</span>.</li>
 <li>One query per point in the simplest implementation ⇒ <span class="math inline">\(O(n^2 \cdot d)\)</span>.</li>
 <li>Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains <span class="math inline">\(\Theta(n^2 \cdot d)\)</span> in the worst case.</li>
-</ul></section><section id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like" class="level3" data-number="1.4.2"><h3 data-number="1.4.2" class="anchored" data-anchor-id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like">
-<span class="header-section-number">1.4.2</span> Space-partitioning trees (kd-tree, ball tree, R-tree-like)</h3>
+</ul></section><section id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like" class="level4" data-number="1.2.2.2"><h4 data-number="1.2.2.2" class="anchored" data-anchor-id="space-partitioning-trees-kd-tree-ball-tree-r-tree-like">
+<span class="header-section-number">1.2.2.2</span> Space-partitioning trees (kd-tree, ball tree, R-tree-like)</h4>
 <ul>
 <li>Index build: typically <span class="math inline">\(O(n \log n)\)</span> time, <span class="math inline">\(O(n)\)</span> space.</li>
 <li>Range query cost:
@@ -618,8 +616,8 @@ What is Time Complexity?
 <li>Worst: <span class="math inline">\(O(n^2 \cdot d)\)</span>.</li>
 </ul>
 </li>
-</ul></section><section id="uniform-grid-fixed-radius-hashing-in-low-dimensions" class="level3" data-number="1.4.3"><h3 data-number="1.4.3" class="anchored" data-anchor-id="uniform-grid-fixed-radius-hashing-in-low-dimensions">
-<span class="header-section-number">1.4.3</span> Uniform grid (fixed-radius hashing) in low dimensions</h3>
+</ul></section><section id="uniform-grid-fixed-radius-hashing-in-low-dimensions" class="level4" data-number="1.2.2.3"><h4 data-number="1.2.2.3" class="anchored" data-anchor-id="uniform-grid-fixed-radius-hashing-in-low-dimensions">
+<span class="header-section-number">1.2.2.3</span> Uniform grid (fixed-radius hashing) in low dimensions</h4>
 <ul>
 <li>Build grid hashing once: expected <span class="math inline">\(O(n)\)</span>.</li>
 <li>Range query: constant number of adjacent cells, expected <span class="math inline">\(O(1 + k)\)</span> in 2D/3D if <span class="math inline">\(\varepsilon\)</span> is aligned with cell size and data are not pathologically skewed.</li>
@@ -628,8 +626,8 @@ What is Time Complexity?
 <blockquote class="blockquote">
 <p>In all cases, include the distance computation factor <span class="math inline">\(O(d)\)</span>. For high dimensions, tree and grid pruning effectiveness collapses, pushing complexity toward <span class="math inline">\(\Theta(n^2 \cdot d)\)</span>.</p>
 </blockquote>
-<hr></section></section><section id="what-influences-the-runtime" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="what-influences-the-runtime">
-<span class="header-section-number">1.5</span> What influences the runtime</h2>
+<hr></section></section></section><section id="what-influences-the-runtime" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="what-influences-the-runtime">
+<span class="header-section-number">1.3</span> What influences the runtime</h2>
 <ul>
 <li>
 <strong>Dimensionality <span class="math inline">\(d\)</span>:</strong> Distance costs scale with <span class="math inline">\(O(d)\)</span>, and index pruning degrades with the curse of dimensionality, often turning tree queries into <span class="math inline">\(O(n)\)</span>.</li>
@@ -644,8 +642,8 @@ What is Time Complexity?
 <li>
 <strong>Implementation details:</strong> Caching of range queries, deduplication, and “expand only once per point” optimizations materially reduce constants.</li>
 </ul>
-<hr></section><section id="practical-scenarios" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="practical-scenarios">
-<span class="header-section-number">1.6</span> Practical scenarios</h2>
+<hr></section><section id="practical-scenarios" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="practical-scenarios">
+<span class="header-section-number">1.4</span> Practical scenarios</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -688,12 +686,27 @@ What is Time Complexity?
 </tr>
 </tbody>
 </table>
-<p>Notes: - The index build cost <span class="math inline">\(O(n \log n)\)</span> (trees) or <span class="math inline">\(O(n)\)</span> (grid) is typically amortized across all range queries. - If each point’s neighbor count <span class="math inline">\(k_i\)</span> is bounded by a small constant on average, and pruning works, the total neighbor reports <span class="math inline">\(K\)</span> is <span class="math inline">\(O(n)\)</span>, leading to near <span class="math inline">\(O(n \log n)\)</span> behavior with trees.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The index build cost <span class="math inline">\(O(n \log n)\)</span> (trees) or <span class="math inline">\(O(n)\)</span> (grid) is typically amortized across all range queries.</li>
+<li>If each point’s neighbor count <span class="math inline">\(k_i\)</span> is bounded by a small constant on average, and pruning works, the total neighbor reports <span class="math inline">\(K\)</span> is <span class="math inline">\(O(n)\)</span>, leading to near <span class="math inline">\(O(n \log n)\)</span> behavior with trees.</li>
+</ul>
+</div>
+</div>
 <blockquote class="blockquote">
 <p>But… What if you neither can reduce your dataset… nor change the parameter of the DBSCAN?</p>
 </blockquote>
-</section><section id="solution-at-least-for-this-case" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="solution-at-least-for-this-case">
-<span class="header-section-number">1.7</span> Solution…? At least for this case :)</h2>
+</section><section id="solution-at-least-for-this-case" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="solution-at-least-for-this-case">
+<span class="header-section-number">1.5</span> Solution…? At least for this case :)</h2>
 <p><strong>Use more efficient algorithms that fully leverage your hardware’s full potential!</strong></p>
 <p>For this case, I used <code>dbscan-python</code>, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “<a href="https://github.com/wangyiqiu/dbscan-python" target="_blank">Theoretically Efficient and Practical Parallel DBSCAN</a>.”</p>
 <p>This work achieves theoretically-efficient clustering by minimizing total work and maintaining polylogarithmic parallel depth, enabling scalable performance on large datasets.</p>
@@ -832,7 +845,7 @@ Attaching package: 'arrow'</code></pre>
 <span></span>
 <span><span class="va">delta_t_r</span> <span class="op">&lt;-</span> <span class="va">etime</span><span class="op">-</span><span class="va">stime</span>; <span class="va">delta_t_r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Time difference of 8.763062 secs</code></pre>
+<pre><code>Time difference of 9.106071 secs</code></pre>
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -890,7 +903,7 @@ Attaching package: 'arrow'</code></pre>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Elapsed time: 0.0561 seconds</code></pre>
+<pre><code>Elapsed time: 0.0556 seconds</code></pre>
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -931,7 +944,7 @@ Attaching package: 'arrow'</code></pre>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">delta_t_r</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">/</span><span class="va">py</span><span class="op">$</span><span class="va">delta_t</span>,<span class="st">" times speed-up\n"</span>,sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>156.263 times speed-up</code></pre>
+<pre><code>163.6599 times speed-up</code></pre>
 </div>
 </div>
 </section></section><section id="some-real-world-dataset" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="some-real-world-dataset">
@@ -950,8 +963,8 @@ Attaching package: 'arrow'</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html">gc</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>           used  (Mb) gc trigger  (Mb)  max used  (Mb)
-Ncells  2684112 143.4    4872725 260.3   3818870 204.0
-Vcells 55665854 424.7  104465120 797.1 103119410 786.8</code></pre>
+Ncells  2684117 143.4    4872675 260.3   3819024 204.0
+Vcells 55665873 424.7  104465142 797.1 103119429 786.8</code></pre>
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">taxi_list</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -998,8 +1011,8 @@ Vcells 55665854 424.7  104465120 797.1 103119410 786.8</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html">gc</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>           used  (Mb) gc trigger  (Mb)  max used  (Mb)
-Ncells  2690696 143.7    4872725 260.3   3818870 204.0
-Vcells 13999615 106.9   83572096 637.7 103119410 786.8</code></pre>
+Ncells  2690701 143.7    4872675 260.3   3819024 204.0
+Vcells 13999634 106.9   83572114 637.7 103119429 786.8</code></pre>
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">taxi_numeric_dt_200k</span> <span class="op">&lt;-</span> <span class="va">taxi_numeric_dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">.N</span>, <span class="fl">200000</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]</span></span>
@@ -1022,7 +1035,7 @@ Vcells 13999615 106.9   83572096 637.7 103119410 786.8</code></pre>
 <span></span>
 <span><span class="va">delta_t_r</span> <span class="op">&lt;-</span> <span class="va">etime</span><span class="op">-</span><span class="va">stime</span>; <span class="va">delta_t_r</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Time difference of 11.86371 secs</code></pre>
+<pre><code>Time difference of 11.63554 secs</code></pre>
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">db_result_r</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -1079,7 +1092,7 @@ Vcells 13999615 106.9   83572096 637.7 103119410 786.8</code></pre>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Elapsed time: 0.0374 seconds</code></pre>
+<pre><code>Elapsed time: 0.0376 seconds</code></pre>
 </div>
 </div>
 </section><section id="results-1" class="level3" data-number="2.3.3"><h3 data-number="2.3.3" class="anchored" data-anchor-id="results-1">
@@ -1101,7 +1114,7 @@ Vcells 13999615 106.9   83572096 637.7 103119410 786.8</code></pre>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">delta_t_r</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">/</span><span class="va">py</span><span class="op">$</span><span class="va">delta_t</span>,<span class="st">" times speed-up\n"</span>,sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>317.3127 times speed-up</code></pre>
+<pre><code>309.3261 times speed-up</code></pre>
 </div>
 </div>
 <p>What a whopping improvement isn’t it?</p>
@@ -1180,15 +1193,53 @@ loaded via a namespace (and not attached):
 <span>    </span>
 <span>    <span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
 <span>    </span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"lscpu"</span>,intern <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"free -h"</span>,intern <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"lscpu; free -h"</span>,intern <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span>    </span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>[1] "               total        used        free      shared  buff/cache   available"
-[2] "Mem:            15Gi       2.9Gi       3.5Gi        51Mi       9.3Gi        12Gi"
-[3] "Swap:          4.0Gi          0B       4.0Gi"                                    </code></pre>
+<pre><code> [1] "Architecture:                         x86_64"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+ [2] "CPU op-mode(s):                       32-bit, 64-bit"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+ [3] "Address sizes:                        48 bits physical, 48 bits virtual"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ [4] "Byte Order:                           Little Endian"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+ [5] "CPU(s):                               4"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ [6] "On-line CPU(s) list:                  0-3"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+ [7] "Vendor ID:                            AuthenticAMD"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+ [8] "Model name:                           AMD EPYC 7763 64-Core Processor"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+ [9] "CPU family:                           25"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+[10] "Model:                                1"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[11] "Thread(s) per core:                   2"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[12] "Core(s) per socket:                   2"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[13] "Socket(s):                            1"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[14] "Stepping:                             1"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[15] "BogoMIPS:                             4890.86"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+[16] "Flags:                                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm"
+[17] "Virtualization:                       AMD-V"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+[18] "Hypervisor vendor:                    Microsoft"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+[19] "Virtualization type:                  full"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+[20] "L1d cache:                            64 KiB (2 instances)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+[21] "L1i cache:                            64 KiB (2 instances)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+[22] "L2 cache:                             1 MiB (2 instances)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+[23] "L3 cache:                             32 MiB (1 instance)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+[24] "NUMA node(s):                         1"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[25] "NUMA node0 CPU(s):                    0-3"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+[26] "Vulnerability Gather data sampling:   Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[27] "Vulnerability Itlb multihit:          Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[28] "Vulnerability L1tf:                   Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[29] "Vulnerability Mds:                    Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[30] "Vulnerability Meltdown:               Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[31] "Vulnerability Mmio stale data:        Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[32] "Vulnerability Reg file data sampling: Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[33] "Vulnerability Retbleed:               Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[34] "Vulnerability Spec rstack overflow:   Vulnerable: Safe RET, no microcode"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+[35] "Vulnerability Spec store bypass:      Vulnerable"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+[36] "Vulnerability Spectre v1:             Mitigation; usercopy/swapgs barriers and __user pointer sanitization"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+[37] "Vulnerability Spectre v2:             Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+[38] "Vulnerability Srbds:                  Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[39] "Vulnerability Tsx async abort:        Not affected"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+[40] "               total        used        free      shared  buff/cache   available"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+[41] "Mem:            15Gi       2.8Gi       3.5Gi        51Mi       9.3Gi        12Gi"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+[42] "Swap:          4.0Gi          0B       4.0Gi"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </code></pre>
 </div>
 </div>
 
@@ -1747,7 +1798,7 @@ loaded via a namespace (and not attached):
 <span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a>I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.</span>
 <span id="cb59-43"><a href="#cb59-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-44"><a href="#cb59-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-45"><a href="#cb59-45" aria-hidden="true" tabindex="-1"></a>He was already been using high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.</span>
+<span id="cb59-45"><a href="#cb59-45" aria-hidden="true" tabindex="-1"></a>He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.</span>
 <span id="cb59-46"><a href="#cb59-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-47"><a href="#cb59-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-48"><a href="#cb59-48" aria-hidden="true" tabindex="-1"></a></span>
@@ -1821,7 +1872,7 @@ loaded via a namespace (and not attached):
 <span id="cb59-116"><a href="#cb59-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-117"><a href="#cb59-117" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb59-118"><a href="#cb59-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-119"><a href="#cb59-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core steps and cost drivers</span></span>
+<span id="cb59-119"><a href="#cb59-119" aria-hidden="true" tabindex="-1"></a><span class="fu">### Core steps and cost drivers</span></span>
 <span id="cb59-120"><a href="#cb59-120" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-121"><a href="#cb59-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Range queries:** For each point, find all neighbors within radius $\varepsilon$. Distance evaluation for one pair costs $O(d)$ in $d$-dimensional Euclidean space.</span>
 <span id="cb59-122"><a href="#cb59-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cluster expansion:** A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least $\text{minPts}$ neighbors within $\varepsilon$).</span>
@@ -1830,14 +1881,14 @@ loaded via a namespace (and not attached):
 <span id="cb59-125"><a href="#cb59-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-126"><a href="#cb59-126" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb59-127"><a href="#cb59-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-128"><a href="#cb59-128" aria-hidden="true" tabindex="-1"></a><span class="fu">## Complexity by neighborhood search strategy</span></span>
+<span id="cb59-128"><a href="#cb59-128" aria-hidden="true" tabindex="-1"></a><span class="fu">### Complexity by neighborhood search strategy</span></span>
 <span id="cb59-129"><a href="#cb59-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-130"><a href="#cb59-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Brute-force (no index)</span></span>
+<span id="cb59-130"><a href="#cb59-130" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Brute-force (no index)</span></span>
 <span id="cb59-131"><a href="#cb59-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Per range query: compute distance to all points ⇒ $O(n \cdot d)$.</span>
 <span id="cb59-132"><a href="#cb59-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>One query per point in the simplest implementation ⇒ $O(n^2 \cdot d)$.</span>
 <span id="cb59-133"><a href="#cb59-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains $\Theta(n^2 \cdot d)$ in the worst case.</span>
 <span id="cb59-134"><a href="#cb59-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-135"><a href="#cb59-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### Space-partitioning trees (kd-tree, ball tree, R-tree-like)</span></span>
+<span id="cb59-135"><a href="#cb59-135" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Space-partitioning trees (kd-tree, ball tree, R-tree-like)</span></span>
 <span id="cb59-136"><a href="#cb59-136" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Index build: typically $O(n \log n)$ time, $O(n)$ space.</span>
 <span id="cb59-137"><a href="#cb59-137" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range query cost:</span>
 <span id="cb59-138"><a href="#cb59-138" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Best/average (well-behaved low–moderate $d$, balanced tree, moderate $\varepsilon$): $O(\log n + k)$, where $k$ is the number of reported neighbors.</span>
@@ -1846,7 +1897,7 @@ loaded via a namespace (and not attached):
 <span id="cb59-141"><a href="#cb59-141" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Best/average: $O(n \log n + \sum \limits_{i=1}^{n} (\log n + k_i)) = O(n \log n + K)$, where $K = \sum k_i$ is total neighbor reports. If density per query is bounded, $K = O(n)$, giving $O(n \log n)$ plus distance cost factor $O(d)$.</span>
 <span id="cb59-142"><a href="#cb59-142" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Worst: $O(n^2 \cdot d)$.</span>
 <span id="cb59-143"><a href="#cb59-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-144"><a href="#cb59-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### Uniform grid (fixed-radius hashing) in low dimensions</span></span>
+<span id="cb59-144"><a href="#cb59-144" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Uniform grid (fixed-radius hashing) in low dimensions</span></span>
 <span id="cb59-145"><a href="#cb59-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Build grid hashing once: expected $O(n)$.</span>
 <span id="cb59-146"><a href="#cb59-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range query: constant number of adjacent cells, expected $O(1 + k)$ in 2D/3D if $\varepsilon$ is aligned with cell size and data are not pathologically skewed.</span>
 <span id="cb59-147"><a href="#cb59-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Overall in practice: near-linear $O(n + K)$, again with distance cost $O(d)$, but this approach becomes brittle as $d$ grows.</span>
@@ -1876,412 +1927,414 @@ loaded via a namespace (and not attached):
 <span id="cb59-171"><a href="#cb59-171" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Grid index (2D/3D) <span class="pp">|</span> Well-chosen cell size, non-pathological data <span class="pp">|</span> Near $O(n \cdot d)$ <span class="pp">|</span></span>
 <span id="cb59-172"><a href="#cb59-172" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Approximate NN/range <span class="pp">|</span> ANN structure (e.g., HNSW), approximate neighbors <span class="pp">|</span> Subquadratic wall-time; formal bounds vary <span class="pp">|</span></span>
 <span id="cb59-173"><a href="#cb59-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-174"><a href="#cb59-174" aria-hidden="true" tabindex="-1"></a>Notes:</span>
-<span id="cb59-175"><a href="#cb59-175" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The index build cost $O(n \log n)$ (trees) or $O(n)$ (grid) is typically amortized across all range queries.</span>
-<span id="cb59-176"><a href="#cb59-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If each point’s neighbor count $k_i$ is bounded by a small constant on average, and pruning works, the total neighbor reports $K$ is $O(n)$, leading to near $O(n \log n)$ behavior with trees.</span>
-<span id="cb59-177"><a href="#cb59-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-178"><a href="#cb59-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-174"><a href="#cb59-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-175"><a href="#cb59-175" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb59-176"><a href="#cb59-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The index build cost $O(n \log n)$ (trees) or $O(n)$ (grid) is typically amortized across all range queries.</span>
+<span id="cb59-177"><a href="#cb59-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If each point’s neighbor count $k_i$ is bounded by a small constant on average, and pruning works, the total neighbor reports $K$ is $O(n)$, leading to near $O(n \log n)$ behavior with trees.</span>
+<span id="cb59-178"><a href="#cb59-178" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb59-179"><a href="#cb59-179" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-180"><a href="#cb59-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-181"><a href="#cb59-181" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; But... What if you neither can reduce your dataset... nor change the parameter of the DBSCAN?</span></span>
+<span id="cb59-181"><a href="#cb59-181" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-182"><a href="#cb59-182" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-183"><a href="#cb59-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-184"><a href="#cb59-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-185"><a href="#cb59-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution...? At least for this case :)</span></span>
+<span id="cb59-184"><a href="#cb59-184" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; But... What if you neither can reduce your dataset... nor change the parameter of the DBSCAN?</span></span>
+<span id="cb59-185"><a href="#cb59-185" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-186"><a href="#cb59-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-187"><a href="#cb59-187" aria-hidden="true" tabindex="-1"></a>**Use more efficient algorithms that fully leverage your hardware's full potential!**</span>
-<span id="cb59-188"><a href="#cb59-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-187"><a href="#cb59-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-188"><a href="#cb59-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution...? At least for this case :)</span></span>
 <span id="cb59-189"><a href="#cb59-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-190"><a href="#cb59-190" aria-hidden="true" tabindex="-1"></a>For this case, I used <span class="in">`dbscan-python`</span>, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “<span class="co">[</span><span class="ot">Theoretically Efficient and Practical Parallel DBSCAN</span><span class="co">](https://github.com/wangyiqiu/dbscan-python)</span>{target="_blank"}.”</span>
+<span id="cb59-190"><a href="#cb59-190" aria-hidden="true" tabindex="-1"></a>**Use more efficient algorithms that fully leverage your hardware's full potential!**</span>
 <span id="cb59-191"><a href="#cb59-191" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-192"><a href="#cb59-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-193"><a href="#cb59-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-194"><a href="#cb59-194" aria-hidden="true" tabindex="-1"></a>This work achieves theoretically-efficient clustering by minimizing total work and maintaining polylogarithmic parallel depth, enabling scalable performance on large datasets. </span>
+<span id="cb59-193"><a href="#cb59-193" aria-hidden="true" tabindex="-1"></a>For this case, I used <span class="in">`dbscan-python`</span>, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “<span class="co">[</span><span class="ot">Theoretically Efficient and Practical Parallel DBSCAN</span><span class="co">](https://github.com/wangyiqiu/dbscan-python)</span>{target="_blank"}.”</span>
+<span id="cb59-194"><a href="#cb59-194" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-195"><a href="#cb59-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-196"><a href="#cb59-196" aria-hidden="true" tabindex="-1"></a>Compared to the naive $O(n^2)$ approach, the proposed algorithm reduces time complexity to $O(n \log n)$ work and $O(\log n)$ depth in 2D, and sub-quadratic work in higher dimensions through grid-based partitioning, parallel union-find, and spatial indexing techniques.</span>
-<span id="cb59-197"><a href="#cb59-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-196"><a href="#cb59-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-197"><a href="#cb59-197" aria-hidden="true" tabindex="-1"></a>This work achieves theoretically-efficient clustering by minimizing total work and maintaining polylogarithmic parallel depth, enabling scalable performance on large datasets. </span>
 <span id="cb59-198"><a href="#cb59-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-199"><a href="#cb59-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-200"><a href="#cb59-200" aria-hidden="true" tabindex="-1"></a>As the name of the package implies, I need to use Python again for this experiment.</span>
+<span id="cb59-199"><a href="#cb59-199" aria-hidden="true" tabindex="-1"></a>Compared to the naive $O(n^2)$ approach, the proposed algorithm reduces time complexity to $O(n \log n)$ work and $O(\log n)$ depth in 2D, and sub-quadratic work in higher dimensions through grid-based partitioning, parallel union-find, and spatial indexing techniques.</span>
+<span id="cb59-200"><a href="#cb59-200" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-201"><a href="#cb59-201" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-202"><a href="#cb59-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-203"><a href="#cb59-203" aria-hidden="true" tabindex="-1"></a><span class="fu"># Experiments</span></span>
+<span id="cb59-203"><a href="#cb59-203" aria-hidden="true" tabindex="-1"></a>As the name of the package implies, I need to use Python again for this experiment.</span>
 <span id="cb59-204"><a href="#cb59-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-205"><a href="#cb59-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setups</span></span>
-<span id="cb59-206"><a href="#cb59-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-207"><a href="#cb59-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Used R Packages</span></span>
-<span id="cb59-208"><a href="#cb59-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-209"><a href="#cb59-209" aria-hidden="true" tabindex="-1"></a><span class="in">```{r warning=FALSE}</span></span>
-<span id="cb59-210"><a href="#cb59-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-211"><a href="#cb59-211" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbscan)</span>
-<span id="cb59-212"><a href="#cb59-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-205"><a href="#cb59-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-206"><a href="#cb59-206" aria-hidden="true" tabindex="-1"></a><span class="fu"># Experiments</span></span>
+<span id="cb59-207"><a href="#cb59-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-208"><a href="#cb59-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setups</span></span>
+<span id="cb59-209"><a href="#cb59-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-210"><a href="#cb59-210" aria-hidden="true" tabindex="-1"></a><span class="fu">### Used R Packages</span></span>
+<span id="cb59-211"><a href="#cb59-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-212"><a href="#cb59-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r warning=FALSE}</span></span>
 <span id="cb59-213"><a href="#cb59-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-214"><a href="#cb59-214" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb59-215"><a href="#cb59-215" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb59-216"><a href="#cb59-216" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
-<span id="cb59-217"><a href="#cb59-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-218"><a href="#cb59-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-219"><a href="#cb59-219" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb59-214"><a href="#cb59-214" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbscan)</span>
+<span id="cb59-215"><a href="#cb59-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-216"><a href="#cb59-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-217"><a href="#cb59-217" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb59-218"><a href="#cb59-218" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb59-219"><a href="#cb59-219" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
 <span id="cb59-220"><a href="#cb59-220" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-221"><a href="#cb59-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-222"><a href="#cb59-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-222"><a href="#cb59-222" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb59-223"><a href="#cb59-223" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-224"><a href="#cb59-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-225"><a href="#cb59-225" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python Setup</span></span>
+<span id="cb59-225"><a href="#cb59-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-226"><a href="#cb59-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-229"><a href="#cb59-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-230"><a href="#cb59-230" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb59-231"><a href="#cb59-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-232"><a href="#cb59-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-233"><a href="#cb59-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-234"><a href="#cb59-234" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.info</span>()[[<span class="dv">1</span>]]<span class="sc">==</span><span class="st">"Windows"</span>) {</span>
-<span id="cb59-235"><a href="#cb59-235" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb59-236"><a href="#cb59-236" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For my Windows Environment</span></span>
-<span id="cb59-237"><a href="#cb59-237" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"C:/Users/dydgn/miniforge3/envs/dbscan/python.exe"</span>)</span>
-<span id="cb59-238"><a href="#cb59-238" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-239"><a href="#cb59-239" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
-<span id="cb59-240"><a href="#cb59-240" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-241"><a href="#cb59-241" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"micromamba install -n baseline -c conda-forge dbscan -y"</span>)</span>
-<span id="cb59-242"><a href="#cb59-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-243"><a href="#cb59-243" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For github actions to utilize CI/CD</span></span>
-<span id="cb59-244"><a href="#cb59-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-245"><a href="#cb59-245" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"/home/runner/micromamba/envs/baseline/bin/python"</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)   </span>
-<span id="cb59-246"><a href="#cb59-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-227"><a href="#cb59-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-228"><a href="#cb59-228" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python Setup</span></span>
+<span id="cb59-229"><a href="#cb59-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-232"><a href="#cb59-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-233"><a href="#cb59-233" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb59-234"><a href="#cb59-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-235"><a href="#cb59-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-236"><a href="#cb59-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-237"><a href="#cb59-237" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.info</span>()[[<span class="dv">1</span>]]<span class="sc">==</span><span class="st">"Windows"</span>) {</span>
+<span id="cb59-238"><a href="#cb59-238" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb59-239"><a href="#cb59-239" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For my Windows Environment</span></span>
+<span id="cb59-240"><a href="#cb59-240" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"C:/Users/dydgn/miniforge3/envs/dbscan/python.exe"</span>)</span>
+<span id="cb59-241"><a href="#cb59-241" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-242"><a href="#cb59-242" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb59-243"><a href="#cb59-243" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-244"><a href="#cb59-244" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"micromamba install -n baseline -c conda-forge dbscan -y"</span>)</span>
+<span id="cb59-245"><a href="#cb59-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-246"><a href="#cb59-246" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For github actions to utilize CI/CD</span></span>
 <span id="cb59-247"><a href="#cb59-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-248"><a href="#cb59-248" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-249"><a href="#cb59-249" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb59-248"><a href="#cb59-248" aria-hidden="true" tabindex="-1"></a>    <span class="fu">use_condaenv</span>(<span class="st">"/home/runner/micromamba/envs/baseline/bin/python"</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb59-249"><a href="#cb59-249" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-250"><a href="#cb59-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-251"><a href="#cb59-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-252"><a href="#cb59-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-253"><a href="#cb59-253" aria-hidden="true" tabindex="-1"></a>sys <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"sys"</span>)</span>
+<span id="cb59-251"><a href="#cb59-251" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-252"><a href="#cb59-252" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb59-253"><a href="#cb59-253" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-254"><a href="#cb59-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-255"><a href="#cb59-255" aria-hidden="true" tabindex="-1"></a>sys<span class="sc">$</span>executable</span>
-<span id="cb59-256"><a href="#cb59-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-257"><a href="#cb59-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-258"><a href="#cb59-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-255"><a href="#cb59-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-256"><a href="#cb59-256" aria-hidden="true" tabindex="-1"></a>sys <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"sys"</span>)</span>
+<span id="cb59-257"><a href="#cb59-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-258"><a href="#cb59-258" aria-hidden="true" tabindex="-1"></a>sys<span class="sc">$</span>executable</span>
 <span id="cb59-259"><a href="#cb59-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-260"><a href="#cb59-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-261"><a href="#cb59-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generated Lab Dataset</span></span>
+<span id="cb59-260"><a href="#cb59-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-261"><a href="#cb59-261" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-262"><a href="#cb59-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-263"><a href="#cb59-263" aria-hidden="true" tabindex="-1"></a>First, I had to replicate a famous dataset for demonstrating DBSCAN.</span>
-<span id="cb59-264"><a href="#cb59-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-267"><a href="#cb59-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-268"><a href="#cb59-268" aria-hidden="true" tabindex="-1"></a>generate_random_semicircle <span class="ot">&lt;-</span> <span class="cf">function</span>(center_x, center_y, radius, start_angle, end_angle, <span class="at">n_points =</span> <span class="dv">100</span>, <span class="at">noise =</span> <span class="fl">0.08</span>) {</span>
-<span id="cb59-269"><a href="#cb59-269" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-270"><a href="#cb59-270" aria-hidden="true" tabindex="-1"></a>      angles <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_points, <span class="at">min =</span> start_angle, <span class="at">max =</span> end_angle)</span>
-<span id="cb59-271"><a href="#cb59-271" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">&lt;-</span> center_x <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">cos</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
-<span id="cb59-272"><a href="#cb59-272" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> center_y <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">sin</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
-<span id="cb59-273"><a href="#cb59-273" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb59-274"><a href="#cb59-274" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">as.data.table</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)))</span>
-<span id="cb59-275"><a href="#cb59-275" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb59-276"><a href="#cb59-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-277"><a href="#cb59-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-278"><a href="#cb59-278" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb59-263"><a href="#cb59-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-264"><a href="#cb59-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generated Lab Dataset</span></span>
+<span id="cb59-265"><a href="#cb59-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-266"><a href="#cb59-266" aria-hidden="true" tabindex="-1"></a>First, I had to replicate a famous dataset for demonstrating DBSCAN.</span>
+<span id="cb59-267"><a href="#cb59-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-270"><a href="#cb59-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-271"><a href="#cb59-271" aria-hidden="true" tabindex="-1"></a>generate_random_semicircle <span class="ot">&lt;-</span> <span class="cf">function</span>(center_x, center_y, radius, start_angle, end_angle, <span class="at">n_points =</span> <span class="dv">100</span>, <span class="at">noise =</span> <span class="fl">0.08</span>) {</span>
+<span id="cb59-272"><a href="#cb59-272" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-273"><a href="#cb59-273" aria-hidden="true" tabindex="-1"></a>      angles <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_points, <span class="at">min =</span> start_angle, <span class="at">max =</span> end_angle)</span>
+<span id="cb59-274"><a href="#cb59-274" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">&lt;-</span> center_x <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">cos</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
+<span id="cb59-275"><a href="#cb59-275" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> center_y <span class="sc">+</span> radius <span class="sc">*</span> <span class="fu">sin</span>(angles) <span class="sc">+</span> <span class="fu">rnorm</span>(n_points, <span class="dv">0</span>, noise)</span>
+<span id="cb59-276"><a href="#cb59-276" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb59-277"><a href="#cb59-277" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">as.data.table</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)))</span>
+<span id="cb59-278"><a href="#cb59-278" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb59-279"><a href="#cb59-279" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-280"><a href="#cb59-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-281"><a href="#cb59-281" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fl">1e+5</span>L</span>
+<span id="cb59-281"><a href="#cb59-281" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb59-282"><a href="#cb59-282" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-283"><a href="#cb59-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-284"><a href="#cb59-284" aria-hidden="true" tabindex="-1"></a>semicircle1 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">0</span>, <span class="at">center_y =</span> <span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
-<span id="cb59-285"><a href="#cb59-285" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> pi, <span class="at">end_angle =</span> <span class="dv">2</span> <span class="sc">*</span> pi, <span class="at">n_points =</span> N)</span>
-<span id="cb59-286"><a href="#cb59-286" aria-hidden="true" tabindex="-1"></a>semicircle1[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 1"</span>]</span>
-<span id="cb59-287"><a href="#cb59-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-288"><a href="#cb59-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-289"><a href="#cb59-289" aria-hidden="true" tabindex="-1"></a>semicircle2 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">1</span>, <span class="at">center_y =</span> <span class="sc">-</span><span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
-<span id="cb59-290"><a href="#cb59-290" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> <span class="dv">0</span>, <span class="at">end_angle =</span> pi, <span class="at">n_points =</span> N)</span>
-<span id="cb59-291"><a href="#cb59-291" aria-hidden="true" tabindex="-1"></a>semicircle2[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 2"</span>]</span>
-<span id="cb59-292"><a href="#cb59-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-293"><a href="#cb59-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-294"><a href="#cb59-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-295"><a href="#cb59-295" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(semicircle1, semicircle2))</span>
+<span id="cb59-284"><a href="#cb59-284" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fl">1e+5</span>L</span>
+<span id="cb59-285"><a href="#cb59-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-286"><a href="#cb59-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-287"><a href="#cb59-287" aria-hidden="true" tabindex="-1"></a>semicircle1 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">0</span>, <span class="at">center_y =</span> <span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
+<span id="cb59-288"><a href="#cb59-288" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> pi, <span class="at">end_angle =</span> <span class="dv">2</span> <span class="sc">*</span> pi, <span class="at">n_points =</span> N)</span>
+<span id="cb59-289"><a href="#cb59-289" aria-hidden="true" tabindex="-1"></a>semicircle1[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 1"</span>]</span>
+<span id="cb59-290"><a href="#cb59-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-291"><a href="#cb59-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-292"><a href="#cb59-292" aria-hidden="true" tabindex="-1"></a>semicircle2 <span class="ot">&lt;-</span> <span class="fu">generate_random_semicircle</span>(<span class="at">center_x =</span> <span class="dv">1</span>, <span class="at">center_y =</span> <span class="sc">-</span><span class="fl">0.25</span>, <span class="at">radius =</span> <span class="dv">1</span>,</span>
+<span id="cb59-293"><a href="#cb59-293" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">start_angle =</span> <span class="dv">0</span>, <span class="at">end_angle =</span> pi, <span class="at">n_points =</span> N)</span>
+<span id="cb59-294"><a href="#cb59-294" aria-hidden="true" tabindex="-1"></a>semicircle2[, group <span class="sc">:</span><span class="er">=</span> <span class="st">"Semicircle 2"</span>]</span>
+<span id="cb59-295"><a href="#cb59-295" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-296"><a href="#cb59-296" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-297"><a href="#cb59-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-298"><a href="#cb59-298" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
-<span id="cb59-299"><a href="#cb59-299" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
-<span id="cb59-300"><a href="#cb59-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb59-301"><a href="#cb59-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb59-302"><a href="#cb59-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb59-303"><a href="#cb59-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb59-304"><a href="#cb59-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb59-305"><a href="#cb59-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-306"><a href="#cb59-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-307"><a href="#cb59-307" aria-hidden="true" tabindex="-1"></a>lab_data <span class="ot">&lt;-</span> df[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"group"</span>), with <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb59-298"><a href="#cb59-298" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(semicircle1, semicircle2))</span>
+<span id="cb59-299"><a href="#cb59-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-300"><a href="#cb59-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-301"><a href="#cb59-301" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
+<span id="cb59-302"><a href="#cb59-302" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb59-303"><a href="#cb59-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb59-304"><a href="#cb59-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb59-305"><a href="#cb59-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb59-306"><a href="#cb59-306" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb59-307"><a href="#cb59-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
 <span id="cb59-308"><a href="#cb59-308" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-309"><a href="#cb59-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-310"><a href="#cb59-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-310"><a href="#cb59-310" aria-hidden="true" tabindex="-1"></a>lab_data <span class="ot">&lt;-</span> df[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"group"</span>), with <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
 <span id="cb59-311"><a href="#cb59-311" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-312"><a href="#cb59-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-313"><a href="#cb59-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-314"><a href="#cb59-314" aria-hidden="true" tabindex="-1"></a><span class="fu">### R - Naive</span></span>
+<span id="cb59-313"><a href="#cb59-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-314"><a href="#cb59-314" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-315"><a href="#cb59-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-318"><a href="#cb59-318" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-319"><a href="#cb59-319" aria-hidden="true" tabindex="-1"></a>lab_data_r <span class="ot">&lt;-</span> lab_data</span>
-<span id="cb59-320"><a href="#cb59-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-321"><a href="#cb59-321" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  .<span class="dv">08</span></span>
-<span id="cb59-322"><a href="#cb59-322" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">200</span>L <span class="co">#should be an integer for the python env</span></span>
+<span id="cb59-316"><a href="#cb59-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-317"><a href="#cb59-317" aria-hidden="true" tabindex="-1"></a><span class="fu">### R - Naive</span></span>
+<span id="cb59-318"><a href="#cb59-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-321"><a href="#cb59-321" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-322"><a href="#cb59-322" aria-hidden="true" tabindex="-1"></a>lab_data_r <span class="ot">&lt;-</span> lab_data</span>
 <span id="cb59-323"><a href="#cb59-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-324"><a href="#cb59-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-325"><a href="#cb59-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-326"><a href="#cb59-326" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb59-327"><a href="#cb59-327" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(lab_data_r, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
-<span id="cb59-328"><a href="#cb59-328" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb59-329"><a href="#cb59-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-330"><a href="#cb59-330" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
-<span id="cb59-331"><a href="#cb59-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-332"><a href="#cb59-332" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
-<span id="cb59-333"><a href="#cb59-333" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb59-324"><a href="#cb59-324" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  .<span class="dv">08</span></span>
+<span id="cb59-325"><a href="#cb59-325" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">200</span>L <span class="co">#should be an integer for the python env</span></span>
+<span id="cb59-326"><a href="#cb59-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-327"><a href="#cb59-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-328"><a href="#cb59-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-329"><a href="#cb59-329" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb59-330"><a href="#cb59-330" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(lab_data_r, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
+<span id="cb59-331"><a href="#cb59-331" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb59-332"><a href="#cb59-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-333"><a href="#cb59-333" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
 <span id="cb59-334"><a href="#cb59-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-335"><a href="#cb59-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-336"><a href="#cb59-336" aria-hidden="true" tabindex="-1"></a>lab_data_r<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb59-335"><a href="#cb59-335" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
+<span id="cb59-336"><a href="#cb59-336" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
 <span id="cb59-337"><a href="#cb59-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-338"><a href="#cb59-338" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
-<span id="cb59-339"><a href="#cb59-339" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_r, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
-<span id="cb59-340"><a href="#cb59-340" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb59-341"><a href="#cb59-341" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb59-342"><a href="#cb59-342" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb59-343"><a href="#cb59-343" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb59-344"><a href="#cb59-344" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb59-345"><a href="#cb59-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-346"><a href="#cb59-346" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-347"><a href="#cb59-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-338"><a href="#cb59-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-339"><a href="#cb59-339" aria-hidden="true" tabindex="-1"></a>lab_data_r<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb59-340"><a href="#cb59-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-341"><a href="#cb59-341" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
+<span id="cb59-342"><a href="#cb59-342" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_r, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb59-343"><a href="#cb59-343" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb59-344"><a href="#cb59-344" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb59-345"><a href="#cb59-345" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb59-346"><a href="#cb59-346" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb59-347"><a href="#cb59-347" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
 <span id="cb59-348"><a href="#cb59-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-349"><a href="#cb59-349" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python - `wangyiqiu/dbscan-python`</span></span>
+<span id="cb59-349"><a href="#cb59-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-350"><a href="#cb59-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-353"><a href="#cb59-353" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-354"><a href="#cb59-354" aria-hidden="true" tabindex="-1"></a>lab_data_py <span class="ot">&lt;-</span> lab_data</span>
-<span id="cb59-355"><a href="#cb59-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-356"><a href="#cb59-356" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>lab_data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(lab_data_py)</span>
-<span id="cb59-357"><a href="#cb59-357" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
-<span id="cb59-358"><a href="#cb59-358" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
-<span id="cb59-359"><a href="#cb59-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-360"><a href="#cb59-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-361"><a href="#cb59-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-351"><a href="#cb59-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-352"><a href="#cb59-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python - `wangyiqiu/dbscan-python`</span></span>
+<span id="cb59-353"><a href="#cb59-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-356"><a href="#cb59-356" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-357"><a href="#cb59-357" aria-hidden="true" tabindex="-1"></a>lab_data_py <span class="ot">&lt;-</span> lab_data</span>
+<span id="cb59-358"><a href="#cb59-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-359"><a href="#cb59-359" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>lab_data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(lab_data_py)</span>
+<span id="cb59-360"><a href="#cb59-360" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
+<span id="cb59-361"><a href="#cb59-361" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
 <span id="cb59-362"><a href="#cb59-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-363"><a href="#cb59-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-366"><a href="#cb59-366" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb59-367"><a href="#cb59-367" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb59-368"><a href="#cb59-368" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
-<span id="cb59-369"><a href="#cb59-369" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb59-370"><a href="#cb59-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-371"><a href="#cb59-371" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(lab_data))</span>
-<span id="cb59-372"><a href="#cb59-372" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(lab_data, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb59-363"><a href="#cb59-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-364"><a href="#cb59-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-365"><a href="#cb59-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-366"><a href="#cb59-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-369"><a href="#cb59-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb59-370"><a href="#cb59-370" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb59-371"><a href="#cb59-371" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb59-372"><a href="#cb59-372" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb59-373"><a href="#cb59-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-374"><a href="#cb59-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-375"><a href="#cb59-375" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
-<span id="cb59-376"><a href="#cb59-376" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(lab_data, eps <span class="op">=</span> epsilon, min_samples <span class="op">=</span> minpts)</span>
-<span id="cb59-377"><a href="#cb59-377" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
-<span id="cb59-378"><a href="#cb59-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-379"><a href="#cb59-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-380"><a href="#cb59-380" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb59-374"><a href="#cb59-374" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(lab_data))</span>
+<span id="cb59-375"><a href="#cb59-375" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(lab_data, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb59-376"><a href="#cb59-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-377"><a href="#cb59-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-378"><a href="#cb59-378" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb59-379"><a href="#cb59-379" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(lab_data, eps <span class="op">=</span> epsilon, min_samples <span class="op">=</span> minpts)</span>
+<span id="cb59-380"><a href="#cb59-380" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
 <span id="cb59-381"><a href="#cb59-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-382"><a href="#cb59-382" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb59-383"><a href="#cb59-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-382"><a href="#cb59-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-383"><a href="#cb59-383" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
 <span id="cb59-384"><a href="#cb59-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-385"><a href="#cb59-385" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 R로 반환</span></span>
-<span id="cb59-386"><a href="#cb59-386" aria-hidden="true" tabindex="-1"></a><span class="co">#r.labels = labels</span></span>
-<span id="cb59-387"><a href="#cb59-387" aria-hidden="true" tabindex="-1"></a><span class="co">#r.core_mask = core_samples_mask</span></span>
-<span id="cb59-388"><a href="#cb59-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-389"><a href="#cb59-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-390"><a href="#cb59-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-385"><a href="#cb59-385" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
+<span id="cb59-386"><a href="#cb59-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-387"><a href="#cb59-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-388"><a href="#cb59-388" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 R로 반환</span></span>
+<span id="cb59-389"><a href="#cb59-389" aria-hidden="true" tabindex="-1"></a><span class="co">#r.labels = labels</span></span>
+<span id="cb59-390"><a href="#cb59-390" aria-hidden="true" tabindex="-1"></a><span class="co">#r.core_mask = core_samples_mask</span></span>
 <span id="cb59-391"><a href="#cb59-391" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-392"><a href="#cb59-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-393"><a href="#cb59-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-393"><a href="#cb59-393" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-394"><a href="#cb59-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-397"><a href="#cb59-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-398"><a href="#cb59-398" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
-<span id="cb59-399"><a href="#cb59-399" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(py<span class="sc">$</span>labels)</span>
-<span id="cb59-400"><a href="#cb59-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-401"><a href="#cb59-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-402"><a href="#cb59-402" aria-hidden="true" tabindex="-1"></a>lab_data_py<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(py<span class="sc">$</span>labels<span class="sc">+</span><span class="dv">1</span>) <span class="co"># as index number starts from 0</span></span>
+<span id="cb59-395"><a href="#cb59-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-396"><a href="#cb59-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-397"><a href="#cb59-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-400"><a href="#cb59-400" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-401"><a href="#cb59-401" aria-hidden="true" tabindex="-1"></a><span class="co"># result</span></span>
+<span id="cb59-402"><a href="#cb59-402" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(py<span class="sc">$</span>labels)</span>
 <span id="cb59-403"><a href="#cb59-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-404"><a href="#cb59-404" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
-<span id="cb59-405"><a href="#cb59-405" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_py, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
-<span id="cb59-406"><a href="#cb59-406" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb59-407"><a href="#cb59-407" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb59-408"><a href="#cb59-408" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb59-409"><a href="#cb59-409" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb59-410"><a href="#cb59-410" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb59-411"><a href="#cb59-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-412"><a href="#cb59-412" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-413"><a href="#cb59-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-404"><a href="#cb59-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-405"><a href="#cb59-405" aria-hidden="true" tabindex="-1"></a>lab_data_py<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(py<span class="sc">$</span>labels<span class="sc">+</span><span class="dv">1</span>) <span class="co"># as index number starts from 0</span></span>
+<span id="cb59-406"><a href="#cb59-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-407"><a href="#cb59-407" aria-hidden="true" tabindex="-1"></a><span class="co"># visualization</span></span>
+<span id="cb59-408"><a href="#cb59-408" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lab_data_py, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb59-409"><a href="#cb59-409" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb59-410"><a href="#cb59-410" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb59-411"><a href="#cb59-411" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb59-412"><a href="#cb59-412" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Randomized Overlapping Semicircles"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb59-413"><a href="#cb59-413" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
 <span id="cb59-414"><a href="#cb59-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-415"><a href="#cb59-415" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb59-415"><a href="#cb59-415" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-416"><a href="#cb59-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-419"><a href="#cb59-419" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-420"><a href="#cb59-420" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
-<span id="cb59-421"><a href="#cb59-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-422"><a href="#cb59-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-423"><a href="#cb59-423" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb59-417"><a href="#cb59-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-418"><a href="#cb59-418" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb59-419"><a href="#cb59-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-422"><a href="#cb59-422" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-423"><a href="#cb59-423" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
 <span id="cb59-424"><a href="#cb59-424" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-425"><a href="#cb59-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-426"><a href="#cb59-426" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-426"><a href="#cb59-426" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
 <span id="cb59-427"><a href="#cb59-427" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-428"><a href="#cb59-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-429"><a href="#cb59-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some Real World Dataset</span></span>
+<span id="cb59-429"><a href="#cb59-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-430"><a href="#cb59-430" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-431"><a href="#cb59-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-432"><a href="#cb59-432" aria-hidden="true" tabindex="-1"></a>Source: <span class="co">[</span><span class="ot">NYC Taxi Data</span><span class="co">](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)</span></span>
+<span id="cb59-432"><a href="#cb59-432" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some Real World Dataset</span></span>
 <span id="cb59-433"><a href="#cb59-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-436"><a href="#cb59-436" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-437"><a href="#cb59-437" aria-hidden="true" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb59-438"><a href="#cb59-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-439"><a href="#cb59-439" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"</span>,<span class="fu">sprintf</span>(<span class="st">"%02d"</span>, <span class="dv">1</span><span class="sc">:</span>months),<span class="st">".parquet"</span>)</span>
-<span id="cb59-440"><a href="#cb59-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-434"><a href="#cb59-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-435"><a href="#cb59-435" aria-hidden="true" tabindex="-1"></a>Source: <span class="co">[</span><span class="ot">NYC Taxi Data</span><span class="co">](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)</span></span>
+<span id="cb59-436"><a href="#cb59-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-439"><a href="#cb59-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-440"><a href="#cb59-440" aria-hidden="true" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb59-441"><a href="#cb59-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-442"><a href="#cb59-442" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession,<span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb59-442"><a href="#cb59-442" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"</span>,<span class="fu">sprintf</span>(<span class="st">"%02d"</span>, <span class="dv">1</span><span class="sc">:</span>months),<span class="st">".parquet"</span>)</span>
 <span id="cb59-443"><a href="#cb59-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-444"><a href="#cb59-444" aria-hidden="true" tabindex="-1"></a>taxi_list <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(urls, <span class="cf">function</span>(url) <span class="fu">as.data.table</span>(<span class="fu">read_parquet</span>(url))) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span>
-<span id="cb59-445"><a href="#cb59-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-446"><a href="#cb59-446" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
-<span id="cb59-447"><a href="#cb59-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-448"><a href="#cb59-448" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(taxi_list)</span>
-<span id="cb59-449"><a href="#cb59-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-444"><a href="#cb59-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-445"><a href="#cb59-445" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession,<span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb59-446"><a href="#cb59-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-447"><a href="#cb59-447" aria-hidden="true" tabindex="-1"></a>taxi_list <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(urls, <span class="cf">function</span>(url) <span class="fu">as.data.table</span>(<span class="fu">read_parquet</span>(url))) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span>
+<span id="cb59-448"><a href="#cb59-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-449"><a href="#cb59-449" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb59-450"><a href="#cb59-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-451"><a href="#cb59-451" aria-hidden="true" tabindex="-1"></a><span class="co"># select numeric rows &amp; filtering out NAs</span></span>
-<span id="cb59-452"><a href="#cb59-452" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt <span class="ot">&lt;-</span> taxi_list[</span>
-<span id="cb59-453"><a href="#cb59-453" aria-hidden="true" tabindex="-1"></a>    trip_distance <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fare_amount <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(trip_distance) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(fare_amount),</span>
-<span id="cb59-454"><a href="#cb59-454" aria-hidden="true" tabindex="-1"></a>    .(trip_distance, fare_amount)</span>
-<span id="cb59-455"><a href="#cb59-455" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb59-456"><a href="#cb59-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-457"><a href="#cb59-457" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(taxi_list)</span>
-<span id="cb59-458"><a href="#cb59-458" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
+<span id="cb59-451"><a href="#cb59-451" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(taxi_list)</span>
+<span id="cb59-452"><a href="#cb59-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-453"><a href="#cb59-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-454"><a href="#cb59-454" aria-hidden="true" tabindex="-1"></a><span class="co"># select numeric rows &amp; filtering out NAs</span></span>
+<span id="cb59-455"><a href="#cb59-455" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt <span class="ot">&lt;-</span> taxi_list[</span>
+<span id="cb59-456"><a href="#cb59-456" aria-hidden="true" tabindex="-1"></a>    trip_distance <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fare_amount <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(trip_distance) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(fare_amount),</span>
+<span id="cb59-457"><a href="#cb59-457" aria-hidden="true" tabindex="-1"></a>    .(trip_distance, fare_amount)</span>
+<span id="cb59-458"><a href="#cb59-458" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb59-459"><a href="#cb59-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-460"><a href="#cb59-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-461"><a href="#cb59-461" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt_200k <span class="ot">&lt;-</span> taxi_numeric_dt[<span class="fu">sample</span>(.N, <span class="dv">200000</span>)]</span>
-<span id="cb59-462"><a href="#cb59-462" aria-hidden="true" tabindex="-1"></a><span class="co">#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]</span></span>
+<span id="cb59-460"><a href="#cb59-460" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(taxi_list)</span>
+<span id="cb59-461"><a href="#cb59-461" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span>
+<span id="cb59-462"><a href="#cb59-462" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-463"><a href="#cb59-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-464"><a href="#cb59-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-465"><a href="#cb59-465" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
-<span id="cb59-466"><a href="#cb59-466" aria-hidden="true" tabindex="-1"></a><span class="co">#py$taxi_numeric_dt_10m &lt;- as.matrix(taxi_numeric_dt_10m)</span></span>
+<span id="cb59-464"><a href="#cb59-464" aria-hidden="true" tabindex="-1"></a>taxi_numeric_dt_200k <span class="ot">&lt;-</span> taxi_numeric_dt[<span class="fu">sample</span>(.N, <span class="dv">200000</span>)]</span>
+<span id="cb59-465"><a href="#cb59-465" aria-hidden="true" tabindex="-1"></a><span class="co">#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]</span></span>
+<span id="cb59-466"><a href="#cb59-466" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-467"><a href="#cb59-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-468"><a href="#cb59-468" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-469"><a href="#cb59-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-468"><a href="#cb59-468" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
+<span id="cb59-469"><a href="#cb59-469" aria-hidden="true" tabindex="-1"></a><span class="co">#py$taxi_numeric_dt_10m &lt;- as.matrix(taxi_numeric_dt_10m)</span></span>
 <span id="cb59-470"><a href="#cb59-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-471"><a href="#cb59-471" aria-hidden="true" tabindex="-1"></a><span class="fu">### R - Naive</span></span>
+<span id="cb59-471"><a href="#cb59-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-472"><a href="#cb59-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-475"><a href="#cb59-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-476"><a href="#cb59-476" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  <span class="fl">0.3</span></span>
-<span id="cb59-477"><a href="#cb59-477" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">10</span>L</span>
-<span id="cb59-478"><a href="#cb59-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-479"><a href="#cb59-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-480"><a href="#cb59-480" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb59-481"><a href="#cb59-481" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(taxi_numeric_dt_200k, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
-<span id="cb59-482"><a href="#cb59-482" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb59-483"><a href="#cb59-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-484"><a href="#cb59-484" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
-<span id="cb59-485"><a href="#cb59-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-473"><a href="#cb59-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-474"><a href="#cb59-474" aria-hidden="true" tabindex="-1"></a><span class="fu">### R - Naive</span></span>
+<span id="cb59-475"><a href="#cb59-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-478"><a href="#cb59-478" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-479"><a href="#cb59-479" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span>  <span class="fl">0.3</span></span>
+<span id="cb59-480"><a href="#cb59-480" aria-hidden="true" tabindex="-1"></a>minpts <span class="ot">&lt;-</span> <span class="dv">10</span>L</span>
+<span id="cb59-481"><a href="#cb59-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-482"><a href="#cb59-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-483"><a href="#cb59-483" aria-hidden="true" tabindex="-1"></a>stime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb59-484"><a href="#cb59-484" aria-hidden="true" tabindex="-1"></a>db_result_r <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(taxi_numeric_dt_200k, <span class="at">eps =</span> epsilon, <span class="at">minPts =</span> minpts)</span>
+<span id="cb59-485"><a href="#cb59-485" aria-hidden="true" tabindex="-1"></a>etime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb59-486"><a href="#cb59-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-487"><a href="#cb59-487" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
+<span id="cb59-487"><a href="#cb59-487" aria-hidden="true" tabindex="-1"></a>delta_t_r <span class="ot">&lt;-</span> etime<span class="sc">-</span>stime; delta_t_r</span>
 <span id="cb59-488"><a href="#cb59-488" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-489"><a href="#cb59-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-490"><a href="#cb59-490" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-490"><a href="#cb59-490" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(db_result_r<span class="sc">$</span>cluster)</span>
 <span id="cb59-491"><a href="#cb59-491" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-492"><a href="#cb59-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-493"><a href="#cb59-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-494"><a href="#cb59-494" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python - `wangyiqiu/dbscan-python`</span></span>
+<span id="cb59-493"><a href="#cb59-493" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-494"><a href="#cb59-494" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-495"><a href="#cb59-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-498"><a href="#cb59-498" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-499"><a href="#cb59-499" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
-<span id="cb59-500"><a href="#cb59-500" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
-<span id="cb59-501"><a href="#cb59-501" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
-<span id="cb59-502"><a href="#cb59-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-503"><a href="#cb59-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-504"><a href="#cb59-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-496"><a href="#cb59-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-497"><a href="#cb59-497" aria-hidden="true" tabindex="-1"></a><span class="fu">### Python - `wangyiqiu/dbscan-python`</span></span>
+<span id="cb59-498"><a href="#cb59-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-501"><a href="#cb59-501" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-502"><a href="#cb59-502" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>taxi_numeric_dt_200k <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(taxi_numeric_dt_200k)</span>
+<span id="cb59-503"><a href="#cb59-503" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>epsilon <span class="ot">&lt;-</span> epsilon</span>
+<span id="cb59-504"><a href="#cb59-504" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>minpts <span class="ot">&lt;-</span> minpts</span>
 <span id="cb59-505"><a href="#cb59-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-506"><a href="#cb59-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-509"><a href="#cb59-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb59-510"><a href="#cb59-510" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb59-511"><a href="#cb59-511" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
-<span id="cb59-512"><a href="#cb59-512" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb59-513"><a href="#cb59-513" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-514"><a href="#cb59-514" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(taxi_numeric_dt_200k))</span>
-<span id="cb59-515"><a href="#cb59-515" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(taxi_numeric_dt_200k, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb59-506"><a href="#cb59-506" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-507"><a href="#cb59-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-508"><a href="#cb59-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-509"><a href="#cb59-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-512"><a href="#cb59-512" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb59-513"><a href="#cb59-513" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb59-514"><a href="#cb59-514" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dbscan <span class="im">import</span> DBSCAN</span>
+<span id="cb59-515"><a href="#cb59-515" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb59-516"><a href="#cb59-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-517"><a href="#cb59-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-518"><a href="#cb59-518" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
-<span id="cb59-519"><a href="#cb59-519" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(taxi_numeric_dt_200k, eps<span class="op">=</span><span class="fl">0.3</span>, min_samples<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb59-520"><a href="#cb59-520" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
-<span id="cb59-521"><a href="#cb59-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-522"><a href="#cb59-522" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-523"><a href="#cb59-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-524"><a href="#cb59-524" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
+<span id="cb59-517"><a href="#cb59-517" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"type(X):"</span>, <span class="bu">type</span>(taxi_numeric_dt_200k))</span>
+<span id="cb59-518"><a href="#cb59-518" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"shape(X):"</span>, <span class="bu">getattr</span>(taxi_numeric_dt_200k, <span class="st">'shape'</span>, <span class="va">None</span>))</span>
+<span id="cb59-519"><a href="#cb59-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-520"><a href="#cb59-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-521"><a href="#cb59-521" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb59-522"><a href="#cb59-522" aria-hidden="true" tabindex="-1"></a>labels, core_samples_mask <span class="op">=</span> DBSCAN(taxi_numeric_dt_200k, eps<span class="op">=</span><span class="fl">0.3</span>, min_samples<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb59-523"><a href="#cb59-523" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span> time.time()</span>
+<span id="cb59-524"><a href="#cb59-524" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-525"><a href="#cb59-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-526"><a href="#cb59-526" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb59-527"><a href="#cb59-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-526"><a href="#cb59-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-527"><a href="#cb59-527" aria-hidden="true" tabindex="-1"></a>delta_t <span class="op">=</span> end <span class="op">-</span> start</span>
 <span id="cb59-528"><a href="#cb59-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-529"><a href="#cb59-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-530"><a href="#cb59-530" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-529"><a href="#cb59-529" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Elapsed time: </span><span class="sc">{</span>delta_t<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
+<span id="cb59-530"><a href="#cb59-530" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-531"><a href="#cb59-531" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-532"><a href="#cb59-532" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-533"><a href="#cb59-533" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb59-533"><a href="#cb59-533" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-534"><a href="#cb59-534" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-535"><a href="#cb59-535" aria-hidden="true" tabindex="-1"></a>The code below shows the results are valid, as it counts how many rows are assigned to each label, sorts the counts in ascending order, and returns the difference between the two label distributions.</span>
-<span id="cb59-536"><a href="#cb59-536" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-539"><a href="#cb59-539" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-540"><a href="#cb59-540" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(py<span class="sc">$</span>labels)))) <span class="sc">-</span> <span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster))))</span>
-<span id="cb59-541"><a href="#cb59-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-542"><a href="#cb59-542" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-543"><a href="#cb59-543" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-535"><a href="#cb59-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-536"><a href="#cb59-536" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb59-537"><a href="#cb59-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-538"><a href="#cb59-538" aria-hidden="true" tabindex="-1"></a>The code below shows the results are valid, as it counts how many rows are assigned to each label, sorts the counts in ascending order, and returns the difference between the two label distributions.</span>
+<span id="cb59-539"><a href="#cb59-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-542"><a href="#cb59-542" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-543"><a href="#cb59-543" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(py<span class="sc">$</span>labels)))) <span class="sc">-</span> <span class="fu">sort</span>(<span class="fu">as.vector</span>(<span class="fu">table</span>(<span class="fu">as.factor</span>(db_result_r<span class="sc">$</span>cluster))))</span>
 <span id="cb59-544"><a href="#cb59-544" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-545"><a href="#cb59-545" aria-hidden="true" tabindex="-1"></a>A slight difference is observed. but it appears to stem from floating-point or grid based operations, hence it is negligible.</span>
-<span id="cb59-546"><a href="#cb59-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-545"><a href="#cb59-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-546"><a href="#cb59-546" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-547"><a href="#cb59-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-550"><a href="#cb59-550" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-551"><a href="#cb59-551" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
-<span id="cb59-552"><a href="#cb59-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-553"><a href="#cb59-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-554"><a href="#cb59-554" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb59-548"><a href="#cb59-548" aria-hidden="true" tabindex="-1"></a>A slight difference is observed. but it appears to stem from floating-point or grid based operations, hence it is negligible.</span>
+<span id="cb59-549"><a href="#cb59-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-550"><a href="#cb59-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-553"><a href="#cb59-553" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-554"><a href="#cb59-554" aria-hidden="true" tabindex="-1"></a><span class="co">#speedup</span></span>
 <span id="cb59-555"><a href="#cb59-555" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-556"><a href="#cb59-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-557"><a href="#cb59-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-558"><a href="#cb59-558" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-557"><a href="#cb59-557" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(delta_t_r[[<span class="dv">1</span>]]<span class="sc">/</span>py<span class="sc">$</span>delta_t,<span class="st">" times speed-up</span><span class="sc">\n</span><span class="st">"</span>,<span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb59-558"><a href="#cb59-558" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-559"><a href="#cb59-559" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-560"><a href="#cb59-560" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-561"><a href="#cb59-561" aria-hidden="true" tabindex="-1"></a>What a whopping improvement isn't it?</span>
+<span id="cb59-561"><a href="#cb59-561" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-562"><a href="#cb59-562" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-563"><a href="#cb59-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-564"><a href="#cb59-564" aria-hidden="true" tabindex="-1"></a><span class="fu"># Take-home message</span></span>
+<span id="cb59-564"><a href="#cb59-564" aria-hidden="true" tabindex="-1"></a>What a whopping improvement isn't it?</span>
 <span id="cb59-565"><a href="#cb59-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-566"><a href="#cb59-566" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="DBSCAN is a slow algorithm"}</span>
-<span id="cb59-567"><a href="#cb59-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-568"><a href="#cb59-568" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Worst-case time: $\Theta(n^2 \cdot d)$ regardless of indexing.</span>
-<span id="cb59-569"><a href="#cb59-569" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Well-behaved low-dimensional data with effective indexing can approach $O(n \log n \cdot d)$.</span>
-<span id="cb59-570"><a href="#cb59-570" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>As $d$ or $\varepsilon$ grow, expect degradation toward quadratic behavior.</span>
-<span id="cb59-571"><a href="#cb59-571" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tuning $\varepsilon$, choosing appropriate indexes, and reducing $d$ (e.g., via PCA) often matter more than micro-optimizations.</span>
-<span id="cb59-572"><a href="#cb59-572" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you cannot apply the above strategies, **use a high-performance implementation**.</span>
-<span id="cb59-573"><a href="#cb59-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-574"><a href="#cb59-574" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-575"><a href="#cb59-575" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb59-566"><a href="#cb59-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-567"><a href="#cb59-567" aria-hidden="true" tabindex="-1"></a><span class="fu"># Take-home message</span></span>
+<span id="cb59-568"><a href="#cb59-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-569"><a href="#cb59-569" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="DBSCAN is a slow algorithm"}</span>
+<span id="cb59-570"><a href="#cb59-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-571"><a href="#cb59-571" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Worst-case time: $\Theta(n^2 \cdot d)$ regardless of indexing.</span>
+<span id="cb59-572"><a href="#cb59-572" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Well-behaved low-dimensional data with effective indexing can approach $O(n \log n \cdot d)$.</span>
+<span id="cb59-573"><a href="#cb59-573" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>As $d$ or $\varepsilon$ grow, expect degradation toward quadratic behavior.</span>
+<span id="cb59-574"><a href="#cb59-574" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tuning $\varepsilon$, choosing appropriate indexes, and reducing $d$ (e.g., via PCA) often matter more than micro-optimizations.</span>
+<span id="cb59-575"><a href="#cb59-575" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you cannot apply the above strategies, **use a high-performance implementation**.</span>
 <span id="cb59-576"><a href="#cb59-576" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-577"><a href="#cb59-577" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-578"><a href="#cb59-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-578"><a href="#cb59-578" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb59-579"><a href="#cb59-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-580"><a href="#cb59-580" aria-hidden="true" tabindex="-1"></a><span class="fu"># Environment info</span></span>
+<span id="cb59-580"><a href="#cb59-580" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-581"><a href="#cb59-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-584"><a href="#cb59-584" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-585"><a href="#cb59-585" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb59-586"><a href="#cb59-586" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-587"><a href="#cb59-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-588"><a href="#cb59-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-591"><a href="#cb59-591" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-592"><a href="#cb59-592" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.info</span>()[[<span class="dv">1</span>]]<span class="sc">==</span><span class="st">"Windows"</span>) {</span>
-<span id="cb59-593"><a href="#cb59-593" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb59-594"><a href="#cb59-594" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For my Windows Environment</span></span>
-<span id="cb59-595"><a href="#cb59-595" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"systeminfo"</span>,<span class="at">intern =</span> T)</span>
-<span id="cb59-596"><a href="#cb59-596" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-597"><a href="#cb59-597" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-598"><a href="#cb59-598" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb59-582"><a href="#cb59-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-583"><a href="#cb59-583" aria-hidden="true" tabindex="-1"></a><span class="fu"># Environment info</span></span>
+<span id="cb59-584"><a href="#cb59-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-587"><a href="#cb59-587" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-588"><a href="#cb59-588" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb59-589"><a href="#cb59-589" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-590"><a href="#cb59-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-591"><a href="#cb59-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-594"><a href="#cb59-594" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-595"><a href="#cb59-595" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.info</span>()[[<span class="dv">1</span>]]<span class="sc">==</span><span class="st">"Windows"</span>) {</span>
+<span id="cb59-596"><a href="#cb59-596" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb59-597"><a href="#cb59-597" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For my Windows Environment</span></span>
+<span id="cb59-598"><a href="#cb59-598" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"systeminfo"</span>,<span class="at">intern =</span> T)</span>
 <span id="cb59-599"><a href="#cb59-599" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-600"><a href="#cb59-600" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"lscpu"</span>,<span class="at">intern =</span> T)</span>
-<span id="cb59-601"><a href="#cb59-601" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"free -h"</span>,<span class="at">intern =</span> T)</span>
-<span id="cb59-602"><a href="#cb59-602" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-603"><a href="#cb59-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-604"><a href="#cb59-604" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb59-605"><a href="#cb59-605" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb59-606"><a href="#cb59-606" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-607"><a href="#cb59-607" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-608"><a href="#cb59-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-600"><a href="#cb59-600" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-601"><a href="#cb59-601" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb59-602"><a href="#cb59-602" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-603"><a href="#cb59-603" aria-hidden="true" tabindex="-1"></a>    <span class="fu">system</span>(<span class="st">"lscpu; free -h"</span>,<span class="at">intern =</span> T)</span>
+<span id="cb59-604"><a href="#cb59-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-605"><a href="#cb59-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-606"><a href="#cb59-606" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-607"><a href="#cb59-607" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb59-608"><a href="#cb59-608" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-609"><a href="#cb59-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-610"><a href="#cb59-610" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-611"><a href="#cb59-611" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div>

@@ -1,7 +1,7 @@
 name: baseline
 channels:
+  - defaults
   - conda-forge
-  - pkgs/main
 dependencies:
   - _openmp_mutex=4.5
   - attrs=25.3.0
@@ -165,12 +165,12 @@ dependencies:
   - unicodedata2=16.0.0
   - uriparser=0.9.8
   - urllib3=2.5.0
-  #- vc=14.3
-  #- vc14_runtime=14.44.35208
-  #- vcomp14=14.44.35208
-  #- vs2015_runtime=14.44.35208
+  - vc=14.3
+  - vc14_runtime=14.44.35208
+  - vcomp14=14.44.35208
+  - vs2015_runtime=14.44.35208
   - wheel=0.45.1
-  #- win_inet_pton=1.1.0
+  - win_inet_pton=1.1.0
   - xerces-c=3.2.5
   - xyzservices=2025.4.0
   - xz=5.8.1

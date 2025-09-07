@@ -42,7 +42,7 @@ format:
 I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.
 
 
-He was already been using high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.
+He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.
 
 
 
@@ -116,7 +116,7 @@ DBSCAN’s runtime is dominated by how you perform neighborhood (range) queries.
 
 ---
 
-## Core steps and cost drivers
+### Core steps and cost drivers
 
 - **Range queries:** For each point, find all neighbors within radius $\varepsilon$. Distance evaluation for one pair costs $O(d)$ in $d$-dimensional Euclidean space.
 - **Cluster expansion:** A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least $\text{minPts}$ neighbors within $\varepsilon$).
@@ -125,14 +125,14 @@ Asymptotically, the number and cost of range queries dominate; the expansion log
 
 ---
 
-## Complexity by neighborhood search strategy
+### Complexity by neighborhood search strategy
 
-### Brute-force (no index)
+#### Brute-force (no index)
 - Per range query: compute distance to all points ⇒ $O(n \cdot d)$.
 - One query per point in the simplest implementation ⇒ $O(n^2 \cdot d)$.
 - Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains $\Theta(n^2 \cdot d)$ in the worst case.
 
-### Space-partitioning trees (kd-tree, ball tree, R-tree-like)
+#### Space-partitioning trees (kd-tree, ball tree, R-tree-like)
 - Index build: typically $O(n \log n)$ time, $O(n)$ space.
 - Range query cost:
   - Best/average (well-behaved low–moderate $d$, balanced tree, moderate $\varepsilon$): $O(\log n + k)$, where $k$ is the number of reported neighbors.
@@ -141,7 +141,7 @@ Asymptotically, the number and cost of range queries dominate; the expansion log
   - Best/average: $O(n \log n + \sum \limits_{i=1}^{n} (\log n + k_i)) = O(n \log n + K)$, where $K = \sum k_i$ is total neighbor reports. If density per query is bounded, $K = O(n)$, giving $O(n \log n)$ plus distance cost factor $O(d)$.
   - Worst: $O(n^2 \cdot d)$.
 
-### Uniform grid (fixed-radius hashing) in low dimensions
+#### Uniform grid (fixed-radius hashing) in low dimensions
 - Build grid hashing once: expected $O(n)$.
 - Range query: constant number of adjacent cells, expected $O(1 + k)$ in 2D/3D if $\varepsilon$ is aligned with cell size and data are not pathologically skewed.
 - Overall in practice: near-linear $O(n + K)$, again with distance cost $O(d)$, but this approach becomes brittle as $d$ grows.
@@ -171,9 +171,12 @@ Asymptotically, the number and cost of range queries dominate; the expansion log
 | Grid index (2D/3D) | Well-chosen cell size, non-pathological data | Near $O(n \cdot d)$ |
 | Approximate NN/range | ANN structure (e.g., HNSW), approximate neighbors | Subquadratic wall-time; formal bounds vary |
 
-Notes:
+
+::: {.callout-note}
 - The index build cost $O(n \log n)$ (trees) or $O(n)$ (grid) is typically amortized across all range queries.
 - If each point’s neighbor count $k_i$ is bounded by a small constant on average, and pruning works, the total neighbor reports $K$ is $O(n)$, leading to near $O(n \log n)$ behavior with trees.
+:::
+
 
 
 
@@ -575,8 +578,7 @@ if (Sys.info()[[1]]=="Windows") {
     
     } else{
     
-    system("lscpu",intern = T)
-    system("free -h",intern = T)
+    system("lscpu; free -h",intern = T)
 
 
     

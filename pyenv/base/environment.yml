@@ -1,6 +1,7 @@
 name: baseline
 channels:
-  - defaults
+  - conda-forge
+  - pkgs/main
 dependencies:
   - attrs=23.1.0
   - blas=1.0
@@ -23,6 +24,7 @@ dependencies:
   - colorama=0.4.6
   - contourpy=1.2.0
   - cycler=0.11.0
+  - dbscan
   - expat=2.6.3
   - fiona=1.9.5
   - folium=0.14.0
@@ -135,4 +137,3 @@ dependencies:
   - xz=5.4.6
   - zlib=1.2.13
   - zstd=1.5.5
-#prefix: C:\Users\dydgn\anaconda3\envs\baseline

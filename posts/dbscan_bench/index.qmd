@@ -42,7 +42,7 @@ format:
 I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.
 
 
-He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving eternal waiting.
+He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving an eternal waiting.
 
 
 

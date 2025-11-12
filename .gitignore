@@ -9,3 +9,5 @@ _site/
 /.quarto/
 
 *.pptx
+
+**/*.quarto_ipynb

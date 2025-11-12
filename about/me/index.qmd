@@ -62,20 +62,155 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 # Research Highlights
 
+## Mapping Reduced Accessibility to WASH Facilities in Rohingya Refugee Camps with Sub-Meter Imagery (**under review**)
+
+\
+
+:::: grid
+```{=html}
+
+<style>
+/* 1) fix the size of img height */
+#washCarousel .frame{
+  aspect-ratio: 16/9;   /*  4/3 if needed */
+  width:100%;
+  background:transparent;      /* bg */
+  display:flex; align-items:center; justify-content:center;
+}
+#washCarousel .frame img{
+  max-width:100%; max-height:100%; object-fit:contain; cursor:zoom-in;
+}
+/* 2) 캡션을 아래 고정 높이로 */
+#washCarousel .slide-caption{ min-height:2.2rem; text-align:center; padding-top:.5rem; }
+
+
+/* 모달이 항상 맨 위로 */
+#washLightbox.modal{ z-index: 2000; }
+.modal-backdrop{ z-index: 1990; } /* 백드롭은 그 아래 */
+#washLightbox .modal-dialog{ max-width:min(95vw,1400px); }
+#washLightbox .modal-content img{ width:100%; height:auto; display:block; }
+
+/* Quarto/Bootstrap figure captions → 본문 색으로 */
+.quarto-figure .figure-caption,
+.figure-caption,
+figcaption{
+  color: var(--bs-body-color) !important;
+}
+/* 캡션 안의 링크도 기본 링크 색으로 */
+.quarto-figure .figure-caption a{ color: var(--bs-link-color) !important; }
+
+/* 케로젤 관련련 */
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: rgba(0, 0, 0, 0.25); /* 검은 반투명 배경 */
+  border-radius: 50%;                   /* 원형 배경 */
+  width: 2.2rem;
+  height: 2.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(0, 0, 0, 0.4); /* hover 시 약간 더 진하게 */
+  
+}
+
+
+</style>
+
+<div id="washCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="1"></button>
+  </div>
+
+  <div class="carousel-inner">
+
+
+<div class="carousel-item active">
+  <div class="frame">
+    <img src="https://arxiv.org/html/2511.07231v1/x3.png"
+         alt="Accessibility to WASH facilities 2022–2025"
+         data-bs-toggle="modal" data-bs-target="#washLightbox"
+         data-img="https://arxiv.org/html/2511.07231v1/x3.png">
+  </div>
+  <div class="slide-caption"><small>Accessibility in 2022 (A), 2025 (B), and change (C)</small></div>
+</div>
+
+<div class="carousel-item">
+  <div class="frame">
+    <img src="https://arxiv.org/html/2511.07231v1/x6.png"
+         alt="Method Overview"
+         data-bs-toggle="modal" data-bs-target="#washLightbox"
+         data-img="https://arxiv.org/html/2511.07231v1/x6.png">
+  </div>
+  <div class="slide-caption"><small>Method overview</small></div>
+</div>
+
+
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#washCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#washCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- 3) 모달 라이트박스 -->
+
+<div class="modal fade" id="washLightbox" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-transparent border-0">
+      <img id="washLightboxImg" class="w-100" src="" alt="">
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('#washCarousel img[data-bs-target="#washLightbox"]').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    document.getElementById('washLightboxImg').src = img.getAttribute('data-img');
+  });
+});
+
+/* 모달을 body 직속으로 이동해 z-index/transform 이슈 제거 */
+document.addEventListener('DOMContentLoaded', () => {
+  const m = document.getElementById('washLightbox');
+  if (m && m.parentElement !== document.body) document.body.appendChild(m);
+});
+
+</script>
+
+
+```
+
+<div>
+
+-   This study assesses changes in spatial accessibility to WASH (Water, Sanitation, and Hygiene) facilities in Rohingya refugee camps using a 2SFCA approach with shelter detection from sub-meter imagery via a semi-supervised segmentation model, addressing challenges from dense and heterogeneous camp structures.
+
+-   Accessibility declined over time, with the lack of gender-segregated facilities revealing persistent accessibility inequality.
+
+-   Links to the [Preprint](https://arxiv.org/abs/2511.07231){target="_blank"} & [Source Code](https://github.com/DS4H-GIS/Refugee_WASH_Accessibility){target="_blank"}
+
+</div>
+::::
+
+\
+
 ## From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring
 
 \
 
-::::: grid
-
+:::::: grid
 <div>
 
-::: {#UBcleanAir layout-ncol=2 style="text-align: center;"}
-
+::: {layout-ncol="2" style="text-align: center;"}
 ![Breathe Buffalo: UB Air Quality Monitoring Dashboard](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/Dashboard.png?raw=true)
 
-![Architecture Overview](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/BB_diagram.drawio_DB.png?raw=true){width=60%}
-
+![Architecture Overview](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/diagrams/BB_diagram.drawio_DB.png?raw=true){width="60%"}
 :::
 
 </div>
@@ -88,10 +223,10 @@ In addition to my research, I'm involved in a community-based air quality projec
 
 -   The findings were presented at the *Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025)*.
 
--   Links to the [Poster](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/Creating_Dashboards_for_Buffalo_African_American_Community_based_Participatory_Air_Monitoring_final.pdf?raw=true){target="_blank"} \& [Source Code](https://github.com/YONGHUNI/Breathe-Buffalo){target="_blank"}
+-   Links to the [Poster](https://github.com/YONGHUNI/Breathe-Buffalo/blob/main/Poster/Creating_Dashboards_for_Buffalo_African_American_Community_based_Participatory_Air_Monitoring_final.pdf?raw=true){target="_blank"} & [Source Code](https://github.com/YONGHUNI/Breathe-Buffalo){target="_blank"}
 
 </div>
-:::::
+::::::
 
 \
 

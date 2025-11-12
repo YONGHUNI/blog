@@ -69,120 +69,80 @@ In addition to my research, I'm involved in a community-based air quality projec
 :::: grid
 ```{=html}
 
+
 <style>
-/* 1) fix the size of img height */
-#washCarousel .frame{
-  aspect-ratio: 16/9;   /*  4/3 if needed */
-  width:100%;
-  background:transparent;      /* bg */
-  display:flex; align-items:center; justify-content:center;
-}
-#washCarousel .frame img{
-  max-width:100%; max-height:100%; object-fit:contain; cursor:zoom-in;
-}
-/* 2) 캡션을 아래 고정 높이로 */
-#washCarousel .slide-caption{ min-height:2.2rem; text-align:center; padding-top:.5rem; }
+.wash-wrap{ width:min(100%,640px); height:56vh; margin:0 auto; }
+@media (max-width:576px){ .wash-wrap{ height:48vh; } }
 
+#washCarousel{ height:100%; display:flex; flex-direction:column; --capH:2.6rem; overflow:hidden; }
+#washCarousel .carousel-inner{ flex:1 1 auto; height:100%; position:relative; }
+#washCarousel .carousel-item{ height:100%; display:flex; flex-direction:column; }
+#washCarousel .frame{ position:relative; height:calc(100% - var(--capH)); overflow:hidden; }
 
-/* 모달이 항상 맨 위로 */
-#washLightbox.modal{ z-index: 2000; }
-.modal-backdrop{ z-index: 1990; } /* 백드롭은 그 아래 */
-#washLightbox .modal-dialog{ max-width:min(95vw,1400px); }
-#washLightbox .modal-content img{ width:100%; height:auto; display:block; }
+/* anchor fills frame; image scales without crop */
+#washCarousel .frame > a{ position:absolute; inset:0; display:block; }
+#washCarousel .frame > a > img{ width:100%; height:100%; object-fit:contain; }
 
-/* Quarto/Bootstrap figure captions → 본문 색으로 */
-.quarto-figure .figure-caption,
-.figure-caption,
-figcaption{
-  color: var(--bs-body-color) !important;
-}
-/* 캡션 안의 링크도 기본 링크 색으로 */
-.quarto-figure .figure-caption a{ color: var(--bs-link-color) !important; }
-
-/* 케로젤 관련련 */
-.carousel-control-prev,
-.carousel-control-next {
-  background-color: rgba(0, 0, 0, 0.25); /* 검은 반투명 배경 */
-  border-radius: 50%;                   /* 원형 배경 */
-  width: 2.2rem;
-  height: 2.2rem;
-  top: 50%;
-  transform: translateY(-50%);
+/* caption area fixed height */
+#washCarousel .slide-caption{
+  height:var(--capH); display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:0 .25rem;
 }
 
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-  background-color: rgba(0, 0, 0, 0.4); /* hover 시 약간 더 진하게 */
-  
-}
+/* fade transition (stable) */
+.carousel-fade .carousel-item { opacity:0; transition:opacity .5s ease; }
+.carousel-fade .carousel-item.active,
+.carousel-fade .carousel-item-next.carousel-item-start,
+.carousel-fade .carousel-item-prev.carousel-item-end { opacity:1; transform:none; }
+.carousel-fade .active.carousel-item-start,
+.carousel-fade .active.carousel-item-end { opacity:0; transform:none; }
 
-
+/* keep carousel controls above the clickable image */
+#washCarousel .carousel-control-prev,
+#washCarousel .carousel-control-next{ z-index: 2; }
 </style>
 
-<div id="washCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="0" class="active"></button>
-    <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="1"></button>
-  </div>
-
-  <div class="carousel-inner">
-
-
-<div class="carousel-item active">
-  <div class="frame">
-    <img src="https://arxiv.org/html/2511.07231v1/x3.png"
-         alt="Accessibility to WASH facilities 2022–2025"
-         data-bs-toggle="modal" data-bs-target="#washLightbox"
-         data-img="https://arxiv.org/html/2511.07231v1/x3.png">
-  </div>
-  <div class="slide-caption"><small>Accessibility in 2022 (A), 2025 (B), and change (C)</small></div>
-</div>
-
-<div class="carousel-item">
-  <div class="frame">
-    <img src="https://arxiv.org/html/2511.07231v1/x6.png"
-         alt="Method Overview"
-         data-bs-toggle="modal" data-bs-target="#washLightbox"
-         data-img="https://arxiv.org/html/2511.07231v1/x6.png">
-  </div>
-  <div class="slide-caption"><small>Method overview</small></div>
-</div>
-
-
-  </div>
-
-  <button class="carousel-control-prev" type="button" data-bs-target="#washCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#washCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-</div>
-
-<!-- 3) 모달 라이트박스 -->
-
-<div class="modal fade" id="washLightbox" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content bg-transparent border-0">
-      <img id="washLightboxImg" class="w-100" src="" alt="">
+<div class="wash-wrap">
+  <div id="washCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#washCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
     </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="frame">
+          <!-- Quarto GLightbox: use class="lightbox" (not glightbox) -->
+          <a href="https://arxiv.org/html/2511.07231v1/x3.png" class="lightbox" data-gallery="wash">
+            <img src="https://arxiv.org/html/2511.07231v1/x3.png"
+                 alt="Accessibility in 2022 (A), 2025 (B), and change (C)"
+                 width="1600" height="900" decoding="async" loading="eager">
+          </a>
+        </div>
+        <div class="slide-caption"><small>Accessibility in 2022 (A), 2025 (B), and change (C)</small></div>
+      </div>
+
+      <div class="carousel-item">
+        <div class="frame">
+          <a href="https://arxiv.org/html/2511.07231v1/x6.png" class="lightbox" data-gallery="wash">
+            <img src="https://arxiv.org/html/2511.07231v1/x6.png"
+                 alt="Method overview"
+                 width="1600" height="900" decoding="async" loading="lazy">
+          </a>
+        </div>
+        <div class="slide-caption"><small>Method overview</small></div>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#washCarousel" data-bs-slide="prev" aria-label="Previous">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#washCarousel" data-bs-slide="next" aria-label="Next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
   </div>
 </div>
 
-<script>
-document.querySelectorAll('#washCarousel img[data-bs-target="#washLightbox"]').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    document.getElementById('washLightboxImg').src = img.getAttribute('data-img');
-  });
-});
-
-/* 모달을 body 직속으로 이동해 z-index/transform 이슈 제거 */
-document.addEventListener('DOMContentLoaded', () => {
-  const m = document.getElementById('washLightbox');
-  if (m && m.parentElement !== document.body) document.body.appendChild(m);
-});
-
-</script>
 
 
 ```

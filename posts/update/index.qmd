@@ -1,7 +1,7 @@
 ---
 title: "More Coming... Stay Tuned!"
 author: "Yonghun Suh"
-date: "Oct 7, 2024"
+date: "Oct 6, 2024"
 #categories: [news, code, analysis]
 categories: [news]
 image: "./data/comingsoon.png"

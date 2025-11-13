@@ -24,6 +24,7 @@ format:
   html:
     page-layout: full
     lightbox: true
+    toc: true
     css: data/grid.css
     self-contained: false
     embed-resources: true

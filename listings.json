@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/quarto_post/index.html",
       "/posts/dbscan_bench/index.html",
       "/posts/pyenvsetting/index.html",
       "/posts/envsetting/index.html",

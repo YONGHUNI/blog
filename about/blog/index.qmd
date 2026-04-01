@@ -25,11 +25,85 @@ title-block-banner: true
 
 :::{#hero-heading}
 
-## YONGHUNI's CI/CD enabled blog using GitHub-Actions!
+## A CI/CD Enabled Computational Geo-Blog
 
+This blog is a platform for sharing reproducible geospatial research, computational methods, and practical coding workflows. Every post is rendered and deployed automatically through GitHub Actions, so the content you see is always built from the latest source.
 
 :::
 
 
-<center> More info will soon be updated! </center> 
+# What is Quarto?
+
+[Quarto](https://quarto.org/){target="_blank"} is an open-source scientific publishing system developed by [Posit](https://posit.co/){target="_blank"}, and it represents the next evolution of R Markdown. While R Markdown was tightly coupled to the R ecosystem, Quarto breaks that boundary by natively supporting R, Python, Julia, and Observable JS within a single document. This means a geographer can wrangle spatial data in R with `sf`, run a machine learning model in Python with `scikit-learn`, and present the results, all without leaving one `.qmd` file.
+
+What makes Quarto particularly powerful for research is its commitment to reproducibility. The traditional workflow of exporting figures from GIS software and pasting them into a Word document is replaced by a single source of truth: if the underlying data changes, every map, table, and chart in the document updates automatically. Because all code is embedded alongside the narrative, fellow researchers can trace and reproduce the entire analytical pipeline.
+
+Quarto also follows a "one source, multi-format" philosophy. A single `.qmd` file can be rendered into an HTML report, a PDF manuscript formatted for journal submission, or an MS Word document for collaboration, simply by changing one line in the YAML header. It even supports presentation slides via Reveal.js. And for quantitative work, LaTeX math rendering comes built-in; for instance, the formula for Moran's I, a measure of spatial autocorrelation, renders at publication quality:
+
+$$I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}$$
+
+By linking with GitHub Pages, researchers can publish their own blogs or project pages to the world with just a few clicks. This blog is a living example of exactly that.
+
+
+# Features of This Blog
+
+## Multi-Language Interoperability
+
+Nearly every post on this blog passes data between R and Python within a single document using the [`reticulate`](https://rstudio.github.io/reticulate/){target="_blank"} package. R excels at spatial data handling and publication-quality visualization (`sf`, `tmap`, `ggplot2`), while Python offers optimized numerical computing and machine learning (`NumPy`, `scikit-learn`, `SciPy`). By combining both, each step in the analysis uses the best tool for the job.
+
+In practice, this means a post can parse KMA radar binary data in Python, convert reflectance to rainfall intensity via the Z-R relationship, and then visualize the resulting raster in R with interactive `tmap` basemaps, all in one `.qmd` file. Another post computes OLS via the normal equation $(X^TX)^{-1}X^Ty$ in Python, optimizes the MLE with `SciPy`, and cross-checks both against R's built-in `lm()`.
+
+## Interactive Geospatial Visualization
+
+Static maps can only tell part of the story. This blog makes heavy use of interactive mapping with `tmap` in view mode, `leafem` for mouse coordinates, and custom Google Satellite and OpenStreetMap basemaps, so readers can zoom, pan, toggle layers, and click on features to inspect attributes directly in the browser. For client-side interactivity, Observable JavaScript (OJS) receives data processed by R during the build phase via `ojs_define()`, enabling real-time filtering and plotting with no running server.
+
+## CI/CD Pipeline
+
+The entire build-and-deploy process is defined in a single GitHub Actions workflow ([`.github/workflows/publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml){target="_blank"}). Every push to `main` (or a manual `workflow_dispatch`) triggers the following pipeline:
+
+```{mermaid}
+%%| fig-cap: "CI/CD Pipeline for this blog"
+flowchart TD
+    A["🚀 Push to main<br>(or workflow_dispatch)"] --> B["📦 Checkout Repository<br>(actions/checkout@v4)"]
+    B --> C["🔧 Install & Cache System Deps<br>(cache-apt-pkgs-action)<br>GDAL · GEOS · libmagick++ · HarfBuzz"]
+    C --> D["🐍 Setup Python<br>(micromamba)<br>pyenv/base/environment.yml"]
+    C --> E["📊 Setup R 4.5.0<br>(r-lib/actions/setup-r)<br>renv restore · armyknives profile"]
+    D --> F["⚙️ Setup Quarto<br>(quarto-dev/quarto-actions/setup)"]
+    E --> F
+    F --> G["📝 Render & Publish<br>(quarto-dev/quarto-actions/publish)<br>Target: gh-pages branch"]
+    G --> H["❄️ Commit _freeze/ back to main<br>(bot commit)"]
+    H --> I["🌐 Live on GitHub Pages<br>yonghuni.github.io/blog"]
+
+    style A fill:#4CAF50,color:#fff
+    style I fill:#2196F3,color:#fff
+    style H fill:#FF9800,color:#fff
+```
+
+Both the Python environment (resolved from `pyenv/base/environment.yml`) and the system-level packages are cached between runs, so builds only pay the full install cost once. R packages are restored through `renv` with the `"armyknives"` profile, pinning the exact versions used locally. The final `_freeze/` commit ensures expensive computations are never re-run unless their source code changes; if nothing has changed, the bot commit is skipped gracefully.
+
+## Theming and Customization
+
+The site uses the [Cosmo](https://bootswatch.com/cosmo/){target="_blank"} Bootstrap theme with a custom dark mode defined in `misc/theme-dark.scss`. A `prefers-color-scheme` media query in `misc/styles.css` handles light-mode footer styling. The page footer dynamically injects the Quarto version and build OS through a custom Lua filter (`misc/quarto-version.lua`), and icons for ORCID and academic profiles come from the [`fontawesome`](https://github.com/quarto-ext/fontawesome){target="_blank"} and [`academicons`](https://github.com/schochastics/academicons){target="_blank"} extensions.
+
+## Comments
+
+Every post includes a [Giscus](https://giscus.app/){target="_blank"} comment widget backed by [GitHub Discussions](https://github.com/YONGHUNI/blog/discussions){target="_blank"}, injected via shared metadata in `posts/_metadata.yml`. The widget's theme automatically syncs with the site's light/dark toggle.
+
+# Tech Stack
+
+| Component | Technology |
+| :--- | :--- |
+| Static Site Generator | [Quarto](https://quarto.org/){target="_blank"} |
+| Languages | R, Python, Julia, Observable JS |
+| Geospatial | sf, terra, GeoPandas, GDAL, tmap, leafem, folium |
+| Data Science | scikit-learn, data.table, NumPy, SciPy, Arrow |
+| Visualization | ggplot2, tmap, matplotlib, Observable Plot |
+| Hosting | [GitHub Pages](https://pages.github.com/){target="_blank"} (via `gh-pages` branch) |
+| CI/CD | [GitHub Actions](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml){target="_blank"} |
+| R Environment | [renv](https://rstudio.github.io/renv/){target="_blank"} (`"armyknives"` profile) |
+| Python Environment | [Micromamba](https://github.com/mamba-org/setup-micromamba){target="_blank"} (`pyenv/base/environment.yml`) |
+| Theme | [Cosmo](https://bootswatch.com/cosmo/){target="_blank"} + custom dark SCSS |
+| Comments | [Giscus](https://giscus.app/){target="_blank"} (GitHub Discussions) |
+| Extensions | [FontAwesome](https://github.com/quarto-ext/fontawesome){target="_blank"}, [Academicons](https://github.com/schochastics/academicons){target="_blank"} |
+| Custom Filters | Lua filter for Quarto version injection |
 

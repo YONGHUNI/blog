@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>About My Blog – Yonghun’s Computational Geo-Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -33,18 +36,17 @@ ul.task-list li input[type="checkbox"] {
 <link href="../..//data/_quarto/favicon/geography-icon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-177d32f134cd4fde74396e4a105da00d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-afa37c5c79185640b9c231024f4fe5ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-be3771519f21acc1c5b6733774c6dcd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3f613b5da502afe204f862d3ccf97784.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-be3771519f21acc1c5b6733774c6dcd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -125,7 +127,41 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../misc/styles.css">
 </head>
@@ -392,8 +428,9 @@ document.addEventListener('DOMContentLoaded', function () {
   <img src="https://rstudio.github.io/cheatsheets/html/images/logo-quarto.png" class="about-image
   round " style="height: 15em; width: 15em;">
  <div id="hero-heading">
-<section id="yonghunis-cicd-enabled-blog-using-github-actions" class="level2">
-<h2 data-anchor-id="yonghunis-cicd-enabled-blog-using-github-actions">YONGHUNI’s CI/CD enabled blog using GitHub-Actions!</h2>
+<section id="a-cicd-enabled-computational-geo-blog" class="level2">
+<h2 data-anchor-id="a-cicd-enabled-computational-geo-blog">A CI/CD Enabled Computational Geo-Blog</h2>
+<p>This blog is a platform for sharing reproducible geospatial research, computational methods, and practical coding workflows. Every post is rendered and deployed automatically through GitHub Actions, so the content you see is always built from the latest source.</p>
 </section>
 </div> 
   <hr class="about-sep">
@@ -411,15 +448,146 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 
-<center>
-More info will soon be updated!
-</center>
+<section id="what-is-quarto" class="level1">
+<h1>What is Quarto?</h1>
+<p><a href="https://quarto.org/" target="_blank">Quarto</a> is an open-source scientific publishing system developed by <a href="https://posit.co/" target="_blank">Posit</a>, and it represents the next evolution of R Markdown. While R Markdown was tightly coupled to the R ecosystem, Quarto breaks that boundary by natively supporting R, Python, Julia, and Observable JS within a single document. This means a geographer can wrangle spatial data in R with <code>sf</code>, run a machine learning model in Python with <code>scikit-learn</code>, and present the results, all without leaving one <code>.qmd</code> file.</p>
+<p>What makes Quarto particularly powerful for research is its commitment to reproducibility. The traditional workflow of exporting figures from GIS software and pasting them into a Word document is replaced by a single source of truth: if the underlying data changes, every map, table, and chart in the document updates automatically. Because all code is embedded alongside the narrative, fellow researchers can trace and reproduce the entire analytical pipeline.</p>
+<p>Quarto also follows a “one source, multi-format” philosophy. A single <code>.qmd</code> file can be rendered into an HTML report, a PDF manuscript formatted for journal submission, or an MS Word document for collaboration, simply by changing one line in the YAML header. It even supports presentation slides via Reveal.js. And for quantitative work, LaTeX math rendering comes built-in; for instance, the formula for Moran’s I, a measure of spatial autocorrelation, renders at publication quality:</p>
+<p><span class="math display">\[I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}\]</span></p>
+<p>By linking with GitHub Pages, researchers can publish their own blogs or project pages to the world with just a few clicks. This blog is a living example of exactly that.</p>
+</section>
+<section id="features-of-this-blog" class="level1">
+<h1>Features of This Blog</h1>
+<section id="multi-language-interoperability" class="level2">
+<h2 data-anchor-id="multi-language-interoperability">Multi-Language Interoperability</h2>
+<p>Nearly every post on this blog passes data between R and Python within a single document using the <a href="https://rstudio.github.io/reticulate/" target="_blank"><code>reticulate</code></a> package. R excels at spatial data handling and publication-quality visualization (<code>sf</code>, <code>tmap</code>, <code>ggplot2</code>), while Python offers optimized numerical computing and machine learning (<code>NumPy</code>, <code>scikit-learn</code>, <code>SciPy</code>). By combining both, each step in the analysis uses the best tool for the job.</p>
+<p>In practice, this means a post can parse KMA radar binary data in Python, convert reflectance to rainfall intensity via the Z-R relationship, and then visualize the resulting raster in R with interactive <code>tmap</code> basemaps, all in one <code>.qmd</code> file. Another post computes OLS via the normal equation <span class="math inline">\((X^TX)^{-1}X^Ty\)</span> in Python, optimizes the MLE with <code>SciPy</code>, and cross-checks both against R’s built-in <code>lm()</code>.</p>
+</section>
+<section id="interactive-geospatial-visualization" class="level2">
+<h2 data-anchor-id="interactive-geospatial-visualization">Interactive Geospatial Visualization</h2>
+<p>Static maps can only tell part of the story. This blog makes heavy use of interactive mapping with <code>tmap</code> in view mode, <code>leafem</code> for mouse coordinates, and custom Google Satellite and OpenStreetMap basemaps, so readers can zoom, pan, toggle layers, and click on features to inspect attributes directly in the browser. For client-side interactivity, Observable JavaScript (OJS) receives data processed by R during the build phase via <code>ojs_define()</code>, enabling real-time filtering and plotting with no running server.</p>
+</section>
+<section id="cicd-pipeline" class="level2">
+<h2 data-anchor-id="cicd-pipeline">CI/CD Pipeline</h2>
+<p>The entire build-and-deploy process is defined in a single GitHub Actions workflow (<a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank"><code>.github/workflows/publish.yml</code></a>). Every push to <code>main</code> (or a manual <code>workflow_dispatch</code>) triggers the following pipeline:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A["🚀 Push to main&lt;br&gt;(or workflow_dispatch)"] --&gt; B["📦 Checkout Repository&lt;br&gt;(actions/checkout@v4)"]
+    B --&gt; C["🔧 Install &amp; Cache System Deps&lt;br&gt;(cache-apt-pkgs-action)&lt;br&gt;GDAL · GEOS · libmagick++ · HarfBuzz"]
+    C --&gt; D["🐍 Setup Python&lt;br&gt;(micromamba)&lt;br&gt;pyenv/base/environment.yml"]
+    C --&gt; E["📊 Setup R 4.5.0&lt;br&gt;(r-lib/actions/setup-r)&lt;br&gt;renv restore · armyknives profile"]
+    D --&gt; F["⚙️ Setup Quarto&lt;br&gt;(quarto-dev/quarto-actions/setup)"]
+    E --&gt; F
+    F --&gt; G["📝 Render &amp; Publish&lt;br&gt;(quarto-dev/quarto-actions/publish)&lt;br&gt;Target: gh-pages branch"]
+    G --&gt; H["❄️ Commit _freeze/ back to main&lt;br&gt;(bot commit)"]
+    H --&gt; I["🌐 Live on GitHub Pages&lt;br&gt;yonghuni.github.io/blog"]
+
+    style A fill:#4CAF50,color:#fff
+    style I fill:#2196F3,color:#fff
+    style H fill:#FF9800,color:#fff
+</pre>
+</div>
+<p></p><figcaption> CI/CD Pipeline for this blog</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>Both the Python environment (resolved from <code>pyenv/base/environment.yml</code>) and the system-level packages are cached between runs, so builds only pay the full install cost once. R packages are restored through <code>renv</code> with the <code>"armyknives"</code> profile, pinning the exact versions used locally. The final <code>_freeze/</code> commit ensures expensive computations are never re-run unless their source code changes; if nothing has changed, the bot commit is skipped gracefully.</p>
+</section>
+<section id="theming-and-customization" class="level2">
+<h2 data-anchor-id="theming-and-customization">Theming and Customization</h2>
+<p>The site uses the <a href="https://bootswatch.com/cosmo/" target="_blank">Cosmo</a> Bootstrap theme with a custom dark mode defined in <code>misc/theme-dark.scss</code>. A <code>prefers-color-scheme</code> media query in <code>misc/styles.css</code> handles light-mode footer styling. The page footer dynamically injects the Quarto version and build OS through a custom Lua filter (<code>misc/quarto-version.lua</code>), and icons for ORCID and academic profiles come from the <a href="https://github.com/quarto-ext/fontawesome" target="_blank"><code>fontawesome</code></a> and <a href="https://github.com/schochastics/academicons" target="_blank"><code>academicons</code></a> extensions.</p>
+</section>
+<section id="comments" class="level2">
+<h2 data-anchor-id="comments">Comments</h2>
+<p>Every post includes a <a href="https://giscus.app/" target="_blank">Giscus</a> comment widget backed by <a href="https://github.com/YONGHUNI/blog/discussions" target="_blank">GitHub Discussions</a>, injected via shared metadata in <code>posts/_metadata.yml</code>. The widget’s theme automatically syncs with the site’s light/dark toggle.</p>
+</section>
+</section>
+<section id="tech-stack" class="level1">
+<h1>Tech Stack</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Static Site Generator</td>
+<td style="text-align: left;"><a href="https://quarto.org/" target="_blank">Quarto</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Languages</td>
+<td style="text-align: left;">R, Python, Julia, Observable JS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Geospatial</td>
+<td style="text-align: left;">sf, terra, GeoPandas, GDAL, tmap, leafem, folium</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Data Science</td>
+<td style="text-align: left;">scikit-learn, data.table, NumPy, SciPy, Arrow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Visualization</td>
+<td style="text-align: left;">ggplot2, tmap, matplotlib, Observable Plot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hosting</td>
+<td style="text-align: left;"><a href="https://pages.github.com/" target="_blank">GitHub Pages</a> (via <code>gh-pages</code> branch)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CI/CD</td>
+<td style="text-align: left;"><a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank">GitHub Actions</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R Environment</td>
+<td style="text-align: left;"><a href="https://rstudio.github.io/renv/" target="_blank">renv</a> (<code>"armyknives"</code> profile)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Python Environment</td>
+<td style="text-align: left;"><a href="https://github.com/mamba-org/setup-micromamba" target="_blank">Micromamba</a> (<code>pyenv/base/environment.yml</code>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Theme</td>
+<td style="text-align: left;"><a href="https://bootswatch.com/cosmo/" target="_blank">Cosmo</a> + custom dark SCSS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Comments</td>
+<td style="text-align: left;"><a href="https://giscus.app/" target="_blank">Giscus</a> (GitHub Discussions)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Extensions</td>
+<td style="text-align: left;"><a href="https://github.com/quarto-ext/fontawesome" target="_blank">FontAwesome</a>, <a href="https://github.com/schochastics/academicons" target="_blank">Academicons</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Custom Filters</td>
+<td style="text-align: left;">Lua filter for Quarto version injection</td>
+</tr>
+</tbody>
+</table>
 
 
 
+</section>
 
 </main> <!-- /main -->
 <div class="giscus">
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../about/blog";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -830,7 +998,7 @@ More info will soon be updated!
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Powered by <a href="https://quarto.org/">Quarto</a> 1.8.27, compiled on GNU/Linux</p>
+<p>Powered by <a href="https://quarto.org/">Quarto</a> 1.9.36, compiled on GNU/Linux</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

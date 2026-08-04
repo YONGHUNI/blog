@@ -33,13 +33,15 @@ format:
 ::: {#hero-heading}
 # About Me
 
-I’m currently a research intern at the [**Data Science for Humanity Group**](https://www.mpi-sp.org/cha){target="_blank"} at **the Max Planck Institute for Security and Privacy**, where I apply machine learning and remote sensing to better understand and address the challenges facing our society and environment.
+I am a Ph.D. student in Geography at the University of Georgia, where I work with Dr. Weiming Hu (https://weiming.uga.edu/) on geospatial AI and environmental forecasting research. My research interests include GIScience, GeoAI, remote sensing, atmospheric science, and high-performance computing. I am particularly interested in developing scalable machine learning approaches for environmental and spatiotemporal problems. 
 
-I am interested in leveraging high performance computing within the domain of Geography, GIScience, machine learning, and remote sensing. My thesis of master degree involves real-time monitoring of landslide susceptibility using high-resolution active remote sensing data.
+Before joining UGA, I was a research intern at the [**Data Science for Humanity Group**](https://www.mpi-sp.org/cha){target="_blank"} at **the Max Planck Institute for Security and Privacy**, where I applied machine learning and remote sensing to societal and environmental problems. My work there included monitoring changes in North Korean mining activities using optical satellite imagery and mapping changes in WASH accessibility in Rohingya refugee camps using sub-meter satellite imagery.
 
-I earned my Master’s degree in Geography from Seoul National University, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science. Throughout my academic journey, I've published several research papers and presented at various conferences, exploring topics like landslide prediction, population density estimation, and the impact of air pollution on active transportation.
+I earned my Master’s degree in Geography from Seoul National University, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}. My master's research focused on landslide susceptibility modeling using InSAR-derived displacement, rainfall, and interpretable machine learning. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science.
 
-In addition to my research, I'm involved in a community-based air quality project at the State University of New York at Buffalo([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"}). I'm skilled in programming with R, Python, and Julia, and I have extensive experience with GIS and remote sensing software.
+My broader research experience spans landslide susceptibility, population and settlement mapping, spatial accessibility, air quality, and satellite-based monitoring of human activities. In addition to my academic research, I have been involved in a community-based air quality project at the State University of New York at Buffalo ([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"}).
+
+I primarily work with R and Python and have experience in geospatial data processing, remote sensing, machine learning, reproducible scientific workflows, Linux, and high-performance computing.
 :::
 
 # Education

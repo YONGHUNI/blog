@@ -32,7 +32,7 @@ CORE_SPECS = (
 
 SKIP_DIRS = {
     ".git", ".pixi", ".quarto", "_freeze", "_site", "renv", "pyenv",
-    "node_modules", "_extensions", "docs", "scripts",
+    "node_modules", "_extensions", "scripts",
 }
 NAME_RE = re.compile(r"^([A-Za-z0-9][A-Za-z0-9_.-]*)(?:[=<>!~ ].*)?$")
 
@@ -92,7 +92,7 @@ def find_documents(target: str) -> tuple[list[Path], bool]:
     paths = sorted(
         p for p in ROOT.rglob("*.qmd")
         if not any(
-            part in SKIP_DIRS or part.startswith(".")
+            part in SKIP_DIRS or part.startswith((".", "_"))
             for part in p.relative_to(ROOT).parts[:-1]
         )
     )

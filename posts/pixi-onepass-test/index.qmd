@@ -5,7 +5,8 @@ date: 2026-10-26
 categories: [Code]
 ci-packages:
   - r-spdep
-  - networkx
+  - "numpy=2.*"
+  - "networkx>=3.4"
 execute:
   freeze: false
 ---

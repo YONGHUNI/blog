@@ -1,18 +1,11 @@
-# Nix + Pixi migration (stage 1)
+# Nix + Pixi migration status
 
-This is an isolated, **non-deploying** migration trial. The current Quarto Publish workflow and `renv` installation remain unchanged until a replacement has been tested.
+The repository started with a proof-of-concept `pixi.toml` and a `pixi install` verification workflow. The chosen architecture is now **dynamic `pixi exec` + Quarto One-pass rendering**; see [one-pass-render.md](one-pass-render.md) for commands and the `ci-packages` contract.
 
-- `flake.nix` provides the Pixi executable and Quarto CLI.
-- `pixi.toml` defines a baseline CPU-oriented R/Python runtime and native GIS dependencies.
-- `pixi.lock` is **not yet committed**. The first CI verification resolves the environment and uploads the generated lockfile. Review and commit that file before treating this as a reproducible environment.
-- The `gpu` feature and compatibility fixes to older posts are deliberately postponed.
-
-On Linux with Nix installed:
-
-```bash
-nix develop -c pixi install
-nix develop -c pixi run check-r
-nix develop -c pixi run check-python
-```
-
-Do not render the entire website with this trial yet. The repository still auto-activates `renv` from `.Rprofile`, and some posts refer to Micromamba-specific Python paths.
+- Nix supplies Quarto, Pixi, and Python + PyYAML for parsing .qmd frontmatter.
+- Each post declares extra conda-forge package specs with `ci-packages`.
+- A single `pixi exec` resolves the union with shared baseline R/Python/Pandoc specs.
+- Micromamba remains solely to satisfy reticulate's Conda-detection compatibility logic; there is no user-managed Conda environment.
+- The experimental branch's GitHub Actions workflow renders without publishing. The existing `main` publisher remains unchanged.
+- Historical `renv` and `pyenv` artifacts may remain temporarily for rollback, but should no longer activate or install anything in the replacement renderer.
+- Pixi Exec currently has no project lockfile. Package/version reproducibility requires explicit constraints or a later separate lockfile design.

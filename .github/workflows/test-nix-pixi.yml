@@ -1,39 +1,38 @@
-name: Test Nix Pixi Environment
+name: Test Nix Pixi One-pass Render
 
 on:
   push:
     branches:
       - refactor/nix-pixi-baseline
-    paths:
-      - flake.nix
-      - pixi.toml
-      - scripts/render-site.py
-      - .github/workflows/test-nix-pixi.yml
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  verify-environment:
+  render-no-deploy:
     runs-on: ubuntu-24.04
+    timeout-minutes: 60
     steps:
-      - name: Checkout
+      - name: Check out repository and committed Quarto freeze
         uses: actions/checkout@v4
       - name: Install Nix
         uses: cachix/install-nix-action@v31
-      - name: Resolve Pixi runtime
-        run: nix develop -c pixi install
-      - name: Check R and native GIS libraries
-        run: nix develop -c pixi run check-r
-      - name: Check Python
-        run: nix develop -c pixi run check-python
-      - name: Validate one-pass QMD metadata and package aggregation
+      - name: Test Pixi MatchSpec collection and conflict detection
+        run: nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Validate One-pass dependency resolution plan
         run: nix develop -c python scripts/render-site.py --dry-run
-      - name: Upload resolved Pixi lockfile for review
-        if: always()
+      - name: Render whole Quarto website in one Pixi environment (no publishing)
+        run: nix develop -c python scripts/render-site.py
+      - name: Verify rendered site and executed reticulate bridge
+        run: |
+          test -s _site/index.html
+          test -s _site/posts/pixi-onepass-test/index.html
+          grep -q 'networkx imported from R:' _site/posts/pixi-onepass-test/index.html
+          grep -q 'reticulate Python:' _site/posts/pixi-onepass-test/index.html
+      - name: Upload integration-test HTML on success
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: pixi-lock-candidate
-          path: pixi.lock
-          if-no-files-found: ignore
+          name: pixi-onepass-test-html
+          path: _site/posts/pixi-onepass-test/index.html

@@ -23,6 +23,8 @@ CORE_SPECS = (
     "r-base=4.5.*",
     "r-knitr",
     "r-rmarkdown",
+    "r-downlit",  # Required for code-link: true in several legacy posts.
+    "r-xml2",
     "r-reticulate",
     "python=3.12.*",
     "numpy",

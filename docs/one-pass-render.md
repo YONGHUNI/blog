@@ -1,43 +1,49 @@
-# One-pass Pixi Exec rendering (experimental)
+# One-pass Nix + Pixi + Quarto rendering (migration branch)
 
-This branch tests **one Pixi Exec environment and one Quarto render for the whole site**. Production publishing remains unchanged.
+This branch uses **one cached Pixi Exec environment and one Quarto invocation** to render the entire site. The `main` branch and its existing `.github/workflows/publish.yml` remain untouched until the test branch passes and a publishing migration is reviewed.
 
-## Local commands
+## Local workflow
 
-Run from the blog repository root on NixOS/Linux:
+```bash
+nix develop
+python -m unittest discover -s scripts -p 'test_*.py' -v
+python scripts/render-site.py --dry-run
+python scripts/render-site.py
+```
 
-    nix develop
-    python scripts/render-site.py --dry-run
-    python scripts/render-site.py --target posts/_pixi_exec_smoke/index.qmd
-    python scripts/render-site.py
+For an isolated post execution test, use:
 
-The targeted smoke command uses the QMD you created locally. It was not added to the repository. The last command renders the entire site in one Quarto invocation.
+```bash
+python scripts/render-site.py --target posts/pixi-onepass-test/index.qmd
+```
 
-## Per-post dependency metadata
+**A single-post render always executes code even when `freeze: true` is set.** A whole-site render respects Quarto's freeze settings.
 
-Declare additional dependencies in a post's YAML front matter, e.g.:
+## Declare dependencies in the .qmd header
 
-    ---
-    title: Spatial Autocorrelation
-    ci-packages:
-      - r-spdep
-      - r-sf
-      - 'numpy=2.*'
-    ---
+```yaml
+---
+title: "Spatial Analysis"
+ci-packages:
+  - r-sf
+  - r-spdep
+  - "numpy=2.*"
+  - "networkx>=3.4"
+---
+```
 
-The ci-packages field is a custom convention parsed by scripts/render-site.py, **not a built-in Quarto option**.
+`ci-packages` is a **custom Quarto frontmatter field**, not a built-in Pixi or Quarto field. Its entries are conda-forge package specifications passed unchanged to `pixi exec --spec`. Names and version constraints follow the simple Pixi/Conda MatchSpec forms; quote specs containing punctuation as in the example. R package names have a `r-` prefix (e.g. `r-sf`). PyPI-only packages and package-specific channels are **not supported yet**.
 
-The script collects QMD front matter, deduplicates requirements, rejects conflicting versions of the same package, and installs the union in one temporary Pixi Exec environment. Unlike per-post Pixi Exec, this does not isolate the execution environments of individual posts.
+The renderer merges requirements from all included posts, deduplicates package names, fails early on conflicting specs, then calls `quarto render . --to html` **once**. Versions without constraints can evolve between environment resolutions; this temporary environment is **not pinned** by `pixi.toml` or `pixi.lock`. An existing `pixi.toml` (if present) is not read by `pixi exec` in this workflow.
 
-Documents explicitly using execute.freeze: true do not contribute additional packages when rendering the entire project, because their existing Quarto freeze results should be used. Rendering such a document by itself does execute its code.
+Core R, Python, Pandoc and `micromamba` are included centrally. Micromamba is **only a reticulate compatibility binary**; Pixi performs all environment solving, installation and caching. Users should never run `micromamba install`, `activate` or `conda_create` from individual posts.
 
-## Test environment and known limitations
+## Freeze strategy and limitations
 
-- Nix provides Pixi, Quarto, Python and PyYAML. Generated flake.lock is worth committing once reviewed.
-- The temporary environment does not change pixi.toml or pixi.lock.
-- Pandoc 3.8.3 and Micromamba are included to match the successful Quarto 1.9.37 / reticulate 1.47.0 NixOS smoke test.
-- Existing QMDs have not been migrated. Some have hard-coded Micromamba paths or commands and may fail when re-executed.
-- Existing posts currently do not declare ci-packages. Add them before forcing execution of code that needs extra packages.
-- Explicitly frozen documents require committed, valid _freeze results. This prototype does not verify their presence or freshness.
-- Extra package versions without explicit constraints are not locked across time in pixi exec.
-- The production publish.yml is intentionally unchanged. End-to-end website rendering has not yet been verified.
+- Existing posts with expensive computations can use `execute: {freeze: true}` during migration to preserve previously committed `_freeze` results. A targeted render always executes the code.
+- `execute: {freeze: auto}` is suitable for new posts or migrated posts whose full computations can be re-executed in CI.
+- Core packages are always resolved. Post-specific packages on explicitly frozen posts are omitted from the **whole-site** package union, but included in `--target` renders.
+- The integration post `posts/pixi-onepass-test/index.qmd` has `freeze: false` to **force** real R + Python execution and check `reticulate` imports Pixi's Python.
+- The current code does not support per-post environment isolation, PyPI-specific packages, exact-lock reproducibility or GPU-specific dependencies.
+- Existing CV PDF 404 warnings are unrelated to Pixi.
+- This non-deploying test workflow must pass before replacing the production publishing workflow.

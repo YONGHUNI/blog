@@ -83,7 +83,7 @@ jobs:
               if len(lines) > 2:
                   data = yaml.safe_load(lines[1]) or {}
                   if isinstance(data, dict) and (data.get("execute") or {}).get("freeze") is True:
-                      sys.stdout.buffer.write(("_freeze/" + p.with_suffix("").as_posix() + "/").encode() + b"\\0")
+                      sys.stdout.buffer.write(("_freeze/" + p.with_suffix("").as_posix() + "/").encode() + b"\0")
           PY
             )
             # Stage new or changed generated freeze outputs, but preserve cluster paths.

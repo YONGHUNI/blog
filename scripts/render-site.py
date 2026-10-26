@@ -144,7 +144,7 @@ def write_manifest(paths: list[Path]) -> None:
             # Quarto can omit freeze files for documents with no executable cells.
             continue
     MANIFEST.write_text(
-        json.dumps(current, indent=2, sort_keys=True) + "\\n", encoding="utf-8"
+        json.dumps(current, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
 
 

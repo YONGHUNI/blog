@@ -42,8 +42,8 @@ nx_from_r <- import("networkx")
 graph_from_r <- nx_from_r$grid_2d_graph(2L, 2L)
 stopifnot(graph_from_r$number_of_nodes() == 4L)
 
-cat("reticulate Python:", selected, "\\n")
-cat("networkx imported from R:", as.character(py_get_attr(nx_from_r, "__version__")), "\\n")
+cat("reticulate Python:", selected, "\n")
+cat("networkx imported from R:", as.character(py_get_attr(nx_from_r, "__version__")), "\n")
 ```
 
 ## Python: graph topology

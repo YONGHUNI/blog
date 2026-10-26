@@ -35,5 +35,5 @@ proj = "*"
 udunits2 = "*"
 
 [tasks]
-check-r = "Rscript --vanilla -e 'library(sf); library(units); library(terra); library(reticulate); cat(R.version.string, "\\n")'"
-check-python = "python -c 'import numpy, pandas, scipy, sklearn, geopandas; print("Python imports OK")'"
+check-r = '''Rscript --vanilla -e 'library(sf); library(units); library(terra); library(reticulate); cat(R.version.string, "\n")' '''
+check-python = '''python -c 'import numpy, pandas, scipy, sklearn, geopandas; print("Python imports OK")' '''

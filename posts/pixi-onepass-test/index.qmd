@@ -25,6 +25,27 @@ stopifnot(length(weights$neighbours) == 4L)
 stopifnot(all(spdep::card(neighbors) == 2L))
 ```
 
+## R to Python: reticulate bridge without per-post environment commands
+
+The renderer configures the interpreter centrally. This post does **not** run
+`micromamba`, set up a Conda environment, or call `use_python()`.
+
+```{r}
+library(reticulate)
+
+selected <- py_config()$python
+expected <- Sys.getenv("RETICULATE_PYTHON")
+stopifnot(nzchar(expected))
+stopifnot(normalizePath(selected) == normalizePath(expected))
+
+nx_from_r <- import("networkx")
+graph_from_r <- nx_from_r$grid_2d_graph(2L, 2L)
+stopifnot(graph_from_r$number_of_nodes() == 4L)
+
+cat("reticulate Python:", selected, "\\n")
+cat("networkx imported from R:", as.character(py_get_attr(nx_from_r, "__version__")), "\\n")
+```
+
 ## Python: graph topology
 
 ```{python}

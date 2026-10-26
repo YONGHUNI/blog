@@ -15,37 +15,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # CV sources are stored under cv/ (CV.tex, custom class, fonts).
-      # This runs before the existing Quarto publish step so the website
-      # receives the freshly compiled PDF and commits it to main.
-      - name: Build CV (XeLaTeX)
-        if: ${{ hashFiles('cv/CV.tex') != '' }}
-        uses: xu-cheng/latex-action@v4
-        with:
-          root_file: CV.tex
-          working_directory: cv
-          latexmk_use_xelatex: true
-          args: "-file-line-error -halt-on-error -interaction=nonstopmode"
-
-      - name: Install generated CV for Quarto
-        if: ${{ hashFiles('cv/CV.tex') != '' }}
-        run: |
-          test -s cv/CV.pdf
-          cp cv/CV.pdf about/me/data/CV_Yonghun_Suh.pdf
-
-      - name: Commit generated CV PDF to main
-        if: ${{ hashFiles('cv/CV.tex') != '' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add about/me/data/CV_Yonghun_Suh.pdf
-          if ! git diff --cached --quiet; then
-            git commit -m "docs(cv): update generated CV PDF"
-            git push origin HEAD:main
-          else
-            echo "CV PDF unchanged; skipping commit."
-          fi
-
       - name: Install ubuntu dependencies
         #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
         uses: awalsh128/cache-apt-pkgs-action@latest

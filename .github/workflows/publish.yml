@@ -41,8 +41,19 @@ jobs:
             test -s "_site/posts/$post/index.html"
           done
 
-      - name: Set up Quarto for publishing
+      # Nix builds the site with Quarto 1.9.37. The action defaults to a
+      # newer release, whose Deno project-cache format may be incompatible.
+      # Clear only Quarto's internal cache; keep _site and optional _freeze.
+      - name: Reset Quarto project cache after rendering
+        run: rm -rf .quarto/
+
+      - name: Set up matching Quarto for publishing
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: '1.9.37'
+
+      - name: Verify publishing Quarto matches build version
+        run: test "$(quarto --version)" = "1.9.37"
 
       - name: Publish pre-rendered site
         uses: quarto-dev/quarto-actions/publish@v2

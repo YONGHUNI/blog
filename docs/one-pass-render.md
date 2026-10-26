@@ -11,7 +11,7 @@ python scripts/render-site.py --dry-run
 python scripts/render-site.py
 ```
 
-The GitHub Actions runner calls `nix develop -c python scripts/render-site.py` and then the Quarto publish action with `target: gh-pages` and `render: false`. Only `main` pushes and manual dispatches from `main` can publish. `test-nix-pixi.yml` remains a non-deploying integration test on the refactor branch.
+The GitHub Actions runner calls `nix develop -c python scripts/render-site.py` and then the Quarto publish action with `target: gh-pages` and `render: false`. Only `main` pushes and manual dispatches from `main` can publish. Publishing installs Quarto **1.9.37**, matching the Nix renderer, and clears only `.quarto/` (the disposable project cache) before `publish@v2 --no-render` to avoid Deno KV cache deserialization errors across CLI versions; `_site/` and manually committed `_freeze/` are preserved. `test-nix-pixi.yml` remains a non-deploying integration test on the refactor branch.
 
 Nix and `flake.lock` pin the build-tool inputs. The current `pixi exec` environment is **not** controlled by `pixi.toml` or `pixi.lock` and can pick up newer compatible conda-forge packages between runs. For stricter reproducibility, constrain `ci-packages` versions or migrate to a locked Pixi project later.
 

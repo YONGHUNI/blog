@@ -40,7 +40,7 @@ Core R, Python, Pandoc and `micromamba` are included centrally. Micromamba is **
 
 ## Opt-in cluster freeze: default Actions execution, optional CPU/GPU offload
 
-The site default in `_quarto.yml` is `execute.freeze: false`. All ordinary QMD computation is performed by GitHub Actions, using only repository input files and the fetched datasets. Actions **never commits** generated `_freeze` outputs. Previously tracked legacy `_freeze` files are not used when freeze is disabled.
+The site default in `_quarto.yml` is `execute.freeze: false`. All ordinary QMD computation is performed by GitHub Actions, using only repository input files and the fetched datasets. Actions does not auto-add ignored/new `_freeze` outputs; the production bot can commit updates to already tracked freeze files only when they actually change. Previously tracked legacy `_freeze` files are not used when freeze is disabled.
 
 For a future heavy post, the author can compute its results on a CPU or GPU cluster and publish only its selected frozen execution results:
 
@@ -58,15 +58,17 @@ The current code does not provide per-post environment isolation, PyPI-specific 
 
 The integration post `posts/pixi-onepass-test/index.qmd` forces a real R/Python bridge test. Existing CV PDF 404 warnings are unrelated to Pixi. The non-deploying CI workflow must pass before replacing production publishing.
 
-## Production publishing: separate jobs within one workflow
+## Production publishing: single job, one render, skip empty freeze commits
 
-`.github/workflows/publish.yml` now contains two jobs for production `main` pushes:
+`.github/workflows/publish.yml` runs **one job** on `main` pushes (or a manual dispatch on `main` only).
 
-- `build`: read-only checkout, Nix, shared Pixi Exec runtime, **one** Quarto render, HTML verification, and full `_site/` upload.
-- `deploy`: waits for `build`, downloads that exact run's `_site/` artifact, then uses `quarto-dev/quarto-actions/publish@v2` to update the existing `gh-pages` branch with `render: false`. No R, Python, renv or Pixi setup is needed in this job.
+1. Nix supplies the site tools; `scripts/render-site.py` assembles package specs and executes Quarto **once** in a shared Pixi environment.
+2. Verify that the expected HTML documents exist in `_site/`.
+3. `quarto-dev/quarto-actions/setup@v2` supplies the publisher CLI; `quarto-dev/quarto-actions/publish@v2` targets the existing `gh-pages` branch with `render: false`. This step only publishes the already rendered site and **must not render a second time**.
+4. Finally, stage **tracked `_freeze/` modifications only** with `git add -u -- _freeze/`. If `git diff --cached --quiet -- _freeze/` shows no changes, skip the commit and push. If tracked freeze outputs genuinely changed, commit those paths to `main` with `[skip ci]`, then push using the checkout token.
 
-The `deploy` job has scoped `contents: write` permission and an explicit `github.ref == 'refs/heads/main'` guard to avoid accidental test-branch publication on manual workflow runs. It does not auto-commit `_freeze`; only explicitly committed freeze results from CPU/GPU clusters are reused. The artifact upload includes dotfiles, so `_site/.nojekyll` and other static-site files survive the handoff.
+`_freeze/` remains ignored by default. The bot intentionally does **not** add newly generated, ignored freeze files; only the author can push a new cluster-produced result by using `git add -f _freeze/posts/<name>/index/`. This preserves the ability to opt into CPU/GPU cluster computation without automatically publishing every local calculation cache.
 
-The separate `test-nix-pixi.yml` workflow is still a **non-publishing** integration test on the refactor branch. It tests the full rendering step and now independently downloads the entire site artifact in a second job, mirroring the production build/deploy boundary. The actual `gh-pages` publication cannot be verified on the test branch without publishing and must be checked after merging to `main`.
+Ordinary posts use `freeze: false`, so a routine successful build normally has **no tracked freeze updates** and the final step prints a skip message. The author remains responsible for regenerating and explicitly pushing cluster-frozen results after any computational changes. Already tracked outputs may be updated by the bot if Quarto modifies them; if strict manual-only control is later desired, remove the final bot commit step entirely.
 
-Keeping build and deploy as jobs in one workflow allows `needs: build` to gate publication and avoids cross-workflow artifact-run lookup or `workflow_run` trigger plumbing.
+The `test-nix-pixi.yml` workflow remains separate and **never publishes**. It performs the full Nix + Pixi integration test on the refactor branch. The test branch does not exercise the actual gh-pages publication; this must be verified after merging to `main`.

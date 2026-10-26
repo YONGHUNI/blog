@@ -1,6 +1,6 @@
 name: Quarto Publish
 
-# Production publishing is triggered only from main.
+# Build and publish only from main. Keep test-branch pushes non-deploying.
 on:
   workflow_dispatch:
   push:
@@ -8,18 +8,19 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write  # gh-pages publishing and optional tracked freeze updates
 
-# Serialize site updates; never cancel an in-flight gh-pages publication.
 concurrency:
   group: quarto-gh-pages-publish
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build site (Nix + Pixi)
+  build-deploy:
+    name: Render once and publish to gh-pages
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 60
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,10 +28,10 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v31
 
-      - name: Verify dependency metadata
+      - name: Validate Pixi dependency metadata
         run: nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
 
-      - name: Render the full site once
+      - name: Render with Nix + Pixi (one Quarto invocation)
         run: nix develop -c python scripts/render-site.py
 
       - name: Verify rendered HTML
@@ -40,45 +41,37 @@ jobs:
             test -s "_site/posts/$post/index.html"
           done
 
-      - name: Upload rendered website
-        uses: actions/upload-artifact@v4
-        with:
-          name: quarto-site
-          path: _site/
-          if-no-files-found: error
-          include-hidden-files: true
-          retention-days: 3
-
-  deploy:
-    name: Deploy previously rendered site
-    needs: build
-    # Manual runs on non-main branches must never publish to gh-pages.
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Download rendered website
-        uses: actions/download-artifact@v4
-        with:
-          name: quarto-site
-          path: _site/
-
-      - name: Verify downloaded website
-        run: |
-          test -s _site/index.html
-          test -s _site/posts/dbscan_bench/index.html
-
-      - name: Set up Quarto for publishing only
+      - name: Set up Quarto for publishing
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Publish to existing gh-pages branch without rendering
+      - name: Publish pre-rendered site
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
           render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Ordinary QMDs use freeze: false. Only previously tracked freeze files
+      # are eligible here; new CPU/GPU cluster results must be pushed manually
+      # via git add -f, never automatically collected from the Actions runner.
+      - name: Push tracked Quarto freeze changes only if they exist
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -d _freeze ]]; then
+            echo "No _freeze directory. Skipping freeze commit."
+            exit 0
+          fi
+
+          git add -u -- _freeze/
+          if git diff --cached --quiet -- _freeze/; then
+            echo "No tracked _freeze changes. Skipping commit and push."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "[BOT] Update Quarto freeze [skip ci]" -- _freeze/
+          git push origin HEAD:main

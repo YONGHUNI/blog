@@ -33,14 +33,24 @@ jobs:
           test -s _site/posts/pixi-onepass-test/index.html
           grep -q 'networkx imported from R:' _site/posts/pixi-onepass-test/index.html
           grep -q 'PIXIRETICULATE_BRIDGE_PASS' _site/posts/pixi-onepass-test/index.html
-      - name: Confirm freeze commit would be skipped when nothing changed
+      - name: Verify freeze commit excludes removed outputs
+        shell: bash
         run: |
-          if [[ ! -d _freeze ]] || git diff --quiet -- _freeze/; then
-            echo "No tracked freeze changes. Production would skip a commit."
-          else
-            echo "Tracked freeze changes detected; production would commit them."
-            git diff --stat -- _freeze/
+          set -euo pipefail
+          if [[ ! -d _freeze ]]; then
+            echo "No freeze directory; production skips a commit."
+            exit 0
           fi
+          mapfile -d '' updated < <(git diff --name-only -z --diff-filter=M -- _freeze/)
+          if (('${#updated[@]}' == 0)); then
+            echo "No modified tracked freeze files; production skips a commit."
+          else
+            printf 'Modified tracked freeze files (only these could be committed):\n'
+            printf '%s\n' "${updated[@]}"
+          fi
+          # Deletions are intentionally excluded, even if git diff reports them.
+          mapfile -d '' deleted < <(git diff --name-only -z --diff-filter=D -- _freeze/)
+          printf 'Excluded deleted freeze files: %s\n' "${#deleted[@]}"
 
       - name: Upload integration-test HTML on success
         uses: actions/upload-artifact@v4

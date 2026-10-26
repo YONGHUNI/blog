@@ -52,9 +52,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Ordinary QMDs use freeze: false. Only previously tracked freeze files
-      # are eligible here; new CPU/GPU cluster results must be pushed manually
-      # via git add -f, never automatically collected from the Actions runner.
+      # Ordinary QMDs use freeze: false. A whole-site build may delete legacy
+      # _freeze files, so deletion is NEVER staged by this workflow.
+      # Future CPU/GPU results must be pushed manually using git add -f.
       - name: Push tracked Quarto freeze changes only if they exist
         shell: bash
         run: |
@@ -65,13 +65,24 @@ jobs:
             exit 0
           fi
 
-          git add -u -- _freeze/
+          # A full re-render can remove previously tracked _freeze files.
+          # Never stage deletions: retain all historical/cluster-produced output
+          # until the author explicitly removes it from source control.
+          mapfile -d '' updated < <(
+            git diff --name-only -z --diff-filter=M -- _freeze/
+          )
+          if (('${#updated[@]}' == 0)); then
+            echo "No modified, tracked _freeze files to publish. Skipping commit and push."
+            exit 0
+          fi
+
+          git add -- "${updated[@]}"
           if git diff --cached --quiet -- _freeze/; then
-            echo "No tracked _freeze changes. Skipping commit and push."
+            echo "No staged _freeze content changes. Skipping commit and push."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "[BOT] Update Quarto freeze [skip ci]" -- _freeze/
+          git commit -m "[BOT] Update Quarto freeze [skip ci]" -- "${updated[@]}"
           git push origin HEAD:main

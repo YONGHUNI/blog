@@ -71,7 +71,7 @@ jobs:
           mapfile -d '' updated < <(
             git diff --name-only -z --diff-filter=M -- _freeze/
           )
-          if (('${#updated[@]}' == 0)); then
+          if (( ${#updated[@]} == 0 )); then
             echo "No modified, tracked _freeze files to publish. Skipping commit and push."
             exit 0
           fi

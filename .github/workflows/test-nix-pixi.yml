@@ -42,7 +42,7 @@ jobs:
             exit 0
           fi
           mapfile -d '' updated < <(git diff --name-only -z --diff-filter=M -- _freeze/)
-          if (('${#updated[@]}' == 0)); then
+          if (( ${#updated[@]} == 0 )); then
             echo "No modified tracked freeze files; production skips a commit."
           else
             printf 'Modified tracked freeze files (only these could be committed):\n'

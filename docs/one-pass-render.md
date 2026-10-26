@@ -57,3 +57,16 @@ For ordinary posts, do not use `freeze: true`; they run on GitHub Actions. `free
 The current code does not provide per-post environment isolation, PyPI-specific packages, exact-lock reproducibility or GPU cluster provisioning. Provisioning specialized cluster software is the user's responsibility; `--target` can use the regular Pixi environment when its dependencies are available on conda-forge.
 
 The integration post `posts/pixi-onepass-test/index.qmd` forces a real R/Python bridge test. Existing CV PDF 404 warnings are unrelated to Pixi. The non-deploying CI workflow must pass before replacing production publishing.
+
+## Production publishing: separate jobs within one workflow
+
+`.github/workflows/publish.yml` now contains two jobs for production `main` pushes:
+
+- `build`: read-only checkout, Nix, shared Pixi Exec runtime, **one** Quarto render, HTML verification, and full `_site/` upload.
+- `deploy`: waits for `build`, downloads that exact run's `_site/` artifact, then uses `quarto-dev/quarto-actions/publish@v2` to update the existing `gh-pages` branch with `render: false`. No R, Python, renv or Pixi setup is needed in this job.
+
+The `deploy` job has scoped `contents: write` permission and an explicit `github.ref == 'refs/heads/main'` guard to avoid accidental test-branch publication on manual workflow runs. It does not auto-commit `_freeze`; only explicitly committed freeze results from CPU/GPU clusters are reused. The artifact upload includes dotfiles, so `_site/.nojekyll` and other static-site files survive the handoff.
+
+The separate `test-nix-pixi.yml` workflow is still a **non-publishing** integration test on the refactor branch. It tests the full rendering step and now independently downloads the entire site artifact in a second job, mirroring the production build/deploy boundary. The actual `gh-pages` publication cannot be verified on the test branch without publishing and must be checked after merging to `main`.
+
+Keeping build and deploy as jobs in one workflow allows `needs: build` to gate publication and avoids cross-workflow artifact-run lookup or `workflow_run` trigger plumbing.

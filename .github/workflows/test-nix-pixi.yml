@@ -33,9 +33,32 @@ jobs:
           test -s _site/posts/pixi-onepass-test/index.html
           grep -q 'networkx imported from R:' _site/posts/pixi-onepass-test/index.html
           grep -q 'PIXIRETICULATE_BRIDGE_PASS' _site/posts/pixi-onepass-test/index.html
-      - name: Upload integration-test HTML on success
-        if: success()
+      - name: Upload entire rendered site for inter-job artifact test
         uses: actions/upload-artifact@v4
         with:
-          name: pixi-onepass-test-html
-          path: _site/posts/pixi-onepass-test/index.html
+          name: site-artifact-handoff-test
+          path: _site/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 1
+
+  verify-artifact-handoff:
+    name: Validate independent deploy job can read the HTML artifact
+    needs: render-no-deploy
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Download rendered site in another job
+        uses: actions/download-artifact@v4
+        with:
+          name: site-artifact-handoff-test
+          path: _site/
+
+      - name: Check downloaded HTML and reticulate execution proof
+        run: |
+          test -s _site/index.html
+          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
+            test -s "_site/posts/$post/index.html"
+          done
+          grep -q 'PIXIRETICULATE_BRIDGE_PASS' _site/posts/pixi-onepass-test/index.html

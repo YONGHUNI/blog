@@ -1,88 +1,84 @@
+name: Quarto Publish
+
+# Production publishing is triggered only from main.
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches:
+      - main
 
-name: Quarto Publish
+permissions:
+  contents: read
+
+# Serialize site updates; never cancel an in-flight gh-pages publication.
+concurrency:
+  group: quarto-gh-pages-publish
+  cancel-in-progress: false
 
 jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
+  build:
+    name: Build site (Nix + Pixi)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Verify dependency metadata
+        run: nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+
+      - name: Render the full site once
+        run: nix develop -c python scripts/render-site.py
+
+      - name: Verify rendered HTML
+        run: |
+          test -s _site/index.html
+          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
+            test -s "_site/posts/$post/index.html"
+          done
+
+      - name: Upload rendered website
+        uses: actions/upload-artifact@v4
+        with:
+          name: quarto-site
+          path: _site/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 3
+
+  deploy:
+    name: Deploy previously rendered site
+    needs: build
+    # Manual runs on non-main branches must never publish to gh-pages.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
     permissions:
-      #actions: write
       contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install ubuntu dependencies
-        #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with: 
-          packages: >- 
-            cmake gdal-bin gsfonts libcurl4-openssl-dev 
-            libfontconfig1-dev libfreetype6-dev libgdal-dev 
-            libgeos-dev libjpeg-dev libmagick++-dev libpng-dev 
-            libudunits2-dev libx11-dev pandoc libharfbuzz-dev 
-            libfribidi-dev 
-
-          #execute_install_scripts: true
-          version: 1
-      
-      - name: Install mamba environment
-        uses: mamba-org/setup-micromamba@v2
+      - name: Download rendered website
+        uses: actions/download-artifact@v4
         with:
-          environment-file: pyenv/base/environment.yml
-          #init-shell: bash
-          cache-environment: true
-          cache-environment-key: ${{ runner.os }}-mamba-${{ env.CACHE_NUMBER }}-${{ hashFiles('pyenv/base/environment.yml') }}
+          name: quarto-site
+          path: _site/
 
-      - name: activate conda environment
+      - name: Verify downloaded website
         run: |
-          eval "$(micromamba shell hook --shell bash)"
-          micromamba activate baseline
-          which python
+          test -s _site/index.html
+          test -s _site/posts/dbscan_bench/index.html
 
-      - name: Install R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          Ncpus: '4'
-          r-version: '4.5.0'
-
-      - name: Install R dependency
-        uses: r-lib/actions/setup-renv@v2
-        with:
-          profile: '"armyknives"'
-          #bypass-cache: never
-          #working-directory: "quarto/data/1_swiss_army_knives/"
-          cache-version: 2
-
-      - name: Set up Quarto
+      - name: Set up Quarto for publishing only
         uses: quarto-dev/quarto-actions/setup@v2
 
-        #- name: Install quarto extension
-        #run: quarto install --no-prompt extension schochastics/academicons
-      # - name: Quarto render - to inspect rendering cache
-      #   run: quarto render ./ --execute-debug
-      # 
-      # - name: Push Quarto render cache if diff detected
-      #   run: |
-      #     git config --global user.name 'YONGHUNI'
-      #     git config --global user.email 'dydgns0556@gmail.com'
-      #     git add -f _freeze
-      #     ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
-      
-      - name: Render and Publish
+      - name: Publish to existing gh-pages branch without rendering
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          #render: false
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Quarto render cache if diff detected
-        run: |
-          git config --global user.name 'YONGHUNI'
-          git config --global user.email 'dydgns0556@gmail.com'
-          git add -f _freeze
-          ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"

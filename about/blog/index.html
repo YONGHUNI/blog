@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -42,14 +39,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6ac2aec46ad7f46b16024ee4409aa65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-c9e99f4f48eec51fdf39e0ef8416a173.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-6ac2aec46ad7f46b16024ee4409aa65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-25de681bb57222f321241f665073f735.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -137,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -472,33 +469,30 @@ window.Quarto = {
 </section>
 <section id="cicd-pipeline" class="level2">
 <h2 data-anchor-id="cicd-pipeline">CI/CD Pipeline</h2>
-<p>The entire build-and-deploy process is defined in a single GitHub Actions workflow (<a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank"><code>.github/workflows/publish.yml</code></a>). Every push to <code>main</code> (or a manual <code>workflow_dispatch</code>) triggers the following pipeline:</p>
+<p>The blog is built and deployed by a single GitHub Actions <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank">publishing workflow</a>. A push to <code>main</code> (or a manual dispatch on <code>main</code>) triggers one job that executes every ordinary post, renders the site once, and publishes the already-generated HTML to the <code>gh-pages</code> branch.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    A["🚀 Push to main&lt;br&gt;(or workflow_dispatch)"] --&gt; B["📦 Checkout Repository&lt;br&gt;(actions/checkout@v4)"]
-    B --&gt; C["🔧 Install &amp; Cache System Deps&lt;br&gt;(cache-apt-pkgs-action)&lt;br&gt;GDAL · GEOS · libmagick++ · HarfBuzz"]
-    C --&gt; D["🐍 Setup Python&lt;br&gt;(micromamba)&lt;br&gt;pyenv/base/environment.yml"]
-    C --&gt; E["📊 Setup R 4.5.0&lt;br&gt;(r-lib/actions/setup-r)&lt;br&gt;renv restore · armyknives profile"]
-    D --&gt; F["⚙️ Setup Quarto&lt;br&gt;(quarto-dev/quarto-actions/setup)"]
-    E --&gt; F
-    F --&gt; G["📝 Render &amp; Publish&lt;br&gt;(quarto-dev/quarto-actions/publish)&lt;br&gt;Target: gh-pages branch"]
-    G --&gt; H["❄️ Commit _freeze/ back to main&lt;br&gt;(bot commit)"]
-    H --&gt; I["🌐 Live on GitHub Pages&lt;br&gt;yonghuni.github.io/blog"]
-
-    style A fill:#4CAF50,color:#fff
-    style I fill:#2196F3,color:#fff
-    style H fill:#FF9800,color:#fff
+    A["Push to main / manual dispatch"] --&gt; B["Checkout source"]
+    B --&gt; C["Nix development environment&lt;br&gt;Quarto, Pixi, Python + YAML"]
+    C --&gt; D["Read ci-packages from QMDs&lt;br&gt;Merge R/Python requirements"]
+    D --&gt; E["Pixi Exec: shared conda-forge environment&lt;br&gt;R, Python and libraries"]
+    E --&gt; F["One Quarto render&lt;br&gt;Execute ordinary posts and reuse opt-in freeze"]
+    F --&gt; G["Verify generated HTML in _site"]
+    G --&gt; H["Quarto publish to gh-pages&lt;br&gt;render: false"]
+    H --&gt; I["Check tracked _freeze changes&lt;br&gt;Skip if none / never commit deletions"]
+    I --&gt; J["GitHub Pages"]
 </pre>
 </div>
-<p></p><figcaption> CI/CD Pipeline for this blog</figcaption> </figure><p></p>
+<p></p><figcaption> Nix + Pixi + Quarto one-pass CI/CD pipeline</figcaption> </figure><p></p>
 </div>
 </div>
 </div>
-<p>Both the Python environment (resolved from <code>pyenv/base/environment.yml</code>) and the system-level packages are cached between runs, so builds only pay the full install cost once. R packages are restored through <code>renv</code> with the <code>"armyknives"</code> profile, pinning the exact versions used locally. The final <code>_freeze/</code> commit ensures expensive computations are never re-run unless their source code changes; if nothing has changed, the bot commit is skipped gracefully.</p>
+<p>Nix supplies the build tools, while Pixi resolves the shared runtime dependencies from <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py" target="_blank"><code>scripts/render-site.py</code></a> and each document’s <code>ci-packages</code> YAML metadata. Quarto is invoked <strong>once</strong> for the whole website. The publication step uses <code>render: false</code>, so no additional R/Python execution occurs during publishing. The previous <code>renv</code> and Micromamba-managed environments are no longer part of the CI configuration. A Micromamba executable is included only as a compatibility shim for <code>reticulate</code>’s Conda environment detection.</p>
+<p>Most posts use <code>execute: freeze: false</code> and are executed directly in GitHub Actions. For future CPU/GPU-intensive computations, an individual post can declare <code>freeze: true</code> and reuse its precomputed <code>_freeze</code> output that the author explicitly commits from a compute cluster. GitHub Actions does <strong>not</strong> automatically add these new files. The final workflow step skips a Git commit when there are no modified tracked freeze artifacts and never stages their removal. For technical details, see the <a href="https://github.com/YONGHUNI/blog/blob/main/docs/one-pass-render.md" target="_blank">one-pass rendering guide</a>.</p>
 </section>
 <section id="theming-and-customization" class="level2">
 <h2 data-anchor-id="theming-and-customization">Theming and Customization</h2>
@@ -548,12 +542,12 @@ window.Quarto = {
 <td style="text-align: left;"><a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank">GitHub Actions</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">R Environment</td>
-<td style="text-align: left;"><a href="https://rstudio.github.io/renv/" target="_blank">renv</a> (<code>"armyknives"</code> profile)</td>
+<td style="text-align: left;">Build Toolchain</td>
+<td style="text-align: left;"><a href="https://nixos.org/" target="_blank">Nix</a> (flake.lock)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Python Environment</td>
-<td style="text-align: left;"><a href="https://github.com/mamba-org/setup-micromamba" target="_blank">Micromamba</a> (<code>pyenv/base/environment.yml</code>)</td>
+<td style="text-align: left;">R/Python Runtime</td>
+<td style="text-align: left;"><a href="https://pixi.sh/" target="_blank">Pixi</a> (<code>pixi exec</code>, conda-forge; per-post <code>ci-packages</code>)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theme</td>
@@ -670,7 +664,7 @@ window._ojs.runtime.interpretFromScriptTags();
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/YONGHUNI\.github\.io\/blog\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1001,7 +995,7 @@ window._ojs.runtime.interpretFromScriptTags();
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Powered by <a href="https://quarto.org/">Quarto</a> 1.10.18, compiled on GNU/Linux</p>
+<p>Powered by <a href="https://quarto.org/">Quarto</a> 1.9.37, compiled on GNU/Linux</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

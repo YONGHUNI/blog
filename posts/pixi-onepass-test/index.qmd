@@ -1,0 +1,42 @@
+---
+title: "One-pass Pixi dependency integration test"
+description: "Test automatic R and Python package installation for Quarto."
+date: 2026-10-26
+categories: [Code]
+ci-packages:
+  - r-spdep
+  - networkx
+execute:
+  freeze: false
+---
+
+This temporary post verifies that the whole website can be rendered in **one Quarto invocation** after `pixi exec` resolves packages declared in a document's YAML header. It is intended for the refactoring branch only.
+
+## R: spatial neighborhood weights
+
+```{r}
+cat("R:", R.version.string, "\n")
+stopifnot(requireNamespace("spdep", quietly = TRUE))
+neighbors <- spdep::cell2nb(nrow = 2, ncol = 2, type = "rook")
+weights <- spdep::nb2listw(neighbors, style = "W")
+cat("spdep:", as.character(packageVersion("spdep")), "\n")
+cat("Neighbor counts:", paste(spdep::card(neighbors), collapse = ", "), "\n")
+stopifnot(length(weights$neighbours) == 4L)
+stopifnot(all(spdep::card(neighbors) == 2L))
+```
+
+## Python: graph topology
+
+```{python}
+import sys
+import networkx as nx
+
+graph = nx.grid_2d_graph(2, 2)
+print("Python:", sys.version.split()[0])
+print("NetworkX:", nx.__version__)
+print("Grid:", graph.number_of_nodes(), "nodes and", graph.number_of_edges(), "edges")
+assert graph.number_of_nodes() == 4
+assert graph.number_of_edges() == 4
+```
+
+Successful execution confirms that both declared extra packages were resolved inside the shared, temporary Pixi environment.

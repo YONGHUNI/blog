@@ -36,7 +36,14 @@ SKIP_DIRS = {
     ".git", ".pixi", ".quarto", "_freeze", "_site", "renv", "pyenv",
     "node_modules", "_extensions", "scripts",
 }
-NAME_RE = re.compile(r"^([A-Za-z0-9][A-Za-z0-9_.-]*)(?:[=<>!~ ].*)?$")
+# A deliberately small, validated subset of Conda MatchSpec: package name,
+# optional comparison operator + version, and optional comma-separated bounds.
+# Channel-qualified, URL and PyPI specs are deliberately unsupported.
+NAME_RE = re.compile(
+    r"^([A-Za-z0-9][A-Za-z0-9_.-]*)"
+    r"(?:\\s*(?:===|==|=|>=|<=|>|<|!=|~=)\\s*[A-Za-z0-9.*+_-]+"
+    r"(?:\\s*,\\s*(?:===|==|=|>=|<=|>|<|!=|~=)\\s*[A-Za-z0-9.*+_-]+)*)?$"
+)
 
 
 def front_matter(path: Path) -> dict:

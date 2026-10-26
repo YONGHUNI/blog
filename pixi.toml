@@ -1,0 +1,39 @@
+[workspace]
+name = "yonghuni-blog"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+# Baseline for normal CPU-backed Quarto/R/Python posts.
+# GPU execution and specialized R dependencies will be added after validation.
+[dependencies]
+r-base = "4.5.*"
+python = "3.12.*"
+r-knitr = "*"
+r-rmarkdown = "*"
+r-reticulate = "*"
+r-data.table = "*"
+r-tidyverse = "*"
+r-sf = "*"
+r-terra = "*"
+r-tmap = "*"
+r-raster = "*"
+r-sp = "*"
+r-ggplot2 = "*"
+r-dbscan = "*"
+r-arrow = "*"
+r-future.apply = "*"
+r-units = "*"
+numpy = "*"
+scipy = "*"
+pandas = "*"
+matplotlib = "*"
+scikit-learn = "*"
+geopandas = "*"
+gdal = "*"
+geos = "*"
+proj = "*"
+udunits2 = "*"
+
+[tasks]
+check-r = "Rscript --vanilla -e 'library(sf); library(units); library(terra); library(reticulate); cat(R.version.string, "\\n")'"
+check-python = "python -c 'import numpy, pandas, scipy, sklearn, geopandas; print("Python imports OK")'"

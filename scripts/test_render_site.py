@@ -19,6 +19,7 @@ class PackageMetadataTests(unittest.TestCase):
             ("r-sf", "r-sf"),
             ("r-spdep", "r-spdep"),
             ("numpy=2.*", "numpy"),
+            ("numpy>=1.26,<2", "numpy"),
             ("networkx>=3.4", "networkx"),
             ("r-data.table", "r-data.table"),
         ]:

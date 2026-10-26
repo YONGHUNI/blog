@@ -27,7 +27,7 @@ title: "Spatial Analysis"
 ci-packages:
   - r-sf
   - r-spdep
-  - "numpy=2.*"
+  - "numpy>=1.26,<2"
   - "networkx>=3.4"
 ---
 ```

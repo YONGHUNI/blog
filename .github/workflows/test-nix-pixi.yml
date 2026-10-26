@@ -7,6 +7,7 @@ on:
     paths:
       - flake.nix
       - pixi.toml
+      - scripts/render-site.py
       - .github/workflows/test-nix-pixi.yml
   workflow_dispatch:
 
@@ -27,6 +28,8 @@ jobs:
         run: nix develop -c pixi run check-r
       - name: Check Python
         run: nix develop -c pixi run check-python
+      - name: Validate one-pass QMD metadata and package aggregation
+        run: nix develop -c python scripts/render-site.py --dry-run
       - name: Upload resolved Pixi lockfile for review
         if: always()
         uses: actions/upload-artifact@v4

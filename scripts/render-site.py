@@ -41,8 +41,8 @@ SKIP_DIRS = {
 # Channel-qualified, URL and PyPI specs are deliberately unsupported.
 NAME_RE = re.compile(
     r"^([A-Za-z0-9][A-Za-z0-9_.-]*)"
-    r"(?:\\s*(?:===|==|=|>=|<=|>|<|!=|~=)\\s*[A-Za-z0-9.*+_-]+"
-    r"(?:\\s*,\\s*(?:===|==|=|>=|<=|>|<|!=|~=)\\s*[A-Za-z0-9.*+_-]+)*)?$"
+    r"(?:\s*(?:===|==|=|>=|<=|>|<|!=|~=)\s*[A-Za-z0-9.*+_-]+"
+    r"(?:\s*,\s*(?:===|==|=|>=|<=|>|<|!=|~=)\s*[A-Za-z0-9.*+_-]+)*)?$"
 )
 
 

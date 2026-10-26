@@ -5,6 +5,16 @@ date: "Oct 7, 2024"
 categories: [Code]
 image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
 #comments: false
+ci-packages:
+  - r-yaml
+  - r-tidyverse
+  - r-data.table
+  - r-sf
+  - r-terra
+  - r-tmap
+  - r-leafem
+execute:
+  freeze: true
 ---
 
 This is the first post in a Quarto blog. Welcome!

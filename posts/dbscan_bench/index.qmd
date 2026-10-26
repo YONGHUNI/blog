@@ -17,9 +17,17 @@ format:
     number-sections: true
     toc_depth: 3
     lightbox: true
-#execute:
-#  freeze: true
+execute:
+  freeze: true
 #comments: false
+ci-packages:
+  - r-dbscan
+  - r-data.table
+  - r-ggplot2
+  - r-arrow
+  - r-future.apply
+  - numpy
+  - dbscan
 ---
 
 # Backdrop
@@ -230,26 +238,8 @@ library(ggplot2)
 ```{r}
 library(reticulate)
 
-
-
-if (Sys.info()[[1]]=="Windows") {
-        
-    # For my Windows Environment
-    use_condaenv("C:/Users/dydgn/miniforge3/envs/dbscan/python.exe")
-    
-    } else{
-    
-    system("micromamba install -n baseline -c conda-forge dbscan -y")
-
-    # For github actions to utilize CI/CD
-
-    use_condaenv("/home/runner/micromamba/envs/baseline/bin/python", required = TRUE)   
-
-
-    
-}
-
-
+# Python is provisioned centrally by Pixi using ci-packages.
+# The One-pass renderer selects it before Quarto executes this document.
 
 sys <- import("sys")
 

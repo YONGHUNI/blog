@@ -17,9 +17,16 @@ format:
     number-sections: true
     toc_depth: 3
     lightbox: true
-#execute:
-#  freeze: true
+execute:
+  freeze: true
 #comments: false
+ci-packages:
+  - numpy
+  - matplotlib
+  - r-raster
+  - r-sp
+  - r-tmap
+  - r-leafem
 ---
 
 # Intro - Backdrop
@@ -38,21 +45,8 @@ I am kinda `R` person and not a big fan of python(because of the indentation... 
 ```{r}
 library(reticulate)
 
-
-
-if (Sys.info()[[1]]=="Windows") {
-        
-    # For my Windows Environment
-    use_condaenv("C:\\Users\\dydgn\\miniforge3\\envs\\baseline\\python.exe", required = TRUE)    
-    
-    } else{
-    
-    # For github actions to utilize CI/CD
-    use_condaenv("/home/runner/micromamba/envs/baseline/bin/python", required = TRUE)   
-    
-}
-
-
+# The site renderer binds this R session to Pixi's Python.
+# Python package requirements are declared in ci-packages above.
 ```
 
 

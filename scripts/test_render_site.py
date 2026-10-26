@@ -43,6 +43,18 @@ class PackageMetadataTests(unittest.TestCase):
             self.assertIn("networkx>=3.4", specs)
             self.assertEqual(specs.count("r-spdep"), 1)
 
+    def test_generic_spec_does_not_conflict_with_pinned_spec(self):
+        with tempfile.TemporaryDirectory(dir=render.ROOT) as td:
+            folder = Path(td)
+            unpinned, pinned = folder / "a.qmd", folder / "b.qmd"
+            unpinned.write_text('---\nci-packages:\n  - numpy\n---\n')
+            pinned.write_text('---\nci-packages:\n  - "numpy=2.*"\n---\n')
+            for pair in ([unpinned, pinned], [pinned, unpinned]):
+                with self.subTest(order=[p.name for p in pair]):
+                    specs, _ = render.aggregate_specs(pair, whole_site=True)
+                    self.assertIn("numpy=2.*", specs)
+                    self.assertNotIn("numpy", specs)
+
     def test_conflicts_raise_before_pixi_invocation(self):
         with tempfile.TemporaryDirectory(dir=render.ROOT) as td:
             folder = Path(td)

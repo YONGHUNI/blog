@@ -119,9 +119,12 @@ def aggregate_specs(paths: list[Path], whole_site: bool) -> tuple[list[str], lis
                 by_name[name] = (spec, relative)
             elif earlier[0] == spec:
                 continue
-            elif earlier[1] == "core" and earlier[0] == name:
-                # An explicit QMD version can constrain a generic core dependency.
+            elif earlier[0] == name:
+                # Explicit constraint overrides earlier unconstrained requirement.
                 by_name[name] = (spec, relative)
+            elif spec == name:
+                # Generic requirement cannot weaken an existing constraint.
+                continue
             else:
                 raise ValueError(
                     f"Conflicting specs for {name}: {earlier[0]!r} ({earlier[1]}) "

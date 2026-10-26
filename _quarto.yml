@@ -1,6 +1,11 @@
 project:
   type: website
-  #output-dir: docs
+  # Render source pages, not internal developer documentation.
+  render:
+    - "*.qmd"
+    - "posts/**/*.qmd"
+    - "about/**/*.qmd"
+    - "data/**/*.qmd"
 
 website:
   title: "Yonghun's Computational Geo-Blog"

@@ -59,27 +59,25 @@ Static maps can only tell part of the story. This blog makes heavy use of intera
 
 ## CI/CD Pipeline
 
-The entire build-and-deploy process is defined in a single GitHub Actions workflow ([`.github/workflows/publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml){target="_blank"}). Every push to `main` (or a manual `workflow_dispatch`) triggers the following pipeline:
+The blog is built and deployed by a single GitHub Actions [publishing workflow](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml){target="_blank"}. A push to `main` (or a manual dispatch on `main`) triggers one job that executes every ordinary post, renders the site once, and publishes the already-generated HTML to the `gh-pages` branch.
 
 ```{mermaid}
-%%| fig-cap: "CI/CD Pipeline for this blog"
+%%| fig-cap: "Nix + Pixi + Quarto one-pass CI/CD pipeline"
 flowchart TD
-    A["🚀 Push to main<br>(or workflow_dispatch)"] --> B["📦 Checkout Repository<br>(actions/checkout@v4)"]
-    B --> C["🔧 Install & Cache System Deps<br>(cache-apt-pkgs-action)<br>GDAL · GEOS · libmagick++ · HarfBuzz"]
-    C --> D["🐍 Setup Python<br>(micromamba)<br>pyenv/base/environment.yml"]
-    C --> E["📊 Setup R 4.5.0<br>(r-lib/actions/setup-r)<br>renv restore · armyknives profile"]
-    D --> F["⚙️ Setup Quarto<br>(quarto-dev/quarto-actions/setup)"]
-    E --> F
-    F --> G["📝 Render & Publish<br>(quarto-dev/quarto-actions/publish)<br>Target: gh-pages branch"]
-    G --> H["❄️ Commit _freeze/ back to main<br>(bot commit)"]
-    H --> I["🌐 Live on GitHub Pages<br>yonghuni.github.io/blog"]
-
-    style A fill:#4CAF50,color:#fff
-    style I fill:#2196F3,color:#fff
-    style H fill:#FF9800,color:#fff
+    A["Push to main / manual dispatch"] --> B["Checkout source"]
+    B --> C["Nix development environment<br>Quarto, Pixi, Python + YAML"]
+    C --> D["Read ci-packages from QMDs<br>Merge R/Python requirements"]
+    D --> E["Pixi Exec: shared conda-forge environment<br>R, Python and libraries"]
+    E --> F["One Quarto render<br>Execute ordinary posts and reuse opt-in freeze"]
+    F --> G["Verify generated HTML in _site"]
+    G --> H["Quarto publish to gh-pages<br>render: false"]
+    H --> I["Check tracked _freeze changes<br>Skip if none / never commit deletions"]
+    I --> J["GitHub Pages"]
 ```
 
-Both the Python environment (resolved from `pyenv/base/environment.yml`) and the system-level packages are cached between runs, so builds only pay the full install cost once. R packages are restored through `renv` with the `"armyknives"` profile, pinning the exact versions used locally. The final `_freeze/` commit ensures expensive computations are never re-run unless their source code changes; if nothing has changed, the bot commit is skipped gracefully.
+Nix supplies the build tools, while Pixi resolves the shared runtime dependencies from [`scripts/render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py){target="_blank"} and each document's `ci-packages` YAML metadata. Quarto is invoked **once** for the whole website. The publication step uses `render: false`, so no additional R/Python execution occurs during publishing. The previous `renv` and Micromamba-managed environments are no longer part of the CI configuration. A Micromamba executable is included only as a compatibility shim for `reticulate`'s Conda environment detection.
+
+Most posts use `execute: freeze: false` and are executed directly in GitHub Actions. For future CPU/GPU-intensive computations, an individual post can declare `freeze: true` and reuse its precomputed `_freeze` output that the author explicitly commits from a compute cluster. GitHub Actions does **not** automatically add these new files. The final workflow step skips a Git commit when there are no modified tracked freeze artifacts and never stages their removal. For technical details, see the [one-pass rendering guide](https://github.com/YONGHUNI/blog/blob/main/docs/one-pass-render.md){target="_blank"}.
 
 ## Theming and Customization
 
@@ -100,8 +98,8 @@ Every post includes a [Giscus](https://giscus.app/){target="_blank"} comment wid
 | Visualization | ggplot2, tmap, matplotlib, Observable Plot |
 | Hosting | [GitHub Pages](https://pages.github.com/){target="_blank"} (via `gh-pages` branch) |
 | CI/CD | [GitHub Actions](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml){target="_blank"} |
-| R Environment | [renv](https://rstudio.github.io/renv/){target="_blank"} (`"armyknives"` profile) |
-| Python Environment | [Micromamba](https://github.com/mamba-org/setup-micromamba){target="_blank"} (`pyenv/base/environment.yml`) |
+| Build Toolchain | [Nix](https://nixos.org/){target="_blank"} (flake.lock) |
+| R/Python Runtime | [Pixi](https://pixi.sh/){target="_blank"} (`pixi exec`, conda-forge; per-post `ci-packages`) |
 | Theme | [Cosmo](https://bootswatch.com/cosmo/){target="_blank"} + custom dark SCSS |
 | Comments | [Giscus](https://giscus.app/){target="_blank"} (GitHub Discussions) |
 | Extensions | [FontAwesome](https://github.com/quarto-ext/fontawesome){target="_blank"}, [Academicons](https://github.com/schochastics/academicons){target="_blank"} |

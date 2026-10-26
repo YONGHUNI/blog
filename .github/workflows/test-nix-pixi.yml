@@ -30,9 +30,11 @@ jobs:
           for post in dbscan_bench envsetting pyenvsetting quarto_post; do
             test -s "_site/posts/$post/index.html"
           done
-          test -s _site/posts/pixi-onepass-test/index.html
-          grep -q 'networkx imported from R:' _site/posts/pixi-onepass-test/index.html
-          grep -q 'PIXIRETICULATE_BRIDGE_PASS' _site/posts/pixi-onepass-test/index.html
+          # These existing posts execute mixed R/Python cells through reticulate.
+          grep -q 'times speed-up' _site/posts/dbscan_bench/index.html
+          grep -q 'DBSCAN computed in Python' _site/posts/quarto_post/index.html
+          test ! -e _site/posts/pixi-onepass-test/index.html
+          test ! -e _site/docs/one-pass-render.html
       - name: Verify freeze commit excludes removed outputs
         shell: bash
         run: |
@@ -52,10 +54,13 @@ jobs:
           mapfile -d '' deleted < <(git diff --name-only -z --diff-filter=D -- _freeze/)
           printf 'Excluded deleted freeze files: %s\n' "${#deleted[@]}"
 
-      - name: Upload integration-test HTML on success
+      - name: Upload rendered-site HTML sample
         uses: actions/upload-artifact@v4
         with:
-          name: pixi-onepass-test-html
-          path: _site/posts/pixi-onepass-test/index.html
+          name: pixi-onepass-rendered-html
+          path: |
+            _site/index.html
+            _site/posts/dbscan_bench/index.html
+            _site/posts/quarto_post/index.html
           if-no-files-found: error
           retention-days: 1

@@ -15,6 +15,7 @@
           pkgs.pixi
           pkgs.quarto
           pkgs.git
+          (pkgs.python3.withPackages (ps: [ ps.pyyaml ]))
         ];
       };
     };

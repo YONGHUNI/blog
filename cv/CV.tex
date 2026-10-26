@@ -1,0 +1,748 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+% -*- coding: UTF-8; -*-
+% vim: set fenc=utf-8
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SIMPLE-RESUME-CV
+%% <https://github.com/zachscrivena/simple-resume-cv>
+%% This is free and unencumbered software released into the
+%% public domain; see <http://unlicense.org> for details.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% See "README.md" for instructions on compiling this document.
+
+\documentclass[letterpaper,MMMyyyy,nonstopmode]{simpleresumecv}
+% Class options:
+% a4paper, letterpaper, nonstopmode, draftmode
+% MMMyyyy, ddMMMyyyy, MMMMyyyy, ddMMMMyyyy, yyyyMMdd, yyyyMM, yyyy
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CV Info (to be customized).
+\newcommand{\CVAuthor}{Yonghun Suh}
+\newcommand{\CVTitle}{Yonghun Suh's CV}
+\newcommand{\CVNote}{Last updated: %
+  \ifcase\the\month
+    \or January\or February\or March\or April\or May\or June
+    \or July\or August\or September\or October\or November\or December
+  \fi \space \the\year}
+\newcommand{\CVWebpage}{https://yonghuni.github.io/blog/about/me/}
+\newcommand{\CVGithub}{https://github.com/YONGHUNI}
+\newcommand{\CVOrcid}{https://orcid.org/0009-0003-6800-2731}
+
+
+% PDF settings and properties.
+\hypersetup{
+pdftitle={\CVTitle},
+pdfauthor={\CVAuthor},
+pdfsubject={\CVWebpage},
+pdfcreator={XeLaTeX},
+pdfproducer={},
+pdfkeywords={},
+unicode=true,
+bookmarks=true,
+bookmarksopen=true,
+pdfstartview=FitH,
+pdfpagelayout=OneColumn,
+pdfpagemode=UseOutlines,
+hidelinks,
+breaklinks}
+
+% Shorthand.
+\newcommand{\Code}[1]{\mbox{\textbf{#1}}}
+\newcommand{\CodeCommand}[1]{\mbox{\textbf{\textbackslash{#1}}}}
+\makeatletter
+\newcommand{\PublicationNumber}[1]{%
+  \@ifundefined{pubnum:#1}{??}{\@nameuse{pubnum:#1}}%
+}
+\newcommand{\PublicationItem}[2]{%
+  \phantomsection\label{pub:#1}%
+  \expandafter\gdef\csname pubnum:#1\endcsname{#2}%
+  \NumberedItem{[#2]}%
+}
+\newcommand{\PublicationRef}[2]{%
+  \hyperref[pub:#1]{Publications, #2 [\PublicationNumber{#1}]}%
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ACTUAL DOCUMENT.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%
+% TITLE BLOCK %
+%%%%%%%%%%%%%%%
+
+\begin{center}
+    \textbf{\Huge \scshape Yonghun Suh} \\ \vspace{7pt}
+    Curriculum Vitae \\ \vspace{3pt}
+    Data Science for Humanity Group \\  \vspace{3pt}
+    \small{Max Planck Institute for Security and Privacy} \\  \vspace{3pt}
+    \small{Universitätsstraße 140. 44799 Bochum. Nordrhein-Westfalen Deutschland} \\  \vspace{3pt}
+    \small \href{mailto:suhyonghun@gmail.com}{\underline{suhyonghun [at] gmail.com}} $|$
+    \href{\CVOrcid}{\underline{ORCID}}
+    $|$
+    \href{https://scholar.google.com/citations?user=Le1ODbgAAAAJ}{\underline{Google Scholar}}
+    $|$
+    % \color{red}
+    \href{\CVWebpage}{\underline{Web page}}
+    $|$ \href{\CVGithub}{\underline{GitHub}}
+
+\end{center}
+
+\begin{Body}
+
+%%%%%%%%%%%%%%%
+%% RESEARCH INTERESTS %%
+%%%%%%%%%%%%%%%
+
+\Section
+{Research Interests}
+{Research Interests}
+{PDF:ResearchInterests}
+
+\Entry
+I study how spatial data science and remote sensing can support environmental hazard analysis
+and humanitarian decision-making, with an emphasis on scalable and interpretable geospatial workflows.
+\Gap
+\textbf{\textit{Methodological interests}}: active remote sensing, spatial machine learning,
+interpretable modeling, geocomputation, high-performance computing
+\Gap
+\textbf{\textit{Application domains}}: landslide susceptibility, air pollution exposure,
+humanitarian mapping, population estimation
+\BigGap
+
+
+%%%%%%%%%%%%%%%
+%% EDUCATION %%
+%%%%%%%%%%%%%%%
+
+\Section
+{Education}
+{Education}
+{PDF:Education}
+
+\Entry
+{\textbf{University of Georgia}},
+Athens, GA, USA
+
+\Gap
+\textit{       Ph.D. Student in Geography (incoming)}
+\hfill
+\DatestampYMD{2026}{08}{10} --
+\Gap
+\SubBulletItem
+Advisor: Prof. Weiming Hu
+
+\BigGap
+\Entry
+{\textbf{Seoul National University}},
+Seoul, South Korea
+
+\Gap
+\textit{       M.A. in Geography}
+\hfill
+\DatestampYMD{2021}{09}{02} --
+\DatestampYMD{2024}{02}{28}
+\Gap
+\SubBulletItem
+Master's Thesis: ``Real-time Landslide Susceptibility Monitoring Using Spatio-temporal High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach''
+\Gap
+\SubBulletItem
+Adviser: Dr. Gunhak Lee
+\Gap
+\SubBulletItem
+Cumulative GPA: 4.18 / 4.30
+
+\BigGap
+\Entry
+{\textbf{Kongju National University}},
+South Chungcheong Province, South Korea
+
+\Gap
+\textit{       B.A. in Geography and B.Sc. in Atmospheric Science}
+\hfill
+\DatestampYMD{2015}{03}{02} --
+\DatestampYMD{2021}{08}{28}
+
+\Gap
+\SubBulletItem
+Cumulative GPA: 3.81 / 4.50
+
+%%%%%%%%%%%%%%%%%%
+%% PUBLICATIONS %%
+%%%%%%%%%%%%%%%%%%
+
+\Section
+{Publications}
+{Publications}
+{PDF:Publications}
+
+\SubSection
+{In English}
+{In English}
+{PDF:PubInEnglish}
+
+
+\BigGap
+
+\PublicationItem{shelter-mapping-wash}{2}
+(Under review) Ahn, K.\textsuperscript{\dag}, \textbf{Suh, Y.}\textsuperscript{\dag}, Han, S., Yang, J., Taubenböck, H., \& Cha, M. (2025).
+Semi-supervised Shelter Mapping for WASH Accessibility Assessment in Rohingya Refugee Camps.
+[Preprint]. \textit{\href{https://arxiv.org/abs/2511.07231}{\underline{arXiv:2511.07231}} [cs.CV]}. \hfill \textsuperscript{\dag}Contributed equally as first authors.
+
+\BigGap
+
+\PublicationItem{bike-sharing-air-pollution}{1}
+Yoo, E., Roberts, J., \& \textbf{Suh, Y.} (2024).
+Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis.
+\textit{Social Science \& Medicine}, 352, 117030. \hfill (Q1 journal, \href{https://doi.org/10.1016/j.socscimed.2024.117030}{\underline{DOI}})
+
+
+
+\BigGap
+
+\SubSection
+{In Korean}
+{In Korean}
+{PDF:PubInKorean}
+
+\BigGap
+
+
+\PublicationItem{landslide-active-rs}{2}
+\textbf{Suh, Y.} \& Lee, G. (2024).
+Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach.
+\textit{Journal of the Korean Cartographic Association},
+24(2), 89–111. \textit{(English abstract available)} \hfill (\href{https://journal.cartography.or.kr/articles/article/GmX8/}{\underline{DOI}})
+
+\BigGap
+
+
+\PublicationItem{building-scale-population-gwr}{1}
+\textbf{Suh, Y.} \& Lee, G. (2023).
+Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR.
+\textit{Journal of the Korean Cartographic Association},
+23(1), 21–34. \textit{(English abstract available)} \hfill (\href{https://journal.cartography.or.kr/articles/article/Ad7w/}{\underline{DOI}})
+
+%%%%%%%%%%%%%%%%%%
+%% Working Paper %%
+%%%%%%%%%%%%%%%%%%
+
+%\Section
+%{Working \newline Paper}
+%{Working \newline Paper}
+%{PDF:Working Paper}
+
+%\NumberedItem{[1]}
+%\textbf{Yonghun Suh} \& ~~
+%~~~~~
+
+%%%%%%%%%%%%%%%%%%
+%% CONFERENCE PRESENTATIONS %%
+%%%%%%%%%%%%%%%%%%
+
+\Section
+{Conference Presentations}
+{Conference Presentations}
+{PDF:ConferencePresentations}
+
+\SubSection
+{In English}
+{In English}
+{PDF:PresInEnglish}
+
+\BigGap
+
+\NumberedItem{[5]}
+\textbf{Suh, Y.} \& Yoo, E. (2025).
+From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring.
+\textit{Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025)}, Atlanta, USA, Aug. 17–20. \hfill (Poster, \href{https://eventclass.it/isesisee2025/scientific/external-program/session?s=P07#e2609}{Abstract})
+
+\BigGap
+
+\NumberedItem{[4]}
+Yoo, E., Lee, J., \& \textbf{Suh, Y.} (2025).
+Enhancing Community Air Quality Monitoring: A Spatiotemporal PM2.5 Modeling Approach Using Multiple Data Sources.
+\textit{Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025)}, Atlanta, USA, Aug. 17–20. \hfill\href{https://eventclass.it/isesisee2025/scientific/external-program/session?s=TO16#e477}{(Abstract)}
+
+\BigGap
+
+\NumberedItem{[3]}
+Yoo, E., Roberts, J., \& \textbf{Suh, Y.} (2024).
+Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis.
+\textit{2024 Spring Conference of Korean Society of Environmental Health}, Gangwon Province, South Korea, May 29–31.
+
+\BigGap
+
+\NumberedItem{[2]}
+\textbf{Suh, Y.} \& Lee, G. (2023).
+An alternative approach for the landslide prediction using an interpretable machine learning method.
+\textit{2023 American Association of Geographers Annual Meeting (2023 AAG)}, Denver, USA, Mar. 23–27.
+
+\BigGap
+
+\NumberedItem{[1]}
+\textbf{Suh, Y.} \& Lee, G. (2022).
+Estimation of building-scale population density by using a dasymetric-based interpolation method: A case study of Seoul metropolitan area.
+\textit{2022 American Association of Geographers Annual Meeting (2022 AAG)}, Virtual, Feb. 25 – Mar. 1.
+
+\BigGap
+
+\SubSection
+{In Korean}
+{In Korean}
+{PDF:PresInKorean}
+
+\BigGap
+
+\NumberedItem{[4]}
+\textbf{Suh, Y.} \& Lee, G. (2024).
+Real-time Landslide Susceptibility Monitoring Using Spatio-temporal High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach.
+\textit{2024 Annual Conference of the Korean Geographical Society}, Seoul, South Korea, Jun. 27–28.
+
+\BigGap
+
+\NumberedItem{[3]}
+\textbf{Suh, Y.}, Bae, S., \& Jeong, S. (2022).
+Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population.
+\textit{2022 Annual Conference of the Korean Geographical Society}, Seoul, South Korea, Jun. 24–25. \hfill (Poster)
+
+\BigGap
+
+\NumberedItem{[2]}
+\textbf{Suh, Y.} \& Lee, G. (2022).
+Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR.
+\textit{2022 The Korean Cartographic Association Spring Conference}, Seoul, South Korea, Jun. 11.
+
+\BigGap
+
+\NumberedItem{[1]}
+Myeong, S. \& \textbf{Suh, Y.} (2020).
+Pre-flood and post-flood damage analysis in the Imjin River Basin.
+\textit{2020 Korean Society of Remote Sensing Fall Conference}, Virtual, Nov. 4–6. \hfill (Poster)
+
+
+
+%\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RESEARCH EXPERIENCE %%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Section
+{Research Experience}
+{Research Experience}
+{PDF:Research Experience}
+
+\Entry
+\href{https://www.mpi-sp.org/cha}{\underline{\textbf{Data Science for Humanity}}}, Max Planck Institute for Security and Privacy (MPI-SP), Bochum, Germany
+\Gap
+\textit{       Research Intern}
+\hfill
+\DatestampYMD{2025}{05}{01} --
+\DatestampYMD{2026}{07}{31}
+\Gap
+A research internship applying satellite imagery, deep learning, and spatial analysis to real-world humanitarian challenges
+\Gap
+\SubBulletItem
+Applied satellite imagery and deep learning to map shelters in Rohingya refugee settlements for WASH accessibility assessment
+\Gap
+\SubBulletItem
+Co-first-authored a manuscript on semi-supervised shelter mapping, currently under review (\PublicationRef{shelter-mapping-wash}{In English})
+\Gap
+\SubBulletItem
+PI: Prof. Meeyoung Cha (MPI-SP \& Korea Advanced Institute of Science and Technology)
+\BigGap
+
+\Entry
+\href{https://ubairqualitystudy.github.io/EPA-Website/index.html}{\underline{\textbf{UB Clean Air}}}, University at Buffalo, the State University of New York (SUNY), NY, USA
+\Gap
+\textit{       Project Consultant}
+\hfill
+\DatestampYMD{2024}{09}{01} --
+Present
+\Gap
+A community-based air quality monitoring project funded by the Environmental Protection Agency
+\Gap
+\SubBulletItem
+Contribute to data collection strategies, spatiotemporal visualization, and modeling workflows
+\Gap
+\SubBulletItem
+Developed interactive dashboards for community-based participatory air monitoring and research dissemination (Conference Presentations, In English [5])
+\Gap
+\SubBulletItem
+PI: Prof. Eunhye Yoo (SUNY)
+\BigGap
+
+
+
+\Entry
+\textbf{Brain Korea Research Team for the Future Landscape}, Seoul National University (SNU), \newline Seoul, South Korea
+\Gap
+\textit{       Graduate Student Researcher}
+\hfill
+\DatestampYMD{2021}{09}{01} --
+\DatestampYMD{2023}{08}{31}
+\Gap
+A research team focused on geospatial modeling and next-generation strategic spatial expertise
+\BigGap
+\SubBulletItem
+Developed spatial modeling workflows for building-scale population estimation and landslide susceptibility analysis
+\Gap
+\SubBulletItem
+Modeled landslide susceptibility using InSAR displacement, weather radar rainfall estimates, and interpretable machine learning (\PublicationRef{landslide-active-rs}{In Korean})
+\Gap
+\SubBulletItem
+Estimated building-scale de facto population in Seoul using dasymetric mapping and geographically weighted regression (\PublicationRef{building-scale-population-gwr}{In Korean})
+\BigGap
+
+
+\Entry
+\textbf{Development of the Method for Detecting Spatial Interactive Flow Clusters and Its Applicability}, SNU, Seoul, South Korea
+\Gap
+\textit{       Graduate Student Researcher}
+\hfill
+\DatestampYMD{2021}{08}{01} --
+\DatestampYMD{2022}{06}{30}
+\Gap
+%https://www.krm.or.kr/krmts/search/detailview/research.html
+A research project developing analysis methods for detecting patterns in complex spatial interactions
+\BigGap
+\SubBulletItem
+Reviewed spatial, network, and vector autocorrelation methods for analyzing spatial dependence in interaction data.
+\Gap
+\SubBulletItem
+PI: Prof. Gunhak Lee (SNU)
+\BigGap
+
+
+\Entry
+\textbf{Korea Environment Institute (KEI)}, Sejong, South Korea
+\Gap
+\textit{       Research Intern}
+\hfill
+\DatestampYMD{2020}{09}{14} --
+\DatestampYMD{2020}{12}{14}
+\Gap
+An undergraduate research internship supporting environmental research on North Korea
+\BigGap
+\SubBulletItem
+Processed Sentinel-2 imagery and climate datasets to support research projects on the North Korean environment
+\Gap
+\SubBulletItem
+Assisted Dr. Soojeong Myeong, a Chief Research Fellow, Water and Land Research Group, KEI
+\BigGap
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TEACHING EXPERIENCE %%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Section
+{Teaching Experience}
+{Teaching Experience}
+{PDF:Teaching Experience}
+
+\Entry
+\textbf{Spatial Analytics 3: Spatio-temporal Data Science}, SNU, Seoul, South Korea
+\Gap
+\textit{      Teaching Assistant}
+\hfill
+Spring 2023
+\Gap
+\SubBulletItem
+Provided the entire lab session material using R Markdown and GitHub actions
+\Gap
+\SubBulletItem
+Instructor: Prof. Em. Key-Ho Park (SNU)
+
+\BigGap
+\Entry
+
+\textbf{Spatial Analytics 2: Machine Learning}, SNU, Seoul, South Korea
+\Gap
+\textit{      Teaching Assistant}
+\hfill
+Fall 2022
+\Gap
+\SubBulletItem
+Conducted TA lab sessions on machine learning algorithms using R
+\Gap
+\SubBulletItem
+Instructor: Prof. Em. Key-Ho Park (SNU)
+
+\BigGap
+\Entry
+
+\textbf{Computer Cartography}, SNU, Seoul, South Korea
+\Gap
+\textit{      Teaching Assistant}
+\hfill
+Fall 2021
+\Gap
+\SubBulletItem
+Conducted TA lab sessions on cartography \& spatial analytics using ArcGIS and R
+\Gap
+\SubBulletItem
+Instructor: Prof. Gunhak Lee (SNU)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Work EXPERIENCE %%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\Section
+{Work Experience}
+{Work Experience}
+{PDF:Work Experience}
+
+\Entry
+\textbf{Office of Information \& Computing Center}, College of Engineering (CoE), SNU, Seoul, South Korea
+\Gap
+\textit{       System Administrator}
+\hfill
+\DatestampYMD{2024}{07}{01} --
+\DatestampYMD{2025}{03}{31}
+\Gap
+\SubBulletItem
+\textbf{Role}: Managed 2 GPU clusters with multiple nodes (A100 – 4 nodes, GTX 1080 – 100 nodes) for computation demand of 400+ users in CoE, SNU
+\Gap
+\SubBulletItem
+Supported \textit{\href{https://fastmri.snu.ac.kr/}{2024 SNU Fast MRI Challenge}} as a role of MLOps
+\BigGap
+
+
+\Entry
+\textbf{Journal of the Korean Cartographic Association}, Seoul, South Korea
+\Gap
+\textit{       Editorial Assistant}
+\hfill
+\DatestampYMD{2022}{01}{01} --
+\DatestampYMD{2022}{12}{31}
+\Gap
+\SubBulletItem
+\textbf{Role}: Managed submissions, reviews, and proofreading processes.
+\Gap
+\SubBulletItem
+Contributed to the editorial activities for three volumes of the journal.
+\BigGap
+
+
+
+\Entry
+\textbf{The Third Topography Analysis Team}, Third Republic of Korea Army, Gyeonggi Province, South Korea
+\Gap
+\textit{      Imagery Analysis Specialist}
+\hfill
+\DatestampYMD{2017}{07}{17} --
+\DatestampYMD{2019}{04}{02}
+\Gap
+\SubBulletItem
+\textbf{Role}: Provided crucial terrain information to assist commanders in decision-making
+\Gap
+\SubBulletItem
+Conducted topographical analysis \& provided information through paper and digital maps using ArcGIS and TerraExplorer.
+\Gap
+\SubBulletItem
+Fulfilled mandatory enlisted military service; led the enlisted members of the team as Squad Leader and discharged as Sergeant
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% AWARDS & SCHOLARSHIPS %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Section
+{Awards \&\newline
+Scholarships}
+{Awards \& Scholarships}
+{PDF:AwardsAndScholarships}
+
+
+\BulletItem
+Graduate Research Assistantship, Department of Geography, University of Georgia
+\hfill
+\DatestampYM{2026}{05}
+\Gap
+\SubBulletItem
+Awarded through a competitive process to support graduate study; renewable throughout the Ph.D. program (RA/TA)
+\BigGap
+
+\BulletItem
+Future Vision Scholarship, SNU
+\hfill
+\DatestampYM{2023}{02}
+\Gap
+\SubBulletItem
+Received the Scholarship from SNU for outstanding academic performance and exemplary conduct.
+\BigGap
+
+\BulletItem
+Best Poster Award in Student Poster Competition, Korean Geographical Society (KGS)
+\hfill
+\DatestampYM{2022}{06}
+\Gap
+\SubBulletItem
+2022 Annual Conference of the KGS
+\BigGap
+
+\BulletItem
+Outstanding Service Award, SNU
+\hfill
+\DatestampYM{2022}{02}
+\Gap
+\SubBulletItem
+Awarded by the Brain Korea Research Team for the Future Landscape at SNU for significant contributions to the department.
+\BigGap
+
+\BulletItem
+Talent Development Scholarship, Jeju International Scholarship Foundation (JISF)
+\hfill
+\DatestampYM{2016}{05}
+\Gap
+\SubBulletItem
+Awarded by JISF for outstanding academic performance
+\BigGap
+
+\BulletItem
+The Kongju National University Alumni Association Scholarship
+\hfill
+\DatestampYM{2015}{11}
+
+
+%\DatestampY{20(expected)}
+%\Gap
+%\SubBulletItem
+
+
+%%%%%%%%%%%%%%%
+%% TECHNICAL SKILLS %%
+%%%%%%%%%%%%%%%
+
+\Section
+{Technical Skills}
+{Technical Skills}
+{PDF:TechnicalSkills}
+
+\BulletItem
+Geospatial \& Remote Sensing
+\SubBulletItem
+Experienced with: \textbf{ArcGIS} variants, \textbf{QGIS}, \textbf{Google Earth Engine}
+\SubBulletItem
+Working knowledge: \textbf{ERDAS IMAGINE}, \textbf{HyP3 (ASF)}
+
+\Gap
+\BulletItem
+Spatial Modeling \& Programming
+\SubBulletItem
+Advanced: \textbf{R}
+\SubBulletItem
+Intermediate: \textbf{Bash}, \textbf{Fortran}, \textbf{Python}
+\SubBulletItem
+Working knowledge: \textbf{Julia}, \textbf{C++}, \textbf{CUDA}
+
+\Gap
+\BulletItem
+Research Computing \& HPC
+\SubBulletItem
+Experience with Slurm-managed HPC environments, Linux servers, and GPU clusters
+\SubBulletItem
+Tools: Slurm, \href{https://www.ansible.com/}{Ansible}, \href{https://kubernetes.io/}{Kubernetes}, \href{https://maas.io/}{Metal as a Service (MaaS)}
+
+\Gap
+\BulletItem
+Reproducibility \& Publishing
+\SubBulletItem
+\href{https://git-scm.com/}{Git}, \href{https://www.latex-project.org/}{LaTeX}, \href{https://quarto.org/}{Quarto}, R Markdown, GitHub Actions
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% OTHER EXPERIENCE %%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\Section
+{Other Experience}
+{Other Experience}
+{PDF:Other Experience}
+
+\Entry
+\textbf{\href{https://github.com/bacchus-snu}{Bacchus – System Administrator Club}}, \href{https://cse.snu.ac.kr/en/about/student-clubs?selected=Bacchus}{Dept. of Computer Science and Engineering, SNU}, Seoul, South Korea
+\Gap
+\textit{      Club Member}
+\hfill
+\DatestampYM{2024}{03} -- \DatestampYM{2025}{04}%Present
+\Gap
+\SubBulletItem
+Set up and maintained Debian package caching servers using Caddy and Reprepro on a Kubernetes cluster
+\Gap
+\SubBulletItem
+Migrated the club's manual webpage from Cloudflare's hosting service to the on-premise server
+\BigGap
+
+\Entry
+\textbf{2024 Accelerator Programming Winter School}, SNU, Gyeonggi Province, South Korea
+\Gap
+\textit{      Participant}
+\hfill
+\DatestampYM{2024}{02}
+\Gap
+\SubBulletItem
+An intensive course covering CUDA programming.
+\Gap
+\SubBulletItem
+Conducted a team project optimizing the inference performance of the GRU model by porting CPU code to GPU kernels.
+\BigGap
+
+\Entry
+\textbf{Server Management}, Dept. of Geography, SNU, Seoul, South Korea
+\Gap
+\textit{      System Administrator}
+\hfill
+\DatestampYM{2022}{11} --
+\DatestampYM{2024}{02}
+\Gap
+\SubBulletItem
+Set up a Windows HPC server that includes WSL to help more students utilize the resource.
+\Gap
+
+
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SERVICE %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Section
+{Service}
+{Service}
+{PDF:Service}
+
+\Entry
+\textbf{Graduate Student Council}, Dept. of Geography, SNU, Seoul, South Korea
+\Gap
+\textit{      Treasurer of the Council}
+\hfill
+\DatestampYMD{2022}{09}{01} --
+\DatestampYMD{2023}{08}{31}
+\Gap
+\SubBulletItem
+Coordinated departmental events and managed a graduate field trip
+
+
+
+\end{Body}
+
+%%%%%%%%%%%
+% CV NOTE %
+%%%%%%%%%%%
+
+\UseNoteFont%
+\null\hfill%
+[\textit{\CVNote}]
+
+\end{document}

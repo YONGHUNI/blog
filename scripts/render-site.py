@@ -7,6 +7,8 @@ This experimental tool does not change pixi.toml or pixi.lock.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 from pathlib import Path
 import re
 import shlex
@@ -16,6 +18,7 @@ import sys
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+MANIFEST = ROOT / "scripts" / "freeze-manifest.json"
 
 # Core dependencies verified in the local NixOS R/Python Quarto smoke test.
 # Additional dependencies are declared with ci-packages in QMD YAML front matter.
@@ -113,9 +116,42 @@ def frozen_result_path(path: Path) -> Path:
     return ROOT / "_freeze" / path.relative_to(ROOT).with_suffix("") / "execute-results" / "html.json"
 
 
+def freeze_fingerprint(path: Path) -> str:
+    """Conservative source fingerprint: changed QMD always requires execution."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_manifest() -> dict[str, str]:
+    if not MANIFEST.exists():
+        return {}
+    data = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or any(
+        not isinstance(k, str) or not isinstance(v, str) for k, v in data.items()
+    ):
+        raise ValueError("Invalid freeze-manifest.json")
+    return data
+
+
+def write_manifest(paths: list[Path]) -> None:
+    """Register successful QMD executions that produced frozen HTML outputs."""
+    previous = load_manifest()
+    current = {}
+    for path in paths:
+        key = path.relative_to(ROOT).as_posix()
+        if frozen_result_path(path).is_file():
+            current[key] = freeze_fingerprint(path)
+        elif key in previous and previous[key] == freeze_fingerprint(path):
+            # Quarto can omit freeze files for documents with no executable cells.
+            continue
+    MANIFEST.write_text(
+        json.dumps(current, indent=2, sort_keys=True) + "\\n", encoding="utf-8"
+    )
+
+
 def aggregate_specs(paths: list[Path], whole_site: bool) -> tuple[list[str], list[str]]:
     by_name = {spec_name(s): (s, "core") for s in CORE_SPECS}
     frozen: list[str] = []
+    manifest = load_manifest() if whole_site else {}
     for path in paths:
         packages, freeze = specs_for(path)
         relative = str(path.relative_to(ROOT))
@@ -130,6 +166,12 @@ def aggregate_specs(paths: list[Path], whole_site: bool) -> tuple[list[str], lis
                     "Render this document on the compute cluster, commit its "
                     "_freeze result, and then build the site."
                 )
+            frozen.append(relative)
+            continue
+        # Auto-freeze: skip extra runtime packages only when the previously
+        # successful execution has an exact source match and a frozen result.
+        if (whole_site and frozen_result_path(path).is_file()
+                and manifest.get(relative) == freeze_fingerprint(path)):
             frozen.append(relative)
             continue
         for spec in packages:
@@ -186,7 +228,7 @@ def main() -> int:
     try:
         paths, whole_site = find_documents(args.target)
         specs, frozen = aggregate_specs(paths, whole_site)
-    except (ValueError, OSError, yaml.YAMLError) as error:
+    except (ValueError, OSError, json.JSONDecodeError, yaml.YAMLError) as error:
         parser.error(str(error))
 
     print(f"QMD documents inspected: {len(paths)}", flush=True)
@@ -207,7 +249,10 @@ def main() -> int:
         print(shlex.join(command), flush=True)
         return 0
     print("\nLaunching one Pixi environment and one Quarto render...", flush=True)
-    return subprocess.run(command, cwd=ROOT, check=False).returncode
+    result = subprocess.run(command, cwd=ROOT, check=False)
+    if result.returncode == 0 and whole_site:
+        write_manifest(paths)
+    return result.returncode
 
 
 if __name__ == "__main__":

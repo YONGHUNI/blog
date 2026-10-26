@@ -63,37 +63,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Ordinary QMDs use freeze: false. A whole-site build may delete legacy
-      # _freeze files, so deletion is NEVER staged by this workflow.
-      # Future CPU/GPU results must be pushed manually using git add -f.
-      - name: Push tracked Quarto freeze changes only if they exist
+      # Save all ordinary auto-freeze outputs for subsequent clean CI runners.
+      # Explicit freeze:true posts are externally managed and never auto-staged.
+      - name: Commit changed automatic freeze outputs
         shell: bash
         run: |
           set -euo pipefail
+          # stage the execution manifest
+          git add scripts/freeze-manifest.json
 
-          if [[ ! -d _freeze ]]; then
-            echo "No _freeze directory. Skipping freeze commit."
-            exit 0
+          if [[ -d _freeze ]]; then
+            # Force-add new files ignored by .gitignore, including widget assets.
+            # Exclude whole subtrees of manually frozen (cluster) documents.
+            mapfile -d '' manual < <(
+              nix develop -c python - <<'PY'
+          import pathlib, sys, yaml
+          for p in pathlib.Path("posts").rglob("*.qmd"):
+              lines = p.read_text(encoding="utf-8-sig").split("---", 2)
+              if len(lines) > 2:
+                  data = yaml.safe_load(lines[1]) or {}
+                  if isinstance(data, dict) and (data.get("execute") or {}).get("freeze") is True:
+                      sys.stdout.buffer.write(("_freeze/" + p.with_suffix("").as_posix() + "/").encode() + b"\\0")
+          PY
+            )
+            # Stage new or changed generated freeze outputs, but preserve cluster paths.
+            git add -f -A -- _freeze/
+            for prefix in "${manual[@]}"; do
+              git restore --staged -- "$prefix" 2>/dev/null || true
+            done
           fi
 
-          # A full re-render can remove previously tracked _freeze files.
-          # Never stage deletions: retain all historical/cluster-produced output
-          # until the author explicitly removes it from source control.
-          mapfile -d '' updated < <(
-            git diff --name-only -z --diff-filter=M -- _freeze/
-          )
-          if (( ${#updated[@]} == 0 )); then
-            echo "No modified, tracked _freeze files to publish. Skipping commit and push."
+          if git diff --cached --quiet -- scripts/freeze-manifest.json _freeze/; then
+            echo "No freeze changes; skipping commit."
             exit 0
           fi
-
-          git add -- "${updated[@]}"
-          if git diff --cached --quiet -- _freeze/; then
-            echo "No staged _freeze content changes. Skipping commit and push."
-            exit 0
-          fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "[BOT] Update Quarto freeze [skip ci]" -- "${updated[@]}"
+          git commit -m "[BOT] Update automatic Quarto freeze [skip ci]"
           git push origin HEAD:main

@@ -54,11 +54,11 @@ format:
       dark: [cosmo, ./misc/theme-dark.scss]
     css: ./misc/styles.css
 
-# Default: GitHub Actions re-executes all posts on each build.
+# Default: Quarto reuses committed execution results for unchanged posts.
 # Opt-in for externally computed results: set freeze: true in a specific
 # QMD and commit its _freeze output from a CPU/GPU cluster.
 execute:
-  freeze: false
+  freeze: auto
 
 filters:
   - ./misc/quarto-version.lua

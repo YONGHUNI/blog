@@ -108,6 +108,11 @@ def find_documents(target: str) -> tuple[list[Path], bool]:
     return paths, True
 
 
+def frozen_result_path(path: Path) -> Path:
+    """The committed execution result expected from a separate Quarto render."""
+    return ROOT / "_freeze" / path.relative_to(ROOT).with_suffix("") / "execute-results" / "html.json"
+
+
 def aggregate_specs(paths: list[Path], whole_site: bool) -> tuple[list[str], list[str]]:
     by_name = {spec_name(s): (s, "core") for s in CORE_SPECS}
     frozen: list[str] = []
@@ -117,6 +122,14 @@ def aggregate_specs(paths: list[Path], whole_site: bool) -> tuple[list[str], lis
         # Explicitly frozen docs require precomputed outputs for global renders.
         # A single-document Quarto render always executes, even with freeze true.
         if whole_site and freeze:
+            result_path = frozen_result_path(path)
+            if not result_path.is_file():
+                raise ValueError(
+                    f"{relative} declares execute.freeze: true, but no frozen HTML "
+                    f"result exists at {result_path.relative_to(ROOT)}. "
+                    "Render this document on the compute cluster, commit its "
+                    "_freeze result, and then build the site."
+                )
             frozen.append(relative)
             continue
         for spec in packages:

@@ -24,9 +24,12 @@ jobs:
         run: nix develop -c python scripts/render-site.py --dry-run
       - name: Render whole Quarto website in one Pixi environment (no publishing)
         run: nix develop -c python scripts/render-site.py
-      - name: Verify rendered site and executed reticulate bridge
+      - name: Verify rendered site, legacy posts and executed reticulate bridge
         run: |
           test -s _site/index.html
+          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
+            test -s "_site/posts/$post/index.html"
+          done
           test -s _site/posts/pixi-onepass-test/index.html
           grep -q 'networkx imported from R:' _site/posts/pixi-onepass-test/index.html
           grep -q 'PIXIRETICULATE_BRIDGE_PASS' _site/posts/pixi-onepass-test/index.html

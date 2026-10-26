@@ -49,10 +49,11 @@ format:
       dark: [cosmo, ./misc/theme-dark.scss]
     css: ./misc/styles.css
 
-# freeze computational output
-# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+# Default: GitHub Actions re-executes all posts on each build.
+# Opt-in for externally computed results: set freeze: true in a specific
+# QMD and commit its _freeze output from a CPU/GPU cluster.
 execute:
-  freeze: auto
+  freeze: false
 
 filters:
   - ./misc/quarto-version.lua

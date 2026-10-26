@@ -13,8 +13,6 @@ ci-packages:
   - r-terra
   - r-tmap
   - r-leafem
-execute:
-  freeze: true
 ---
 
 This is the first post in a Quarto blog. Welcome!

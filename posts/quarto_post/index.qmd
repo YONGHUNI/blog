@@ -20,7 +20,6 @@ format:
 execute:
   warning: false
   message: false
-  freeze: true
 #comments: false
 ci-packages:
   - r-sf

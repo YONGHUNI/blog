@@ -4,6 +4,7 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 SCRIPT = Path(__file__).with_name("render-site.py")
@@ -64,11 +65,19 @@ class PackageMetadataTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Conflicting specs"):
                 render.aggregate_specs([a, b], whole_site=True)
 
+    def test_freeze_without_precomputed_result_fails_early(self):
+        with tempfile.TemporaryDirectory(dir=render.ROOT) as td:
+            p = Path(td) / "heavy.qmd"
+            p.write_text('---\nci-packages:\n  - r-arrow\nexecute:\n  freeze: true\n---\n')
+            with self.assertRaisesRegex(ValueError, "no frozen HTML result exists"):
+                render.aggregate_specs([p], whole_site=True)
+
     def test_explicit_freeze_skips_only_in_global_render(self):
         with tempfile.TemporaryDirectory(dir=render.ROOT) as td:
             p = Path(td) / "frozen.qmd"
             p.write_text('---\nci-packages:\n  - r-arrow\nexecute:\n  freeze: true\n---\n')
-            specs, frozen = render.aggregate_specs([p], whole_site=True)
+            with patch.object(render.Path, "is_file", return_value=True):
+                specs, frozen = render.aggregate_specs([p], whole_site=True)
             self.assertNotIn("r-arrow", specs)
             self.assertEqual(len(frozen), 1)
             specs, frozen = render.aggregate_specs([p], whole_site=False)

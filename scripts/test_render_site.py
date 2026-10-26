@@ -70,18 +70,18 @@ class PackageMetadataTests(unittest.TestCase):
     def test_auto_freeze_skips_packages_only_with_matching_source(self):
         with tempfile.TemporaryDirectory(dir=render.ROOT) as td:
             p = Path(td) / "auto.qmd"
-            p.write_text("---\\nci-packages:\\n  - r-arrow\\n---\\n")
+            initial = "---\nci-packages:\n  - r-arrow\n---\n"
+            p.write_text(initial)
             key = str(p.relative_to(render.ROOT))
-            with patch.object(render, "load_manifest", return_value={
-                key: render.freeze_fingerprint(p)
-            }), patch.object(render.Path, "is_file", return_value=True):
+            frozen_hash = render.freeze_fingerprint(p)
+            with patch.object(render, "load_manifest", return_value={key: frozen_hash}), \
+                    patch.object(render.Path, "is_file", return_value=True):
                 specs, frozen = render.aggregate_specs([p], whole_site=True)
             self.assertNotIn("r-arrow", specs)
             self.assertEqual(frozen, [key])
-            p.write_text(p.read_text() + "changed")
-            with patch.object(render, "load_manifest", return_value={
-                key: hashlib.sha256("---\\nci-packages:\\n  - r-arrow\\n---\\n".encode()).hexdigest()
-            }), patch.object(render.Path, "is_file", return_value=True):
+            p.write_text(initial + "changed")
+            with patch.object(render, "load_manifest", return_value={key: frozen_hash}), \
+                    patch.object(render.Path, "is_file", return_value=True):
                 specs, frozen = render.aggregate_specs([p], whole_site=True)
             self.assertIn("r-arrow", specs)
             self.assertFalse(frozen)

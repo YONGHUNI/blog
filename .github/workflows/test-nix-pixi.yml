@@ -1,0 +1,66 @@
+name: Test Nix Pixi One-pass Render
+
+on:
+  push:
+    branches:
+      - refactor/nix-pixi-baseline
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-no-deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+      - name: Test Pixi MatchSpec collection and conflict detection
+        run: nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Validate One-pass dependency resolution plan
+        run: nix develop -c python scripts/render-site.py --dry-run
+      - name: Render whole Quarto website in one Pixi environment (no publishing)
+        run: nix develop -c python scripts/render-site.py
+      - name: Verify rendered site, legacy posts and executed reticulate bridge
+        run: |
+          test -s _site/index.html
+          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
+            test -s "_site/posts/$post/index.html"
+          done
+          # These existing posts execute mixed R/Python cells through reticulate.
+          grep -q 'times speed-up' _site/posts/dbscan_bench/index.html
+          grep -q 'DBSCAN computed in Python' _site/posts/quarto_post/index.html
+          test ! -e _site/posts/pixi-onepass-test/index.html
+          test ! -e _site/docs/one-pass-render.html
+      - name: Verify freeze commit excludes removed outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d _freeze ]]; then
+            echo "No freeze directory; production skips a commit."
+            exit 0
+          fi
+          mapfile -d '' updated < <(git diff --name-only -z --diff-filter=M -- _freeze/)
+          if (( ${#updated[@]} == 0 )); then
+            echo "No modified tracked freeze files; production skips a commit."
+          else
+            printf 'Modified tracked freeze files (only these could be committed):\n'
+            printf '%s\n' "${updated[@]}"
+          fi
+          # Deletions are intentionally excluded, even if git diff reports them.
+          mapfile -d '' deleted < <(git diff --name-only -z --diff-filter=D -- _freeze/)
+          printf 'Excluded deleted freeze files: %s\n' "${#deleted[@]}"
+
+      - name: Upload rendered-site HTML sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: pixi-onepass-rendered-html
+          path: |
+            _site/index.html
+            _site/posts/dbscan_bench/index.html
+            _site/posts/quarto_post/index.html
+          if-no-files-found: error
+          retention-days: 1

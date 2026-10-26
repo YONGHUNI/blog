@@ -20,8 +20,17 @@ format:
 execute:
   warning: false
   message: false
-#  freeze: true
 #comments: false
+ci-packages:
+  - r-sf
+  - r-tmap
+  - r-data.table
+  - r-ggplot2
+  - r-sp
+  - numpy
+  - scipy
+  - pandas
+  - scikit-learn
 ---
 
 # Introduction
@@ -615,60 +624,8 @@ end subroutine printA
 ```{r}
 library(reticulate)
 
-#' Configure Python environment
-#' Windows: Check for existing environment, create if missing, then bind.
-
-env_name <- "quarto_demo"
-py_ver <- "3.11"
-py_lib <- c("scikit-learn", "pandas", "numpy", "scipy")
-
-
-if (Sys.info()[["sysname"]] == "Windows") {
-
-  # 1. Check if the environment exists in the conda list
-  # We use name matching for robustness
-  existing_envs <- conda_list()$name
-
-  if (!(env_name %in% existing_envs)) {
-
-    message("Environment '", env_name, "' not found. Creating environment...")
-    # Create environment with specified python version
-    conda_create(env_name, python_version = py_ver)
-
-    # Install required packages after creation
-    conda_install(env_name, packages = py_lib)
-  } else {
-    message("Environment '", env_name, "' already exists. Skipping creation.")
-  }
-
-  # 2. Bind to the environment
-# use_condaenv requires the environment name (string), which is robust for Windows
-  use_condaenv(env_name, required = TRUE)
-
-} else {
-
-  #' Linux (CI/CD): Setup baseline using micromamba (due to its ephemeral traits).
-  # GitHub Actions / Linux Environment: Always fresh setup
-  message("Linux/CI environment detected. Setting up baseline via micromamba...")
-  py_lib_str <- paste(py_lib, collapse = " ")
-
-  # Use 'micromamba create' instead of 'install' for a clean setup
-  # -n: environment name
-  # -c: channel specification
-  # -y: automatic yes to prompts
-
-  mamba_cmd <- sprintf("micromamba create -n %s -c conda-forge %s python=%s -y",
-                       env_name, py_lib_str, py_ver)
-
-  system(mamba_cmd)
-
-  linux_env_path <- sprintf("/home/runner/micromamba/envs/%s/bin/python", env_name)
-  use_condaenv(linux_env_path, required = TRUE)
-}
-
-# Verification of the loaded Python configuration
-# print(py_config())
-
+# The One-pass renderer provisions Pixi's Python and packages from
+# ci-packages. No new Conda environment or machine-specific path is needed.
 
 sys <- import("sys")
 

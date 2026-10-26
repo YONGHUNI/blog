@@ -1,88 +1,88 @@
+name: Quarto Publish
+
+# Build and publish only from main. Keep test-branch pushes non-deploying.
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches:
+      - main
 
-name: Quarto Publish
+permissions:
+  contents: write  # gh-pages publishing and optional tracked freeze updates
+
+concurrency:
+  group: quarto-gh-pages-publish
+  cancel-in-progress: false
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      #actions: write
-      contents: write
+    name: Render once and publish to gh-pages
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install ubuntu dependencies
-        #run: sudo apt install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libudunits2-dev libgdal-dev
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with: 
-          packages: >- 
-            cmake gdal-bin gsfonts libcurl4-openssl-dev 
-            libfontconfig1-dev libfreetype6-dev libgdal-dev 
-            libgeos-dev libjpeg-dev libmagick++-dev libpng-dev 
-            libudunits2-dev libx11-dev pandoc libharfbuzz-dev 
-            libfribidi-dev 
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
 
-          #execute_install_scripts: true
-          version: 1
-      
-      - name: Install mamba environment
-        uses: mamba-org/setup-micromamba@v2
-        with:
-          environment-file: pyenv/base/environment.yml
-          #init-shell: bash
-          cache-environment: true
-          cache-environment-key: ${{ runner.os }}-mamba-${{ env.CACHE_NUMBER }}-${{ hashFiles('pyenv/base/environment.yml') }}
+      - name: Validate Pixi dependency metadata
+        run: nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
 
-      - name: activate conda environment
+      - name: Render with Nix + Pixi (one Quarto invocation)
+        run: nix develop -c python scripts/render-site.py
+
+      - name: Verify rendered HTML
         run: |
-          eval "$(micromamba shell hook --shell bash)"
-          micromamba activate baseline
-          which python
+          test -s _site/index.html
+          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
+            test -s "_site/posts/$post/index.html"
+          done
 
-      - name: Install R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          Ncpus: '4'
-          r-version: '4.5.0'
-
-      - name: Install R dependency
-        uses: r-lib/actions/setup-renv@v2
-        with:
-          profile: '"armyknives"'
-          #bypass-cache: never
-          #working-directory: "quarto/data/1_swiss_army_knives/"
-          cache-version: 2
-
-      - name: Set up Quarto
+      - name: Set up Quarto for publishing
         uses: quarto-dev/quarto-actions/setup@v2
 
-        #- name: Install quarto extension
-        #run: quarto install --no-prompt extension schochastics/academicons
-      # - name: Quarto render - to inspect rendering cache
-      #   run: quarto render ./ --execute-debug
-      # 
-      # - name: Push Quarto render cache if diff detected
-      #   run: |
-      #     git config --global user.name 'YONGHUNI'
-      #     git config --global user.email 'dydgns0556@gmail.com'
-      #     git add -f _freeze
-      #     ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
-      
-      - name: Render and Publish
+      - name: Publish pre-rendered site
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          #render: false
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push Quarto render cache if diff detected
+      # Ordinary QMDs use freeze: false. A whole-site build may delete legacy
+      # _freeze files, so deletion is NEVER staged by this workflow.
+      # Future CPU/GPU results must be pushed manually using git add -f.
+      - name: Push tracked Quarto freeze changes only if they exist
+        shell: bash
         run: |
-          git config --global user.name 'YONGHUNI'
-          git config --global user.email 'dydgns0556@gmail.com'
-          git add -f _freeze
-          ( git commit -m "[BOT]Quarto Freeze by GH actions" && git push ) || echo "Nothing to Push.. Skipping the Push Process"
+          set -euo pipefail
+
+          if [[ ! -d _freeze ]]; then
+            echo "No _freeze directory. Skipping freeze commit."
+            exit 0
+          fi
+
+          # A full re-render can remove previously tracked _freeze files.
+          # Never stage deletions: retain all historical/cluster-produced output
+          # until the author explicitly removes it from source control.
+          mapfile -d '' updated < <(
+            git diff --name-only -z --diff-filter=M -- _freeze/
+          )
+          if (( ${#updated[@]} == 0 )); then
+            echo "No modified, tracked _freeze files to publish. Skipping commit and push."
+            exit 0
+          fi
+
+          git add -- "${updated[@]}"
+          if git diff --cached --quiet -- _freeze/; then
+            echo "No staged _freeze content changes. Skipping commit and push."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "[BOT] Update Quarto freeze [skip ci]" -- "${updated[@]}"
+          git push origin HEAD:main

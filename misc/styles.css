@@ -4,3 +4,76 @@
         color: black;
     }
 }
+
+/* Visual documentation hub (about/blog only). No changes to regular posts. */
+.blog-docs {
+  --docs-border: var(--bs-border-color, #d7dee6);
+  --docs-accent: var(--bs-primary, #28669a);
+}
+.blog-docs .docs-eyebrow {
+  font-size: .69rem;
+  font-weight: 750;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--docs-accent);
+  margin-bottom: .6rem;
+}
+.blog-docs .docs-hero {
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  margin: .2rem 0 2.1rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 1rem;
+  background: linear-gradient(125deg, rgba(55, 120, 194, .12), rgba(50, 170, 140, .07));
+}
+.blog-docs .docs-hero h2 {
+  margin-top: .25rem;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  line-height: 1.25;
+}
+.blog-docs .docs-hero .btn { margin: .35rem .45rem .2rem 0; }
+.blog-docs .docs-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+.blog-docs .docs-pills span {
+  display: inline-block;
+  font-size: .79rem;
+  padding: .3rem .64rem;
+  border-radius: 99rem;
+  border: 1px solid var(--docs-border);
+  background: var(--bs-body-bg, #fff);
+}
+.blog-docs .docs-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.1rem 0 2rem;
+}
+.blog-docs .docs-card {
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--docs-border);
+  border-radius: .85rem;
+  background: var(--bs-body-bg, #fff);
+  box-shadow: 0 2px 15px rgba(22, 45, 78, .035);
+}
+.blog-docs .docs-card h3 {
+  margin-top: .45rem;
+  margin-bottom: .5rem;
+  font-size: 1.08rem;
+}
+.blog-docs .docs-card > p:last-child { margin-bottom: 0; }
+.blog-docs .docs-card-number {
+  color: var(--docs-accent);
+  font-size: .67rem;
+  font-weight: 750;
+  letter-spacing: .11em;
+}
+.blog-docs .cell:has(.mermaid) { margin: 1.1rem 0 1.8rem; }
+.blog-docs .mermaid { max-width: 100%; overflow-x: auto; }
+.blog-docs table { font-size: .91rem; }
+@media (max-width: 720px) {
+  .blog-docs .docs-card-grid { grid-template-columns: 1fr; }
+  .blog-docs .docs-hero { padding: 1.1rem; }
+}

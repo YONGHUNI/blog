@@ -1,0 +1,122 @@
+---
+title: "Build & Deployment"
+subtitle: "A single GitHub Actions job from source to static HTML"
+---
+
+::: {.blog-docs}
+<div class="docs-eyebrow">04 / OPERATIONS</div>
+
+## Continuous publication, without a second render
+
+Changes pushed to `main` (or a manual workflow dispatch) launch the [Quarto Publish workflow](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml). It checks the renderer, builds the site once, and deploys the already-rendered result.
+
+```{mermaid}
+%%| fig-cap: "The actual production CI/CD phases, simplified."
+flowchart TD
+    A["Push main / manual dispatch"] --> B["Checkout + install Nix"]
+    B --> C["Python unittest<br/>dependency metadata"]
+    C --> D["scripts/render-site.py<br/>one Pixi environment"]
+    D --> E["One Quarto HTML render<br/>_site + _freeze"]
+    E --> F["Check rendered HTML files"]
+    F --> G["Clear disposable .quarto cache"]
+    G --> H["Set up matching<br/>Quarto 1.9.37"]
+    H --> I["Publish to gh-pages<br/>render: false"]
+    I --> J{"Auto-freeze outputs<br/>changed?"}
+    J -->|Yes| K["Commit freeze + manifest<br/>to main / skip ci"]
+    J -->|No| L["Finish without commit"]
+```
+
+## The lifecycle as a sequence
+
+```{mermaid}
+%%| fig-cap: "The publishing process separates the source branch, render output, and public website."
+sequenceDiagram
+    actor Editor
+    participant Main as main branch
+    participant Runner as GitHub Actions
+    participant Branch as gh-pages branch
+    participant Browser as Visitor browser
+    Editor->>Main: Push change
+    Main->>Runner: Run publishing workflow
+    Runner->>Runner: Nix + tests + Pixi + Quarto
+    Runner->>Branch: Publish existing _site (no rerender)
+    Branch-->>Browser: Serve HTML and assets
+    opt Auto-generated cache has changed
+      Runner->>Main: Commit saved results [skip ci]
+    end
+```
+
+## Operational details {.panel-tabset}
+
+### Trigger and concurrency
+
+```yaml
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: quarto-gh-pages-publish
+  cancel-in-progress: false
+```
+
+The workflow is restricted to `main`; non-main pushes do not deploy through it.
+
+### Reproducible build command
+
+```bash
+nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+nix develop -c python scripts/render-site.py
+```
+
+The renderer creates one shared `pixi exec` runtime and calls Quarto once for the whole site.
+
+### Publishing without rerendering
+
+```yaml
+- name: Publish pre-rendered site
+  uses: quarto-dev/quarto-actions/publish@v2
+  with:
+    target: gh-pages
+    render: false
+```
+
+The publishing step uses Quarto `1.9.37`, matching the version used for rendering. CI removes the disposable `.quarto/` project cache between those phases to avoid incompatible internal state; `_site/` and `_freeze/` are retained.
+
+### Automatic freeze commit
+
+```text
+On successful publish:
+  stage scripts/freeze-manifest.json
+  stage additions / modifications / deletions in _freeze
+  unstage all manually frozen post subtrees
+  if staged diff exists:
+      commit "[BOT] Update automatic Quarto freeze [skip ci]"
+      push to main
+```
+
+The computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.
+
+:::
+
+## Local verification and failure diagnosis
+
+```bash
+# Report dependency selection without executing:
+nix develop -c python scripts/render-site.py --dry-run
+
+# Run metadata tests:
+nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+
+# Run the complete site build:
+nix develop -c python scripts/render-site.py
+```
+
+Look first for failed unit tests, conflicting `ci-packages`, missing explicit freeze files, or an error in a Quarto document. If rendering works but publication fails, inspect the separate publishing step and its branch permissions.
+
+**See:** [CI source](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml) · [Recent GitHub Actions runs](https://github.com/YONGHUNI/blog/actions)
+
+[Next: design & interaction →](customization.qmd)
+
+:::

@@ -1,0 +1,114 @@
+---
+title: "Design & Interaction"
+subtitle: "Quarto's visual layer, from diagrams to browser-side controls"
+---
+
+::: {.blog-docs}
+<div class="docs-eyebrow">05 / EXPERIENCE</div>
+
+## Two timescales for interactivity
+
+The build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader's browser.
+
+```{mermaid}
+%%| fig-cap: "Computation during publication and interaction during reading are different workloads."
+flowchart LR
+    subgraph CI["At build time"]
+      A["R / Python analysis"] --> B["Quarto HTML + assets"]
+    end
+    subgraph BROWSER["In the visitor's browser"]
+      C["Rendered prose + charts"]
+      D["Mermaid diagrams"]
+      E["Observable JS controls"]
+      F["Interactive maps"]
+    end
+    B --> C
+    B --> D
+    B --> E
+    B --> F
+```
+
+## Components used on this website
+
+:::: {.docs-card-grid}
+::: {.docs-card}
+### Theme and layout
+
+[Cosmo](https://bootswatch.com/cosmo/) and `misc/theme-dark.scss` supply light/dark appearance. Site-specific tweaks live in `misc/styles.css`.
+:::
+::: {.docs-card}
+### Mermaid
+
+Flowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.
+:::
+::: {.docs-card}
+### Observable JS
+
+Reactive controls can update a table or visualization without rerunning scientific Python/R code on a server. Try the [freeze scenario explorer](freeze.qmd).
+:::
+::: {.docs-card}
+### Spatial interaction
+
+Individual research posts can embed interactive geographic outputs produced by packages such as `tmap` and JavaScript mapping libraries.
+:::
+::: {.docs-card}
+### Comments
+
+[GitHub Discussions](https://github.com/YONGHUNI/blog/discussions) back the Giscus comment UI included through shared Quarto metadata.
+:::
+::: {.docs-card}
+### Publishing metadata
+
+The custom [Lua filter](https://github.com/YONGHUNI/blog/blob/main/misc/quarto-version.lua) supports the Quarto version annotation in the site's footer.
+:::
+::::
+
+## A small, readable syntax
+
+::: {.panel-tabset}
+
+### Diagram
+
+```text
+Quarto's {mermaid} code cells
+→ diagram in the published HTML
+→ no hand-maintained PNG export
+```
+
+The diagrams in these docs use Quarto's native Mermaid integration.
+
+### Tabbed content
+
+```markdown
+## Configuration {.panel-tabset}
+
+### Nix
+Pinned tools and CLI.
+
+### Pixi
+Shared R/Python runtime.
+```
+
+Tabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.
+
+### Reactive widgets
+
+```text
+Observable input changes
+→ dependent OJS cells update
+→ visitor sees new result
+```
+
+This site's [interactive freeze explorer](freeze.qmd) uses built-in Observable Inputs; it does not call a server or access private infrastructure.
+
+:::
+
+## Reader experience and maintainability
+
+All technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.
+
+The documentation intentionally **does not depend on a new site-wide JavaScript framework**. The existing Quarto/Cosmo structure remains the foundation, and the [blog's source repository](https://github.com/YONGHUNI/blog) remains the definitive implementation reference.
+
+[Return to documentation overview →](index.qmd)
+
+:::

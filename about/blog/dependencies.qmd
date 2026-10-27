@@ -1,0 +1,92 @@
+---
+title: "Dependencies & Environments"
+subtitle: "How one Quarto render uses R and Python"
+---
+
+::: {.blog-docs}
+<div class="docs-eyebrow">02 / COMPUTATION</div>
+
+## One scientific runtime per site build
+
+Rather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches **one shared Pixi environment**.
+
+```{mermaid}
+%%| fig-cap: "Packages needed by documents that may execute are merged into one Pixi call."
+flowchart LR
+    A["Nix-pinned<br/>tools"] --> B["render-site.py"]
+    C["Core packages"] --> D["Merge package specs"]
+    E["Post A<br/>ci-packages"] --> D
+    F["Post B<br/>ci-packages"] --> D
+    B --> D
+    D --> G{"Version<br/>conflict?"}
+    G -->|Yes| X["Stop with error"]
+    G -->|No| H["pixi exec"]
+    H --> I["One Quarto render"]
+```
+
+## Document metadata
+
+`ci-packages` is a **repository-specific field**, not built-in Quarto configuration.
+
+```yaml
+---
+title: "Spatial Analysis"
+ci-packages:
+  - r-sf
+  - r-spdep
+  - "numpy>=1.26,<2"
+---
+```
+
+`render-site.py` validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.
+
+## Inspect the environment {.panel-tabset}
+
+### Pinned tools
+
+```bash
+nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
+```
+
+Nix supplies Quarto, Pixi, Git and a Python YAML/testing environment.
+
+### Shared R/Python runtime
+
+```text
+Core: R + knitr + reticulate + Python + NumPy
+      + Pandoc + Micromamba compatibility executable
+Additional: ci-packages from non-reused articles
+                    ↓
+One conda-forge pixi exec environment
+```
+
+The Micromamba executable serves as a compatibility tool for `reticulate`. It is not used to create a separate project environment.
+
+### Dry run
+
+```bash
+nix develop -c python scripts/render-site.py --dry-run
+```
+
+This reports inspected documents, package specifications and the proposed render command without executing it.
+
+:::
+
+## What is skipped when a post is unchanged?
+
+When the QMD source hash matches `scripts/freeze-manifest.json` **and** the saved HTML execution result exists, the renderer omits that post's extra `ci-packages`. The default R/Python toolchain still remains.
+
+::: {.callout-important}
+The manifest determines **dependency selection**, not Quarto execution directly. Deleting only the manifest may install extra packages without causing Quarto to recompute unchanged frozen results.
+:::
+
+| Design choice | Benefit | Limitation |
+|---|---|---|
+| One `pixi exec` | Single render and common runtime | Version constraints must be compatible |
+| `ci-packages` per QMD | Requirements visible next to analysis | Authors must maintain metadata |
+| Nix `flake.lock` | Pinned build tool versions | Doesn't lock the Pixi runtime |
+| Frozen results | Avoids unnecessary computation | External changes need manual invalidation |
+
+[Next: freeze & cache →](freeze.qmd)
+
+:::

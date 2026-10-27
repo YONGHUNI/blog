@@ -1,0 +1,146 @@
+---
+title: "Freeze & Cache Explorer"
+subtitle: "When does code actually run again?"
+description: "Interactive guide to Quarto freeze, source hashes, package selection, and cache maintenance."
+---
+
+::: {.blog-docs}
+<div class="docs-eyebrow">03 / EFFICIENCY</div>
+
+## Rendering a page is not the same as rerunning its code
+
+Quarto generates the site's HTML on every deployment. With the site-wide `execute: freeze: auto` setting, unchanged executable posts can reuse their committed `_freeze` results rather than repeating R or Python computations.
+
+This repository also keeps `scripts/freeze-manifest.json`. **The manifest controls which extra packages need to be installed; Quarto controls whether frozen execution is reused.** These are related, but separate, decisions.
+
+## The two decisions
+
+```{mermaid}
+%%| fig-cap: "Package-selection logic in the custom renderer; Quarto makes its own freeze decision later."
+flowchart TD
+    A["Inspect each .qmd"] --> B{"Explicit<br/>freeze: true?"}
+    B -->|Yes| C{"Saved HTML<br/>execution result?"}
+    C -->|No| X["Stop: required<br/>cluster output missing"]
+    C -->|Yes| D["Skip this post's<br/>extra ci-packages"]
+    B -->|No| E{"Saved result exists<br/>and source hash matches?"}
+    E -->|Yes| D
+    E -->|No| F["Include this post's<br/>extra ci-packages"]
+    D --> G["Launch shared Pixi runtime"]
+    F --> G
+    G --> H["One Quarto render<br/>uses its own freeze rules"]
+```
+
+## Interactive: choose a document state
+
+Try the cases below. This is a **client-side explanatory model** of the repository logic; it does not run a GitHub Actions job or modify any files.
+
+```{ojs}
+//| echo: false
+viewof freezeCase = Inputs.select(
+  [
+    "Auto: unchanged document + matching cache",
+    "Auto: document source changed",
+    "Auto: saved freeze result missing",
+    "Auto: manifest missing, freeze still exists",
+    "Manual: freeze true + saved result",
+    "Manual: freeze true + missing result"
+  ],
+  {label: "Choose the QMD and cache state:", value: "Auto: unchanged document + matching cache"}
+)
+```
+
+```{ojs}
+//| echo: false
+freezeOutcomes = ({
+  "Auto: unchanged document + matching cache": {
+    "Extra ci-packages": "Skip",
+    "Quarto execution": "Reuse unchanged frozen computation",
+    "Outcome": "Rebuild HTML; keep saved scientific results"
+  },
+  "Auto: document source changed": {
+    "Extra ci-packages": "Include",
+    "Quarto execution": "Reexecute changed document",
+    "Outcome": "Generate updated freeze artifacts on success"
+  },
+  "Auto: saved freeze result missing": {
+    "Extra ci-packages": "Include",
+    "Quarto execution": "Execute without prior freeze",
+    "Outcome": "Create fresh execution results"
+  },
+  "Auto: manifest missing, freeze still exists": {
+    "Extra ci-packages": "Include",
+    "Quarto execution": "May reuse unchanged freeze",
+    "Outcome": "Manifest removal alone does not force execution"
+  },
+  "Manual: freeze true + saved result": {
+    "Extra ci-packages": "Skip",
+    "Quarto execution": "Reuse precomputed cluster results",
+    "Outcome": "Site can publish without heavy runtime"
+  },
+  "Manual: freeze true + missing result": {
+    "Extra ci-packages": "Not reached",
+    "Quarto execution": "Not started",
+    "Outcome": "Custom renderer stops with an error"
+  }
+})
+```
+
+```{ojs}
+//| echo: false
+Inputs.table([freezeOutcomes[freezeCase]], {
+  columns: ["Extra ci-packages", "Quarto execution", "Outcome"],
+  rows: 1
+})
+```
+
+## Automatic versus explicitly frozen work {.panel-tabset}
+
+### Normal articles: `freeze: auto`
+
+The project default is set in [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/main/_quarto.yml).
+
+```yaml
+execute:
+  freeze: auto
+```
+
+If only an About page changes, Quarto still regenerates the website HTML, but unaffected cached scientific results can be reused.
+
+### Cluster articles: `freeze: true`
+
+For future CPU/GPU-intensive documents, an individual QMD can opt in:
+
+```yaml
+execute:
+  freeze: true
+```
+
+The required `_freeze` output must first be computed and committed from the appropriate research environment. Whole-site CI refuses to continue if the expected saved HTML execution result is absent. Updating the data or code requires manually refreshing these frozen results.
+
+### What gets committed?
+
+After successful publishing, the workflow stages the manifest and generated auto-freeze files and commits them **only if the staged content changed**. Files under a manually frozen post's subtree are excluded from automatic staging.
+
+The bot commit uses `[skip ci]` to avoid an unnecessary new publication run.
+
+:::
+
+## Cache maintenance
+
+| Goal | Recommended action |
+|---|---|
+| Rebuild HTML only | Push the page change; keep `_freeze` |
+| Recompute one ordinary post | Invalidate that post's saved execution result, then build |
+| Recompute all ordinary posts | Remove their saved `_freeze` results, commit deletions, then build |
+| Reset dependency fingerprinting | Reset `scripts/freeze-manifest.json`; this does **not** force Quarto execution |
+| Update a manually frozen HPC post | Recompute the single document on the cluster and commit new frozen outputs |
+
+::: {.callout-warning}
+Do not wipe `_freeze` indiscriminately if you have posts using `freeze: true`. The renderer requires those externally produced results. Quarto's source-based freeze invalidation also does not detect every change to an external dataset or environment.
+:::
+
+**Relevant source:** [`scripts/render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py) · [`scripts/freeze-manifest.json`](https://github.com/YONGHUNI/blog/blob/main/scripts/freeze-manifest.json)
+
+[Next: build & deployment →](deployment.qmd)
+
+:::

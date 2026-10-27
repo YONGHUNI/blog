@@ -11,6 +11,28 @@ website:
   title: "Yonghun's Computational Geo-Blog"
   site-url: "https://yonghuni.github.io/blog/"
   favicon: /data/_quarto/favicon/geography-icon.png
+  sidebar:
+    - id: blog-docs
+      title: "Inside the Blog"
+      style: docked
+      collapse-level: 2
+      contents:
+        - text: "Overview"
+          href: about/blog/index.qmd
+        - section: "How it works"
+          contents:
+            - text: "Architecture"
+              href: about/blog/architecture.qmd
+            - text: "Dependencies"
+              href: about/blog/dependencies.qmd
+            - text: "Freeze & Caching"
+              href: about/blog/freeze.qmd
+        - section: "Operations & Design"
+          contents:
+            - text: "Build & Deployment"
+              href: about/blog/deployment.qmd
+            - text: "Design & Interaction"
+              href: about/blog/customization.qmd
   page-footer:
     left: "Powered by [Quarto](https://quarto.org/) <?quarto.version?>"
     right: "Made with ❤️ by [YONGHUNI](https://yonghuni.github.io/blog/about/me/)"

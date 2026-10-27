@@ -1,0 +1,8 @@
+# Apply documentation navigation only to the about/blog subsection.
+sidebar: blog-docs
+toc: true
+toc-depth: 2
+title-block-banner: false
+format:
+  html:
+    code-copy: true

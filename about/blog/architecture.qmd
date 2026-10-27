@@ -1,0 +1,103 @@
+---
+title: "System Architecture"
+subtitle: "From research source to a deployed website"
+---
+
+::: {.blog-docs}
+<div class="docs-eyebrow">01 / FOUNDATIONS</div>
+
+## Four layers, four distinct jobs
+
+```{mermaid}
+%%| fig-cap: "The logical layers of the publishing workflow."
+flowchart TB
+    subgraph SOURCE["Authoring"]
+      Q["Quarto .qmd articles"] 
+      M["ci-packages metadata"]
+      F["Saved execution results"]
+    end
+    subgraph NIX["Build tools · Nix"]
+      N["Quarto CLI + Pixi CLI + Python utilities"]
+    end
+    subgraph PIXI["Scientific runtime · Pixi"]
+      R["Shared R + Python packages"]
+    end
+    subgraph WEB["Static website"]
+      H["_site HTML + assets"]
+      P["gh-pages / GitHub Pages"]
+    end
+    Q --> N
+    M --> N
+    F --> N
+    N --> R
+    R --> H
+    H --> P
+```
+
+:::: {.docs-card-grid}
+::: {.docs-card}
+### Nix: Toolchain
+
+`flake.nix` and `flake.lock` define the tools available for rendering and CI validation.
+:::
+::: {.docs-card}
+### Pixi: Runtime
+
+One `pixi exec` environment combines core dependencies and packages needed by executable articles.
+:::
+::: {.docs-card}
+### Quarto: Renderer
+
+One project-wide render produces pages, figures, Mermaid diagrams, and browser-ready Observable JS.
+:::
+::: {.docs-card}
+### Pages: Hosting
+
+The rendered `_site` directory is published to the `gh-pages` branch without rerendering.
+:::
+::::
+
+## What happens when you edit a page?
+
+```{mermaid}
+%%| fig-cap: "An edit triggers one whole-site build, not necessarily a rerun of every code chunk."
+sequenceDiagram
+    actor Author
+    participant Main as GitHub main
+    participant CI as Actions runner
+    participant Q as Quarto
+    participant Pages as GitHub Pages
+    Author->>Main: Push source change
+    Main->>CI: Trigger publish workflow
+    CI->>CI: Load Nix tools and run tests
+    CI->>CI: Resolve dependencies and freeze matches
+    CI->>Q: Render whole site once via Pixi
+    Note over CI,Q: Cached code results may be reused
+    Q-->>CI: _site HTML and freeze results
+    CI->>Pages: Publish pre-rendered HTML
+    opt Auto-freeze results changed
+      CI->>Main: Commit _freeze + manifest
+    end
+```
+
+## What exactly is pinned? {.panel-tabset}
+
+### Nix toolchain
+
+[`flake.lock`](https://github.com/YONGHUNI/blog/blob/main/flake.lock) pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.
+
+### Runtime dependencies
+
+`ci-packages` requirements are resolved together with core packages through `pixi exec`. This is convenient but **not** a fully locked Pixi environment: compatible package versions may change over time.
+
+### Research inputs
+
+Source-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.
+
+:::
+
+The source of truth is [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/main/_quarto.yml), [`flake.nix`](https://github.com/YONGHUNI/blog/blob/main/flake.nix), [`render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py), and [`publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml).
+
+[Next: dependencies →](dependencies.qmd)
+
+:::

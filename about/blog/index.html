@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Explore the Nix, Pixi, Quarto, Freeze, and GitHub Pages publishing pipeline.">
 
-<title>About My Blog – Yonghun’s Computational Geo-Blog</title>
+<title>Inside the Blog – Yonghun’s Computational Geo-Blog</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -38,15 +39,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-25de681bb57222f321241f665073f735.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ca99a6994ce7704dd5293177e6d341e1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fea32c745bfb98d23d326bac714ed19b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ca99a6994ce7704dd5293177e6d341e1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -127,46 +129,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
-<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
-<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 <script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../misc/styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -331,7 +302,7 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -402,189 +373,232 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../about/blog/index.html">Overview</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">About My Blog</h1>
-                      </div>
-  </div>
-  <div class="quarto-title-meta">
-    </div>
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">How it works</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/dependencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dependencies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/freeze.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Freeze &amp; Caching</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Operations &amp; Design</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build &amp; Deployment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../about/blog/customization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Design &amp; Interaction</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
-
-
-
-
-<div class="quarto-about-jolla">
-  <img src="https://rstudio.github.io/cheatsheets/html/images/logo-quarto.png" class="about-image
-  round " style="height: 15em; width: 15em;">
- <div id="hero-heading">
-<section id="a-cicd-enabled-computational-geo-blog" class="level2">
-<h2 data-anchor-id="a-cicd-enabled-computational-geo-blog">A CI/CD Enabled Computational Geo-Blog</h2>
-<p>This blog is a platform for sharing reproducible geospatial research, computational methods, and practical coding workflows. Every post is rendered and deployed automatically through GitHub Actions, so the content you see is always built from the latest source.</p>
-</section>
-</div> 
-  <hr class="about-sep">
-   <div class="about-links">
-  <a href="https://github.com/YONGHUNI" class="about-link" rel="" target="_blank">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Source code for this blog</span>
-  </a>
-  <a href="https://quarto.org/docs/websites/" class="about-link" rel="" target="_blank">
-     <span class="about-link-text"><img src="../../data/_quarto/icon/logo-quarto.png" class="img-fluid" alt="Quarto"> Creating a website with quarto</span>
-  </a>
-  <a href="https://quarto.org/" class="about-link" rel="" target="_blank">
-     <span class="about-link-text"><img src="../../data/_quarto/icon/logo-quarto.png" class="img-fluid" alt="Quarto"> Quarto official website</span>
-  </a>
-</div>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Inside the Blog</h1>
+<p class="subtitle lead">Visual documentation for this computational geography website</p>
 </div>
 
-<section id="what-is-quarto" class="level1">
-<h1>What is Quarto?</h1>
-<p><a href="https://quarto.org/" target="_blank">Quarto</a> is an open-source scientific publishing system developed by <a href="https://posit.co/" target="_blank">Posit</a>, and it represents the next evolution of R Markdown. While R Markdown was tightly coupled to the R ecosystem, Quarto breaks that boundary by natively supporting R, Python, Julia, and Observable JS within a single document. This means a geographer can wrangle spatial data in R with <code>sf</code>, run a machine learning model in Python with <code>scikit-learn</code>, and present the results, all without leaving one <code>.qmd</code> file.</p>
-<p>What makes Quarto particularly powerful for research is its commitment to reproducibility. The traditional workflow of exporting figures from GIS software and pasting them into a Word document is replaced by a single source of truth: if the underlying data changes, every map, table, and chart in the document updates automatically. Because all code is embedded alongside the narrative, fellow researchers can trace and reproduce the entire analytical pipeline.</p>
-<p>Quarto also follows a “one source, multi-format” philosophy. A single <code>.qmd</code> file can be rendered into an HTML report, a PDF manuscript formatted for journal submission, or an MS Word document for collaboration, simply by changing one line in the YAML header. It even supports presentation slides via Reveal.js. And for quantitative work, LaTeX math rendering comes built-in; for instance, the formula for Moran’s I, a measure of spatial autocorrelation, renders at publication quality:</p>
-<p><span class="math display">\[I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}\]</span></p>
-<p>By linking with GitHub Pages, researchers can publish their own blogs or project pages to the world with just a few clicks. This blog is a living example of exactly that.</p>
+<div>
+  <div class="description">
+    Explore the Nix, Pixi, Quarto, Freeze, and GitHub Pages publishing pipeline.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="blog-docs">
+<div class="docs-hero">
+<div class="docs-eyebrow">
+ABOUT THE PLATFORM / DOCUMENTATION
+</div>
+<section id="research-that-can-be-inspected-rerun-and-published" class="level2">
+<h2 class="anchored" data-anchor-id="research-that-can-be-inspected-rerun-and-published">Research that can be inspected, rerun, and published</h2>
+<p>This site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.</p>
+<div class="docs-pills">
+<span>Quarto</span><span>Nix Flakes</span><span>Pixi</span><span>R + Python</span><span>GitHub Pages</span>
+</div>
+<p><a href="../../about/blog/architecture.html" class="btn btn-primary">Explore the architecture</a> <a href="https://github.com/YONGHUNI/blog" class="btn btn-outline-secondary" target="_blank">View the source</a></p>
 </section>
-<section id="features-of-this-blog" class="level1">
-<h1>Features of This Blog</h1>
-<section id="multi-language-interoperability" class="level2">
-<h2 data-anchor-id="multi-language-interoperability">Multi-Language Interoperability</h2>
-<p>Nearly every post on this blog passes data between R and Python within a single document using the <a href="https://rstudio.github.io/reticulate/" target="_blank"><code>reticulate</code></a> package. R excels at spatial data handling and publication-quality visualization (<code>sf</code>, <code>tmap</code>, <code>ggplot2</code>), while Python offers optimized numerical computing and machine learning (<code>NumPy</code>, <code>scikit-learn</code>, <code>SciPy</code>). By combining both, each step in the analysis uses the best tool for the job.</p>
-<p>In practice, this means a post can parse KMA radar binary data in Python, convert reflectance to rainfall intensity via the Z-R relationship, and then visualize the resulting raster in R with interactive <code>tmap</code> basemaps, all in one <code>.qmd</code> file. Another post computes OLS via the normal equation <span class="math inline">\((X^TX)^{-1}X^Ty\)</span> in Python, optimizes the MLE with <code>SciPy</code>, and cross-checks both against R’s built-in <code>lm()</code>.</p>
-</section>
-<section id="interactive-geospatial-visualization" class="level2">
-<h2 data-anchor-id="interactive-geospatial-visualization">Interactive Geospatial Visualization</h2>
-<p>Static maps can only tell part of the story. This blog makes heavy use of interactive mapping with <code>tmap</code> in view mode, <code>leafem</code> for mouse coordinates, and custom Google Satellite and OpenStreetMap basemaps, so readers can zoom, pan, toggle layers, and click on features to inspect attributes directly in the browser. For client-side interactivity, Observable JavaScript (OJS) receives data processed by R during the build phase via <code>ojs_define()</code>, enabling real-time filtering and plotting with no running server.</p>
-</section>
-<section id="cicd-pipeline" class="level2">
-<h2 data-anchor-id="cicd-pipeline">CI/CD Pipeline</h2>
-<p>The blog is built and deployed by a single GitHub Actions <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank">publishing workflow</a>. A push to <code>main</code> (or a manual dispatch on <code>main</code>) triggers one job that executes every ordinary post, renders the site once, and publishes the already-generated HTML to the <code>gh-pages</code> branch.</p>
+</div>
+<section id="the-publishing-system-at-a-glance" class="level2">
+<h2 class="anchored" data-anchor-id="the-publishing-system-at-a-glance">The publishing system at a glance</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TD
-    A["Push to main / manual dispatch"] --&gt; B["Checkout source"]
-    B --&gt; C["Nix development environment&lt;br&gt;Quarto, Pixi, Python + YAML"]
-    C --&gt; D["Read ci-packages from QMDs&lt;br&gt;Merge R/Python requirements"]
-    D --&gt; E["Pixi Exec: shared conda-forge environment&lt;br&gt;R, Python and libraries"]
-    E --&gt; F["One Quarto render&lt;br&gt;Execute ordinary posts and reuse opt-in freeze"]
-    F --&gt; G["Verify generated HTML in _site"]
-    G --&gt; H["Quarto publish to gh-pages&lt;br&gt;render: false"]
-    H --&gt; I["Check tracked _freeze changes&lt;br&gt;Skip if none / never commit deletions"]
-    I --&gt; J["GitHub Pages"]
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Quarto source&lt;br/&gt;.qmd + metadata"] --&gt; B["GitHub&lt;br/&gt;main"]
+    B --&gt; C["GitHub Actions&lt;br/&gt;Nix + Pixi"]
+    C --&gt; D["Quarto&lt;br/&gt;one site render"]
+    D --&gt; E["GitHub Pages&lt;br/&gt;gh-pages"]
+    F["Saved _freeze&lt;br/&gt;execution results"] &lt;--&gt; C
+    E --&gt; G["Readers&lt;br/&gt;HTML + browser JS"]
 </pre>
 </div>
-<p></p><figcaption> Nix + Pixi + Quarto one-pass CI/CD pipeline</figcaption> </figure><p></p>
+<p></p><figcaption> The build runs on GitHub Actions; readers receive a static website.</figcaption> </figure><p></p>
 </div>
 </div>
 </div>
-<p>Nix supplies the build tools, while Pixi resolves the shared runtime dependencies from <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py" target="_blank"><code>scripts/render-site.py</code></a> and each document’s <code>ci-packages</code> YAML metadata. Quarto is invoked <strong>once</strong> for the whole website. The publication step uses <code>render: false</code>, so no additional R/Python execution occurs during publishing. The previous <code>renv</code> and Micromamba-managed environments are no longer part of the CI configuration. A Micromamba executable is included only as a compatibility shim for <code>reticulate</code>’s Conda environment detection.</p>
-<p>Most posts use <code>execute: freeze: false</code> and are executed directly in GitHub Actions. For future CPU/GPU-intensive computations, an individual post can declare <code>freeze: true</code> and reuse its precomputed <code>_freeze</code> output that the author explicitly commits from a compute cluster. GitHub Actions does <strong>not</strong> automatically add these new files. The final workflow step skips a Git commit when there are no modified tracked freeze artifacts and never stages their removal. For technical details, see the <a href="https://github.com/YONGHUNI/blog/blob/main/docs/one-pass-render.md" target="_blank">one-pass rendering guide</a>.</p>
 </section>
-<section id="theming-and-customization" class="level2">
-<h2 data-anchor-id="theming-and-customization">Theming and Customization</h2>
-<p>The site uses the <a href="https://bootswatch.com/cosmo/" target="_blank">Cosmo</a> Bootstrap theme with a custom dark mode defined in <code>misc/theme-dark.scss</code>. A <code>prefers-color-scheme</code> media query in <code>misc/styles.css</code> handles light-mode footer styling. The page footer dynamically injects the Quarto version and build OS through a custom Lua filter (<code>misc/quarto-version.lua</code>), and icons for ORCID and academic profiles come from the <a href="https://github.com/quarto-ext/fontawesome" target="_blank"><code>fontawesome</code></a> and <a href="https://github.com/schochastics/academicons" target="_blank"><code>academicons</code></a> extensions.</p>
+<section id="explore-the-system" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-system">Explore the system</h2>
+<div class="docs-card-grid">
+<div class="docs-card">
+<div class="docs-card-number">
+01 / FOUNDATIONS
+</div>
+<section id="system-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="system-architecture"><a href="../../about/blog/architecture.html">System architecture</a></h3>
+<p>How source, build tools, the scientific runtime, and static hosting fit together.</p>
+<p><a href="../../about/blog/architecture.html">Open guide →</a></p>
 </section>
-<section id="comments" class="level2">
-<h2 data-anchor-id="comments">Comments</h2>
-<p>Every post includes a <a href="https://giscus.app/" target="_blank">Giscus</a> comment widget backed by <a href="https://github.com/YONGHUNI/blog/discussions" target="_blank">GitHub Discussions</a>, injected via shared metadata in <code>posts/_metadata.yml</code>. The widget’s theme automatically syncs with the site’s light/dark toggle.</p>
+</div>
+<div class="docs-card">
+<div class="docs-card-number">
+02 / COMPUTATION
+</div>
+<section id="dependencies" class="level3">
+<h3 class="anchored" data-anchor-id="dependencies"><a href="../../about/blog/dependencies.html">Dependencies</a></h3>
+<p>How article-level <code>ci-packages</code> declarations become one shared runtime.</p>
+<p><a href="../../about/blog/dependencies.html">Open guide →</a></p>
 </section>
+</div>
+<div class="docs-card">
+<div class="docs-card-number">
+03 / EFFICIENCY
+</div>
+<section id="freeze-caching" class="level3">
+<h3 class="anchored" data-anchor-id="freeze-caching"><a href="../../about/blog/freeze.html">Freeze &amp; caching</a></h3>
+<p>An interactive explorer for when Quarto reuses calculations and when it reruns them.</p>
+<p><a href="../../about/blog/freeze.html">Try cache explorer →</a></p>
 </section>
-<section id="tech-stack" class="level1">
-<h1>Tech Stack</h1>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Component</th>
-<th style="text-align: left;">Technology</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Static Site Generator</td>
-<td style="text-align: left;"><a href="https://quarto.org/" target="_blank">Quarto</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Languages</td>
-<td style="text-align: left;">R, Python, Julia, Observable JS</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Geospatial</td>
-<td style="text-align: left;">sf, terra, GeoPandas, GDAL, tmap, leafem, folium</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Data Science</td>
-<td style="text-align: left;">scikit-learn, data.table, NumPy, SciPy, Arrow</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Visualization</td>
-<td style="text-align: left;">ggplot2, tmap, matplotlib, Observable Plot</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hosting</td>
-<td style="text-align: left;"><a href="https://pages.github.com/" target="_blank">GitHub Pages</a> (via <code>gh-pages</code> branch)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CI/CD</td>
-<td style="text-align: left;"><a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml" target="_blank">GitHub Actions</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Build Toolchain</td>
-<td style="text-align: left;"><a href="https://nixos.org/" target="_blank">Nix</a> (flake.lock)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">R/Python Runtime</td>
-<td style="text-align: left;"><a href="https://pixi.sh/" target="_blank">Pixi</a> (<code>pixi exec</code>, conda-forge; per-post <code>ci-packages</code>)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Theme</td>
-<td style="text-align: left;"><a href="https://bootswatch.com/cosmo/" target="_blank">Cosmo</a> + custom dark SCSS</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Comments</td>
-<td style="text-align: left;"><a href="https://giscus.app/" target="_blank">Giscus</a> (GitHub Discussions)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Extensions</td>
-<td style="text-align: left;"><a href="https://github.com/quarto-ext/fontawesome" target="_blank">FontAwesome</a>, <a href="https://github.com/schochastics/academicons" target="_blank">Academicons</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Custom Filters</td>
-<td style="text-align: left;">Lua filter for Quarto version injection</td>
-</tr>
-</tbody>
-</table>
+</div>
+<div class="docs-card">
+<div class="docs-card-number">
+04 / OPERATIONS
+</div>
+<section id="build-deployment" class="level3">
+<h3 class="anchored" data-anchor-id="build-deployment"><a href="../../about/blog/deployment.html">Build &amp; deployment</a></h3>
+<p>A visual walk-through of GitHub Actions and the <code>gh-pages</code> publishing step.</p>
+<p><a href="../../about/blog/deployment.html">Open guide →</a></p>
+</section>
+</div>
+<div class="docs-card">
+<div class="docs-card-number">
+05 / EXPERIENCE
+</div>
+<section id="design-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="design-interaction"><a href="../../about/blog/customization.html">Design &amp; interaction</a></h3>
+<p>Themes, responsive navigation, Mermaid, Observable JS, maps, and comments.</p>
+<p><a href="../../about/blog/customization.html">Open guide →</a></p>
+</section>
+</div>
+</div>
+</section>
+<section id="reproducibility-with-practical-limits" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-with-practical-limits">Reproducibility, with practical limits</h2>
+<p>A post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled <code>.qmd</code> file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Build tools are pinned by <code>flake.lock</code>. The shared <code>pixi exec</code> environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.</p>
+</div>
+</div>
+<p>For implementation details, see <a href="https://github.com/YONGHUNI/blog/blob/main/_quarto.yml"><code>_quarto.yml</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py"><code>render-site.py</code></a>, and <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a>.</p>
+</section>
+</div>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <div class="giscus">
-<script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
-</script>
-<script type="module">
-if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
-window._ojs.paths.runtimeToDoc = "../../about/blog";
-window._ojs.paths.runtimeToRoot = "../..";
-window._ojs.paths.docToRoot = "../..";
-window._ojs.selfContained = false;
-window._ojs.runtime.interpretFromScriptTags();
-</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -600,6 +614,13 @@ window._ojs.runtime.interpretFromScriptTags();
       window.document.body.appendChild(a);
     }
     setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

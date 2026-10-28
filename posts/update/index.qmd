@@ -5,7 +5,7 @@ date: "Oct 6, 2024"
 #categories: [news, code, analysis]
 categories: ["Blog Updates"]
 area: "life"
-section: "life/reflections"
+blog-section: "life/reflections"
 sidebar: life
 image: "./data/comingsoon.png"
 ---

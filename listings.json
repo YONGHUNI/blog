@@ -1,18 +1,30 @@
 [
   {
-    "listing": "/life/reflections.html",
+    "listing": "/research/index.html",
     "items": [
+      "/posts/dbscan_bench/index.html"
+    ]
+  },
+  {
+    "listing": "/life/index.html",
+    "items": [
+      "/posts/halloween-brownies-2026/index.html",
       "/posts/update/index.html"
     ]
   },
   {
-    "listing": "/life/personal.html",
+    "listing": "/index.html",
     "items": [
-      "/posts/halloween-brownies-2026/index.html"
+      "/posts/halloween-brownies-2026/index.html",
+      "/posts/quarto_post/index.html",
+      "/posts/dbscan_bench/index.html",
+      "/posts/pyenvsetting/index.html",
+      "/posts/envsetting/index.html",
+      "/posts/update/index.html"
     ]
   },
   {
-    "listing": "/giscience/index.html",
+    "listing": "/giscience/spatial-analysis.html",
     "items": [
       "/posts/dbscan_bench/index.html"
     ]
@@ -46,26 +58,28 @@
     ]
   },
   {
-    "listing": "/giscience/spatial-analysis.html",
+    "listing": "/geek/index.html",
+    "items": [
+      "/posts/quarto_post/index.html",
+      "/posts/pyenvsetting/index.html",
+      "/posts/envsetting/index.html"
+    ]
+  },
+  {
+    "listing": "/giscience/index.html",
     "items": [
       "/posts/dbscan_bench/index.html"
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/life/personal.html",
     "items": [
-      "/posts/halloween-brownies-2026/index.html",
-      "/posts/quarto_post/index.html",
-      "/posts/dbscan_bench/index.html",
-      "/posts/pyenvsetting/index.html",
-      "/posts/envsetting/index.html",
-      "/posts/update/index.html"
+      "/posts/halloween-brownies-2026/index.html"
     ]
   },
   {
-    "listing": "/life/index.html",
+    "listing": "/life/reflections.html",
     "items": [
-      "/posts/halloween-brownies-2026/index.html",
       "/posts/update/index.html"
     ]
   }

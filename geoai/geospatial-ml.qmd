@@ -1,14 +1,6 @@
 ---
 title: "Geospatial ML"
 sidebar: geoai
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    section: "geoai/geospatial-ml"
 ---
 
-Posts filed under **Geospatial ML**. Select a category to narrow the list further.
+Future posts filed under  **Geospatial ML**. Select a category to narrow the list further.

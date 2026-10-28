@@ -1,14 +1,6 @@
 ---
 title: "Conferences"
 sidebar: life
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    section: "life/conferences"
 ---
 
 Posts filed under **Conferences**. Select a category to narrow the list further.

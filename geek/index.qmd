@@ -1,0 +1,21 @@
+---
+title: "Geek"
+page-layout: full
+listing:
+  contents:
+    - ../posts/envsetting/index.qmd
+    - ../posts/pyenvsetting/index.qmd
+    - ../posts/quarto_post/index.qmd
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: false
+  sort-ui: false
+  fields: [date, title, description, categories, image]
+  image-height: 110px
+  max-description-length: 125
+---
+
+Linux, development, homelab infrastructure, and technology.
+
+Browse posts by category.

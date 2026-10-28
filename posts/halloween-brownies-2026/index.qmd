@@ -4,23 +4,23 @@ subtitle: "A small batch of homemade brownies for the lab"
 author: "Yonghun Suh"
 date: "2026-10-28"
 categories: [Personal, Food]
-description: "Ingredients and allergen information for 28 homemade Halloween brownies shared with the lab."
+description: "Ingredients and allergen information for homemade Halloween brownies shared with the lab."
 format:
   html:
     toc: true
     toc-depth: 2
 ---
 
-I baked **28 brownies** to share with my lab for Halloween. I used a plant-based brownie recipe, then set aside **8 plain brownies** and planned decorations for the remaining **20**. This post records the ingredients and allergy information so that anyone choosing a brownie can make an informed decision.
+I baked brownies to share with my lab for Halloween. I used a plant-based brownie recipe and prepared two varieties: plain and decorated. This post records the ingredients and allergy information so that anyone choosing a brownie can make an informed decision.
 
 > **Allergy note:** These are homemade brownies, not products from an allergen-controlled kitchen. The ingredient lists below are transcribed or summarized from the packages I photographed. The ingredients of any additional yogurt used in the recipe, and possible kitchen cross-contact, have **not** been fully verified. People with food allergies should not interpret this post as an allergen-free guarantee.
 
 ## What's in each brownie?
 
-| Type | Quantity | What's added |
-|---|---:|---|
-| Plain (plant-based recipe) | 8 | Brownie base and chocolate chips; no frosting or candy eyes |
-| Decorated | 20 | Same brownie base, plus vanilla frosting and candy eyeballs |
+| Type | What's added |
+|---|---|
+| Plain (plant-based recipe) | Brownie base and chocolate chips; no frosting or candy eyes |
+| Decorated | Same brownie base, plus vanilla frosting and candy eyeballs |
 
 The plain brownies were set aside before applying decorations. **“Plant-based recipe” does not mean certified vegan or free of allergen cross-contact.** The decorated brownies should **not** be presented as vegan, because the candy-eye coating includes confectioner's glaze, which may be shellac-derived.
 

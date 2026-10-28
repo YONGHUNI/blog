@@ -2,13 +2,12 @@
 title: "Reflections"
 sidebar: life
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/update/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    section: "life/reflections"
 ---
 
 Posts in **Reflections**. Use the categories to explore more specific topics.

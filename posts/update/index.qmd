@@ -3,7 +3,10 @@ title: "More Coming... Stay Tuned!"
 author: "Yonghun Suh"
 date: "Oct 6, 2024"
 #categories: [news, code, analysis]
-categories: [news]
+categories: ["Blog Updates"]
+area: "life"
+section: "life/reflections"
+sidebar: life
 image: "./data/comingsoon.png"
 ---
 

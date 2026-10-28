@@ -2,13 +2,14 @@
 title: "Linux & Environments"
 sidebar: computing
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/envsetting/index.qmd
+    - ../posts/pyenvsetting/index.qmd
+    - ../posts/quarto_post/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    section: "computing/environments"
 ---
 
 Posts filed under **Linux & Environments**. Select a category to narrow the list further.

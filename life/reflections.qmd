@@ -1,0 +1,6 @@
+---
+title: "Reflections"
+sidebar: life
+---
+
+Posts in **Reflections** will be collected here as this section grows.

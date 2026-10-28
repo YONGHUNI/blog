@@ -1,14 +1,6 @@
 ---
 title: "PhD Journey"
 sidebar: life
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    section: "life/phd"
 ---
 
 Posts filed under **PhD Journey**. Select a category to narrow the list further.

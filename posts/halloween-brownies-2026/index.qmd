@@ -10,30 +10,24 @@ format:
     toc: false
 ---
 
-I made some brownies for Halloween and decided to keep things simple: some plain, and some decorated with vanilla frosting and candy eyes. I used a plant-based brownie mix for both, with extra chocolate chips because, well, why not?
+I baked brownies last night to bring in for Halloween. I used **MIGHTYLICIOUS brownie mix**, **Hu Kitchen chocolate chips**, **Melt Organic plant-based butter**, vegan yogurt, water, and a little organic vanilla extract. I wanted something I could share without using eggs or dairy in the recipe, and the extra chocolate chips seemed like a good idea.
 
-## What I used
+The decorating part didn't quite go to plan. I'd ordered organic vanilla frosting and candy eyes to make little Halloween faces, but the grocery delivery showed up late, and the frosting was replaced with **Pillsbury Creamy Supreme Vanilla**. By then I was on my way, so I packed the brownies into paper muffin liners and brought the decorations along.
 
-For the brownies: **MIGHTYLICIOUS brownie mix**, **Hu Kitchen chocolate chips**, **Melt Organic plant-based butter**, vegan yogurt, water, and organic vanilla extract.
+I'm leaving some plain and adding frosting and **Betty Crocker candy eyes** to the others. Nothing elaborate—just a bit of Halloween fun.
 
-For the decorations: **Pillsbury Creamy Supreme Vanilla Frosting** and **Betty Crocker Candy Eyeballs**.
-
-## Ingredient photos
+## The ingredients
 
 ::: {layout-ncol=2}
-![Brownie ingredient package](images/IMG_1096.jpeg)
+![Brownie ingredient packaging](images/IMG_1096.jpeg)
 
-![Brownie ingredient package](images/IMG_1098.jpeg)
+![Brownie ingredient packaging](images/IMG_1098.jpeg)
 
-![Chocolate chip package](images/IMG_1094%281%29.jpeg)
+![Chocolate chips packaging](images/IMG_1094%281%29.jpeg)
 
-![Brownie ingredient package](images/IMG_1092.jpeg)
+![Brownie ingredient packaging](images/IMG_1092.jpeg)
 :::
 
-## A quick note on allergies
-
-The chocolate chips and plant butter contain **coconut**. Hu's chocolate chips also have a shared-equipment warning for **milk and peanuts**. The frosting and candy eyes contain **soy**, and the candy eyes have confectioner's glaze, so I wouldn't label the decorated brownies vegan.
-
-The plain brownies use plant-based ingredients, but these were made in a home kitchen, so I can't guarantee they're free from allergen cross-contact. If you have a serious allergy, please check the original packaging.
+**A note for anyone with food allergies:** The chocolate chips and plant butter contain coconut. Hu's chips have a shared-equipment warning for milk and peanuts. The frosting and candy eyes contain soy, and the candy eyes use confectioner's glaze, so I wouldn't call the decorated ones vegan. The plain brownies were made with plant-based ingredients, but not in an allergen-free kitchen. If you have a serious allergy, please check the packaging before trying one.
 
 Happy Halloween!

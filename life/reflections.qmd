@@ -1,6 +1,14 @@
 ---
 title: "Reflections"
 sidebar: life
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    section: "life/reflections"
 ---
 
-Posts in **Reflections** will be collected here as this section grows.
+Posts in **Reflections**. Use the categories to explore more specific topics.

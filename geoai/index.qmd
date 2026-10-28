@@ -1,7 +1,8 @@
 ---
 title: "GeoAI"
-sidebar: geoai
-page-layout: article
+page-layout: full
 ---
 
-Future posts filed under  **GeoAI** using the sections in the left sidebar. The categories on the right provide more specific tags.
+Remote sensing, geospatial machine learning, and applications.
+
+Posts will appear here as they are published.

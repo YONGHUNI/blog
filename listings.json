@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/halloween-brownies-2026/index.html",
       "/posts/quarto_post/index.html",
       "/posts/dbscan_bench/index.html",
       "/posts/pyenvsetting/index.html",

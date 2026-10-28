@@ -3,13 +3,12 @@ title: "GIScience"
 sidebar: giscience
 page-layout: article
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/dbscan_bench/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    area: "giscience"
 ---
 
 Explore posts in **GIScience** using the sections in the left sidebar. The categories on the right provide more specific tags.

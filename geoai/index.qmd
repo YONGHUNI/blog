@@ -2,14 +2,6 @@
 title: "GeoAI"
 sidebar: geoai
 page-layout: article
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    area: "geoai"
 ---
 
-Explore posts in **GeoAI** using the sections in the left sidebar. The categories on the right provide more specific tags.
+Future posts filed under  **GeoAI** using the sections in the left sidebar. The categories on the right provide more specific tags.

@@ -2,9 +2,8 @@
 title: "R Dependency Test"
 author: "Yonghun Suh"
 date: "Oct 7, 2024"
-categories: ["Environments"]
-area: "computing"
-blog-section: "computing/environments"
+categories: ["Development"]
+area: "geek"
 image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
 #comments: false
 ci-packages:

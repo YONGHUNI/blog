@@ -1,5 +1,5 @@
 ---
-title: "Academic Life"
+title: "Life"
 page-layout: full
 listing:
   contents:
@@ -15,6 +15,6 @@ listing:
   max-description-length: 125
 ---
 
-PhD journey, conferences, research reflections, and personal notes.
+Academic life, personal reflections, and everyday experiences.
 
 Select a category to filter the posts.

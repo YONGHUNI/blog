@@ -60,7 +60,7 @@
     "href": "index.html",
     "title": "Welcome to Yonghuni’s Cyber Home",
     "section": "",
-    "text": "Halloween Brownies: Ingredients and Allergen Notes\n\n\nA small batch of homemade brownies for the lab\n\n\n\nLife\n\nFood\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared with the lab.\n\n\n\n\n\nOct 28, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\nReproducible & Unified Geospatial Research with Quarto\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nHow to boost a DBSCAN task\n\n\nUtilizing High Performance Library from Python\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nSep 9, 2025\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\nTest Case of Handling a Binary Data with Python\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
+    "text": "Halloween Brownies\n\n\nA little Halloween baking\n\n\n\nLife\n\nFood\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared for Halloween.\n\n\n\n\n\nOct 28, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\nReproducible & Unified Geospatial Research with Quarto\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nHow to boost a DBSCAN task\n\n\nUtilizing High Performance Library from Python\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nSep 9, 2025\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\nTest Case of Handling a Binary Data with Python\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\n\n\n\nCode\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about/blog/index.html",
@@ -546,51 +546,30 @@
   {
     "objectID": "posts/halloween-brownies-2026/index.html",
     "href": "posts/halloween-brownies-2026/index.html",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
+    "title": "Halloween Brownies",
     "section": "",
-    "text": "I baked brownies to share with my lab for Halloween. I used a plant-based brownie recipe and prepared two varieties: plain and decorated. This post records the ingredients and allergy information so that anyone choosing a brownie can make an informed decision."
+    "text": "I made some brownies for Halloween and decided to keep things simple: some plain, and some decorated with vanilla frosting and candy eyes. I used a plant-based brownie mix for both, with extra chocolate chips because, well, why not?"
   },
   {
-    "objectID": "posts/halloween-brownies-2026/index.html#whats-in-each-brownie",
-    "href": "posts/halloween-brownies-2026/index.html#whats-in-each-brownie",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "What’s in each brownie?",
-    "text": "What’s in each brownie?\n\n\n\n\n\n\n\nType\nWhat’s added\n\n\n\n\nPlain (plant-based recipe)\nBrownie base and chocolate chips; no frosting or candy eyes\n\n\nDecorated\nSame brownie base, plus vanilla frosting and candy eyeballs\n\n\n\nThe plain brownies were set aside before applying decorations. “Plant-based recipe” does not mean certified vegan or free of allergen cross-contact. The decorated brownies should not be presented as vegan, because the candy-eye coating includes confectioner’s glaze, which may be shellac-derived."
+    "objectID": "posts/halloween-brownies-2026/index.html#what-i-used",
+    "href": "posts/halloween-brownies-2026/index.html#what-i-used",
+    "title": "Halloween Brownies",
+    "section": "What I used",
+    "text": "What I used\nFor the brownies: MIGHTYLICIOUS brownie mix, Hu Kitchen chocolate chips, Melt Organic plant-based butter, vegan yogurt, water, and organic vanilla extract.\nFor the decorations: Pillsbury Creamy Supreme Vanilla Frosting and Betty Crocker Candy Eyeballs."
   },
   {
-    "objectID": "posts/halloween-brownies-2026/index.html#ingredient-package-photos",
-    "href": "posts/halloween-brownies-2026/index.html#ingredient-package-photos",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "Ingredient package photos",
-    "text": "Ingredient package photos\nThe following image references are ready for the original package photos. The pictures will appear once files with these exact names are uploaded into the images/ directory beside this post.\n\n\n\nIngredient package photo 1\n\n\n\n\n\nIngredient package photo 2\n\n\n\n\n\nHu chocolate chips package\n\n\n\n\n\nIngredient package photo 4"
+    "objectID": "posts/halloween-brownies-2026/index.html#ingredient-photos",
+    "href": "posts/halloween-brownies-2026/index.html#ingredient-photos",
+    "title": "Halloween Brownies",
+    "section": "Ingredient photos",
+    "text": "Ingredient photos\n\n\n\n\n\n\nBrownie ingredient package\n\n\n\n\n\n\n\nBrownie ingredient package\n\n\n\n\n\n\n\n\n\nChocolate chip package\n\n\n\n\n\n\n\nBrownie ingredient package"
   },
   {
-    "objectID": "posts/halloween-brownies-2026/index.html#brownie-base",
-    "href": "posts/halloween-brownies-2026/index.html#brownie-base",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "Brownie base",
-    "text": "Brownie base\nThe following packaged products were used:\nMIGHTYLICIOUS brownie mix. Ingredients listed on the package: sugar, white rice flour, Dutch cocoa powder (processed with alkali), potato flour, oat flour, tapioca flour, baking powder (sodium bicarbonate, sodium aluminum sulfate, cornstarch), salt, and xanthan gum. Although the mix is marketed as gluten-free, the finished brownies have not been independently tested for gluten or cross-contact.\nHu Kitchen chocolate baking chips. Three listed ingredients: organic unrefined coconut sugar, organic cacao, and organic cocoa butter. The package states “Contains coconut” and notes that it is produced on equipment that also processes peanuts and milk.\nMelt Organic plant-based butter. The package lists an expeller-pressed organic oil blend (coconut, high-oleic sunflower, and sustainably sourced ethical palm fruit), water, sea salt, sunflower lecithin, organic natural flavor, tocopherols, and organic annatto extract for color. It carries a vegan logo.\nOrganic vanilla extract. Water, organic alcohol, and organic vanilla bean extractives.\nThe brownie-mix instructions also call for vegan yogurt and water. Their inclusion and, for any yogurt actually used, its exact brand and ingredient list should be verified against the preparation record before treating this as a comprehensive list of the finished brownies."
-  },
-  {
-    "objectID": "posts/halloween-brownies-2026/index.html#decorations",
-    "href": "posts/halloween-brownies-2026/index.html#decorations",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "Decorations",
-    "text": "Decorations\nPillsbury Creamy Supreme Vanilla Frosting: A ready-to-spread frosting containing sugar, vegetable oils, corn syrup, stabilizers, preservatives, and flavor/color additives. Its photographed ingredient panel includes soy lecithin. The frosting does not dry into a hard cookie-icing shell.\nBetty Crocker Candy Eyeballs: Sugar-based candy decorations containing soy protein and soy lecithin, artificial colors, and confectioner’s glaze. Because confectioner’s glaze can be insect-derived shellac, the decorated brownies are not labeled vegan."
-  },
-  {
-    "objectID": "posts/halloween-brownies-2026/index.html#allergy-and-dietary-summary",
-    "href": "posts/halloween-brownies-2026/index.html#allergy-and-dietary-summary",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "Allergy and dietary summary",
-    "text": "Allergy and dietary summary\n\n\n\n\n\n\n\n\nConcern\nPlain brownies\nDecorated brownies\n\n\n\n\nCoconut\nPresent in chocolate chips and plant butter\nPresent in base\n\n\nSoy\nNot established from the listed base packages; verify all additional ingredients\nPresent in decorations\n\n\nMilk\nNot an intentionally listed ingredient in the photographed base packages; shared-equipment warning on chocolate chips\nSame shared-equipment warning; verify full labels\n\n\nPeanuts\nShared-equipment warning on chocolate chips\nSame warning\n\n\nGluten\nBrownie mix marketed gluten-free; finished product and cross-contact not verified\nSame limitation\n\n\nVegan\nPlant-based packaged ingredients, not independently certified for the finished brownie\nDo not label vegan\n\n\n\nFor anyone with a serious allergy: Please check the original packaging and ask about preparation and cross-contact rather than relying solely on this summary."
-  },
-  {
-    "objectID": "posts/halloween-brownies-2026/index.html#a-note-on-serving",
-    "href": "posts/halloween-brownies-2026/index.html#a-note-on-serving",
-    "title": "Halloween Brownies: Ingredients and Allergen Notes",
-    "section": "A note on serving",
-    "text": "A note on serving\nThe brownies were portioned into paper muffin liners and carried in containers in a single layer. Frosted brownies should remain in a single layer because the vanilla frosting stays soft and can smear when stacked.\nHappy Halloween!"
+    "objectID": "posts/halloween-brownies-2026/index.html#a-quick-note-on-allergies",
+    "href": "posts/halloween-brownies-2026/index.html#a-quick-note-on-allergies",
+    "title": "Halloween Brownies",
+    "section": "A quick note on allergies",
+    "text": "A quick note on allergies\nThe chocolate chips and plant butter contain coconut. Hu’s chocolate chips also have a shared-equipment warning for milk and peanuts. The frosting and candy eyes contain soy, and the candy eyes have confectioner’s glaze, so I wouldn’t label the decorated brownies vegan.\nThe plain brownies use plant-based ingredients, but these were made in a home kitchen, so I can’t guarantee they’re free from allergen cross-contact. If you have a serious allergy, please check the original packaging.\nHappy Halloween!"
   },
   {
     "objectID": "posts/quarto_post/index.html",

@@ -3,7 +3,7 @@ title: "Halloween Brownies: Ingredients and Allergen Notes"
 subtitle: "A small batch of homemade brownies for the lab"
 author: "Yonghun Suh"
 date: "2026-10-28"
-categories: [Personal, Food]
+categories: [Life, Food]
 description: "Ingredients and allergen information for homemade Halloween brownies shared with the lab."
 format:
   html:

@@ -1,7 +1,8 @@
 ---
 title: "Climate Science"
-sidebar: climate
-page-layout: article
+page-layout: full
 ---
 
-Future posts filed under  **Climate Science** using the sections in the left sidebar. The categories on the right provide more specific tags.
+Weather AI, climate modeling, and climate extremes.
+
+Posts will appear here as they are published.

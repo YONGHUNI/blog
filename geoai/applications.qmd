@@ -1,0 +1,14 @@
+---
+title: "Applications"
+sidebar: geoai
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    section: "geoai/applications"
+---
+
+Posts filed under **Applications**. Select a category to narrow the list further.

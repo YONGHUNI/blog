@@ -3,10 +3,9 @@ title: "How to boost a DBSCAN task"
 subtitle: "Utilizing High Performance Library from Python"
 author: "Yonghun Suh"
 date: "Sep. 9, 2025"
-categories: ["DBSCAN", "Performance", "Python"]
+categories: ["Spatial Analysis"]
 area: "giscience"
 blog-section: "giscience/spatial-analysis"
-sidebar: giscience
 image: https://raw.githubusercontent.com/wangyiqiu/dbscan-python/0.0.12-dev/compare.png
 format: 
   html:

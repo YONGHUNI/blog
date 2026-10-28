@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
     };
@@ -392,14 +392,14 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="RGVwZW5kZW5jaWVz">Dependencies <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UXVhcnRv">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UmVwcm9kdWNpYmlsaXR5">Reproducibility <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="RW52aXJvbm1lbnRz">Environments <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -409,7 +409,7 @@ window.Quarto = {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -421,41 +421,31 @@ window.Quarto = {
 </header>
 
 
-<p>Explore posts in <strong>Scientific Computing</strong> using the sections in the left sidebar. The categories on the right provide more specific tags.</p>
+<p>Research environments, infrastructure, and reproducible workflows.</p>
+<p>Select a category to filter the posts.</p>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="UXVhcnRvJTJDUmVwcm9kdWNpYmlsaXR5" data-listing-date-sort="1773014400000" data-listing-file-modified-sort="1793229857104" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4553">
+<div class="quarto-post image-right" data-index="0" data-categories="RW52aXJvbm1lbnRz" data-listing-date-sort="1773014400000" data-listing-file-modified-sort="1793230015926" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4553">
 <div class="thumbnail"><a href="../posts/quarto_post/index.html" class="no-external">
 
-<img loading="lazy" src="https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png" class="thumbnail-image">
+<img loading="lazy" src="https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png" class="thumbnail-image" style="height: 110px;">
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../posts/quarto_post/index.html" class="no-external">A Glimpse into Quarto</a>
 </h3>
-<div class="listing-subtitle">
-<a href="../posts/quarto_post/index.html" class="no-external">Reproducible &amp; Unified Geospatial Research with Quarto</a>
-</div>
 <div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('UXVhcnRv'); return false;">Quarto</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UmVwcm9kdWNpYmlsaXR5'); return false;">Reproducibility</div>
+<div class="listing-category" onclick="window.quartoListingCategory('RW52aXJvbm1lbnRz'); return false;">Environments</div>
 
 </div>
 <div class="delink listing-description"><a href="../posts/quarto_post/index.html" class="no-external">
-<span class="math display">\[I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}\]</span>
+<span class="math display">\[I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}}…</span>
 </a></div>
 </div>
 <div class="metadata">
@@ -463,34 +453,26 @@ window.Quarto = {
 <div class="listing-date">
 Mar 9, 2026
 </div>
-<div class="listing-author">
-Yonghun Suh
-</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="UHl0aG9uJTJDRGVwZW5kZW5jaWVz" data-listing-date-sort="1728432000000" data-listing-file-modified-sort="1793229857102" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="795">
+<div class="quarto-post image-right" data-index="1" data-categories="RW52aXJvbm1lbnRz" data-listing-date-sort="1728432000000" data-listing-file-modified-sort="1793230015923" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="795">
 <div class="thumbnail"><a href="../posts/pyenvsetting/index.html" class="no-external">
 
-<img loading="lazy" src="https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/featured.png" class="thumbnail-image">
+<img loading="lazy" src="https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/featured.png" class="thumbnail-image" style="height: 110px;">
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../posts/pyenvsetting/index.html" class="no-external">Python Dependency Test</a>
 </h3>
-<div class="listing-subtitle">
-<a href="../posts/pyenvsetting/index.html" class="no-external">Test Case of Handling a Binary Data with Python</a>
-</div>
 <div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVwZW5kZW5jaWVz'); return false;">Dependencies</div>
+<div class="listing-category" onclick="window.quartoListingCategory('RW52aXJvbm1lbnRz'); return false;">Environments</div>
 
 </div>
 <div class="delink listing-description"><a href="../posts/pyenvsetting/index.html" class="no-external">
-This example demonstrates how Quarto documents can be rendered in GitHub-Actions <strong>CI/CD</strong> environment with the required Python/R package dependencies. This need pre-setup - see: …<code></code>
+This example demonstrates how Quarto documents can be rendered in GitHub-Actions <strong>CI/CD</strong> environment with the required…<code></code>
 </a></div>
 </div>
 <div class="metadata">
@@ -498,30 +480,22 @@ This example demonstrates how Quarto documents can be rendered in GitHub-Actions
 <div class="listing-date">
 Oct 9, 2024
 </div>
-<div class="listing-author">
-Yonghun Suh
-</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="UiUyQ0RlcGVuZGVuY2llcw==" data-listing-date-sort="1728259200000" data-listing-file-modified-sort="1793229857063" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="191">
+<div class="quarto-post image-right" data-index="2" data-categories="RW52aXJvbm1lbnRz" data-listing-date-sort="1728259200000" data-listing-file-modified-sort="1793230015872" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="191">
 <div class="thumbnail"><a href="../posts/envsetting/index.html" class="no-external">
 
-<img loading="lazy" src="https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png" class="thumbnail-image">
+<img loading="lazy" src="https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png" class="thumbnail-image" style="height: 110px;">
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../posts/envsetting/index.html" class="no-external">R Dependency Test</a>
 </h3>
-<div class="listing-subtitle">
-<a href="../posts/envsetting/index.html" class="no-external"></a>
-</div>
 <div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVwZW5kZW5jaWVz'); return false;">Dependencies</div>
+<div class="listing-category" onclick="window.quartoListingCategory('RW52aXJvbm1lbnRz'); return false;">Environments</div>
 
 </div>
 <div class="delink listing-description"><a href="../posts/envsetting/index.html" class="no-external">
@@ -532,9 +506,6 @@ This is the first post in a Quarto blog. Welcome!
 <a href="../posts/envsetting/index.html" class="no-external">
 <div class="listing-date">
 Oct 7, 2024
-</div>
-<div class="listing-author">
-Yonghun Suh
 </div>
 </a>
 </div>

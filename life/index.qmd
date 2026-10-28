@@ -3,13 +3,13 @@ title: "Academic Life"
 sidebar: life
 page-layout: article
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/update/index.qmd
+    - ../posts/halloween-brownies-2026/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    area: "life"
 ---
 
 Explore posts in **Academic Life** using the sections in the left sidebar. The categories on the right provide more specific tags.

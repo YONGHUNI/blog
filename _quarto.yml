@@ -6,10 +6,8 @@ project:
     - "posts/**/*.qmd"
     - "about/**/*.qmd"
     - "data/**/*.qmd"
-    - "giscience/index.qmd"
-    - "geoai/index.qmd"
-    - "climate/index.qmd"
-    - "computing/index.qmd"
+    - "research/index.qmd"
+    - "geek/index.qmd"
     - "life/index.qmd"
 
 website:
@@ -45,15 +43,11 @@ website:
     left:
       - text: Home
         href: index.qmd
-      - text: "GIScience"
-        href: giscience/index.qmd
-      - text: "GeoAI"
-        href: geoai/index.qmd
-      - text: "Climate Science"
-        href: climate/index.qmd
-      - text: "Scientific Computing"
-        href: computing/index.qmd
-      - text: "Academic Life"
+      - text: Research
+        href: research/index.qmd
+      - text: Geek
+        href: geek/index.qmd
+      - text: Life
         href: life/index.qmd
     right:
       - text: About

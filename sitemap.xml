@@ -2,58 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yonghuni.github.io/blog/posts/update/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.393Z</lastmod>
+    <lastmod>2026-10-28T23:04:04.174Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/pyenvsetting/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.389Z</lastmod>
+    <lastmod>2026-10-28T23:04:04.170Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/envsetting/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.340Z</lastmod>
+    <lastmod>2026-10-28T23:04:04.124Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.176Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/deployment.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/customization.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/architecture.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/dependencies.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/freeze.html</loc>
-    <lastmod>2026-10-28T20:31:21.122Z</lastmod>
+    <lastmod>2026-10-28T23:04:03.958Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/about/me/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.173Z</lastmod>
+    <lastmod>2026-10-28T23:04:03.955Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/freeze.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/dependencies.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/architecture.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/customization.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/deployment.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/index.html</loc>
+    <lastmod>2026-10-28T23:04:03.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/giscience/index.html</loc>
+    <lastmod>2026-10-28T23:04:03.957Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/dbscan_bench/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.177Z</lastmod>
+    <lastmod>2026-10-28T23:04:03.959Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/halloween-brownies-2026/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.385Z</lastmod>
+    <lastmod>2026-10-28T23:04:04.167Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/quarto_post/index.html</loc>
-    <lastmod>2026-10-28T20:31:21.392Z</lastmod>
+    <lastmod>2026-10-28T23:04:04.173Z</lastmod>
   </url>
 </urlset>

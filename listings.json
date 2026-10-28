@@ -9,5 +9,9 @@
       "/posts/envsetting/index.html",
       "/posts/update/index.html"
     ]
+  },
+  {
+    "listing": "/giscience/index.html",
+    "items": []
   }
 ]

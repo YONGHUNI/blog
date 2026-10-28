@@ -1,0 +1,64 @@
+---
+title: "Halloween Brownies: Ingredients and Allergen Notes"
+subtitle: "A small batch of homemade brownies for the lab"
+author: "Yonghun Suh"
+date: "2026-10-28"
+categories: [Personal, Food]
+description: "Ingredients and allergen information for 28 homemade Halloween brownies shared with the lab."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+I baked **28 brownies** to share with my lab for Halloween. I used a plant-based brownie recipe, then set aside **8 plain brownies** and planned decorations for the remaining **20**. This post records the ingredients and allergy information so that anyone choosing a brownie can make an informed decision.
+
+> **Allergy note:** These are homemade brownies, not products from an allergen-controlled kitchen. The ingredient lists below are transcribed or summarized from the packages I photographed. The ingredients of any additional yogurt used in the recipe, and possible kitchen cross-contact, have **not** been fully verified. People with food allergies should not interpret this post as an allergen-free guarantee.
+
+## What's in each brownie?
+
+| Type | Quantity | What's added |
+|---|---:|---|
+| Plain (plant-based recipe) | 8 | Brownie base and chocolate chips; no frosting or candy eyes |
+| Decorated | 20 | Same brownie base, plus vanilla frosting and candy eyeballs |
+
+The plain brownies were set aside before applying decorations. **“Plant-based recipe” does not mean certified vegan or free of allergen cross-contact.** The decorated brownies should **not** be presented as vegan, because the candy-eye coating includes confectioner's glaze, which may be shellac-derived.
+
+## Brownie base
+
+The following packaged products were used:
+
+**MIGHTYLICIOUS brownie mix.** Ingredients listed on the package: sugar, white rice flour, Dutch cocoa powder (processed with alkali), potato flour, oat flour, tapioca flour, baking powder (sodium bicarbonate, sodium aluminum sulfate, cornstarch), salt, and xanthan gum. Although the mix is marketed as gluten-free, the finished brownies have not been independently tested for gluten or cross-contact.
+
+**Hu Kitchen chocolate baking chips.** Three listed ingredients: organic unrefined coconut sugar, organic cacao, and organic cocoa butter. The package states **“Contains coconut”** and notes that it is produced on equipment that also processes **peanuts and milk**.
+
+**Melt Organic plant-based butter.** The package lists an expeller-pressed organic oil blend (coconut, high-oleic sunflower, and sustainably sourced ethical palm fruit), water, sea salt, sunflower lecithin, organic natural flavor, tocopherols, and organic annatto extract for color. It carries a vegan logo.
+
+**Organic vanilla extract.** Water, organic alcohol, and organic vanilla bean extractives.
+
+The brownie-mix instructions also call for **vegan yogurt and water**. Their inclusion and, for any yogurt actually used, its exact brand and ingredient list should be verified against the preparation record before treating this as a comprehensive list of the finished brownies.
+
+## Decorations
+
+**Pillsbury Creamy Supreme Vanilla Frosting:** A ready-to-spread frosting containing sugar, vegetable oils, corn syrup, stabilizers, preservatives, and flavor/color additives. Its photographed ingredient panel includes **soy lecithin**. The frosting does not dry into a hard cookie-icing shell.
+
+**Betty Crocker Candy Eyeballs:** Sugar-based candy decorations containing **soy protein and soy lecithin**, artificial colors, and confectioner's glaze. Because confectioner's glaze can be insect-derived shellac, the decorated brownies **are not labeled vegan**.
+
+## Allergy and dietary summary
+
+| Concern | Plain brownies | Decorated brownies |
+|---|---|---|
+| Coconut | Present in chocolate chips and plant butter | Present in base |
+| Soy | Not established from the listed base packages; verify all additional ingredients | **Present** in decorations |
+| Milk | Not an intentionally listed ingredient in the photographed base packages; **shared-equipment warning** on chocolate chips | Same shared-equipment warning; verify full labels |
+| Peanuts | **Shared-equipment warning** on chocolate chips | Same warning |
+| Gluten | Brownie mix marketed gluten-free; finished product and cross-contact not verified | Same limitation |
+| Vegan | Plant-based packaged ingredients, **not independently certified for the finished brownie** | **Do not label vegan** |
+
+**For anyone with a serious allergy:** Please check the original packaging and ask about preparation and cross-contact rather than relying solely on this summary.
+
+## A note on serving
+
+The brownies were portioned into paper muffin liners and carried in containers in a single layer. Frosted brownies should remain in a single layer because the vanilla frosting stays soft and can smear when stacked.
+
+Happy Halloween!

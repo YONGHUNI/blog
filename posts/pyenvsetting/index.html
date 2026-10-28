@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="../../site_libs/proj4-2.6.2/proj4.min.js"></script><script src="../../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="../../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
 <script src="../../site_libs/leaflet-binding-2.2.3/leaflet.js"></script><script src="../../site_libs/leaflet-providers-3.0.0/leaflet-providers.js"></script><script src="../../site_libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script><script src="../../site_libs/clipboard-0.0.1/setClipboardText.js"></script><link rel="stylesheet" href="../../misc/styles.css">
 </head>
-<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <span class="menu-text">Climate Science</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../computing/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../computing/index.html"> 
 <span class="menu-text">Scientific Computing</span></a>
   </li>  
   <li class="nav-item">
@@ -411,15 +411,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Python Dependency Test</li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <div class="quarto-title-block"><div><h1 class="title">Python Dependency Test</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
             <p class="subtitle lead">Test Case of Handling a Binary Data with Python</p>
@@ -453,35 +445,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../computing/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../computing/environments.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Linux &amp; Environments</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../computing/infrastructure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Infrastructure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../computing/hpc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">HPC &amp; Workflows</span></a>
-  </div>
-</li>
-    </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
@@ -725,16 +688,16 @@ document.addEventListener('DOMContentLoaded', function () {
 </details><div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: sp</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">pcp</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="op">(</span><span class="va">pcp</span>,</span>
 <span>       xmn<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">1121</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       xmx<span class="op">=</span><span class="op">(</span><span class="op">(</span><span class="fl">2305</span><span class="op">-</span><span class="fl">1121</span><span class="op">)</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       ymn<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">1681</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       ymx<span class="op">=</span><span class="op">(</span><span class="fl">2881</span><span class="op">-</span><span class="fl">1681</span><span class="op">)</span><span class="op">*</span><span class="fl">500</span>,</span>
-<span>       crs <span class="op">=</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs"</span><span class="op">)</span></span>
+<span>       crs <span class="op">=</span> <span class="fu">CRS</span><span class="op">(</span><span class="st">"+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs"</span><span class="op">)</span></span>
 <span>       <span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-12-5.png" class="img-fluid figure-img" width="672"></a></p>
@@ -753,7 +716,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/leafem">leafem</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stderr">
 <pre><code>ℹ tmap modes "plot" - "view"</code></pre>
 </div>
@@ -764,21 +727,21 @@ This message is displayed once per session.</code></pre>
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span><span class="op">[</span><span class="va">test</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span><span class="op">=</span><span class="cn">NA</span></span>
 <span></span>
 <span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"OpenStreetMap.HOT"</span>, group <span class="op">=</span> <span class="st">"Open Street Map - HOT"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=y&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery w/ label"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=s&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery wo/ label"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span>  <span class="op">+</span>                                  </span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_raster.html">tm_raster</a></span><span class="op">(</span></span>
-<span>            col.legend <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Max Rainfall Intensity [mm/hr]"</span><span class="op">)</span>,</span>
-<span>            col.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"OpenStreetMap.HOT"</span>, group <span class="op">=</span> <span class="st">"Open Street Map - HOT"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=y&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery w/ label"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=s&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery wo/ label"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_shape</span><span class="op">(</span><span class="va">test</span><span class="op">)</span>  <span class="op">+</span>                                  </span>
+<span>        <span class="fu">tm_raster</span><span class="op">(</span></span>
+<span>            col.legend <span class="op">=</span> <span class="fu">tm_legend</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Max Rainfall Intensity [mm/hr]"</span><span class="op">)</span>,</span>
+<span>            col.scale <span class="op">=</span> <span class="fu">tm_scale_continuous</span><span class="op">(</span></span>
 <span>                values <span class="op">=</span> <span class="st">"-spectral"</span>,</span>
 <span>                <span class="op">)</span>,</span>
 <span>            group <span class="op">=</span> <span class="st">"Rainfall"</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="va">themap</span></span>
 <span>  </span>
 <span>  </span>
 <span>  </span>
-<span>      <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_leaflet.html">tmap_leaflet</a></span><span class="op">(</span><span class="va">themap</span><span class="op">)</span><span class="op">|&gt;</span></span>
-<span>          <span class="fu"><a href="https://r-spatial.github.io/leafem/reference/addMouseCoordinates.html">addMouseCoordinates</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="fu">tmap_leaflet</span><span class="op">(</span><span class="va">themap</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>          <span class="fu">addMouseCoordinates</span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">

@@ -1,14 +1,6 @@
 ---
 title: "Remote Sensing"
 sidebar: geoai
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    section: "geoai/remote-sensing"
 ---
 
-Posts filed under **Remote Sensing**. Select a category to narrow the list further.
+Future posts filed under  **Remote Sensing**. Select a category to narrow the list further.

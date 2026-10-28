@@ -1,0 +1,15 @@
+---
+title: "Climate Science"
+sidebar: climate
+page-layout: article
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    area: "climate"
+---
+
+Explore posts in **Climate Science** using the sections in the left sidebar. The categories on the right provide more specific tags.

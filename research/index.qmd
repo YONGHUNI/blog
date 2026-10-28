@@ -1,0 +1,19 @@
+---
+title: "Research"
+page-layout: full
+listing:
+  contents:
+    - ../posts/dbscan_bench/index.qmd
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: false
+  sort-ui: false
+  fields: [date, title, description, categories, image]
+  image-height: 110px
+  max-description-length: 125
+---
+
+Research in GIScience, GeoAI, and climate science.
+
+Browse posts by category.

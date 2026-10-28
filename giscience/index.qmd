@@ -1,14 +1,19 @@
 ---
 title: "GIScience"
-sidebar: giscience
-page-layout: article
+page-layout: full
 listing:
   contents:
     - ../posts/dbscan_bench/index.qmd
   type: default
   sort: "date desc"
   categories: true
-  filter-ui: true
+  filter-ui: false
+  sort-ui: false
+  fields: [date, title, description, categories, image]
+  image-height: 110px
+  max-description-length: 125
 ---
 
-Explore posts in **GIScience** using the sections in the left sidebar. The categories on the right provide more specific tags.
+Spatial analysis, spatial statistics, and cartography.
+
+Select a category to filter the posts.

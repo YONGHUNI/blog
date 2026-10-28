@@ -3,10 +3,9 @@ title: "A Glimpse into Quarto"
 subtitle: "Reproducible & Unified Geospatial Research with Quarto"
 author: "Yonghun Suh"
 date: "Mar. 9, 2026"
-categories: ["Quarto", "Reproducibility"]
+categories: ["Environments"]
 area: "computing"
 blog-section: "computing/environments"
-sidebar: computing
 image: https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png
 format: 
   html:

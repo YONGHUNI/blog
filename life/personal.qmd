@@ -2,13 +2,12 @@
 title: "Personal Life"
 sidebar: life
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/halloween-brownies-2026/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    section: "life/personal"
 ---
 
 Posts in **Personal Life**. Use the categories to explore more specific topics.

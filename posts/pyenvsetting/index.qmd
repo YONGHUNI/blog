@@ -5,7 +5,7 @@ author: "Yonghun Suh"
 date: "Oct 9, 2024"
 categories: ["Python", "Dependencies"]
 area: "computing"
-section: "computing/environments"
+blog-section: "computing/environments"
 sidebar: computing
 image: https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/featured.png
 format: 

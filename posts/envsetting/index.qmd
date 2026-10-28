@@ -4,7 +4,7 @@ author: "Yonghun Suh"
 date: "Oct 7, 2024"
 categories: ["R", "Dependencies"]
 area: "computing"
-section: "computing/environments"
+blog-section: "computing/environments"
 sidebar: computing
 image: https://posit.co/wp-content/uploads/2023/07/MY-COPY-Backgrounds.png
 #comments: false

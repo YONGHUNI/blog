@@ -1,0 +1,6 @@
+---
+title: "Personal Life"
+sidebar: life
+---
+
+Posts in **Personal Life** will be collected here as this section grows.

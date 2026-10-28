@@ -3,13 +3,14 @@ title: "Scientific Computing"
 sidebar: computing
 page-layout: article
 listing:
-  contents: ../posts
+  contents:
+    - ../posts/envsetting/index.qmd
+    - ../posts/pyenvsetting/index.qmd
+    - ../posts/quarto_post/index.qmd
   type: default
   sort: "date desc"
   categories: true
   filter-ui: true
-  include:
-    area: "computing"
 ---
 
 Explore posts in **Scientific Computing** using the sections in the left sidebar. The categories on the right provide more specific tags.

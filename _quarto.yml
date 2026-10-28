@@ -44,6 +44,8 @@ website:
         href: /#category=Code
       - text: Research
         href: /#category=Research
+      - text: Life
+        href: /#category=Life
     right:
       - text: About
         menu:

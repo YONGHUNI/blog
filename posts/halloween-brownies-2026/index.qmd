@@ -5,7 +5,7 @@ author: "Yonghun Suh"
 date: "2026-10-28"
 categories: ["Food", "Baking"]
 area: "life"
-section: "life/personal"
+blog-section: "life/personal"
 sidebar: life
 description: "Ingredients and allergen information for homemade Halloween brownies shared for Halloween."
 image: fig/Brownies.jpeg

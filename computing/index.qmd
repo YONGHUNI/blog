@@ -1,7 +1,6 @@
 ---
 title: "Scientific Computing"
-sidebar: computing
-page-layout: article
+page-layout: full
 listing:
   contents:
     - ../posts/envsetting/index.qmd
@@ -10,7 +9,13 @@ listing:
   type: default
   sort: "date desc"
   categories: true
-  filter-ui: true
+  filter-ui: false
+  sort-ui: false
+  fields: [date, title, description, categories, image]
+  image-height: 110px
+  max-description-length: 125
 ---
 
-Explore posts in **Scientific Computing** using the sections in the left sidebar. The categories on the right provide more specific tags.
+Research environments, infrastructure, and reproducible workflows.
+
+Select a category to filter the posts.

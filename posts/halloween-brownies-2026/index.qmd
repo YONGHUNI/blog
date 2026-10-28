@@ -24,6 +24,18 @@ I baked brownies to share with my lab for Halloween. I used a plant-based browni
 
 The plain brownies were set aside before applying decorations. **“Plant-based recipe” does not mean certified vegan or free of allergen cross-contact.** The decorated brownies should **not** be presented as vegan, because the candy-eye coating includes confectioner's glaze, which may be shellac-derived.
 
+## Ingredient package photos
+
+The following image references are ready for the original package photos. The pictures will appear once files with these exact names are uploaded into the `images/` directory beside this post.
+
+![Ingredient package photo 1](images/IMG_1096.jpeg){fig-alt="Photographed baking ingredient packaging" width="65%"}
+
+![Ingredient package photo 2](images/IMG_1098.jpeg){fig-alt="Photographed baking ingredient packaging" width="65%"}
+
+![Hu chocolate chips package](images/IMG_1094%281%29.jpeg){fig-alt="Hu chocolate chips package and ingredient information" width="65%"}
+
+![Ingredient package photo 4](images/IMG_1092.jpeg){fig-alt="Photographed baking ingredient packaging" width="65%"}
+
 ## Brownie base
 
 The following packaged products were used:

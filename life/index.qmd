@@ -1,7 +1,6 @@
 ---
 title: "Academic Life"
-sidebar: life
-page-layout: article
+page-layout: full
 listing:
   contents:
     - ../posts/update/index.qmd
@@ -9,7 +8,13 @@ listing:
   type: default
   sort: "date desc"
   categories: true
-  filter-ui: true
+  filter-ui: false
+  sort-ui: false
+  fields: [date, title, description, categories, image]
+  image-height: 110px
+  max-description-length: 125
 ---
 
-Explore posts in **Academic Life** using the sections in the left sidebar. The categories on the right provide more specific tags.
+PhD journey, conferences, research reflections, and personal notes.
+
+Select a category to filter the posts.

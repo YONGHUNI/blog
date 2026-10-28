@@ -1,0 +1,14 @@
+---
+title: "Spatial Statistics"
+sidebar: giscience
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    section: "giscience/spatial-statistics"
+---
+
+Posts filed under **Spatial Statistics**. Select a category to narrow the list further.

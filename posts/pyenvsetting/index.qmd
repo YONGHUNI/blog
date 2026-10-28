@@ -3,10 +3,9 @@ title: "Python Dependency Test"
 subtitle: "Test Case of Handling a Binary Data with Python"
 author: "Yonghun Suh"
 date: "Oct 9, 2024"
-categories: ["Python", "Dependencies"]
+categories: ["Environments"]
 area: "computing"
 blog-section: "computing/environments"
-sidebar: computing
 image: https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/featured.png
 format: 
   html:

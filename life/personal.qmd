@@ -1,6 +1,14 @@
 ---
 title: "Personal Life"
 sidebar: life
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    section: "life/personal"
 ---
 
-Posts in **Personal Life** will be collected here as this section grows.
+Posts in **Personal Life**. Use the categories to explore more specific topics.

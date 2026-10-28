@@ -1,0 +1,14 @@
+---
+title: "HPC & Workflows"
+sidebar: computing
+listing:
+  contents: ../posts
+  type: default
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  include:
+    section: "computing/hpc"
+---
+
+Posts filed under **HPC & Workflows**. Select a category to narrow the list further.

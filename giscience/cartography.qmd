@@ -1,14 +1,6 @@
 ---
 title: "Cartography & Visualization"
 sidebar: giscience
-listing:
-  contents: ../posts
-  type: default
-  sort: "date desc"
-  categories: true
-  filter-ui: true
-  include:
-    section: "giscience/cartography"
 ---
 
-Posts filed under **Cartography & Visualization**. Select a category to narrow the list further.
+Future posts filed under  **Cartography & Visualization**. Select a category to narrow the list further.

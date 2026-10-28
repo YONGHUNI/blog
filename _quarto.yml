@@ -6,81 +6,17 @@ project:
     - "posts/**/*.qmd"
     - "about/**/*.qmd"
     - "data/**/*.qmd"
-    - "giscience/**/*.qmd"
-    - "geoai/**/*.qmd"
-    - "climate/**/*.qmd"
-    - "computing/**/*.qmd"
-    - "life/**/*.qmd"
+    - "giscience/index.qmd"
+    - "geoai/index.qmd"
+    - "climate/index.qmd"
+    - "computing/index.qmd"
+    - "life/index.qmd"
 
 website:
   title: "Yonghun's Computational Geo-Blog"
   site-url: "https://yonghuni.github.io/blog/"
   favicon: /data/_quarto/favicon/geography-icon.png
   sidebar:
-    - id: giscience
-      title: "GIScience"
-      style: docked
-      contents:
-        - text: "Overview"
-          href: giscience/index.qmd
-        - text: "Spatial Analysis"
-          href: giscience/spatial-analysis.qmd
-        - text: "Spatial Statistics"
-          href: giscience/spatial-statistics.qmd
-        - text: "Cartography & Visualization"
-          href: giscience/cartography.qmd
-    - id: geoai
-      title: "GeoAI"
-      style: docked
-      contents:
-        - text: "Overview"
-          href: geoai/index.qmd
-        - text: "Remote Sensing"
-          href: geoai/remote-sensing.qmd
-        - text: "Geospatial ML"
-          href: geoai/geospatial-ml.qmd
-        - text: "Applications"
-          href: geoai/applications.qmd
-    - id: climate
-      title: "Climate Science"
-      style: docked
-      contents:
-        - text: "Overview"
-          href: climate/index.qmd
-        - text: "Weather AI"
-          href: climate/weather-ai.qmd
-        - text: "Climate Modeling"
-          href: climate/modeling.qmd
-        - text: "Climate Extremes"
-          href: climate/extremes.qmd
-        - text: "Data & Methods"
-          href: climate/data-methods.qmd
-    - id: computing
-      title: "Scientific Computing"
-      style: docked
-      contents:
-        - text: "Overview"
-          href: computing/index.qmd
-        - text: "Linux & Environments"
-          href: computing/environments.qmd
-        - text: "Infrastructure"
-          href: computing/infrastructure.qmd
-        - text: "HPC & Workflows"
-          href: computing/hpc.qmd
-    - id: life
-      title: "Academic Life"
-      style: docked
-      contents:
-        - text: "Overview"
-          href: life/index.qmd
-        - text: "PhD Journey"
-          href: life/phd.qmd
-        - text: "Conferences"
-          href: life/conferences.qmd
-        - text: "Reflections"
-          href: life/reflections.qmd
-        - text: "Personal Life"
-          href: life/personal.qmd
     - id: blog-docs
       title: "Inside the Blog"
       style: docked

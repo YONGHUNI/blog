@@ -11,7 +11,19 @@
     ]
   },
   {
+    "listing": "/giscience/spatial-analysis.html",
+    "items": []
+  },
+  {
+    "listing": "/giscience/cartography.html",
+    "items": []
+  },
+  {
     "listing": "/giscience/index.html",
+    "items": []
+  },
+  {
+    "listing": "/giscience/spatial-statistics.html",
     "items": []
   }
 ]

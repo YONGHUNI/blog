@@ -3,7 +3,7 @@ title: "Dependencies & Environments"
 subtitle: "How one Quarto render uses R and Python"
 ---
 
-::: {.blog-docs}
+:::: {.blog-docs}
 <div class="docs-eyebrow">02 / COMPUTATION</div>
 
 ## One scientific runtime per site build
@@ -89,4 +89,4 @@ The manifest determines **dependency selection**, not Quarto execution directly.
 
 [Next: freeze & cache →](freeze.qmd)
 
-:::
+::::

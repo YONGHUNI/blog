@@ -1,6 +1,0 @@
----
-title: "Applications"
-sidebar: geoai
----
-
-Future posts filed under  **Applications**. Select a category to narrow the list further.

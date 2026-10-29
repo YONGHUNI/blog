@@ -175,20 +175,6 @@
     "text": "2.3 Some Real World Dataset\nSource: NYC Taxi Data\n\nCodemonths &lt;- 1\n\nurls &lt;- paste0(\"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-\",sprintf(\"%02d\", 1:months),\".parquet\")\n\n\nplan(multisession,workers = 2)\n\ntaxi_list &lt;- future_lapply(urls, function(url) as.data.table(read_parquet(url))) |&gt; rbindlist()\n\ngc()\n\n           used  (Mb) gc trigger  (Mb)  max used  (Mb)\nNcells  2860591 152.8    5304434 283.3   5168415 276.1\nVcells 55793267 425.7  122405771 933.9 103246844 787.8\n\nCodehead(taxi_list)\n\n   VendorID tpep_pickup_datetime tpep_dropoff_datetime passenger_count\n      &lt;int&gt;               &lt;POSc&gt;                &lt;POSc&gt;           &lt;int&gt;\n1:        2  2024-01-01 00:57:55   2024-01-01 01:17:43               1\n2:        1  2024-01-01 00:03:00   2024-01-01 00:09:36               1\n3:        1  2024-01-01 00:17:06   2024-01-01 00:35:01               1\n4:        1  2024-01-01 00:36:38   2024-01-01 00:44:56               1\n5:        1  2024-01-01 00:46:51   2024-01-01 00:52:57               1\n6:        1  2024-01-01 00:54:08   2024-01-01 01:26:31               1\n   trip_distance RatecodeID store_and_fwd_flag PULocationID DOLocationID\n           &lt;num&gt;      &lt;int&gt;             &lt;char&gt;        &lt;int&gt;        &lt;int&gt;\n1:          1.72          1                  N          186           79\n2:          1.80          1                  N          140          236\n3:          4.70          1                  N          236           79\n4:          1.40          1                  N           79          211\n5:          0.80          1                  N          211          148\n6:          4.70          1                  N          148          141\n   payment_type fare_amount extra mta_tax tip_amount tolls_amount\n          &lt;int&gt;       &lt;num&gt; &lt;num&gt;   &lt;num&gt;      &lt;num&gt;        &lt;num&gt;\n1:            2        17.7   1.0     0.5       0.00            0\n2:            1        10.0   3.5     0.5       3.75            0\n3:            1        23.3   3.5     0.5       3.00            0\n4:            1        10.0   3.5     0.5       2.00            0\n5:            1         7.9   3.5     0.5       3.20            0\n6:            1        29.6   3.5     0.5       6.90            0\n   improvement_surcharge total_amount congestion_surcharge Airport_fee\n                   &lt;num&gt;        &lt;num&gt;                &lt;num&gt;       &lt;num&gt;\n1:                     1        22.70                  2.5           0\n2:                     1        18.75                  2.5           0\n3:                     1        31.30                  2.5           0\n4:                     1        17.00                  2.5           0\n5:                     1        16.10                  2.5           0\n6:                     1        41.50                  2.5           0\n\nCode# select numeric rows & filtering out NAs\ntaxi_numeric_dt &lt;- taxi_list[\n    trip_distance &gt; 0 & fare_amount &gt; 0 & !is.na(trip_distance) & !is.na(fare_amount),\n    .(trip_distance, fare_amount)\n]\n\nrm(taxi_list)\ngc()\n\n           used  (Mb) gc trigger  (Mb)  max used  (Mb)\nNcells  2866419 153.1    5304434 283.3   5168415 276.1\nVcells 14112999 107.7   97924617 747.2 103246844 787.8\n\nCodetaxi_numeric_dt_200k &lt;- taxi_numeric_dt[sample(.N, 200000)]\n#taxi_numeric_dt_10m &lt;- taxi_numeric_dt[sample(.N, 10000000)]\n\n\npy$taxi_numeric_dt_200k &lt;- as.matrix(taxi_numeric_dt_200k)\n#py$taxi_numeric_dt_10m &lt;- as.matrix(taxi_numeric_dt_10m)\n\n\n\n2.3.1 R - Naive\n\nCodeepsilon &lt;-  0.3\nminpts &lt;- 10L\n\n\nstime &lt;- Sys.time()\ndb_result_r &lt;- dbscan(taxi_numeric_dt_200k, eps = epsilon, minPts = minpts)\netime &lt;- Sys.time()\n\ndelta_t_r &lt;- etime-stime; delta_t_r\n\nTime difference of 6.312561 secs\n\nCodetable(db_result_r$cluster)\n\n\n     0      1      2      3      4      5      6      7      8      9     10 \n  4389 163774   6336   4349     79     24   1035   6355    206   1185   2048 \n    11     12     13     14     15     16     17     18     19     20     21 \n  1503   1218    270    301    617    893    311    106    145    313    247 \n    22     23     24     25     26     27     28     29     30     31     32 \n   244    161     74     70    224    205    155    155    437    137    449 \n    33     34     35     36     37     38     39     40     41     42     43 \n    39    135     68     76    164     29    167     37     39    118     40 \n    44     45     46     47     48     49     50     51     52     53     54 \n    27     39     18     17     16    142     49     72     44     19     11 \n    55     56     57     58     59     60     61     62     63     64     65 \n    15      7     14     32     14     31     11     10     21     31     12 \n    66     67     68     69     70     71     72     73     74     75     76 \n    11     18     24     20     30     12     11     20     10     33     14 \n    77     78     79     80     81     82     83     84     85     86     87 \n    10     13      9     10     11     16     11     12      9     10      7 \n    88     89     90     91     92     93     94     95     96     97     98 \n    10     10     10      3     10     10      7     10     10     10     10 \n\n\n\n2.3.2 Python - wangyiqiu/dbscan-python\n\n\nCodepy$taxi_numeric_dt_200k &lt;- as.matrix(taxi_numeric_dt_200k)\npy$epsilon &lt;- epsilon\npy$minpts &lt;- minpts\n\n\n\nCodeimport numpy as np\nfrom dbscan import DBSCAN\nimport time\n\nprint(\"type(X):\", type(taxi_numeric_dt_200k))\n\ntype(X): &lt;class 'numpy.ndarray'&gt;\n\nCodeprint(\"shape(X):\", getattr(taxi_numeric_dt_200k, 'shape', None))\n\nshape(X): (200000, 2)\n\nCodestart = time.time()\nlabels, core_samples_mask = DBSCAN(taxi_numeric_dt_200k, eps=0.3, min_samples=10)\nend = time.time()\n\n\n\ndelta_t = end - start\n\nprint(f\"Elapsed time: {delta_t:.4f} seconds\")\n\nElapsed time: 0.0447 seconds\n\n\n\n2.3.3 Results\nThe code below shows the results are valid, as it counts how many rows are assigned to each label, sorts the counts in ascending order, and returns the difference between the two label distributions.\n\nCodesort(as.vector(table(as.factor(py$labels)))) - sort(as.vector(table(as.factor(db_result_r$cluster))))\n\n [1]  3  0  1  3  1  1  0  0  0  0  0  0  0  0  0  0  0  0  1  1  0  0  0  0  1\n[26]  1  0  0  1  0  0  0  0  0  0  0  0 -1  0 -1  0  0  0  0  0  1  0  0  0  0\n[51]  1  0  0  0  0  0  0  0  0  0  0  0  0 -1 -2  0  0  0  0  0  0  0  0  0  0\n[76] -3  0  0  0  0  0  0  0  0  0 -1  0  0  0 -2  3  0 -2  0  0  0  0  0 -6\n\n\nA slight difference is observed. but it appears to stem from floating-point or grid based operations, hence it is negligible.\n\nCode#speedup\n\n\ncat(delta_t_r[[1]]/py$delta_t,\" times speed-up\\n\",sep = \"\")\n\n141.2827 times speed-up\n\n\nWhat a whopping improvement isn’t it?"
   },
   {
-    "objectID": "life/phd.html",
-    "href": "life/phd.html",
-    "title": "PhD Journey",
-    "section": "",
-    "text": "Posts filed under PhD Journey. Select a category to narrow the list further."
-  },
-  {
-    "objectID": "life/index.html",
-    "href": "life/index.html",
-    "title": "Life",
-    "section": "",
-    "text": "Academic life, personal reflections, and everyday experiences.\nSelect a category to filter the posts.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHalloween Brownies\n\n\n\nPersonal Life\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared for Halloween.\n\n\n\n\n\nOct 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\nReflections\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Welcome to Yonghuni’s Cyber Home",
@@ -196,350 +182,67 @@
     "text": "Halloween Brownies\n\n\nA little Halloween baking\n\n\n\nPersonal Life\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared for Halloween.\n\n\n\n\n\nOct 28, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\nReproducible & Unified Geospatial Research with Quarto\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nHow to boost a DBSCAN task\n\n\nUtilizing High Performance Library from Python\n\n\n\nGIScience\n\n\n\n\n\n\n\n\n\nSep 9, 2025\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\nTest Case of Handling a Binary Data with Python\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\n\n\n\nReflections\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "giscience/spatial-analysis.html",
-    "href": "giscience/spatial-analysis.html",
-    "title": "Spatial Analysis",
+    "objectID": "about/me/index.html",
+    "href": "about/me/index.html",
+    "title": "Yonghun Suh",
     "section": "",
-    "text": "Posts filed under Spatial Analysis. Select a category to narrow the list further.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nHow to boost a DBSCAN task\n\n\nUtilizing High Performance Library from Python\n\n\n\nGIScience\n\n\n\n\n\n\n\n\n\nSep 9, 2025\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
+    "text": "Email\n  \n  \n      ORCID\n  \n  \n    \n     Github\n  \n  \n    \n     CV\n  \n\n  \n  \n\n\nI am a Ph.D. student in Geography at the University of Georgia, where I work with Dr. Weiming Hu on geospatial AI and environmental forecasting research. My research interests include GIScience, GeoAI, remote sensing, atmospheric science, and high-performance computing. I am particularly interested in developing scalable machine learning approaches for environmental and spatiotemporal problems.\nBefore joining UGA, I was a research intern at the Data Science for Humanity Group at the Max Planck Institute for Security and Privacy, where I applied machine learning and remote sensing to societal and environmental problems. My work there included monitoring changes in North Korean mining activities using optical satellite imagery and mapping changes in WASH accessibility in Rohingya refugee camps using sub-meter satellite imagery.\nI earned my Master’s degree in Geography from Seoul National University, advised by Dr. Gunhak Lee. My master’s research focused on landslide susceptibility modeling using InSAR-derived displacement, rainfall, and interpretable machine learning. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science.\nMy broader research experience spans landslide susceptibility, population and settlement mapping, spatial accessibility, air quality, and satellite-based monitoring of human activities. In addition to my academic research, I have been involved in a community-based air quality project at the State University of New York at Buffalo (UB Clean Air).\nI primarily work with R and Python and have experience in geospatial data processing, remote sensing, machine learning, reproducible scientific workflows, Linux, and high-performance computing."
   },
   {
-    "objectID": "giscience/cartography.html",
-    "href": "giscience/cartography.html",
-    "title": "Cartography & Visualization",
-    "section": "",
-    "text": "Future posts filed under Cartography & Visualization. Select a category to narrow the list further."
+    "objectID": "about/me/index.html#seoul-national-university",
+    "href": "about/me/index.html#seoul-national-university",
+    "title": "Yonghun Suh",
+    "section": "Seoul National University",
+    "text": "Seoul National University\n\nSeoul, South Korea | Sept 2021 – Feb 2024\n\nM.A. in Geography\n\nThesis: Real-time Landslide Susceptibility Monitoring Using Spatio-temporal High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach (available in Korean)\nAdvised by Dr. Gunhak Lee"
   },
   {
-    "objectID": "geoai/index.html",
-    "href": "geoai/index.html",
-    "title": "GeoAI",
-    "section": "",
-    "text": "Remote sensing, geospatial machine learning, and applications.\nPosts will appear here as they are published."
+    "objectID": "about/me/index.html#kongju-national-university",
+    "href": "about/me/index.html#kongju-national-university",
+    "title": "Yonghun Suh",
+    "section": "Kongju National University",
+    "text": "Kongju National University\n\nSouth Chungcheong Province, South Korea | Mar 2015 – Aug 2021\n\nB.A. in Geography\nB.Sc. in Atmospheric Science"
   },
   {
-    "objectID": "geoai/applications.html",
-    "href": "geoai/applications.html",
-    "title": "Applications",
-    "section": "",
-    "text": "Future posts filed under Applications. Select a category to narrow the list further."
+    "objectID": "about/me/index.html#mapping-reduced-accessibility-to-wash-facilities-in-rohingya-refugee-camps-with-sub-meter-imagery-under-review",
+    "href": "about/me/index.html#mapping-reduced-accessibility-to-wash-facilities-in-rohingya-refugee-camps-with-sub-meter-imagery-under-review",
+    "title": "Yonghun Suh",
+    "section": "Mapping Reduced Accessibility to WASH Facilities in Rohingya Refugee Camps with Sub-Meter Imagery (under review)",
+    "text": "Mapping Reduced Accessibility to WASH Facilities in Rohingya Refugee Camps with Sub-Meter Imagery (under review)\n\n\n\n\n\n\n\n\n  \n    \n      \n      \n    \n\n    \n      \n        \n          \n          \n            \n          \n        \n        Accessibility in 2022 (A), 2025 (B), and change (C)\n      \n\n      \n        \n          \n            \n          \n        \n        Method overview\n      \n    \n\n    \n      \n    \n    \n      \n    \n  \n\n\n\n\n\n\nThis study assesses changes in spatial accessibility to WASH (Water, Sanitation, and Hygiene) facilities in Rohingya refugee camps using a 2SFCA approach with shelter detection from sub-meter imagery via a semi-supervised segmentation model, addressing challenges from dense and heterogeneous camp structures.\nAccessibility declined over time, with the lack of gender-segregated facilities revealing persistent accessibility inequality.\nLinks to the Preprint & Source Code"
   },
   {
-    "objectID": "computing/infrastructure.html",
-    "href": "computing/infrastructure.html",
-    "title": "Infrastructure",
-    "section": "",
-    "text": "Posts filed under Infrastructure. Select a category to narrow the list further."
+    "objectID": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
+    "href": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
+    "title": "Yonghun Suh",
+    "section": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring",
+    "text": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring\n\n\n\n\n\n\n\n\n\n\nBreathe Buffalo: UB Air Quality Monitoring Dashboard\n\n\n\n\n\n\n\nArchitecture Overview\n\n\n\n\n\n\n\n\nThis project deployed 30 low-cost air sensors across East Buffalo to capture local PM2.5 data, revealing pollution patterns overlooked by official monitors.\nA community-designed dashboard improved real-time access to air quality data, supporting environmental awareness and public health equity.\nThe findings were presented at the Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025).\nLinks to the Poster & Source Code"
   },
   {
-    "objectID": "computing/hpc.html",
-    "href": "computing/hpc.html",
-    "title": "HPC & Workflows",
-    "section": "",
-    "text": "Posts filed under HPC & Workflows. Select a category to narrow the list further."
+    "objectID": "about/me/index.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
+    "href": "about/me/index.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
+    "title": "Yonghun Suh",
+    "section": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach",
+    "text": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach\n\n\n\n\n\n\n\n\nThis study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.\nThe findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
   },
   {
-    "objectID": "climate/weather-ai.html",
-    "href": "climate/weather-ai.html",
-    "title": "Weather AI",
-    "section": "",
-    "text": "Future posts filed under Weather AI. Select a category to narrow the list further."
+    "objectID": "about/me/index.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
+    "href": "about/me/index.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
+    "title": "Yonghun Suh",
+    "section": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis",
+    "text": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis\n\n\n\n\n\n\n\n\nThis study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.\nThe analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.\nPublished in Social Science & Medicine with Dr. Eun-Hye Yoo and Dr. John E. Roberts."
   },
   {
-    "objectID": "climate/index.html",
-    "href": "climate/index.html",
-    "title": "Climate Science",
-    "section": "",
-    "text": "Weather AI, climate modeling, and climate extremes.\nPosts will appear here as they are published."
+    "objectID": "about/me/index.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
+    "href": "about/me/index.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
+    "title": "Yonghun Suh",
+    "section": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR",
+    "text": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR\n\n\n\n\n\n\n\n\nThis study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.\nBy utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
   },
   {
-    "objectID": "climate/data-methods.html",
-    "href": "climate/data-methods.html",
-    "title": "Data & Methods",
-    "section": "",
-    "text": "Posts filed under Data & Methods. Select a category to narrow the list further.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about/blog/index.html",
-    "href": "about/blog/index.html",
-    "title": "Inside the Blog",
-    "section": "",
-    "text": "ABOUT THE PLATFORM / DOCUMENTATION\n\n\n\nThis site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.\n\nQuartoNix FlakesPixiR + PythonGitHub Pages\n\nExplore the architecture View the source\n\n\n\n\n\n\n\n\n\nflowchart LR\n    A[\"Quarto source&lt;br/&gt;.qmd + metadata\"] --&gt; B[\"GitHub&lt;br/&gt;main\"]\n    B --&gt; C[\"GitHub Actions&lt;br/&gt;Nix + Pixi\"]\n    C --&gt; D[\"Quarto&lt;br/&gt;one site render\"]\n    D --&gt; E[\"GitHub Pages&lt;br/&gt;gh-pages\"]\n    F[\"Saved _freeze&lt;br/&gt;execution results\"] &lt;--&gt; C\n    E --&gt; G[\"Readers&lt;br/&gt;HTML + browser JS\"]\n\n\n The build runs on GitHub Actions; readers receive a static website. \n\n\n\n\n\n\n\n\n\n01 / FOUNDATIONS\n\n\n\nHow source, build tools, the scientific runtime, and static hosting fit together.\nOpen guide →\n\n\n\n\n02 / COMPUTATION\n\n\n\nHow article-level ci-packages declarations become one shared runtime.\nOpen guide →\n\n\n\n\n03 / EFFICIENCY\n\n\n\nAn interactive explorer for when Quarto reuses calculations and when it reruns them.\nTry cache explorer →\n\n\n\n\n04 / OPERATIONS\n\n\n\nA visual walk-through of GitHub Actions and the gh-pages publishing step.\nOpen guide →\n\n\n\n\n05 / EXPERIENCE\n\n\n\nThemes, responsive navigation, Mermaid, Observable JS, maps, and comments.\nOpen guide →\n\n\n\n\n\n\nA post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled .qmd file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.\n\n\n\n\n\n\nNote\n\n\n\nBuild tools are pinned by flake.lock. The shared pixi exec environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.\n\n\nFor implementation details, see _quarto.yml, render-site.py, and publish.yml.",
-    "crumbs": [
-      "Home",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "about/blog/index.html#research-that-can-be-inspected-rerun-and-published",
-    "href": "about/blog/index.html#research-that-can-be-inspected-rerun-and-published",
-    "title": "Inside the Blog",
-    "section": "",
-    "text": "This site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.\n\nQuartoNix FlakesPixiR + PythonGitHub Pages\n\nExplore the architecture View the source",
-    "crumbs": [
-      "Home",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "about/blog/index.html#the-publishing-system-at-a-glance",
-    "href": "about/blog/index.html#the-publishing-system-at-a-glance",
-    "title": "Inside the Blog",
-    "section": "",
-    "text": "flowchart LR\n    A[\"Quarto source&lt;br/&gt;.qmd + metadata\"] --&gt; B[\"GitHub&lt;br/&gt;main\"]\n    B --&gt; C[\"GitHub Actions&lt;br/&gt;Nix + Pixi\"]\n    C --&gt; D[\"Quarto&lt;br/&gt;one site render\"]\n    D --&gt; E[\"GitHub Pages&lt;br/&gt;gh-pages\"]\n    F[\"Saved _freeze&lt;br/&gt;execution results\"] &lt;--&gt; C\n    E --&gt; G[\"Readers&lt;br/&gt;HTML + browser JS\"]\n\n\n The build runs on GitHub Actions; readers receive a static website.",
-    "crumbs": [
-      "Home",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "about/blog/index.html#explore-the-system",
-    "href": "about/blog/index.html#explore-the-system",
-    "title": "Inside the Blog",
-    "section": "",
-    "text": "01 / FOUNDATIONS\n\n\n\nHow source, build tools, the scientific runtime, and static hosting fit together.\nOpen guide →\n\n\n\n\n02 / COMPUTATION\n\n\n\nHow article-level ci-packages declarations become one shared runtime.\nOpen guide →\n\n\n\n\n03 / EFFICIENCY\n\n\n\nAn interactive explorer for when Quarto reuses calculations and when it reruns them.\nTry cache explorer →\n\n\n\n\n04 / OPERATIONS\n\n\n\nA visual walk-through of GitHub Actions and the gh-pages publishing step.\nOpen guide →\n\n\n\n\n05 / EXPERIENCE\n\n\n\nThemes, responsive navigation, Mermaid, Observable JS, maps, and comments.\nOpen guide →",
-    "crumbs": [
-      "Home",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "about/blog/index.html#reproducibility-with-practical-limits",
-    "href": "about/blog/index.html#reproducibility-with-practical-limits",
-    "title": "Inside the Blog",
-    "section": "",
-    "text": "A post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled .qmd file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.\n\n\n\n\n\n\nNote\n\n\n\nBuild tools are pinned by flake.lock. The shared pixi exec environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.\n\n\nFor implementation details, see _quarto.yml, render-site.py, and publish.yml.",
-    "crumbs": [
-      "Home",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "about/blog/deployment.html",
-    "href": "about/blog/deployment.html",
-    "title": "Build & Deployment",
-    "section": "",
-    "text": "04 / OPERATIONS\n\n\n\nChanges pushed to main (or a manual workflow dispatch) launch the Quarto Publish workflow. It checks the renderer, builds the site once, and deploys the already-rendered result.\n\n\n\n\n\nflowchart TD\n    A[\"Push main / manual dispatch\"] --&gt; B[\"Checkout + install Nix\"]\n    B --&gt; C[\"Python unittest&lt;br/&gt;dependency metadata\"]\n    C --&gt; D[\"scripts/render-site.py&lt;br/&gt;one Pixi environment\"]\n    D --&gt; E[\"One Quarto HTML render&lt;br/&gt;_site + _freeze\"]\n    E --&gt; F[\"Check rendered HTML files\"]\n    F --&gt; G[\"Clear disposable .quarto cache\"]\n    G --&gt; H[\"Set up matching&lt;br/&gt;Quarto 1.9.37\"]\n    H --&gt; I[\"Publish to gh-pages&lt;br/&gt;render: false\"]\n    I --&gt; J{\"Auto-freeze outputs&lt;br/&gt;changed?\"}\n    J --&gt;|Yes| K[\"Commit freeze + manifest&lt;br/&gt;to main / skip ci\"]\n    J --&gt;|No| L[\"Finish without commit\"]\n\n\n The actual production CI/CD phases, simplified. \n\n\n\n\n\n\n\n\n\n\n\nsequenceDiagram\n    actor Editor\n    participant Main as main branch\n    participant Runner as GitHub Actions\n    participant Branch as gh-pages branch\n    participant Browser as Visitor browser\n    Editor-&gt;&gt;Main: Push change\n    Main-&gt;&gt;Runner: Run publishing workflow\n    Runner-&gt;&gt;Runner: Nix + tests + Pixi + Quarto\n    Runner-&gt;&gt;Branch: Publish existing _site (no rerender)\n    Branch--&gt;&gt;Browser: Serve HTML and assets\n    opt Auto-generated cache has changed\n      Runner-&gt;&gt;Main: Commit saved results [skip ci]\n    end\n\n\n The publishing process separates the source branch, render output, and public website. \n\n\n\n\n\n\n\n\non:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\nconcurrency:\n  group: quarto-gh-pages-publish\n  cancel-in-progress: false\nThe workflow is restricted to main; non-main pushes do not deploy through it.\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nnix develop -c python scripts/render-site.py\nThe renderer creates one shared pixi exec runtime and calls Quarto once for the whole site.\n\n\n\n- name: Publish pre-rendered site\n  uses: quarto-dev/quarto-actions/publish@v2\n  with:\n    target: gh-pages\n    render: false\nThe publishing step uses Quarto 1.9.37, matching the version used for rendering. CI removes the disposable .quarto/ project cache between those phases to avoid incompatible internal state; _site/ and _freeze/ are retained.\n\n\n\nOn successful publish:\n  stage scripts/freeze-manifest.json\n  stage additions / modifications / deletions in _freeze\n  unstage all manually frozen post subtrees\n  if staged diff exists:\n      commit \"[BOT] Update automatic Quarto freeze [skip ci]\"\n      push to main\nThe computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Build & Deployment"
-    ]
-  },
-  {
-    "objectID": "about/blog/deployment.html#continuous-publication-without-a-second-render",
-    "href": "about/blog/deployment.html#continuous-publication-without-a-second-render",
-    "title": "Build & Deployment",
-    "section": "",
-    "text": "Changes pushed to main (or a manual workflow dispatch) launch the Quarto Publish workflow. It checks the renderer, builds the site once, and deploys the already-rendered result.\n\n\n\n\n\nflowchart TD\n    A[\"Push main / manual dispatch\"] --&gt; B[\"Checkout + install Nix\"]\n    B --&gt; C[\"Python unittest&lt;br/&gt;dependency metadata\"]\n    C --&gt; D[\"scripts/render-site.py&lt;br/&gt;one Pixi environment\"]\n    D --&gt; E[\"One Quarto HTML render&lt;br/&gt;_site + _freeze\"]\n    E --&gt; F[\"Check rendered HTML files\"]\n    F --&gt; G[\"Clear disposable .quarto cache\"]\n    G --&gt; H[\"Set up matching&lt;br/&gt;Quarto 1.9.37\"]\n    H --&gt; I[\"Publish to gh-pages&lt;br/&gt;render: false\"]\n    I --&gt; J{\"Auto-freeze outputs&lt;br/&gt;changed?\"}\n    J --&gt;|Yes| K[\"Commit freeze + manifest&lt;br/&gt;to main / skip ci\"]\n    J --&gt;|No| L[\"Finish without commit\"]\n\n\n The actual production CI/CD phases, simplified.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Build & Deployment"
-    ]
-  },
-  {
-    "objectID": "about/blog/deployment.html#the-lifecycle-as-a-sequence",
-    "href": "about/blog/deployment.html#the-lifecycle-as-a-sequence",
-    "title": "Build & Deployment",
-    "section": "",
-    "text": "sequenceDiagram\n    actor Editor\n    participant Main as main branch\n    participant Runner as GitHub Actions\n    participant Branch as gh-pages branch\n    participant Browser as Visitor browser\n    Editor-&gt;&gt;Main: Push change\n    Main-&gt;&gt;Runner: Run publishing workflow\n    Runner-&gt;&gt;Runner: Nix + tests + Pixi + Quarto\n    Runner-&gt;&gt;Branch: Publish existing _site (no rerender)\n    Branch--&gt;&gt;Browser: Serve HTML and assets\n    opt Auto-generated cache has changed\n      Runner-&gt;&gt;Main: Commit saved results [skip ci]\n    end\n\n\n The publishing process separates the source branch, render output, and public website.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Build & Deployment"
-    ]
-  },
-  {
-    "objectID": "about/blog/deployment.html#operational-details",
-    "href": "about/blog/deployment.html#operational-details",
-    "title": "Build & Deployment",
-    "section": "",
-    "text": "on:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\nconcurrency:\n  group: quarto-gh-pages-publish\n  cancel-in-progress: false\nThe workflow is restricted to main; non-main pushes do not deploy through it.\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nnix develop -c python scripts/render-site.py\nThe renderer creates one shared pixi exec runtime and calls Quarto once for the whole site.\n\n\n\n- name: Publish pre-rendered site\n  uses: quarto-dev/quarto-actions/publish@v2\n  with:\n    target: gh-pages\n    render: false\nThe publishing step uses Quarto 1.9.37, matching the version used for rendering. CI removes the disposable .quarto/ project cache between those phases to avoid incompatible internal state; _site/ and _freeze/ are retained.\n\n\n\nOn successful publish:\n  stage scripts/freeze-manifest.json\n  stage additions / modifications / deletions in _freeze\n  unstage all manually frozen post subtrees\n  if staged diff exists:\n      commit \"[BOT] Update automatic Quarto freeze [skip ci]\"\n      push to main\nThe computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Build & Deployment"
-    ]
-  },
-  {
-    "objectID": "about/blog/deployment.html#local-verification-and-failure-diagnosis",
-    "href": "about/blog/deployment.html#local-verification-and-failure-diagnosis",
-    "title": "Build & Deployment",
-    "section": "Local verification and failure diagnosis",
-    "text": "Local verification and failure diagnosis\n# Report dependency selection without executing:\nnix develop -c python scripts/render-site.py --dry-run\n\n# Run metadata tests:\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\n\n# Run the complete site build:\nnix develop -c python scripts/render-site.py\nLook first for failed unit tests, conflicting ci-packages, missing explicit freeze files, or an error in a Quarto document. If rendering works but publication fails, inspect the separate publishing step and its branch permissions.\nSee: CI source · Recent GitHub Actions runs\nNext: design & interaction →\n:::",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Build & Deployment"
-    ]
-  },
-  {
-    "objectID": "about/blog/customization.html",
-    "href": "about/blog/customization.html",
-    "title": "Design & Interaction",
-    "section": "",
-    "text": "05 / EXPERIENCE\n\n\n\nThe build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader’s browser.\n\n\n\n\n\nflowchart LR\n    subgraph CI[\"At build time\"]\n      A[\"R / Python analysis\"] --&gt; B[\"Quarto HTML + assets\"]\n    end\n    subgraph BROWSER[\"In the visitor's browser\"]\n      C[\"Rendered prose + charts\"]\n      D[\"Mermaid diagrams\"]\n      E[\"Observable JS controls\"]\n      F[\"Interactive maps\"]\n    end\n    B --&gt; C\n    B --&gt; D\n    B --&gt; E\n    B --&gt; F\n\n\n Computation during publication and interaction during reading are different workloads. \n\n\n\n\n\n\n\n\n\nCosmo and misc/theme-dark.scss supply light/dark appearance. Site-specific tweaks live in misc/styles.css.\n\n\n\nFlowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.\n\n\n\nReactive controls can update a table or visualization without rerunning scientific Python/R code on a server. Try the freeze scenario explorer.\n\n\n\nIndividual research posts can embed interactive geographic outputs produced by packages such as tmap and JavaScript mapping libraries.\n\n\n\nGitHub Discussions back the Giscus comment UI included through shared Quarto metadata.\n\n\n\nThe custom Lua filter supports the Quarto version annotation in the site’s footer.\n\n\n\n\n\n\nDiagramTabbed contentReactive widgets\n\n\nQuarto's {mermaid} code cells\n→ diagram in the published HTML\n→ no hand-maintained PNG export\nThe diagrams in these docs use Quarto’s native Mermaid integration.\n\n\n## Configuration {.panel-tabset}\n\n### Nix\nPinned tools and CLI.\n\n### Pixi\nShared R/Python runtime.\nTabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.\n\n\nObservable input changes\n→ dependent OJS cells update\n→ visitor sees new result\nThis site’s interactive freeze explorer uses built-in Observable Inputs; it does not call a server or access private infrastructure.\n\n\n\n\n\n\nAll technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.\nThe documentation intentionally does not depend on a new site-wide JavaScript framework. The existing Quarto/Cosmo structure remains the foundation, and the blog’s source repository remains the definitive implementation reference.\nReturn to documentation overview →",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Design & Interaction"
-    ]
-  },
-  {
-    "objectID": "about/blog/customization.html#two-timescales-for-interactivity",
-    "href": "about/blog/customization.html#two-timescales-for-interactivity",
-    "title": "Design & Interaction",
-    "section": "",
-    "text": "The build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader’s browser.\n\n\n\n\n\nflowchart LR\n    subgraph CI[\"At build time\"]\n      A[\"R / Python analysis\"] --&gt; B[\"Quarto HTML + assets\"]\n    end\n    subgraph BROWSER[\"In the visitor's browser\"]\n      C[\"Rendered prose + charts\"]\n      D[\"Mermaid diagrams\"]\n      E[\"Observable JS controls\"]\n      F[\"Interactive maps\"]\n    end\n    B --&gt; C\n    B --&gt; D\n    B --&gt; E\n    B --&gt; F\n\n\n Computation during publication and interaction during reading are different workloads.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Design & Interaction"
-    ]
-  },
-  {
-    "objectID": "about/blog/customization.html#components-used-on-this-website",
-    "href": "about/blog/customization.html#components-used-on-this-website",
-    "title": "Design & Interaction",
-    "section": "",
-    "text": "Cosmo and misc/theme-dark.scss supply light/dark appearance. Site-specific tweaks live in misc/styles.css.\n\n\n\nFlowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.\n\n\n\nReactive controls can update a table or visualization without rerunning scientific Python/R code on a server. Try the freeze scenario explorer.\n\n\n\nIndividual research posts can embed interactive geographic outputs produced by packages such as tmap and JavaScript mapping libraries.\n\n\n\nGitHub Discussions back the Giscus comment UI included through shared Quarto metadata.\n\n\n\nThe custom Lua filter supports the Quarto version annotation in the site’s footer.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Design & Interaction"
-    ]
-  },
-  {
-    "objectID": "about/blog/customization.html#a-small-readable-syntax",
-    "href": "about/blog/customization.html#a-small-readable-syntax",
-    "title": "Design & Interaction",
-    "section": "",
-    "text": "DiagramTabbed contentReactive widgets\n\n\nQuarto's {mermaid} code cells\n→ diagram in the published HTML\n→ no hand-maintained PNG export\nThe diagrams in these docs use Quarto’s native Mermaid integration.\n\n\n## Configuration {.panel-tabset}\n\n### Nix\nPinned tools and CLI.\n\n### Pixi\nShared R/Python runtime.\nTabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.\n\n\nObservable input changes\n→ dependent OJS cells update\n→ visitor sees new result\nThis site’s interactive freeze explorer uses built-in Observable Inputs; it does not call a server or access private infrastructure.",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Design & Interaction"
-    ]
-  },
-  {
-    "objectID": "about/blog/customization.html#reader-experience-and-maintainability",
-    "href": "about/blog/customization.html#reader-experience-and-maintainability",
-    "title": "Design & Interaction",
-    "section": "",
-    "text": "All technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.\nThe documentation intentionally does not depend on a new site-wide JavaScript framework. The existing Quarto/Cosmo structure remains the foundation, and the blog’s source repository remains the definitive implementation reference.\nReturn to documentation overview →",
-    "crumbs": [
-      "Home",
-      "Operations & Design",
-      "Design & Interaction"
-    ]
-  },
-  {
-    "objectID": "about/blog/architecture.html",
-    "href": "about/blog/architecture.html",
-    "title": "System Architecture",
-    "section": "",
-    "text": "01 / FOUNDATIONS\n\n\n\n\n\n\n\n\nflowchart TB\n    subgraph SOURCE[\"Authoring\"]\n      Q[\"Quarto .qmd articles\"] \n      M[\"ci-packages metadata\"]\n      F[\"Saved execution results\"]\n    end\n    subgraph NIX[\"Build tools · Nix\"]\n      N[\"Quarto CLI + Pixi CLI + Python utilities\"]\n    end\n    subgraph PIXI[\"Scientific runtime · Pixi\"]\n      R[\"Shared R + Python packages\"]\n    end\n    subgraph WEB[\"Static website\"]\n      H[\"_site HTML + assets\"]\n      P[\"gh-pages / GitHub Pages\"]\n    end\n    Q --&gt; N\n    M --&gt; N\n    F --&gt; N\n    N --&gt; R\n    R --&gt; H\n    H --&gt; P\n\n\n The logical layers of the publishing workflow. \n\n\n\n\n\n\nflake.nix and flake.lock define the tools available for rendering and CI validation.\n\n\n\nOne pixi exec environment combines core dependencies and packages needed by executable articles.\n\n\n\nOne project-wide render produces pages, figures, Mermaid diagrams, and browser-ready Observable JS.\n\n\n\nThe rendered _site directory is published to the gh-pages branch without rerendering.\n\n\n\n\n\n\n\n\n\n\nsequenceDiagram\n    actor Author\n    participant Main as GitHub main\n    participant CI as Actions runner\n    participant Q as Quarto\n    participant Pages as GitHub Pages\n    Author-&gt;&gt;Main: Push source change\n    Main-&gt;&gt;CI: Trigger publish workflow\n    CI-&gt;&gt;CI: Load Nix tools and run tests\n    CI-&gt;&gt;CI: Resolve dependencies and freeze matches\n    CI-&gt;&gt;Q: Render whole site once via Pixi\n    Note over CI,Q: Cached code results may be reused\n    Q--&gt;&gt;CI: _site HTML and freeze results\n    CI-&gt;&gt;Pages: Publish pre-rendered HTML\n    opt Auto-freeze results changed\n      CI-&gt;&gt;Main: Commit _freeze + manifest\n    end\n\n\n An edit triggers one whole-site build, not necessarily a rerun of every code chunk. \n\n\n\n\n\n\n\n\nflake.lock pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.\n\n\n\nci-packages requirements are resolved together with core packages through pixi exec. This is convenient but not a fully locked Pixi environment: compatible package versions may change over time.\n\n\n\nSource-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.\nThe source of truth is _quarto.yml, flake.nix, render-site.py, and publish.yml.\nNext: dependencies →\n:::",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Architecture"
-    ]
-  },
-  {
-    "objectID": "about/blog/architecture.html#four-layers-four-distinct-jobs",
-    "href": "about/blog/architecture.html#four-layers-four-distinct-jobs",
-    "title": "System Architecture",
-    "section": "",
-    "text": "flowchart TB\n    subgraph SOURCE[\"Authoring\"]\n      Q[\"Quarto .qmd articles\"] \n      M[\"ci-packages metadata\"]\n      F[\"Saved execution results\"]\n    end\n    subgraph NIX[\"Build tools · Nix\"]\n      N[\"Quarto CLI + Pixi CLI + Python utilities\"]\n    end\n    subgraph PIXI[\"Scientific runtime · Pixi\"]\n      R[\"Shared R + Python packages\"]\n    end\n    subgraph WEB[\"Static website\"]\n      H[\"_site HTML + assets\"]\n      P[\"gh-pages / GitHub Pages\"]\n    end\n    Q --&gt; N\n    M --&gt; N\n    F --&gt; N\n    N --&gt; R\n    R --&gt; H\n    H --&gt; P\n\n\n The logical layers of the publishing workflow. \n\n\n\n\n\n\nflake.nix and flake.lock define the tools available for rendering and CI validation.\n\n\n\nOne pixi exec environment combines core dependencies and packages needed by executable articles.\n\n\n\nOne project-wide render produces pages, figures, Mermaid diagrams, and browser-ready Observable JS.\n\n\n\nThe rendered _site directory is published to the gh-pages branch without rerendering.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Architecture"
-    ]
-  },
-  {
-    "objectID": "about/blog/architecture.html#what-happens-when-you-edit-a-page",
-    "href": "about/blog/architecture.html#what-happens-when-you-edit-a-page",
-    "title": "System Architecture",
-    "section": "",
-    "text": "sequenceDiagram\n    actor Author\n    participant Main as GitHub main\n    participant CI as Actions runner\n    participant Q as Quarto\n    participant Pages as GitHub Pages\n    Author-&gt;&gt;Main: Push source change\n    Main-&gt;&gt;CI: Trigger publish workflow\n    CI-&gt;&gt;CI: Load Nix tools and run tests\n    CI-&gt;&gt;CI: Resolve dependencies and freeze matches\n    CI-&gt;&gt;Q: Render whole site once via Pixi\n    Note over CI,Q: Cached code results may be reused\n    Q--&gt;&gt;CI: _site HTML and freeze results\n    CI-&gt;&gt;Pages: Publish pre-rendered HTML\n    opt Auto-freeze results changed\n      CI-&gt;&gt;Main: Commit _freeze + manifest\n    end\n\n\n An edit triggers one whole-site build, not necessarily a rerun of every code chunk.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Architecture"
-    ]
-  },
-  {
-    "objectID": "about/blog/architecture.html#what-exactly-is-pinned",
-    "href": "about/blog/architecture.html#what-exactly-is-pinned",
-    "title": "System Architecture",
-    "section": "",
-    "text": "flake.lock pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.\n\n\n\nci-packages requirements are resolved together with core packages through pixi exec. This is convenient but not a fully locked Pixi environment: compatible package versions may change over time.\n\n\n\nSource-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Architecture"
-    ]
-  },
-  {
-    "objectID": "about/blog/dependencies.html",
-    "href": "about/blog/dependencies.html",
-    "title": "Dependencies & Environments",
-    "section": "",
-    "text": "02 / COMPUTATION\n\n\n\nRather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches one shared Pixi environment.\n\n\n\n\n\nflowchart LR\n    A[\"Nix-pinned&lt;br/&gt;tools\"] --&gt; B[\"render-site.py\"]\n    C[\"Core packages\"] --&gt; D[\"Merge package specs\"]\n    E[\"Post A&lt;br/&gt;ci-packages\"] --&gt; D\n    F[\"Post B&lt;br/&gt;ci-packages\"] --&gt; D\n    B --&gt; D\n    D --&gt; G{\"Version&lt;br/&gt;conflict?\"}\n    G --&gt;|Yes| X[\"Stop with error\"]\n    G --&gt;|No| H[\"pixi exec\"]\n    H --&gt; I[\"One Quarto render\"]\n\n\n Packages needed by documents that may execute are merged into one Pixi call. \n\n\n\n\n\n\nci-packages is a repository-specific field, not built-in Quarto configuration.\n---\ntitle: \"Spatial Analysis\"\nci-packages:\n  - r-sf\n  - r-spdep\n  - \"numpy&gt;=1.26,&lt;2\"\n---\nrender-site.py validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.\n\n\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nNix supplies Quarto, Pixi, Git and a Python YAML/testing environment.\n\n\n\nCore: R + knitr + reticulate + Python + NumPy\n      + Pandoc + Micromamba compatibility executable\nAdditional: ci-packages from non-reused articles\n                    ↓\nOne conda-forge pixi exec environment\nThe Micromamba executable serves as a compatibility tool for reticulate. It is not used to create a separate project environment.\n\n\n\nnix develop -c python scripts/render-site.py --dry-run\nThis reports inspected documents, package specifications and the proposed render command without executing it.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Dependencies"
-    ]
-  },
-  {
-    "objectID": "about/blog/dependencies.html#one-scientific-runtime-per-site-build",
-    "href": "about/blog/dependencies.html#one-scientific-runtime-per-site-build",
-    "title": "Dependencies & Environments",
-    "section": "",
-    "text": "Rather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches one shared Pixi environment.\n\n\n\n\n\nflowchart LR\n    A[\"Nix-pinned&lt;br/&gt;tools\"] --&gt; B[\"render-site.py\"]\n    C[\"Core packages\"] --&gt; D[\"Merge package specs\"]\n    E[\"Post A&lt;br/&gt;ci-packages\"] --&gt; D\n    F[\"Post B&lt;br/&gt;ci-packages\"] --&gt; D\n    B --&gt; D\n    D --&gt; G{\"Version&lt;br/&gt;conflict?\"}\n    G --&gt;|Yes| X[\"Stop with error\"]\n    G --&gt;|No| H[\"pixi exec\"]\n    H --&gt; I[\"One Quarto render\"]\n\n\n Packages needed by documents that may execute are merged into one Pixi call.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Dependencies"
-    ]
-  },
-  {
-    "objectID": "about/blog/dependencies.html#document-metadata",
-    "href": "about/blog/dependencies.html#document-metadata",
-    "title": "Dependencies & Environments",
-    "section": "",
-    "text": "ci-packages is a repository-specific field, not built-in Quarto configuration.\n---\ntitle: \"Spatial Analysis\"\nci-packages:\n  - r-sf\n  - r-spdep\n  - \"numpy&gt;=1.26,&lt;2\"\n---\nrender-site.py validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Dependencies"
-    ]
-  },
-  {
-    "objectID": "about/blog/dependencies.html#inspect-the-environment",
-    "href": "about/blog/dependencies.html#inspect-the-environment",
-    "title": "Dependencies & Environments",
-    "section": "",
-    "text": "nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nNix supplies Quarto, Pixi, Git and a Python YAML/testing environment.\n\n\n\nCore: R + knitr + reticulate + Python + NumPy\n      + Pandoc + Micromamba compatibility executable\nAdditional: ci-packages from non-reused articles\n                    ↓\nOne conda-forge pixi exec environment\nThe Micromamba executable serves as a compatibility tool for reticulate. It is not used to create a separate project environment.\n\n\n\nnix develop -c python scripts/render-site.py --dry-run\nThis reports inspected documents, package specifications and the proposed render command without executing it.",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Dependencies"
-    ]
-  },
-  {
-    "objectID": "about/blog/dependencies.html#what-is-skipped-when-a-post-is-unchanged",
-    "href": "about/blog/dependencies.html#what-is-skipped-when-a-post-is-unchanged",
-    "title": "Dependencies & Environments",
-    "section": "What is skipped when a post is unchanged?",
-    "text": "What is skipped when a post is unchanged?\nWhen the QMD source hash matches scripts/freeze-manifest.json and the saved HTML execution result exists, the renderer omits that post’s extra ci-packages. The default R/Python toolchain still remains.\n\n\n\n\n\n\nImportant\n\n\n\nThe manifest determines dependency selection, not Quarto execution directly. Deleting only the manifest may install extra packages without causing Quarto to recompute unchanged frozen results.\n\n\n\n\n\n\n\n\n\n\nDesign choice\nBenefit\nLimitation\n\n\n\n\nOne pixi exec\nSingle render and common runtime\nVersion constraints must be compatible\n\n\nci-packages per QMD\nRequirements visible next to analysis\nAuthors must maintain metadata\n\n\nNix flake.lock\nPinned build tool versions\nDoesn’t lock the Pixi runtime\n\n\nFrozen results\nAvoids unnecessary computation\nExternal changes need manual invalidation\n\n\n\nNext: freeze & cache →\n:::",
-    "crumbs": [
-      "Home",
-      "How it works",
-      "Dependencies"
-    ]
+    "objectID": "about/me/index.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
+    "href": "about/me/index.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
+    "title": "Yonghun Suh",
+    "section": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population",
+    "text": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population\n\n\n\n\n\n\n\n\nThis study aimed to identify vulnerable areas and inform heatwave policy decisions.\nIt examined vulnerability using local Bi-var Moran’s I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.\nThe findings were presented at the 2022 Annual Conference of the Korean Geographical Society."
   },
   {
     "objectID": "about/blog/freeze.html",
@@ -614,95 +317,287 @@
     ]
   },
   {
-    "objectID": "about/me/index.html",
-    "href": "about/me/index.html",
-    "title": "Yonghun Suh",
+    "objectID": "about/blog/dependencies.html",
+    "href": "about/blog/dependencies.html",
+    "title": "Dependencies & Environments",
     "section": "",
-    "text": "Email\n  \n  \n      ORCID\n  \n  \n    \n     Github\n  \n  \n    \n     CV\n  \n\n  \n  \n\n\nI am a Ph.D. student in Geography at the University of Georgia, where I work with Dr. Weiming Hu on geospatial AI and environmental forecasting research. My research interests include GIScience, GeoAI, remote sensing, atmospheric science, and high-performance computing. I am particularly interested in developing scalable machine learning approaches for environmental and spatiotemporal problems.\nBefore joining UGA, I was a research intern at the Data Science for Humanity Group at the Max Planck Institute for Security and Privacy, where I applied machine learning and remote sensing to societal and environmental problems. My work there included monitoring changes in North Korean mining activities using optical satellite imagery and mapping changes in WASH accessibility in Rohingya refugee camps using sub-meter satellite imagery.\nI earned my Master’s degree in Geography from Seoul National University, advised by Dr. Gunhak Lee. My master’s research focused on landslide susceptibility modeling using InSAR-derived displacement, rainfall, and interpretable machine learning. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science.\nMy broader research experience spans landslide susceptibility, population and settlement mapping, spatial accessibility, air quality, and satellite-based monitoring of human activities. In addition to my academic research, I have been involved in a community-based air quality project at the State University of New York at Buffalo (UB Clean Air).\nI primarily work with R and Python and have experience in geospatial data processing, remote sensing, machine learning, reproducible scientific workflows, Linux, and high-performance computing."
+    "text": "02 / COMPUTATION\n\n\n\nRather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches one shared Pixi environment.\n\n\n\n\n\nflowchart LR\n    A[\"Nix-pinned&lt;br/&gt;tools\"] --&gt; B[\"render-site.py\"]\n    C[\"Core packages\"] --&gt; D[\"Merge package specs\"]\n    E[\"Post A&lt;br/&gt;ci-packages\"] --&gt; D\n    F[\"Post B&lt;br/&gt;ci-packages\"] --&gt; D\n    B --&gt; D\n    D --&gt; G{\"Version&lt;br/&gt;conflict?\"}\n    G --&gt;|Yes| X[\"Stop with error\"]\n    G --&gt;|No| H[\"pixi exec\"]\n    H --&gt; I[\"One Quarto render\"]\n\n\n Packages needed by documents that may execute are merged into one Pixi call. \n\n\n\n\n\n\nci-packages is a repository-specific field, not built-in Quarto configuration.\n---\ntitle: \"Spatial Analysis\"\nci-packages:\n  - r-sf\n  - r-spdep\n  - \"numpy&gt;=1.26,&lt;2\"\n---\nrender-site.py validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.\n\n\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nNix supplies Quarto, Pixi, Git and a Python YAML/testing environment.\n\n\n\nCore: R + knitr + reticulate + Python + NumPy\n      + Pandoc + Micromamba compatibility executable\nAdditional: ci-packages from non-reused articles\n                    ↓\nOne conda-forge pixi exec environment\nThe Micromamba executable serves as a compatibility tool for reticulate. It is not used to create a separate project environment.\n\n\n\nnix develop -c python scripts/render-site.py --dry-run\nThis reports inspected documents, package specifications and the proposed render command without executing it.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Dependencies"
+    ]
   },
   {
-    "objectID": "about/me/index.html#seoul-national-university",
-    "href": "about/me/index.html#seoul-national-university",
-    "title": "Yonghun Suh",
-    "section": "Seoul National University",
-    "text": "Seoul National University\n\nSeoul, South Korea | Sept 2021 – Feb 2024\n\nM.A. in Geography\n\nThesis: Real-time Landslide Susceptibility Monitoring Using Spatio-temporal High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach (available in Korean)\nAdvised by Dr. Gunhak Lee"
-  },
-  {
-    "objectID": "about/me/index.html#kongju-national-university",
-    "href": "about/me/index.html#kongju-national-university",
-    "title": "Yonghun Suh",
-    "section": "Kongju National University",
-    "text": "Kongju National University\n\nSouth Chungcheong Province, South Korea | Mar 2015 – Aug 2021\n\nB.A. in Geography\nB.Sc. in Atmospheric Science"
-  },
-  {
-    "objectID": "about/me/index.html#mapping-reduced-accessibility-to-wash-facilities-in-rohingya-refugee-camps-with-sub-meter-imagery-under-review",
-    "href": "about/me/index.html#mapping-reduced-accessibility-to-wash-facilities-in-rohingya-refugee-camps-with-sub-meter-imagery-under-review",
-    "title": "Yonghun Suh",
-    "section": "Mapping Reduced Accessibility to WASH Facilities in Rohingya Refugee Camps with Sub-Meter Imagery (under review)",
-    "text": "Mapping Reduced Accessibility to WASH Facilities in Rohingya Refugee Camps with Sub-Meter Imagery (under review)\n\n\n\n\n\n\n\n\n  \n    \n      \n      \n    \n\n    \n      \n        \n          \n          \n            \n          \n        \n        Accessibility in 2022 (A), 2025 (B), and change (C)\n      \n\n      \n        \n          \n            \n          \n        \n        Method overview\n      \n    \n\n    \n      \n    \n    \n      \n    \n  \n\n\n\n\n\n\nThis study assesses changes in spatial accessibility to WASH (Water, Sanitation, and Hygiene) facilities in Rohingya refugee camps using a 2SFCA approach with shelter detection from sub-meter imagery via a semi-supervised segmentation model, addressing challenges from dense and heterogeneous camp structures.\nAccessibility declined over time, with the lack of gender-segregated facilities revealing persistent accessibility inequality.\nLinks to the Preprint & Source Code"
-  },
-  {
-    "objectID": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
-    "href": "about/me/index.html#from-data-to-dissemination-creating-dashboards-for-buffalo-african-american-community-based-participatory-air-monitoring",
-    "title": "Yonghun Suh",
-    "section": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring",
-    "text": "From Data to Dissemination: Creating Dashboards for Buffalo African-American Community-based Participatory Air Monitoring\n\n\n\n\n\n\n\n\n\n\nBreathe Buffalo: UB Air Quality Monitoring Dashboard\n\n\n\n\n\n\n\nArchitecture Overview\n\n\n\n\n\n\n\n\nThis project deployed 30 low-cost air sensors across East Buffalo to capture local PM2.5 data, revealing pollution patterns overlooked by official monitors.\nA community-designed dashboard improved real-time access to air quality data, supporting environmental awareness and public health equity.\nThe findings were presented at the Joint Annual Meeting of the International Society of Exposure Science and the International Society for Environmental Epidemiology 2025 (ISES-ISEE 2025).\nLinks to the Poster & Source Code"
-  },
-  {
-    "objectID": "about/me/index.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
-    "href": "about/me/index.html#predicting-landslide-susceptibility-using-high-resolution-active-remote-sensing-data-an-interpretable-machine-learning-approach",
-    "title": "Yonghun Suh",
-    "section": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach",
-    "text": "Predicting Landslide Susceptibility Using High-resolution Active Remote Sensing Data: An Interpretable Machine Learning Approach\n\n\n\n\n\n\n\n\nThis study presents a machine learning model to predict landslide susceptibility using Interferometric SAR displacement data and Hybrid Surface Rainfall estimates, emphasizing the role of active remote sensing.\nThe findings highlight the potential of using remote sensing data for landslide susceptibility assessment, offering valuable insights for disaster preparedness and mitigation strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
-  },
-  {
-    "objectID": "about/me/index.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
-    "href": "about/me/index.html#delayed-effects-of-air-pollution-on-public-bike-sharing-system-use-in-seoul-south-korea-a-time-series-analysis",
-    "title": "Yonghun Suh",
-    "section": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis",
-    "text": "Delayed effects of air pollution on public bike-sharing system use in Seoul, South Korea: A time series analysis\n\n\n\n\n\n\n\n\nThis study examines the short-term impact of ambient air pollution on public bike-sharing system (PBS) usage in Seoul from 2018 to 2021, finding a consistent negative association between elevated levels of air pollutants (PM2.5, PM10, NO2, and O3) and bike usage the following day.\nThe analysis reveals that high pollution days are linked to a reduction in cycling behavior, with no variations based on age, COVID-19, or seasonality.\nPublished in Social Science & Medicine with Dr. Eun-Hye Yoo and Dr. John E. Roberts."
-  },
-  {
-    "objectID": "about/me/index.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
-    "href": "about/me/index.html#estimation-of-the-de-facto-population-at-the-building-scale-using-a-dasymetric-mapping-method-based-on-gwr",
-    "title": "Yonghun Suh",
-    "section": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR",
-    "text": "Estimation of the de Facto Population at the Building Scale Using a Dasymetric Mapping Method Based on GWR\n\n\n\n\n\n\n\n\nThis study proposes a method using geographically weighted regression(GWR) and dasymetric mapping to estimate fine-scale population in buildings, addressing the challenges of COVID-19 transmission in urban areas.\nBy utilizing building usage and floor area as auxiliary data, it provides detailed population distribution estimates for Seoul, which can inform effective pandemic response strategies.\nPublished in Journal of the Korean Cartographic Association with Dr. Gunhak Lee."
-  },
-  {
-    "objectID": "about/me/index.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
-    "href": "about/me/index.html#accessibility-analysis-of-public-cooling-shelters-in-seoul-considering-local-temperature-focusing-on-the-elderly-population",
-    "title": "Yonghun Suh",
-    "section": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population",
-    "text": "Accessibility Analysis of Public Cooling Shelters in Seoul Considering Local Temperature: Focusing on the Elderly Population\n\n\n\n\n\n\n\n\nThis study aimed to identify vulnerable areas and inform heatwave policy decisions.\nIt examined vulnerability using local Bi-var Moran’s I, analyzing the spatial accessibility of heatwave shelters for the elderly and temperature variations in Seoul.\nThe findings were presented at the 2022 Annual Conference of the Korean Geographical Society."
-  },
-  {
-    "objectID": "climate/extremes.html",
-    "href": "climate/extremes.html",
-    "title": "Climate Extremes",
+    "objectID": "about/blog/dependencies.html#one-scientific-runtime-per-site-build",
+    "href": "about/blog/dependencies.html#one-scientific-runtime-per-site-build",
+    "title": "Dependencies & Environments",
     "section": "",
-    "text": "Posts filed under Climate Extremes. Select a category to narrow the list further.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\nNo matching items"
+    "text": "Rather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches one shared Pixi environment.\n\n\n\n\n\nflowchart LR\n    A[\"Nix-pinned&lt;br/&gt;tools\"] --&gt; B[\"render-site.py\"]\n    C[\"Core packages\"] --&gt; D[\"Merge package specs\"]\n    E[\"Post A&lt;br/&gt;ci-packages\"] --&gt; D\n    F[\"Post B&lt;br/&gt;ci-packages\"] --&gt; D\n    B --&gt; D\n    D --&gt; G{\"Version&lt;br/&gt;conflict?\"}\n    G --&gt;|Yes| X[\"Stop with error\"]\n    G --&gt;|No| H[\"pixi exec\"]\n    H --&gt; I[\"One Quarto render\"]\n\n\n Packages needed by documents that may execute are merged into one Pixi call.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Dependencies"
+    ]
   },
   {
-    "objectID": "climate/modeling.html",
-    "href": "climate/modeling.html",
-    "title": "Climate Modeling",
+    "objectID": "about/blog/dependencies.html#document-metadata",
+    "href": "about/blog/dependencies.html#document-metadata",
+    "title": "Dependencies & Environments",
     "section": "",
-    "text": "Posts filed under Climate Modeling. Select a category to narrow the list further.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\nNo matching items"
+    "text": "ci-packages is a repository-specific field, not built-in Quarto configuration.\n---\ntitle: \"Spatial Analysis\"\nci-packages:\n  - r-sf\n  - r-spdep\n  - \"numpy&gt;=1.26,&lt;2\"\n---\nrender-site.py validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Dependencies"
+    ]
   },
   {
-    "objectID": "computing/environments.html",
-    "href": "computing/environments.html",
-    "title": "Linux & Environments",
+    "objectID": "about/blog/dependencies.html#inspect-the-environment",
+    "href": "about/blog/dependencies.html#inspect-the-environment",
+    "title": "Dependencies & Environments",
     "section": "",
-    "text": "Posts filed under Linux & Environments. Select a category to narrow the list further.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\nReproducible & Unified Geospatial Research with Quarto\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\nTest Case of Handling a Binary Data with Python\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\nYonghun Suh\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
+    "text": "nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nNix supplies Quarto, Pixi, Git and a Python YAML/testing environment.\n\n\n\nCore: R + knitr + reticulate + Python + NumPy\n      + Pandoc + Micromamba compatibility executable\nAdditional: ci-packages from non-reused articles\n                    ↓\nOne conda-forge pixi exec environment\nThe Micromamba executable serves as a compatibility tool for reticulate. It is not used to create a separate project environment.\n\n\n\nnix develop -c python scripts/render-site.py --dry-run\nThis reports inspected documents, package specifications and the proposed render command without executing it.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Dependencies"
+    ]
   },
   {
-    "objectID": "computing/index.html",
-    "href": "computing/index.html",
-    "title": "Scientific Computing",
+    "objectID": "about/blog/dependencies.html#what-is-skipped-when-a-post-is-unchanged",
+    "href": "about/blog/dependencies.html#what-is-skipped-when-a-post-is-unchanged",
+    "title": "Dependencies & Environments",
+    "section": "What is skipped when a post is unchanged?",
+    "text": "What is skipped when a post is unchanged?\nWhen the QMD source hash matches scripts/freeze-manifest.json and the saved HTML execution result exists, the renderer omits that post’s extra ci-packages. The default R/Python toolchain still remains.\n\n\n\n\n\n\nImportant\n\n\n\nThe manifest determines dependency selection, not Quarto execution directly. Deleting only the manifest may install extra packages without causing Quarto to recompute unchanged frozen results.\n\n\n\n\n\n\n\n\n\n\nDesign choice\nBenefit\nLimitation\n\n\n\n\nOne pixi exec\nSingle render and common runtime\nVersion constraints must be compatible\n\n\nci-packages per QMD\nRequirements visible next to analysis\nAuthors must maintain metadata\n\n\nNix flake.lock\nPinned build tool versions\nDoesn’t lock the Pixi runtime\n\n\nFrozen results\nAvoids unnecessary computation\nExternal changes need manual invalidation\n\n\n\nNext: freeze & cache →\n:::",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Dependencies"
+    ]
+  },
+  {
+    "objectID": "about/blog/architecture.html",
+    "href": "about/blog/architecture.html",
+    "title": "System Architecture",
     "section": "",
-    "text": "Research environments, infrastructure, and reproducible workflows.\nSelect a category to filter the posts.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\n\n\n\nNo matching items"
+    "text": "01 / FOUNDATIONS\n\n\n\n\n\n\n\n\nflowchart TB\n    subgraph SOURCE[\"Authoring\"]\n      Q[\"Quarto .qmd articles\"] \n      M[\"ci-packages metadata\"]\n      F[\"Saved execution results\"]\n    end\n    subgraph NIX[\"Build tools · Nix\"]\n      N[\"Quarto CLI + Pixi CLI + Python utilities\"]\n    end\n    subgraph PIXI[\"Scientific runtime · Pixi\"]\n      R[\"Shared R + Python packages\"]\n    end\n    subgraph WEB[\"Static website\"]\n      H[\"_site HTML + assets\"]\n      P[\"gh-pages / GitHub Pages\"]\n    end\n    Q --&gt; N\n    M --&gt; N\n    F --&gt; N\n    N --&gt; R\n    R --&gt; H\n    H --&gt; P\n\n\n The logical layers of the publishing workflow. \n\n\n\n\n\n\nflake.nix and flake.lock define the tools available for rendering and CI validation.\n\n\n\nOne pixi exec environment combines core dependencies and packages needed by executable articles.\n\n\n\nOne project-wide render produces pages, figures, Mermaid diagrams, and browser-ready Observable JS.\n\n\n\nThe rendered _site directory is published to the gh-pages branch without rerendering.\n\n\n\n\n\n\n\n\n\n\nsequenceDiagram\n    actor Author\n    participant Main as GitHub main\n    participant CI as Actions runner\n    participant Q as Quarto\n    participant Pages as GitHub Pages\n    Author-&gt;&gt;Main: Push source change\n    Main-&gt;&gt;CI: Trigger publish workflow\n    CI-&gt;&gt;CI: Load Nix tools and run tests\n    CI-&gt;&gt;CI: Resolve dependencies and freeze matches\n    CI-&gt;&gt;Q: Render whole site once via Pixi\n    Note over CI,Q: Cached code results may be reused\n    Q--&gt;&gt;CI: _site HTML and freeze results\n    CI-&gt;&gt;Pages: Publish pre-rendered HTML\n    opt Auto-freeze results changed\n      CI-&gt;&gt;Main: Commit _freeze + manifest\n    end\n\n\n An edit triggers one whole-site build, not necessarily a rerun of every code chunk. \n\n\n\n\n\n\n\n\nflake.lock pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.\n\n\n\nci-packages requirements are resolved together with core packages through pixi exec. This is convenient but not a fully locked Pixi environment: compatible package versions may change over time.\n\n\n\nSource-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.\nThe source of truth is _quarto.yml, flake.nix, render-site.py, and publish.yml.\nNext: dependencies →\n:::",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Architecture"
+    ]
+  },
+  {
+    "objectID": "about/blog/architecture.html#four-layers-four-distinct-jobs",
+    "href": "about/blog/architecture.html#four-layers-four-distinct-jobs",
+    "title": "System Architecture",
+    "section": "",
+    "text": "flowchart TB\n    subgraph SOURCE[\"Authoring\"]\n      Q[\"Quarto .qmd articles\"] \n      M[\"ci-packages metadata\"]\n      F[\"Saved execution results\"]\n    end\n    subgraph NIX[\"Build tools · Nix\"]\n      N[\"Quarto CLI + Pixi CLI + Python utilities\"]\n    end\n    subgraph PIXI[\"Scientific runtime · Pixi\"]\n      R[\"Shared R + Python packages\"]\n    end\n    subgraph WEB[\"Static website\"]\n      H[\"_site HTML + assets\"]\n      P[\"gh-pages / GitHub Pages\"]\n    end\n    Q --&gt; N\n    M --&gt; N\n    F --&gt; N\n    N --&gt; R\n    R --&gt; H\n    H --&gt; P\n\n\n The logical layers of the publishing workflow. \n\n\n\n\n\n\nflake.nix and flake.lock define the tools available for rendering and CI validation.\n\n\n\nOne pixi exec environment combines core dependencies and packages needed by executable articles.\n\n\n\nOne project-wide render produces pages, figures, Mermaid diagrams, and browser-ready Observable JS.\n\n\n\nThe rendered _site directory is published to the gh-pages branch without rerendering.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Architecture"
+    ]
+  },
+  {
+    "objectID": "about/blog/architecture.html#what-happens-when-you-edit-a-page",
+    "href": "about/blog/architecture.html#what-happens-when-you-edit-a-page",
+    "title": "System Architecture",
+    "section": "",
+    "text": "sequenceDiagram\n    actor Author\n    participant Main as GitHub main\n    participant CI as Actions runner\n    participant Q as Quarto\n    participant Pages as GitHub Pages\n    Author-&gt;&gt;Main: Push source change\n    Main-&gt;&gt;CI: Trigger publish workflow\n    CI-&gt;&gt;CI: Load Nix tools and run tests\n    CI-&gt;&gt;CI: Resolve dependencies and freeze matches\n    CI-&gt;&gt;Q: Render whole site once via Pixi\n    Note over CI,Q: Cached code results may be reused\n    Q--&gt;&gt;CI: _site HTML and freeze results\n    CI-&gt;&gt;Pages: Publish pre-rendered HTML\n    opt Auto-freeze results changed\n      CI-&gt;&gt;Main: Commit _freeze + manifest\n    end\n\n\n An edit triggers one whole-site build, not necessarily a rerun of every code chunk.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Architecture"
+    ]
+  },
+  {
+    "objectID": "about/blog/architecture.html#what-exactly-is-pinned",
+    "href": "about/blog/architecture.html#what-exactly-is-pinned",
+    "title": "System Architecture",
+    "section": "",
+    "text": "flake.lock pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.\n\n\n\nci-packages requirements are resolved together with core packages through pixi exec. This is convenient but not a fully locked Pixi environment: compatible package versions may change over time.\n\n\n\nSource-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.",
+    "crumbs": [
+      "Home",
+      "How it works",
+      "Architecture"
+    ]
+  },
+  {
+    "objectID": "about/blog/customization.html",
+    "href": "about/blog/customization.html",
+    "title": "Design & Interaction",
+    "section": "",
+    "text": "05 / EXPERIENCE\n\n\n\nThe build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader’s browser.\n\n\n\n\n\nflowchart LR\n    subgraph CI[\"At build time\"]\n      A[\"R / Python analysis\"] --&gt; B[\"Quarto HTML + assets\"]\n    end\n    subgraph BROWSER[\"In the visitor's browser\"]\n      C[\"Rendered prose + charts\"]\n      D[\"Mermaid diagrams\"]\n      E[\"Observable JS controls\"]\n      F[\"Interactive maps\"]\n    end\n    B --&gt; C\n    B --&gt; D\n    B --&gt; E\n    B --&gt; F\n\n\n Computation during publication and interaction during reading are different workloads. \n\n\n\n\n\n\n\n\n\nCosmo and misc/theme-dark.scss supply light/dark appearance. Site-specific tweaks live in misc/styles.css.\n\n\n\nFlowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.\n\n\n\nReactive controls can update a table or visualization without rerunning scientific Python/R code on a server. Try the freeze scenario explorer.\n\n\n\nIndividual research posts can embed interactive geographic outputs produced by packages such as tmap and JavaScript mapping libraries.\n\n\n\nGitHub Discussions back the Giscus comment UI included through shared Quarto metadata.\n\n\n\nThe custom Lua filter supports the Quarto version annotation in the site’s footer.\n\n\n\n\n\n\nDiagramTabbed contentReactive widgets\n\n\nQuarto's {mermaid} code cells\n→ diagram in the published HTML\n→ no hand-maintained PNG export\nThe diagrams in these docs use Quarto’s native Mermaid integration.\n\n\n## Configuration {.panel-tabset}\n\n### Nix\nPinned tools and CLI.\n\n### Pixi\nShared R/Python runtime.\nTabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.\n\n\nObservable input changes\n→ dependent OJS cells update\n→ visitor sees new result\nThis site’s interactive freeze explorer uses built-in Observable Inputs; it does not call a server or access private infrastructure.\n\n\n\n\n\n\nAll technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.\nThe documentation intentionally does not depend on a new site-wide JavaScript framework. The existing Quarto/Cosmo structure remains the foundation, and the blog’s source repository remains the definitive implementation reference.\nReturn to documentation overview →",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Design & Interaction"
+    ]
+  },
+  {
+    "objectID": "about/blog/customization.html#two-timescales-for-interactivity",
+    "href": "about/blog/customization.html#two-timescales-for-interactivity",
+    "title": "Design & Interaction",
+    "section": "",
+    "text": "The build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader’s browser.\n\n\n\n\n\nflowchart LR\n    subgraph CI[\"At build time\"]\n      A[\"R / Python analysis\"] --&gt; B[\"Quarto HTML + assets\"]\n    end\n    subgraph BROWSER[\"In the visitor's browser\"]\n      C[\"Rendered prose + charts\"]\n      D[\"Mermaid diagrams\"]\n      E[\"Observable JS controls\"]\n      F[\"Interactive maps\"]\n    end\n    B --&gt; C\n    B --&gt; D\n    B --&gt; E\n    B --&gt; F\n\n\n Computation during publication and interaction during reading are different workloads.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Design & Interaction"
+    ]
+  },
+  {
+    "objectID": "about/blog/customization.html#components-used-on-this-website",
+    "href": "about/blog/customization.html#components-used-on-this-website",
+    "title": "Design & Interaction",
+    "section": "",
+    "text": "Cosmo and misc/theme-dark.scss supply light/dark appearance. Site-specific tweaks live in misc/styles.css.\n\n\n\nFlowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.\n\n\n\nReactive controls can update a table or visualization without rerunning scientific Python/R code on a server. Try the freeze scenario explorer.\n\n\n\nIndividual research posts can embed interactive geographic outputs produced by packages such as tmap and JavaScript mapping libraries.\n\n\n\nGitHub Discussions back the Giscus comment UI included through shared Quarto metadata.\n\n\n\nThe custom Lua filter supports the Quarto version annotation in the site’s footer.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Design & Interaction"
+    ]
+  },
+  {
+    "objectID": "about/blog/customization.html#a-small-readable-syntax",
+    "href": "about/blog/customization.html#a-small-readable-syntax",
+    "title": "Design & Interaction",
+    "section": "",
+    "text": "DiagramTabbed contentReactive widgets\n\n\nQuarto's {mermaid} code cells\n→ diagram in the published HTML\n→ no hand-maintained PNG export\nThe diagrams in these docs use Quarto’s native Mermaid integration.\n\n\n## Configuration {.panel-tabset}\n\n### Nix\nPinned tools and CLI.\n\n### Pixi\nShared R/Python runtime.\nTabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.\n\n\nObservable input changes\n→ dependent OJS cells update\n→ visitor sees new result\nThis site’s interactive freeze explorer uses built-in Observable Inputs; it does not call a server or access private infrastructure.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Design & Interaction"
+    ]
+  },
+  {
+    "objectID": "about/blog/customization.html#reader-experience-and-maintainability",
+    "href": "about/blog/customization.html#reader-experience-and-maintainability",
+    "title": "Design & Interaction",
+    "section": "",
+    "text": "All technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.\nThe documentation intentionally does not depend on a new site-wide JavaScript framework. The existing Quarto/Cosmo structure remains the foundation, and the blog’s source repository remains the definitive implementation reference.\nReturn to documentation overview →",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Design & Interaction"
+    ]
+  },
+  {
+    "objectID": "about/blog/deployment.html",
+    "href": "about/blog/deployment.html",
+    "title": "Build & Deployment",
+    "section": "",
+    "text": "04 / OPERATIONS\n\n\n\nChanges pushed to main (or a manual workflow dispatch) launch the Quarto Publish workflow. It checks the renderer, builds the site once, and deploys the already-rendered result.\n\n\n\n\n\nflowchart TD\n    A[\"Push main / manual dispatch\"] --&gt; B[\"Checkout + install Nix\"]\n    B --&gt; C[\"Python unittest&lt;br/&gt;dependency metadata\"]\n    C --&gt; D[\"scripts/render-site.py&lt;br/&gt;one Pixi environment\"]\n    D --&gt; E[\"One Quarto HTML render&lt;br/&gt;_site + _freeze\"]\n    E --&gt; F[\"Check rendered HTML files\"]\n    F --&gt; G[\"Clear disposable .quarto cache\"]\n    G --&gt; H[\"Set up matching&lt;br/&gt;Quarto 1.9.37\"]\n    H --&gt; I[\"Publish to gh-pages&lt;br/&gt;render: false\"]\n    I --&gt; J{\"Auto-freeze outputs&lt;br/&gt;changed?\"}\n    J --&gt;|Yes| K[\"Commit freeze + manifest&lt;br/&gt;to main / skip ci\"]\n    J --&gt;|No| L[\"Finish without commit\"]\n\n\n The actual production CI/CD phases, simplified. \n\n\n\n\n\n\n\n\n\n\n\nsequenceDiagram\n    actor Editor\n    participant Main as main branch\n    participant Runner as GitHub Actions\n    participant Branch as gh-pages branch\n    participant Browser as Visitor browser\n    Editor-&gt;&gt;Main: Push change\n    Main-&gt;&gt;Runner: Run publishing workflow\n    Runner-&gt;&gt;Runner: Nix + tests + Pixi + Quarto\n    Runner-&gt;&gt;Branch: Publish existing _site (no rerender)\n    Branch--&gt;&gt;Browser: Serve HTML and assets\n    opt Auto-generated cache has changed\n      Runner-&gt;&gt;Main: Commit saved results [skip ci]\n    end\n\n\n The publishing process separates the source branch, render output, and public website. \n\n\n\n\n\n\n\n\non:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\nconcurrency:\n  group: quarto-gh-pages-publish\n  cancel-in-progress: false\nThe workflow is restricted to main; non-main pushes do not deploy through it.\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nnix develop -c python scripts/render-site.py\nThe renderer creates one shared pixi exec runtime and calls Quarto once for the whole site.\n\n\n\n- name: Publish pre-rendered site\n  uses: quarto-dev/quarto-actions/publish@v2\n  with:\n    target: gh-pages\n    render: false\nThe publishing step uses Quarto 1.9.37, matching the version used for rendering. CI removes the disposable .quarto/ project cache between those phases to avoid incompatible internal state; _site/ and _freeze/ are retained.\n\n\n\nOn successful publish:\n  stage scripts/freeze-manifest.json\n  stage additions / modifications / deletions in _freeze\n  unstage all manually frozen post subtrees\n  if staged diff exists:\n      commit \"[BOT] Update automatic Quarto freeze [skip ci]\"\n      push to main\nThe computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Build & Deployment"
+    ]
+  },
+  {
+    "objectID": "about/blog/deployment.html#continuous-publication-without-a-second-render",
+    "href": "about/blog/deployment.html#continuous-publication-without-a-second-render",
+    "title": "Build & Deployment",
+    "section": "",
+    "text": "Changes pushed to main (or a manual workflow dispatch) launch the Quarto Publish workflow. It checks the renderer, builds the site once, and deploys the already-rendered result.\n\n\n\n\n\nflowchart TD\n    A[\"Push main / manual dispatch\"] --&gt; B[\"Checkout + install Nix\"]\n    B --&gt; C[\"Python unittest&lt;br/&gt;dependency metadata\"]\n    C --&gt; D[\"scripts/render-site.py&lt;br/&gt;one Pixi environment\"]\n    D --&gt; E[\"One Quarto HTML render&lt;br/&gt;_site + _freeze\"]\n    E --&gt; F[\"Check rendered HTML files\"]\n    F --&gt; G[\"Clear disposable .quarto cache\"]\n    G --&gt; H[\"Set up matching&lt;br/&gt;Quarto 1.9.37\"]\n    H --&gt; I[\"Publish to gh-pages&lt;br/&gt;render: false\"]\n    I --&gt; J{\"Auto-freeze outputs&lt;br/&gt;changed?\"}\n    J --&gt;|Yes| K[\"Commit freeze + manifest&lt;br/&gt;to main / skip ci\"]\n    J --&gt;|No| L[\"Finish without commit\"]\n\n\n The actual production CI/CD phases, simplified.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Build & Deployment"
+    ]
+  },
+  {
+    "objectID": "about/blog/deployment.html#the-lifecycle-as-a-sequence",
+    "href": "about/blog/deployment.html#the-lifecycle-as-a-sequence",
+    "title": "Build & Deployment",
+    "section": "",
+    "text": "sequenceDiagram\n    actor Editor\n    participant Main as main branch\n    participant Runner as GitHub Actions\n    participant Branch as gh-pages branch\n    participant Browser as Visitor browser\n    Editor-&gt;&gt;Main: Push change\n    Main-&gt;&gt;Runner: Run publishing workflow\n    Runner-&gt;&gt;Runner: Nix + tests + Pixi + Quarto\n    Runner-&gt;&gt;Branch: Publish existing _site (no rerender)\n    Branch--&gt;&gt;Browser: Serve HTML and assets\n    opt Auto-generated cache has changed\n      Runner-&gt;&gt;Main: Commit saved results [skip ci]\n    end\n\n\n The publishing process separates the source branch, render output, and public website.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Build & Deployment"
+    ]
+  },
+  {
+    "objectID": "about/blog/deployment.html#operational-details",
+    "href": "about/blog/deployment.html#operational-details",
+    "title": "Build & Deployment",
+    "section": "",
+    "text": "on:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\nconcurrency:\n  group: quarto-gh-pages-publish\n  cancel-in-progress: false\nThe workflow is restricted to main; non-main pushes do not deploy through it.\n\n\n\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\nnix develop -c python scripts/render-site.py\nThe renderer creates one shared pixi exec runtime and calls Quarto once for the whole site.\n\n\n\n- name: Publish pre-rendered site\n  uses: quarto-dev/quarto-actions/publish@v2\n  with:\n    target: gh-pages\n    render: false\nThe publishing step uses Quarto 1.9.37, matching the version used for rendering. CI removes the disposable .quarto/ project cache between those phases to avoid incompatible internal state; _site/ and _freeze/ are retained.\n\n\n\nOn successful publish:\n  stage scripts/freeze-manifest.json\n  stage additions / modifications / deletions in _freeze\n  unstage all manually frozen post subtrees\n  if staged diff exists:\n      commit \"[BOT] Update automatic Quarto freeze [skip ci]\"\n      push to main\nThe computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Build & Deployment"
+    ]
+  },
+  {
+    "objectID": "about/blog/deployment.html#local-verification-and-failure-diagnosis",
+    "href": "about/blog/deployment.html#local-verification-and-failure-diagnosis",
+    "title": "Build & Deployment",
+    "section": "Local verification and failure diagnosis",
+    "text": "Local verification and failure diagnosis\n# Report dependency selection without executing:\nnix develop -c python scripts/render-site.py --dry-run\n\n# Run metadata tests:\nnix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v\n\n# Run the complete site build:\nnix develop -c python scripts/render-site.py\nLook first for failed unit tests, conflicting ci-packages, missing explicit freeze files, or an error in a Quarto document. If rendering works but publication fails, inspect the separate publishing step and its branch permissions.\nSee: CI source · Recent GitHub Actions runs\nNext: design & interaction →\n:::",
+    "crumbs": [
+      "Home",
+      "Operations & Design",
+      "Build & Deployment"
+    ]
+  },
+  {
+    "objectID": "about/blog/index.html",
+    "href": "about/blog/index.html",
+    "title": "Inside the Blog",
+    "section": "",
+    "text": "ABOUT THE PLATFORM / DOCUMENTATION\n\n\n\nThis site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.\n\nQuartoNix FlakesPixiR + PythonGitHub Pages\n\nExplore the architecture View the source\n\n\n\n\n\n\n\n\n\nflowchart LR\n    A[\"Quarto source&lt;br/&gt;.qmd + metadata\"] --&gt; B[\"GitHub&lt;br/&gt;main\"]\n    B --&gt; C[\"GitHub Actions&lt;br/&gt;Nix + Pixi\"]\n    C --&gt; D[\"Quarto&lt;br/&gt;one site render\"]\n    D --&gt; E[\"GitHub Pages&lt;br/&gt;gh-pages\"]\n    F[\"Saved _freeze&lt;br/&gt;execution results\"] &lt;--&gt; C\n    E --&gt; G[\"Readers&lt;br/&gt;HTML + browser JS\"]\n\n\n The build runs on GitHub Actions; readers receive a static website. \n\n\n\n\n\n\n\n\n\n01 / FOUNDATIONS\n\n\n\nHow source, build tools, the scientific runtime, and static hosting fit together.\nOpen guide →\n\n\n\n\n02 / COMPUTATION\n\n\n\nHow article-level ci-packages declarations become one shared runtime.\nOpen guide →\n\n\n\n\n03 / EFFICIENCY\n\n\n\nAn interactive explorer for when Quarto reuses calculations and when it reruns them.\nTry cache explorer →\n\n\n\n\n04 / OPERATIONS\n\n\n\nA visual walk-through of GitHub Actions and the gh-pages publishing step.\nOpen guide →\n\n\n\n\n05 / EXPERIENCE\n\n\n\nThemes, responsive navigation, Mermaid, Observable JS, maps, and comments.\nOpen guide →\n\n\n\n\n\n\nA post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled .qmd file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.\n\n\n\n\n\n\nNote\n\n\n\nBuild tools are pinned by flake.lock. The shared pixi exec environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.\n\n\nFor implementation details, see _quarto.yml, render-site.py, and publish.yml.",
+    "crumbs": [
+      "Home",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "about/blog/index.html#research-that-can-be-inspected-rerun-and-published",
+    "href": "about/blog/index.html#research-that-can-be-inspected-rerun-and-published",
+    "title": "Inside the Blog",
+    "section": "",
+    "text": "This site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.\n\nQuartoNix FlakesPixiR + PythonGitHub Pages\n\nExplore the architecture View the source",
+    "crumbs": [
+      "Home",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "about/blog/index.html#the-publishing-system-at-a-glance",
+    "href": "about/blog/index.html#the-publishing-system-at-a-glance",
+    "title": "Inside the Blog",
+    "section": "",
+    "text": "flowchart LR\n    A[\"Quarto source&lt;br/&gt;.qmd + metadata\"] --&gt; B[\"GitHub&lt;br/&gt;main\"]\n    B --&gt; C[\"GitHub Actions&lt;br/&gt;Nix + Pixi\"]\n    C --&gt; D[\"Quarto&lt;br/&gt;one site render\"]\n    D --&gt; E[\"GitHub Pages&lt;br/&gt;gh-pages\"]\n    F[\"Saved _freeze&lt;br/&gt;execution results\"] &lt;--&gt; C\n    E --&gt; G[\"Readers&lt;br/&gt;HTML + browser JS\"]\n\n\n The build runs on GitHub Actions; readers receive a static website.",
+    "crumbs": [
+      "Home",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "about/blog/index.html#explore-the-system",
+    "href": "about/blog/index.html#explore-the-system",
+    "title": "Inside the Blog",
+    "section": "",
+    "text": "01 / FOUNDATIONS\n\n\n\nHow source, build tools, the scientific runtime, and static hosting fit together.\nOpen guide →\n\n\n\n\n02 / COMPUTATION\n\n\n\nHow article-level ci-packages declarations become one shared runtime.\nOpen guide →\n\n\n\n\n03 / EFFICIENCY\n\n\n\nAn interactive explorer for when Quarto reuses calculations and when it reruns them.\nTry cache explorer →\n\n\n\n\n04 / OPERATIONS\n\n\n\nA visual walk-through of GitHub Actions and the gh-pages publishing step.\nOpen guide →\n\n\n\n\n05 / EXPERIENCE\n\n\n\nThemes, responsive navigation, Mermaid, Observable JS, maps, and comments.\nOpen guide →",
+    "crumbs": [
+      "Home",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "about/blog/index.html#reproducibility-with-practical-limits",
+    "href": "about/blog/index.html#reproducibility-with-practical-limits",
+    "title": "Inside the Blog",
+    "section": "",
+    "text": "A post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled .qmd file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.\n\n\n\n\n\n\nNote\n\n\n\nBuild tools are pinned by flake.lock. The shared pixi exec environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.\n\n\nFor implementation details, see _quarto.yml, render-site.py, and publish.yml.",
+    "crumbs": [
+      "Home",
+      "Overview"
+    ]
   },
   {
     "objectID": "geek/index.html",
@@ -712,53 +607,11 @@
     "text": "Linux, development, homelab infrastructure, and technology.\nBrowse posts by category.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Glimpse into Quarto\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nMar 9, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nPython Dependency Test\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 9, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nR Dependency Test\n\n\n\nDevelopment\n\n\n\n\n\n\n\n\n\nOct 7, 2024\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "geoai/geospatial-ml.html",
-    "href": "geoai/geospatial-ml.html",
-    "title": "Geospatial ML",
+    "objectID": "life/index.html",
+    "href": "life/index.html",
+    "title": "Life",
     "section": "",
-    "text": "Future posts filed under Geospatial ML. Select a category to narrow the list further."
-  },
-  {
-    "objectID": "geoai/remote-sensing.html",
-    "href": "geoai/remote-sensing.html",
-    "title": "Remote Sensing",
-    "section": "",
-    "text": "Future posts filed under Remote Sensing. Select a category to narrow the list further."
-  },
-  {
-    "objectID": "giscience/index.html",
-    "href": "giscience/index.html",
-    "title": "GIScience",
-    "section": "",
-    "text": "Spatial analysis, spatial statistics, and cartography.\nSelect a category to filter the posts.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow to boost a DBSCAN task\n\n\n\nGIScience\n\n\n\n\n\n\n\n\n\nSep 9, 2025\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "giscience/spatial-statistics.html",
-    "href": "giscience/spatial-statistics.html",
-    "title": "Spatial Statistics",
-    "section": "",
-    "text": "Future posts filed under Spatial Statistics. Select a category to narrow the list further."
-  },
-  {
-    "objectID": "life/conferences.html",
-    "href": "life/conferences.html",
-    "title": "Conferences",
-    "section": "",
-    "text": "Posts filed under Conferences. Select a category to narrow the list further."
-  },
-  {
-    "objectID": "life/personal.html",
-    "href": "life/personal.html",
-    "title": "Personal Life",
-    "section": "",
-    "text": "Posts in Personal Life. Use the categories to explore more specific topics.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nHalloween Brownies\n\n\nA little Halloween baking\n\n\n\nPersonal Life\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared for Halloween.\n\n\n\n\n\nOct 28, 2026\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "life/reflections.html",
-    "href": "life/reflections.html",
-    "title": "Reflections",
-    "section": "",
-    "text": "Posts in Reflections. Use the categories to explore more specific topics.\n\n\n\n\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\nReflections\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\nYonghun Suh\n\n\n\n\n\nNo matching items"
+    "text": "Academic life, personal reflections, and everyday experiences.\nSelect a category to filter the posts.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHalloween Brownies\n\n\n\nPersonal Life\n\n\n\nIngredients and allergen information for homemade Halloween brownies shared for Halloween.\n\n\n\n\n\nOct 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMore Coming… Stay Tuned!\n\n\n\nReflections\n\n\n\n\n\n\n\n\n\nOct 6, 2024\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/envsetting/index.html",

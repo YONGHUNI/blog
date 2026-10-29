@@ -2,154 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yonghuni.github.io/blog/research/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.576Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.369Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/quarto_post/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.574Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.368Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/halloween-brownies-2026/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.569Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.364Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/dbscan_bench/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/life/phd.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/life/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.211Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/giscience/spatial-analysis.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/giscience/cartography.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/geoai/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/geoai/applications.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/computing/infrastructure.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/computing/hpc.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/climate/weather-ai.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/climate/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/climate/data-methods.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/deployment.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/customization.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/architecture.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/dependencies.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/about/blog/freeze.html</loc>
-    <lastmod>2026-10-29T00:29:02.346Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.209Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/about/me/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.207Z</lastmod>
   </url>
   <url>
-    <loc>https://yonghuni.github.io/blog/climate/extremes.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
+    <loc>https://yonghuni.github.io/blog/about/blog/freeze.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
   </url>
   <url>
-    <loc>https://yonghuni.github.io/blog/climate/modeling.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
+    <loc>https://yonghuni.github.io/blog/about/blog/dependencies.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
   </url>
   <url>
-    <loc>https://yonghuni.github.io/blog/computing/environments.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
+    <loc>https://yonghuni.github.io/blog/about/blog/architecture.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
   </url>
   <url>
-    <loc>https://yonghuni.github.io/blog/computing/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.389Z</lastmod>
+    <loc>https://yonghuni.github.io/blog/about/blog/customization.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/deployment.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yonghuni.github.io/blog/about/blog/index.html</loc>
+    <lastmod>2026-10-29T00:31:46.170Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/geek/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.209Z</lastmod>
   </url>
   <url>
-    <loc>https://yonghuni.github.io/blog/geoai/geospatial-ml.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/geoai/remote-sensing.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/giscience/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/giscience/spatial-statistics.html</loc>
-    <lastmod>2026-10-29T00:29:02.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/life/conferences.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/life/personal.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yonghuni.github.io/blog/life/reflections.html</loc>
-    <lastmod>2026-10-29T00:29:02.392Z</lastmod>
+    <loc>https://yonghuni.github.io/blog/life/index.html</loc>
+    <lastmod>2026-10-29T00:31:46.209Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/envsetting/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.531Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.333Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/pyenvsetting/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.571Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.366Z</lastmod>
   </url>
   <url>
     <loc>https://yonghuni.github.io/blog/posts/update/index.html</loc>
-    <lastmod>2026-10-29T00:29:02.576Z</lastmod>
+    <lastmod>2026-10-29T00:31:46.369Z</lastmod>
   </url>
 </urlset>

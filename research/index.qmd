@@ -2,8 +2,9 @@
 title: "Research"
 page-layout: full
 listing:
-  contents:
-    - ../posts/dbscan_bench/index.qmd
+  contents: "../posts/*/index.qmd"
+  include:
+    area: "research"
   type: default
   sort: "date desc"
   categories: true

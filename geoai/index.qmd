@@ -1,8 +1,0 @@
----
-title: "GeoAI"
-page-layout: full
----
-
-Remote sensing, geospatial machine learning, and applications.
-
-Posts will appear here as they are published.

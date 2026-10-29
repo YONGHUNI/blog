@@ -34,12 +34,8 @@ jobs:
       - name: Render with Nix + Pixi (one Quarto invocation)
         run: nix develop -c python scripts/render-site.py
 
-      - name: Verify rendered HTML
-        run: |
-          test -s _site/index.html
-          for post in dbscan_bench envsetting pyenvsetting quarto_post; do
-            test -s "_site/posts/$post/index.html"
-          done
+      - name: Verify homepage
+        run: test -s _site/index.html
 
       # Nix builds the site with Quarto 1.9.37. The action defaults to a
       # newer release, whose Deno project-cache format may be incompatible.

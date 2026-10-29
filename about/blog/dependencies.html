@@ -491,14 +491,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul class="collapse">
-  <li><a href="#what-is-skipped-when-a-post-is-unchanged" id="toc-what-is-skipped-when-a-post-is-unchanged" class="nav-link active" data-scroll-target="#what-is-skipped-when-a-post-is-unchanged">What is skipped when a post is unchanged?</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -525,24 +519,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <div class="blog-docs">
-<div class="docs-eyebrow">
-02 / COMPUTATION
-</div>
 <section id="one-scientific-runtime-per-site-build" class="level2">
 <h2 class="anchored" data-anchor-id="one-scientific-runtime-per-site-build">One scientific runtime per site build</h2>
-<p>Rather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches <strong>one shared Pixi environment</strong>.</p>
+<p>The renderer combines core packages with the additional packages needed by posts that may execute. It then starts one shared Pixi environment for the site build.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart LR
+<pre class="mermaid mermaid-js">flowchart TD
     A["Nix-pinned&lt;br/&gt;tools"] --&gt; B["render-site.py"]
-    C["Core packages"] --&gt; D["Merge package specs"]
+    C["Core packages"] --&gt; D["Collect package specs"]
     E["Post A&lt;br/&gt;ci-packages"] --&gt; D
     F["Post B&lt;br/&gt;ci-packages"] --&gt; D
     B --&gt; D
-    D --&gt; G{"Version&lt;br/&gt;conflict?"}
+    D --&gt; G{"Different constrained specs&lt;br/&gt;for the same package?"}
     G --&gt;|Yes| X["Stop with error"]
     G --&gt;|No| H["pixi exec"]
     H --&gt; I["One Quarto render"]
@@ -563,31 +554,34 @@ document.addEventListener('DOMContentLoaded', function () {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> r-spdep</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">"numpy&gt;=1.26,&lt;2"</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>render-site.py</code> validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.</p>
+<p><code>render-site.py</code> validates each list before passing the collected specifications to Pixi. Identical specifications are deduplicated. A version constraint takes precedence over a package name with no constraint.</p>
+<p>Two different constrained specifications for the same package are rejected, even if their version ranges overlap. For example, <code>numpy&gt;=1.26</code> and <code>numpy&gt;=1.26,&lt;2</code> cause an error. The script does not calculate their intersection; authors must use the same specification across posts. Pixi then resolves the accepted specifications together with their dependencies.</p>
 </section>
-<section id="inspect-the-environment" class="level2 panel-tabset">
-<h2 class="panel-tabset anchored" data-anchor-id="inspect-the-environment">Inspect the environment</h2>
-<section id="pinned-tools" class="level3">
-<h3 class="anchored" data-anchor-id="pinned-tools">Pinned tools</h3>
+<section id="inspect-the-environment" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-the-environment">Inspect the environment</h2>
+<p>The commands below use the repository’s Nix shell, which currently supports <code>x86_64-linux</code>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Pinned tools</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Shared R/Python runtime</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Dry run</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> develop <span class="at">-c</span> python <span class="at">-m</span> unittest discover <span class="at">-s</span> scripts <span class="at">-p</span> <span class="st">'test_*.py'</span> <span class="at">-v</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nix supplies Quarto, Pixi, Git and a Python YAML/testing environment.</p>
-</section>
-<section id="shared-rpython-runtime" class="level3">
-<h3 class="anchored" data-anchor-id="shared-rpython-runtime">Shared R/Python runtime</h3>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <pre class="text"><code>Core: R + knitr + reticulate + Python + NumPy
       + Pandoc + Micromamba compatibility executable
 Additional: ci-packages from non-reused articles
                     ↓
 One conda-forge pixi exec environment</code></pre>
 <p>The Micromamba executable serves as a compatibility tool for <code>reticulate</code>. It is not used to create a separate project environment.</p>
-</section>
-<section id="dry-run" class="level3">
-<h3 class="anchored" data-anchor-id="dry-run">Dry run</h3>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> develop <span class="at">-c</span> python scripts/render-site.py <span class="at">--dry-run</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This reports inspected documents, package specifications and the proposed render command without executing it.</p>
-</section>
-</section>
 </div>
+</div>
+</div>
+</section>
 <section id="what-is-skipped-when-a-post-is-unchanged" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-skipped-when-a-post-is-unchanged">What is skipped when a post is unchanged?</h2>
 <p>When the QMD source hash matches <code>scripts/freeze-manifest.json</code> <strong>and</strong> the saved HTML execution result exists, the renderer omits that post’s extra <code>ci-packages</code>. The default R/Python toolchain still remains.</p>
@@ -621,7 +615,7 @@ Important
 <tr class="odd">
 <td>One <code>pixi exec</code></td>
 <td>Single render and common runtime</td>
-<td>Version constraints must be compatible</td>
+<td>Different constrained specifications for the same package must be reconciled before the build</td>
 </tr>
 <tr class="even">
 <td><code>ci-packages</code> per QMD</td>
@@ -641,10 +635,10 @@ Important
 </tbody>
 </table>
 <p><a href="../../about/blog/freeze.html">Next: freeze &amp; cache →</a></p>
-<p>::::</p>
-
-
 </section>
+</div>
+
+
 
 </main> <!-- /main -->
 <div class="giscus">

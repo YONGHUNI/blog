@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Explore the Nix, Pixi, Quarto, Freeze, and GitHub Pages publishing pipeline.">
 
 <title>Inside the Blog – Yonghun’s Computational Geo-Blog</title>
 <style>
@@ -467,14 +466,9 @@ document.addEventListener('DOMContentLoaded', function () {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Inside the Blog</h1>
-<p class="subtitle lead">Visual documentation for this computational geography website</p>
+<p class="subtitle lead">Build tools, code execution, and publishing</p>
 </div>
 
-<div>
-  <div class="description">
-    Explore the Nix, Pixi, Quarto, Freeze, and GitHub Pages publishing pipeline.
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -490,86 +484,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <div class="blog-docs">
-<div class="docs-hero">
-<div class="docs-eyebrow">
-ABOUT THE PLATFORM / DOCUMENTATION
-</div>
-<section id="research-that-can-be-inspected-rerun-and-published" class="level2">
-<h2 class="anchored" data-anchor-id="research-that-can-be-inspected-rerun-and-published">Research that can be inspected, rerun, and published</h2>
-<p>This site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.</p>
-<div class="docs-pills">
-<span>Quarto</span><span>Nix Flakes</span><span>Pixi</span><span>R + Python</span><span>GitHub Pages</span>
-</div>
-<p><a href="../../about/blog/architecture.html" class="btn btn-primary">Explore the architecture</a> <a href="https://github.com/YONGHUNI/blog" class="btn btn-outline-secondary" target="_blank">View the source</a></p>
+<section id="how-this-blog-is-built" class="level2 docs-hero">
+<h2 class="anchored" data-anchor-id="how-this-blog-is-built">How this blog is built</h2>
+<p>Posts are written in Quarto. Nix supplies the build tools, and Pixi creates the shared R/Python environment used to run code. GitHub Actions renders the site and publishes it to GitHub Pages.</p>
+<p><a href="../../about/blog/architecture.html" class="btn btn-primary">How it works</a> <a href="https://github.com/YONGHUNI/blog" class="btn btn-outline-secondary" target="_blank">View the source</a></p>
 </section>
-</div>
-<section id="the-publishing-system-at-a-glance" class="level2">
-<h2 class="anchored" data-anchor-id="the-publishing-system-at-a-glance">The publishing system at a glance</h2>
+<section id="from-source-to-website" class="level2">
+<h2 class="anchored" data-anchor-id="from-source-to-website">From source to website</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart LR
-    A["Quarto source&lt;br/&gt;.qmd + metadata"] --&gt; B["GitHub&lt;br/&gt;main"]
-    B --&gt; C["GitHub Actions&lt;br/&gt;Nix + Pixi"]
-    C --&gt; D["Quarto&lt;br/&gt;one site render"]
-    D --&gt; E["GitHub Pages&lt;br/&gt;gh-pages"]
-    F["Saved _freeze&lt;br/&gt;execution results"] &lt;--&gt; C
-    E --&gt; G["Readers&lt;br/&gt;HTML + browser JS"]
+<pre class="mermaid mermaid-js">flowchart TD
+    A["main&lt;br/&gt;Quarto source + saved results"] --&gt; B["GitHub Actions&lt;br/&gt;Nix + Pixi · one Quarto render"]
+    B --&gt; C["gh-pages → GitHub Pages&lt;br/&gt;HTML + assets for readers"]
+    C -. "If automatic results changed" .-&gt; D["Commit to main&lt;br/&gt;_freeze + manifest · skip ci"]
+    D -. "Reuse on the next build" .-&gt; A
 </pre>
 </div>
-<p></p><figcaption> The build runs on GitHub Actions; readers receive a static website.</figcaption> </figure><p></p>
+<p></p><figcaption> Each build renders HTML once. After publishing, changed automatic freeze results are saved for the next build.</figcaption> </figure><p></p>
 </div>
 </div>
 </div>
 </section>
-<section id="explore-the-system" class="level2">
-<h2 class="anchored" data-anchor-id="explore-the-system">Explore the system</h2>
+<section id="guides" class="level2">
+<h2 class="anchored" data-anchor-id="guides">Guides</h2>
 <div class="docs-card-grid">
 <div class="docs-card">
 <div class="docs-card-number">
-01 / FOUNDATIONS
+01
 </div>
 <section id="system-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="system-architecture"><a href="../../about/blog/architecture.html">System architecture</a></h3>
-<p>How source, build tools, the scientific runtime, and static hosting fit together.</p>
+<p>The roles of Nix, Pixi, Quarto, and GitHub Pages.</p>
 <p><a href="../../about/blog/architecture.html">Open guide →</a></p>
 </section>
 </div>
 <div class="docs-card">
 <div class="docs-card-number">
-02 / COMPUTATION
+02
 </div>
 <section id="dependencies" class="level3">
 <h3 class="anchored" data-anchor-id="dependencies"><a href="../../about/blog/dependencies.html">Dependencies</a></h3>
-<p>How article-level <code>ci-packages</code> declarations become one shared runtime.</p>
+<p>How <code>ci-packages</code> requirements are collected into a shared environment, and which combinations are rejected.</p>
 <p><a href="../../about/blog/dependencies.html">Open guide →</a></p>
 </section>
 </div>
 <div class="docs-card">
 <div class="docs-card-number">
-03 / EFFICIENCY
+03
 </div>
 <section id="freeze-caching" class="level3">
 <h3 class="anchored" data-anchor-id="freeze-caching"><a href="../../about/blog/freeze.html">Freeze &amp; caching</a></h3>
-<p>An interactive explorer for when Quarto reuses calculations and when it reruns them.</p>
+<p>When saved calculations can be reused, with an interactive explorer for common cache states.</p>
 <p><a href="../../about/blog/freeze.html">Try cache explorer →</a></p>
 </section>
 </div>
 <div class="docs-card">
 <div class="docs-card-number">
-04 / OPERATIONS
+04
 </div>
 <section id="build-deployment" class="level3">
 <h3 class="anchored" data-anchor-id="build-deployment"><a href="../../about/blog/deployment.html">Build &amp; deployment</a></h3>
-<p>A visual walk-through of GitHub Actions and the <code>gh-pages</code> publishing step.</p>
+<p>What the workflow checks, renders, publishes, and commits back to the repository.</p>
 <p><a href="../../about/blog/deployment.html">Open guide →</a></p>
 </section>
 </div>
 <div class="docs-card">
 <div class="docs-card-number">
-05 / EXPERIENCE
+05
 </div>
 <section id="design-interaction" class="level3">
 <h3 class="anchored" data-anchor-id="design-interaction"><a href="../../about/blog/customization.html">Design &amp; interaction</a></h3>
@@ -579,9 +563,9 @@ ABOUT THE PLATFORM / DOCUMENTATION
 </div>
 </div>
 </section>
-<section id="reproducibility-with-practical-limits" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibility-with-practical-limits">Reproducibility, with practical limits</h2>
-<p>A post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled <code>.qmd</code> file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.</p>
+<section id="what-is-reproducible" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-reproducible">What is reproducible?</h2>
+<p>A <code>.qmd</code> file keeps a post’s text, code, and figure definitions together in version control. During a build, Quarto can run the code or reuse saved execution results. Readers receive static HTML and browser-side components; the site does not need a running Python or R server.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -592,7 +576,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Build tools are pinned by <code>flake.lock</code>. The shared <code>pixi exec</code> environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.</p>
+<p><code>flake.lock</code> pins the Nix build tools. The R/Python environment is resolved through <code>pixi exec</code>, without a committed Pixi lockfile, so its package versions can change. Saved results also need to be refreshed when external data or computation changes; editing a dataset alone may not trigger a rerun.</p>
 </div>
 </div>
 <p>For implementation details, see <a href="https://github.com/YONGHUNI/blog/blob/main/_quarto.yml"><code>_quarto.yml</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py"><code>render-site.py</code></a>, and <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a>.</p>

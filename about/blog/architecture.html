@@ -484,11 +484,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <div class="blog-docs">
-<div class="docs-eyebrow">
-01 / FOUNDATIONS
-</div>
-<section id="four-layers-four-distinct-jobs" class="level2">
-<h2 class="anchored" data-anchor-id="four-layers-four-distinct-jobs">Four layers, four distinct jobs</h2>
+<section id="tools-and-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="tools-and-outputs">Tools and outputs</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -572,25 +569,27 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 </section>
-<section id="what-exactly-is-pinned" class="level2 panel-tabset">
-<h2 class="panel-tabset anchored" data-anchor-id="what-exactly-is-pinned">What exactly is pinned?</h2>
-<section id="nix-toolchain-1" class="level3">
-<h3 class="anchored" data-anchor-id="nix-toolchain-1">Nix toolchain</h3>
+<section id="what-is-pinned" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-pinned">What is pinned?</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Nix toolchain</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Runtime dependencies</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Research inputs</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><a href="https://github.com/YONGHUNI/blog/blob/main/flake.lock"><code>flake.lock</code></a> pins the Nixpkgs revision. The resulting Quarto, Pixi and utility tools are selected from that revision.</p>
-</section>
-<section id="runtime-dependencies" class="level3">
-<h3 class="anchored" data-anchor-id="runtime-dependencies">Runtime dependencies</h3>
-<p><code>ci-packages</code> requirements are resolved together with core packages through <code>pixi exec</code>. This is convenient but <strong>not</strong> a fully locked Pixi environment: compatible package versions may change over time.</p>
-</section>
-<section id="research-inputs" class="level3">
-<h3 class="anchored" data-anchor-id="research-inputs">Research inputs</h3>
-<p>Source-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.</p>
-</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>The renderer collects core packages and accepted <code>ci-packages</code> specifications, then passes them to <code>pixi exec</code>. There is no committed Pixi lockfile, so resolved package versions can change between builds. The <a href="../../about/blog/dependencies.html">dependency guide</a> explains which specifications can be combined.</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Version control preserves scripts, committed data, and saved outputs. External datasets and cluster computations need separate records of their inputs and methods, along with a decision about when to refresh the results.</p>
+</div>
+</div>
+</div>
+<p>The current Nix development shell is defined for <code>x86_64-linux</code>. Using the same setup on macOS or another architecture requires changes to <code>flake.nix</code> and verification of the runtime packages.</p>
+<p>For the implementation, see <a href="https://github.com/YONGHUNI/blog/blob/main/_quarto.yml"><code>_quarto.yml</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/flake.nix"><code>flake.nix</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py"><code>render-site.py</code></a>, and <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a>.</p>
+<p><a href="../../about/blog/dependencies.html">Next: dependencies →</a></p>
 </section>
 </div>
-<p>The source of truth is <a href="https://github.com/YONGHUNI/blog/blob/main/_quarto.yml"><code>_quarto.yml</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/flake.nix"><code>flake.nix</code></a>, <a href="https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py"><code>render-site.py</code></a>, and <a href="https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml"><code>publish.yml</code></a>.</p>
-<p><a href="../../about/blog/dependencies.html">Next: dependencies →</a></p>
-<p>::::</p>
 
 
 

@@ -1,6 +1,0 @@
----
-title: "Geospatial ML"
-sidebar: geoai
----
-
-Future posts filed under  **Geospatial ML**. Select a category to narrow the list further.

@@ -1,8 +1,10 @@
-@media (prefers-color-scheme: light) {
-    .footer > * {
-        background-color: #f8f9fa;
-        color: black;
-    }
+/* Respect Quarto's active light/dark theme, not the OS preference. */
+footer.footer .nav-footer {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+footer.footer .nav-footer a {
+  color: var(--bs-link-color);
 }
 
 /* Keep the footer clear of Quarto's docked left sidebar on desktop.
@@ -31,7 +33,7 @@
   margin: .2rem 0 2.1rem;
   border: 1px solid var(--docs-border);
   border-radius: 1rem;
-  background: linear-gradient(125deg, rgba(55, 120, 194, .12), rgba(50, 170, 140, .07));
+  background: linear-gradient(125deg, rgba(186, 12, 47, .11), rgba(80, 80, 80, .04));
 }
 .blog-docs .docs-hero h2 {
   margin-top: .25rem;
@@ -64,7 +66,7 @@
   border: 1px solid var(--docs-border);
   border-radius: .85rem;
   background: var(--bs-body-bg, #fff);
-  box-shadow: 0 2px 15px rgba(22, 45, 78, .035);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .045);
 }
 .blog-docs .docs-card h3 {
   margin-top: .45rem;

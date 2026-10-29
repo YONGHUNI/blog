@@ -46,7 +46,7 @@ Before joining UGA, I worked as a research intern in the [Data Science for Human
 
 -   Ph.D. in Geography (in progress)
     -   Advisor: [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} (GAIM Lab)
-    -   Research interests: GIScience, geospatial AI, remote sensing, and scalable geospatial computation
+    -   **Graduate Research Assistant:** Developing reproducible HPC workflows for AI-based weather forecasting, including GraphCast, to support subseasonal-to-seasonal atmospheric river forecasting research.
 
 ## Seoul National University
 

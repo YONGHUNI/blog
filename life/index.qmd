@@ -2,9 +2,9 @@
 title: "Life"
 page-layout: full
 listing:
-  contents:
-    - ../posts/update/index.qmd
-    - ../posts/halloween-brownies-2026/index.qmd
+  contents: "../posts/*/index.qmd"
+  include:
+    area: "life"
   type: default
   sort: "date desc"
   categories: true

@@ -1,6 +1,0 @@
----
-title: "Weather AI"
-sidebar: climate
----
-
-Future posts filed under  **Weather AI**. Select a category to narrow the list further.

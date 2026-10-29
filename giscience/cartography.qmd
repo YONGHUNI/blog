@@ -1,6 +1,0 @@
----
-title: "Cartography & Visualization"
-sidebar: giscience
----
-
-Future posts filed under  **Cartography & Visualization**. Select a category to narrow the list further.

@@ -10,24 +10,18 @@
   padding-bottom: 1.35rem;
 }
 
-/* Scope readable type to content rather than overriding Sketchy headings,
-   buttons, navbar branding, and other hand-drawn interface details. */
-#quarto-document-content p,
-#quarto-document-content li,
-#quarto-document-content blockquote,
-#quarto-document-content td,
-#quarto-document-content th,
-#quarto-document-content figcaption,
-#quarto-document-content .listing-description,
-#quarto-document-content .listing-subtitle,
-#quarto-margin-sidebar .sidebar,
-#quarto-sidebar .sidebar-item-text,
-#quarto-sidebar .sidebar-section-item,
-#quarto-sidebar .sidebar-title,
-.quarto-listing .listing-description,
-.quarto-listing .listing-subtitle {
+/* Apply readable typography to reading surfaces, including Quarto's TOC.
+   Sketchy's Cabin Sketch headings and Neucha navigation/controls stay intact.
+   Weight comes from the light/dark SCSS Bootstrap default (400). */
+#quarto-document-content,
+#quarto-margin-sidebar,
+#quarto-sidebar,
+.quarto-listing,
+.quarto-about-trestles .about-contents {
   font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
+
+/* Code and keyboard input always use a proper monospace font. */
 #quarto-document-content pre,
 #quarto-document-content code,
 #quarto-document-content kbd,

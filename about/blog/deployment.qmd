@@ -3,7 +3,7 @@ title: "Build & Deployment"
 subtitle: "A single GitHub Actions job from source to static HTML"
 ---
 
-::: {.blog-docs}
+:::: {.blog-docs}
 <div class="docs-eyebrow">04 / OPERATIONS</div>
 
 ## Continuous publication, without a second render
@@ -119,4 +119,4 @@ Look first for failed unit tests, conflicting `ci-packages`, missing explicit fr
 
 [Next: design & interaction →](customization.qmd)
 
-:::
+::::

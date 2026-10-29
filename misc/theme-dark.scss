@@ -22,11 +22,17 @@ $dropdown-link-hover-color: #FFFFFF;
 $border-color: #636773;
 
 /*-- scss:rules --*/
-// Quarto code-output blocks should remain legible in dark mode.
-pre:not(.sourceCode) {
-  color: var(--bs-body-color);
-  background-color: var(--bs-secondary-bg);
-  border: 1px solid var(--bs-border-color);
+// R/Python text output must contrast with the dark page.
+// Restrict this to execution output; source-code inputs have separate styling.
+.cell-output pre:not(.sourceCode) {
+  color: #F0F1F3;
+  background-color: #292C33;
+  border: 1px solid #454A55;
   border-radius: .4rem;
   padding: .6rem;
+}
+
+.cell-output pre:not(.sourceCode) > code {
+  color: inherit;
+  background-color: transparent;
 }

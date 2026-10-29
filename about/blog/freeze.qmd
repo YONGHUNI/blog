@@ -4,7 +4,7 @@ subtitle: "When does code actually run again?"
 description: "Interactive guide to Quarto freeze, source hashes, package selection, and cache maintenance."
 ---
 
-::: {.blog-docs}
+:::: {.blog-docs}
 <div class="docs-eyebrow">03 / EFFICIENCY</div>
 
 ## Rendering a page is not the same as rerunning its code
@@ -143,4 +143,4 @@ Do not wipe `_freeze` indiscriminately if you have posts using `freeze: true`. T
 
 [Next: build & deployment →](deployment.qmd)
 
-:::
+::::

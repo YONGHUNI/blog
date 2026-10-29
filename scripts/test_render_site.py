@@ -15,6 +15,45 @@ MODULE_SPEC.loader.exec_module(render)
 
 
 class PackageMetadataTests(unittest.TestCase):
+    def test_render_inputs_follow_quarto_config(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "_quarto.yml").write_text(
+                'project:\\n  render:\\n    - "*.qmd"\\n    - "posts/**/*.qmd"\\n'
+                '    - "research/index.qmd"\\n'
+            .replace("\\\\n", "\\n"))
+            (root / "index.qmd").write_text("---\\ntitle: Home\\n---\\n")
+            (root / "posts" / "new").mkdir(parents=True)
+            (root / "posts" / "new" / "index.qmd").write_text(
+                "---\\ntitle: New\\narea: geek\\n---\\n")
+            (root / "research").mkdir()
+            (root / "research" / "index.qmd").write_text("---\\ntitle: Research\\n---\\n")
+            (root / "docs").mkdir()
+            (root / "docs" / "unused.qmd").write_text("---\\nci-packages: [r-arrow]\\n---\\n")
+            with patch.object(render, "ROOT", root):
+                paths, whole = render.find_documents(".")
+                self.assertTrue(whole)
+                self.assertEqual(
+                    {p.relative_to(root).as_posix() for p in paths},
+                    {"index.qmd", "posts/new/index.qmd", "research/index.qmd"},
+                )
+
+    def test_post_area_is_required_and_valid(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            post = root / "posts" / "new" / "index.qmd"
+            post.parent.mkdir(parents=True)
+            with patch.object(render, "ROOT", root):
+                for value in ["", "area: typo\\n", "area: research\\n"]:
+                    post.write_text("---\\ntitle: New\\n" + value + "---\\n")
+                    if value == "area: research\\n":
+                        render.validate_posts([post])
+                    else:
+                        with self.assertRaisesRegex(ValueError, "area must be"):
+                            render.validate_posts([post])
+                with self.assertRaisesRegex(ValueError, "excluded"):
+                    render.validate_posts([])
+
     def test_supported_pixi_matchspecs(self):
         for value, expected in [
             ("r-sf", "r-sf"),

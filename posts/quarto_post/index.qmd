@@ -1,6 +1,6 @@
 ---
 title: "A Glimpse into Quarto"
-subtitle: "Reproducible & Unified Geospatial Research with Quarto"
+subtitle: "Getting started with R, Python, and spatial data"
 author: "Yonghun Suh"
 date: "Mar. 9, 2026"
 categories: ["Development"]
@@ -36,45 +36,24 @@ ci-packages:
 
 # Introduction
 
-## The Standard for Next-Generation Geographic Data Science: What is Quarto?
+This blog is built with [Quarto](https://quarto.org/). A Quarto document keeps text, code, and the resulting figures and tables together in a `.qmd` file. For a geography project, that can mean a map alongside the code that produced it and a paragraph explaining the pattern.
 
--   **The Evolution of R Markdown:** R Markdown has expanded into a broader ecosystem. Developed by Posit, this system goes beyond R to encompass all aspects of scientific publishing.
--   **Integration of Tools:** It allows you to freely use essential geographic research languages like R (`sf`, `terra`) and Python (`GeoPandas`) within a single document, or simply stick to the language you are most comfortable with.
--   **An All-in-One Solution for Geographers:** You can complete the entire process—from data collection and spatial analysis to map visualization and final manuscript submission—within a single `.qmd` file.
+When an analysis changes, rerunning the code and rendering the document updates the outputs. Reproducing the result also requires the data and a compatible software environment.
 
+This post covers installation, the structure of a `.qmd` file, and a few examples using spatial data. Most examples use R. The appendix adds Python through `reticulate`, followed by an interactive plot in Observable JS.
 
-## Implementing Reproducible Geography
+## Output formats
 
--   **Unifying Analysis and Writing:** The era of exporting maps from GIS software and pasting them into Word is over. If the underlying data changes, all maps and tables in the report are synchronized and updated in real time.
--   **Reproducible & Transparent Research:** Because all code (from preprocessing to final modeling)is included in the document, fellow geographers can accurately verify and reproduce your research process.
-
-## An Investment for the Future: Multi-Language Support and Collaboration
-
--   **Breaking Language Barriers:** You might be using R right now, but even if you transition to Python-based spatial models later, the Quarto syntax remains exactly the same.
--   [**Flawless Equation Rendering:**](#latex-math-mode) Equations essential for spatial statistics are rendered at a journal-quality level. Below is the formula for Moran's I, which measures spatial autocorrelation.
-
-$$I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}$$
-
--   **The Geographer's Portfolio:** By linking with GitHub Pages, you can publish your own research blog or project page to the world with just a few clicks.
-
-## `One-Source, Multi-Format`: Diverse Outputs from a Single Source
-
--   **From Reports to Papers:** After freely conducting your analysis and drafting in HTML, changing just one line in the settings converts the document into a **PDF manuscript** formatted for journal submission or an **MS Word** document for collaboration.
--   **Automated Presentations:** There is no need to create a separate PowerPoint file. You can use your existing code to generate web-based slides (Revealjs). At a geography conference, simply open your browser and you are ready to present.
-
-
+The same source can be rendered as HTML, PDF, Word, or Revealjs slides. You can reuse the analysis code, though layouts and interactive elements may need adjustments for each format.
 
 ::: callout-tip
-[Try changing `format: html` at the top of this document to `format: docx` or `format: pdf`](#sec-output-options), and then click Render again. The exact same code will instantly be converted into a Word document or a PDF paper.
+[To try another output format, change `format: html` to `format: docx` or `format: pdf`](#sec-output-options), then render again. The interactive examples in this post are designed for HTML; PDF and Word may need static alternatives.
 :::
 
-
 ::: {.callout-important}
-## PDF Rendering Requirement: TinyTeX
+## PDF output with TinyTeX
 
-To generate **PDF** documents, Quarto requires a LaTeX distribution. I strongly recommend installing **TinyTeX**, a lightweight and portable LaTeX distribution that works seamlessly with Quarto.
-
-You can install it by running the following command in your terminal:
+The default `pdf` format uses LaTeX. If you do not already have a TeX distribution, [Quarto recommends TinyTeX](https://quarto.org/docs/output-formats/pdf-basics.html). Install it from a terminal:
 
 ```bash
 
@@ -84,15 +63,15 @@ quarto install tinytex
 
 :::
 
-## Why Start with HTML? (A Geographical Perspective)
+## Equations
 
--   **The Magic of Interactive Maps:** Provide an experience that paper maps cannot offer. You can embed maps directly into your report, allowing readers to toggle layers on and off, or click on features to view attribute information.
--   **Zero Entry Barrier:** There is no need to struggle with complex LaTeX installations. Simply click the `Render` button in RStudio, and a beautifully formatted result instantly appears in your web browser.
--   **Data Storytelling:** By organically arranging analysis results (maps, charts) and the analyst's interpretations, you guide the reader to actively explore the data and reach a conclusion.
+Quarto supports [LaTeX math syntax](#latex-math-mode). For example, Moran's I can be written as:
 
-## Interactive Mapping Demonstration
+$$I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}} \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(z_i-\bar{z})(z_j-\bar{z})}{\sum_{i=1}^{n}(z_i-\bar{z})^2}$$
 
-The map below can be zoomed in and out. Click on a country to see detailed attribute data.
+## An interactive map
+
+HTML is a useful starting point for spatial work because readers can explore a map directly. In the example below, zoom in or click on a country to inspect its attributes.
 
 ```{r}
 #| label: interactive-map
@@ -122,23 +101,23 @@ tm_shape(World) +
 
 # Installing Quarto
 
-We'll assume that you have already installed [R](https://www.r-project.org/){target="_blank"} as well as [R studio](https://posit.co/download/rstudio-desktop/){target="_blank"}.
+The examples below assume that [R](https://www.r-project.org/){target="_blank"} and [RStudio](https://posit.co/download/rstudio-desktop/){target="_blank"} are already installed.
 
 ## Windows
 
 
-On Windows, the most efficient way to do this is using the **Windows Package Manager (`winget`)**.
+On Windows, you can install Quarto with the Windows Package Manager, `winget`.
 
-### How to Run These Commands
+### Open a terminal
 
-You can execute the installation script in one of two ways:
+Use either of these:
 
 1. **Inside RStudio:** Click the **Terminal** tab (located right next to the **Console** tab) and paste the commands there.
 2. **Windows Terminal:** Press **`Win + R`**, type `wt` (or `powershell`), and hit Enter to open a standalone terminal window.
 
 ### Installation Script (PowerShell)
 
-Copy and paste the following block into your terminal. Note that lines starting with `#` are comments; remove the `#` if you need to install those specific components.
+Paste the block below into the terminal. Lines beginning with `#` are comments; uncomment the R or RStudio commands if you need those too.
 
 
 ```powershell
@@ -154,25 +133,14 @@ winget install -e --id Posit.Quarto
 
 ```
 
----
-
-### Why use `winget`?
-
-* **Automation:** It handles the download and installation process automatically.
-* **Consistency:** It ensures everyone in the research group is using the same official versions.
-* **Maintenance:** You can update all your tools later by simply running `winget upgrade --all`.
-
-
-
----
 
 ::: {.callout-note}
-If you are working on a university-managed machine, you might need administrative privileges to run these commands. If `winget` is not recognized, ensure your Windows 10/11 is up to date.
+A university-managed computer may require IT approval for installation. If `winget` is unavailable, use the [Quarto installer](https://quarto.org/docs/get-started/) or check with your IT team.
 :::
 
-## Mac
+## macOS
 
-You can do the same on a Mac.
+With Homebrew installed, run:
 
 ```zsh
 # Install Quarto
@@ -185,7 +153,7 @@ brew install --cask quarto
 ```
 
 ::: {.callout-note}
-On macOS, if you don't have Homebrew installed yet, visit [brew.sh](https://brew.sh/){target="_blank"}. first. On managed university machines, you may need administrative privileges to run these commands.
+If you need Homebrew, start at [brew.sh](https://brew.sh/){target="_blank"}. Installation on a university-managed Mac may require help from IT.
 :::
 
 
@@ -197,14 +165,13 @@ If Linux is your primary OS, I’m sure you already know how to install it witho
 # Basic Usage
 
 
-## Anatomy of a Quarto Document (.qmd): 3 Core Elements
+## What goes into a `.qmd` file?
 
-This document is composed of the following three elements. Click the `</> Code` button at the top right to see the underlying source.
+A Quarto document has three main parts. Click the `</> Code` button at the top right of this page to see them in the source.
 
-1.  **YAML Header:** The 'brain' of the document. It acts as a blueprint, defining the title, author, and the desired output format (HTML, PDF, etc.).
-2. **Main**
-    *  **Markdown Text:** The logic of your research. This is the space where you write your geographical hypotheses and interpret the spatial analysis results.
-    *  **Code Chunks:** The 'engine' of the document. This is where the actual computation happens—loading spatial data, running statistical models, and rendering maps.
+1. **YAML header:** Settings such as the title, author, and output format.
+2. **Markdown text:** The written content, including headings, links, and equations.
+3. **Code chunks:** Code that loads data, runs an analysis, or creates a figure.
 
 
 ### YAML Header
@@ -212,7 +179,7 @@ This document is composed of the following three elements. Click the `</> Code` 
 ```yaml
 ---
 title: "A Glimpse into Quarto"
-subtitle: "Reproducible & Unified Geospatial Research with Quarto"
+subtitle: "Getting started with R, Python, and spatial data"
 author: "Yonghun Suh"
 date: "Mar. 9, 2026"
 categories: [Code]
@@ -237,12 +204,12 @@ execute:
 ```
 
 
-#### Shared Components {-}
+#### Document metadata {-}
 
 ```yaml
 ---
 title: "A Glimpse into Quarto"
-subtitle: "Reproducible & Unified Geospatial Research with Quarto"
+subtitle: "Getting started with R, Python, and spatial data"
 author: "Yonghun Suh"
 date: "Mar. 9, 2026"
 .
@@ -252,7 +219,7 @@ date: "Mar. 9, 2026"
 ```
 
 
-#### Output Format Options {- #sec-output-options}
+#### Output format options {- #sec-output-options}
 
 ::: {.panel-tabset}
 
@@ -299,7 +266,7 @@ format:
 For more information, please refer to [PDF Options](https://quarto.org/docs/reference/formats/pdf.html){target="_blank"}.
 
 
-##### MS Words {-}
+##### Word {-}
 
 
 ```yaml
@@ -315,7 +282,7 @@ format:
 ---
 ```
 
-For more information, please refer to [MS Words Options](https://quarto.org/docs/reference/formats/docx.html){target="_blank"}.
+For more information, please refer to [Word options](https://quarto.org/docs/reference/formats/docx.html){target="_blank"}.
 
 ##### Other Formats {-}
 
@@ -323,15 +290,15 @@ Please refer to [the official website](https://quarto.org/docs/output-formats/al
 
 :::
 
-### Main
+### Document body
 
-#### Markdown Text {- #sec-markdown-text}
+#### Markdown text {- #sec-markdown-text}
 
-Markdown is the foundational layer where you write the narrative and logic of your research. It is designed to be highly readable as raw text while compiling into beautifully formatted outputs.
+Write the body of the document in Markdown. Headings, lists, links, and other formatting use plain-text notation, as in the examples below.
 
-##### **1). Basic Markdown Syntax** {-}
+##### Basic Markdown syntax {-}
 
-You can quickly format your text without using a mouse or complex menus.
+For example:
 
 ```md
 * **Bold text** for emphasis.
@@ -343,9 +310,9 @@ You can quickly format your text without using a mouse or complex menus.
 
 ```
 
-##### **2). LaTeX Math Mode** {- #latex-math-mode}
+##### LaTeX math {- #latex-math-mode}
 
-Modeling in the geographic data science requires rigorous spatial statistics. Quarto natively supports [LaTeX math](https://www.overleaf.com/learn/latex/Mathematical_expressions){target="_blank"} rendering, meaning you don't need external equation editors.
+Use [LaTeX notation](https://www.overleaf.com/learn/latex/Mathematical_expressions){target="_blank"} to write equations. Single dollar signs mark inline math; double dollar signs put an equation on its own line.
 
 ```md
 * **Inline math:** Use single dollar signs. For example, the distance threshold is $d_{ij} \le 50$.
@@ -369,9 +336,9 @@ y = \rho W y + X \beta + \varepsilon
 $$
 
 
-##### **3). Inserting Media (Images and Links)** {-}
+##### Links and media {-}
 
-Adding external resources and local images is straightforward.
+Links and images use similar syntax. This example links to the Quarto documentation and embeds a local video of the Aral Sea.
 
 ```md
 * Inserting a web link
@@ -393,36 +360,34 @@ Adding external resources and local images is straightforward.
 ![\nTemporal Changes of Our Study Area: Aral Sea](data/Aral_Landsat.mp4)
 
 
-##### **4). Article Layout (Breaking the Boundaries)** {-}
+##### Wider figures and margin notes {-}
 
-Standard document margins are often too narrow for detailed geographic maps or large correlation matrices. Quarto's **Article Layout** allows you to break out of the central body text area.
-
-You can use `Divs` (`:::`) to expand static content, such as images or text blocks:
+A detailed map may need more width than the main text column. Quarto's article layout options let you place content across the page or in a margin. Wrap the content in a fenced div (`:::`) with the appropriate class:
 
 ```md
 ::: {.column-page}
-![This wide map will span across the normal margins to show more detail.](https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png)
+![This figure extends beyond the text column.](https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png)
 :::
 ```
 
 ::: {.column-page}
-![This wide figure will span across the normal margins to show more detail.](https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png)
+![This figure extends beyond the text column.](https://rstudio.github.io/cheatsheets/html/images/quarto-illustration.png)
 :::
 
 
 
 ```md
 ::: {.column-margin}
-This text will appear in the right margin, perfect for side notes or minor citations without interrupting the main text flow.
+This note appears in the right margin.
 :::
 
 ```
 
 ::: {.column-margin}
-This text will appear in the right margin, perfect for side notes or minor citations without interrupting the main text flow.
+This note appears in the right margin.
 :::
 
-> For executing code chunks, you can simply use `#| column: page` or `#| column: screen` inside the chunk options to make your interactive maps span the entire browser width. Read more about [Article Layout](https://quarto.org/docs/authoring/article-layout.html){target="_blank"}.
+> For a figure produced by a code chunk, use `#| column: page` to extend it across the page or `#| column: screen` for the full browser width. See the [article layout documentation](https://quarto.org/docs/authoring/article-layout.html){target="_blank"} for other options.
 
 
 ```{r}
@@ -451,9 +416,9 @@ tm_shape(World) +
 ```
 
 
-##### **5). Etc: Callouts and Footnotes** {-}
+##### Callouts and footnotes {-}
 
-Academic writing often requires footnotes and highlighted notes for readers.
+Use a footnote for a short aside or reference, and a callout for a note you want readers to notice.
 
 ```md
 Here is a statement that needs a reference.^[This will automatically generate a numbered footnote at the bottom of the page.]
@@ -475,48 +440,42 @@ Always check your Coordinate Reference System (CRS) before performing spatial jo
 Always check your Coordinate Reference System (CRS) before performing spatial joins!
 :::
 
-#### Code Chunks {- #sec-code-chunks}
+#### Code chunks {- #sec-code-chunks}
 
-Code chunks are the computational engine of your Quarto document. Instead of keeping your analysis script and your manuscript separate, you can weave them together seamlessly.
+Executable code goes in a fenced block with a language name in braces, such as `{r}` or `{python}`. When the document is rendered, the chunk can run and include its output.
 
-##### **1. Chunk Options (The Hash-Pipe Syntax)** {-}
+##### Chunk options {-}
 
-In Quarto, the standard and most robust way to pass options to a code chunk is using the **hash-pipe (`#|`)** syntax inside the chunk, rather than inside the curly braces. This keeps the code clean and easy to read.
+Put chunk options on lines beginning with `#|` at the top of the block. A few useful ones are listed below; the [execution options documentation](https://quarto.org/docs/computations/execution-options.html) has more.
 
 | Option | Value | Description |
 | :--- | :--- | :--- |
 | `#| echo:` | `true` / `false` | Shows or hides the source code in the output. |
 | `#| eval:` | `true` / `false` | Determines whether to run the code. Useful for showing syntax only. |
-| `#| warning:` | `true` / `false` | Suppresses warnings (e.g., from package updates or `NA` values). |
-| `#| cache:` | `true` / `false` | Saves the output. **Critical for heavy parallel processing or large spatial data models.** |
+| `#| warning:` | `true` / `false` | Shows warnings when `true`; hides them when `false`. |
+| `#| cache:` | `true` / `false` | Reuses cached computation results; useful for slow chunks. |
 
-##### **2. Language Support Options** {-}
+##### R and Python {-}
 
-Quarto is fundamentally language-agnostic. While it natively uses Knitr for R and Jupyter for Python, it supports a wide array of languages. 
-
-* **Data Science Core:** `R` (Native), `Python` (Native, `reticulate`), `Julia` (Native, or `JuliaCall`)
-* **High-Performance Computing:** `C++` (via Rcpp or Python bindings), Fortran (`dyn.load()`)
-* **System & Pipeline:** `Bash`, `PowerShell`
-
-You can seamlessly pass data between Python and R within the same document using the `reticulate` package, allowing you to use the best tool for each specific algorithmic step.
+R documents use Knitr, while Python documents commonly use Jupyter. To use both languages in a Knitr document, `reticulate` lets you exchange objects between R and Python. The appendix shows this with a regression example and a clustering example.
 
 ---
 
-##### **Example: Analyzing Complexity Factors** {-}
+##### Example: plotting growth rates {-}
 
 
 ::: callout-tip
-## What is Time Complexity? {-}
+## Reading the plot {-}
 
-In theoretical computer science, the time complexity is the computational complexity that describes the amount of computer time it takes to run an algorithm. In the plot below, $n$ represents the size of the input, and $N$ represents the number of operations the algorithm performs. This relationship is a critical factor in defining the algorithm's performance, as the efficiency of the algorithm can be assessed by how $N$ changes as the input size $n$ increases.
+The curves below illustrate common growth rates. Here, $n$ is input size and $N$ is a schematic operation count. They show how computational cost can grow with input size; they are not measured runtimes.
 
 [Learn more](https://en.wikipedia.org/wiki/Time_complexity){target="_blank"}
 :::
 
 ```{r, warning=FALSE}
-#| fig-cap: "Compirison of Computational Complexity"
-#| fig-subcap: "It is good to know if the algorithm can handle my problem well!"
-#| fig-alt: "A line plot of Computational Complexity"
+#| fig-cap: "Comparison of computational growth rates"
+#| fig-subcap: "Schematic growth rates, not measured runtimes."
+#| fig-alt: "Curves comparing constant, logarithmic, linear, and faster growth rates"
 
 library(data.table)
 library(ggplot2)
@@ -562,18 +521,9 @@ ggplot(df_long, aes(x = n, y = Time, color = Complexity)) +
 
 # Appendix
 
-## Using Other Languages in Quarto
+## Using other languages in Quarto
 
-`Quarto` is a *language-agnostic publishing system* designed to integrate multiple computational engines. By using `{python}` blocks, researchers can execute `Python` code natively alongside R and Markdown.
-
-
-Technical Mechanisms:
-
-* Execution Engines: Depending on your setup, `Quarto` utilizes the Jupyter engine for `Python`-centric projects or the `Knitr` engine (via the `reticulate` package) for hybrid `R`-`Python` workflows.
-
-* **Interoperability**: In a hybrid environment, data frames and variables can be shared between `R` and `Python` sessions, allowing you to use the best tools from both ecosystems (e.g., `Python` for machine learning and `R` for spatial statistics).
-
-* Reproducibility: Consolidating multiple languages into **a single** `.qmd` file ensures that the entire analytical pipeline is documented and reproducible, regardless of the underlying programming language.
+The snippets below illustrate code-block syntax for several languages. Running them requires the appropriate runtime and execution setup. The worked R and Python examples that follow use Knitr with `reticulate`.
 
 1. `R`
 ```{{r}}
@@ -605,6 +555,8 @@ end
 
 ```
 
+4. `Fortran`
+
 ```{{fortran}}
 
 subroutine printA(A)
@@ -619,7 +571,9 @@ end subroutine printA
 
 ```
 
-### Reticulate (Python)
+### R and Python with reticulate
+
+The first chunk shows which Python executable `reticulate` is using. In this blog's build, Python and its packages are managed by Pixi.
 
 
 ```{r}
@@ -636,18 +590,18 @@ sys$executable
 
 
 
-#### **Compairing Mathematical Foundations: OLS & MLE**  {-}
+#### OLS and maximum likelihood {-}
 
 In linear regression, we model the relationship between a dependent variable and independent variables as:
 
 $$y = X\beta + \epsilon$$
 
-Where the dimensions (shapes) are:
+For $N$ observations and $K$ coefficients, the dimensions are:
 
 * $y \in \mathbb{R}^{N \times 1}$: Dependent variable vector. 
 * $X \in \mathbb{R}^{N \times K}$: Design matrix (including a column of 1s for the intercept). 
 * $\beta \in \mathbb{R}^{K \times 1}$: Parameter (coefficient) vector. 
-* $\epsilon \in \mathbb{R}^{N \times 1}$: Error (residual) vector.
+* $\epsilon \in \mathbb{R}^{N \times 1}$: Error vector.
 
 ::: {.panel-tabset}
 
@@ -657,9 +611,9 @@ The Ordinary Least Squares (OLS) method seeks to find $\beta$ that minimizes the
 
 $$SSR(\beta) = \epsilon^T \epsilon = (y - X\beta)^T (y - X\beta)$$
 
-##### **Matrix Expansion Steps** {-}
+##### Expanding the objective {-}
 
-To derive the optimal $\beta$, we expand the expression using matrix algebra properties using following steps.
+Expand the expression as follows.
 
 1. Distribution of Transpose
 
@@ -667,7 +621,7 @@ Using the rules $(A - B)^T = A^T - B^T$ and $(AB)^T = B^T A^T$:
 
 $$(y - X\beta)^T = y^T - (X\beta)^T = y^T - \beta^T X^T$$
 
-2. FOIL Expansion
+2. Expanding the product
 
 Now we multiply $(y^T - \beta^T X^T)$ by $(y - X\beta)$:
 
@@ -683,34 +637,32 @@ Since they are identical values, we can combine the middle terms:
 
 $$SSR(\beta) = y^T y - 2\beta^T X^T y + \beta^T X^T X \beta$$
 
-##### **The Normal Equation** {-}
+##### The normal equation {-}
 
 Taking the partial derivative with respect to $\beta$:
 
 $$\frac{\partial SSR}{\partial \beta} = -2X^T y + 2X^T X \beta = 0$$
 
-Solving for $\beta$ gives the Normal Equation:
+If $X$ has full column rank, solving for $\beta$ gives:
 
 $$\hat{\beta}_{OLS} = (X^T X)^{-1} X^T y$$
 
 #### MLE Perspective: Maximum Likelihood
 
 
-Maximum Likelihood Estimation (MLE) assumes the errors follow a normal distribution: $\epsilon \sim \mathcal{N}(0, \sigma^2 I)$. The Log-Likelihood function is:
+For this example, assume independent Gaussian errors with constant variance: $\epsilon \sim \mathcal{N}(0, \sigma^2 I)$. The log-likelihood is:
 
 $$\mathcal{L}(\beta, \sigma^2) = -\frac{N}{2}\ln(2\pi\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i - X_i\beta)^2$$
 
-In MLE, maximizing $\mathcal{L}$ with respect to $\beta$ is identical to minimizing the summation term $\sum (y_i - X_i\beta)^2$, which is exactly the $SSR$ used in OLS. Thus, under *Gaussian* assumptions, **OLS and MLE are mathematically equivalent**.
+For a fixed positive $\sigma^2$, maximizing this expression with respect to $\beta$ is equivalent to minimizing $SSR$. OLS and maximum likelihood therefore give the same regression coefficients under this model.
 
 :::
 
-#### Implementation: R and Python Interoperability
+#### Fitting the model across R and Python
 
-We use the 'meuse' soil dataset from the sp package to verify this equivalence.
+The `meuse` soil dataset from the `sp` package provides a small example. Here, zinc concentration ($y$) is modeled using copper concentration ($x$).
 
-##### Data Preparation (R)
-
-We use the 'meuse' soil dataset. We will predict Zinc concentration ($y$) using Copper concentration ($x$).
+##### Prepare the data in R
 
 ```{r}
 #| label: data-preparation
@@ -728,11 +680,9 @@ cat("Number of observations (N):", nrow(x_mat), "\n")
 
 ```
 
-##### Matrix Algebra & Optimization (Python)
+##### Fit the model in Python
 
-We will perform both OLS (via linear algebra) and MLE (via numerical optimization) explicitly in Python to demonstrate their equivalence.
-
-We use NumPy for the direct linear algebra solution (OLS) and SciPy for numerical optimization (MLE).
+Python accesses the R objects through `r.x_mat` and `r.y_vec`. NumPy solves the OLS normal equations, and SciPy estimates the parameters by numerical optimization.
 
 ```{python}
 #| label: python-ols-mle
@@ -820,9 +770,9 @@ print(f"Difference in Slope: {diff[1]:.2e}")
 
 ```
 
-##### Verification with R's Native Function (R)
+##### Compare with R's `lm()`
 
-Finally, we verify that our explicit matrix operations match R's default statistical engine.
+Fit the same model with `lm()` and compare the coefficients:
 
 ```{r}
 #| label: r-verification
@@ -835,26 +785,18 @@ print(coef(r_lm))
 ```
 
 ::: {.callout-note}
-## Why OLS and MLE results differ: Numerical Approximation Error
+## Small differences in the estimates
 
-While OLS and MLE are theoretically identical for linear regression with normally distributed errors, you may observe slight discrepancies in your output (e.g., ~0.006 in slope). This is called **Approximation Error**.
-
-**Exact vs. Iterative Solutions**
-- **OLS (Analytical):** Uses a "Closed-form Solution" ($\hat{\beta} = (X^TX)^{-1}X^Ty$). It calculates the exact mathematical global minimum in a single step using matrix algebra.
-- **MLE (Numerical):** Uses "Numerical Optimization" (e.g., BFGS algorithm in `scipy.optimize`). It "hunts" for the maximum likelihood by taking iterative steps until it reaches a pre-defined threshold.
+The two methods target the same regression coefficients here, but the implementations use different numerical procedures. NumPy solves a linear system; SciPy iterates until a stopping condition is met. If the estimates differ, check `mle_result.success`, the optimizer's tolerances, and numerical scaling before interpreting the difference. See [SciPy's L-BFGS-B documentation](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html) for the stopping criteria.
 
 :::
 
 
 ------------------------------------------------------------------------
 
-#### **DataFrame Operations: Spatial Point Clustering (R $\rightarrow$ Python $\rightarrow$ R)** {-}
+#### Clustering points: R $\rightarrow$ Python $\rightarrow$ R {-}
 
-
-This is a pipeline that transfers seismic event location data (`quakes`) from `R` to `Python` to perform Density-Based Spatial Clustering of Applications with Noise (DBSCAN), then brings the results back to `R` for final visualization.
-
-
-**Objective Evaluation:** In spatial pattern analysis, `scikit-learn`'s DBSCAN implementation is highly optimized at the C/C-Python level, offering significantly faster processing speeds for point clouds with hundreds of thousands of points compared to standard R packages. This architecture establishes an ideal division of labor: Python handles the heavy computational load, while R’s `ggplot2` produces high-quality visualizations suitable for publication.
+This example sends the `quakes` data frame from R to Python, runs DBSCAN with `scikit-learn`, and brings the cluster labels back to R for plotting. It shows how a data frame and an array move between the two languages.
 
 ```{r}
 #| label: load-spatial-points
@@ -907,7 +849,7 @@ library(ggplot2)
 # Bind the Python-generated labels back to the R dataframe
 spatial_df$cluster <- as.factor(py$cluster_labels)
 
-# Generate publication-ready plot
+# Plot the cluster labels in R
 ggplot(spatial_df, aes(x = long, y = lat, color = cluster, size = mag)) +
   geom_point(alpha = 0.7) +
   scale_color_viridis_d(option = "plasma", name = "Cluster\n(-1 = Noise)") +
@@ -921,16 +863,13 @@ ggplot(spatial_df, aes(x = long, y = lat, color = cluster, size = mag)) +
 
 ```
 
-### Observable JS (Client-side Interactivity)
+The [DBSCAN default](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html) is Euclidean distance. In this example, `eps = 2` is in coordinate degrees because the inputs are latitude and longitude. For a geographic distance threshold, use a suitable projection or a spherical distance metric.
 
-While R and Python are excellent for heavy data processing, **Observable JavaScript (OJS)** is optimized for building real-time, interactive visualizations directly in the user's web browser. 
+### Observable JS in the browser
 
-Quarto bridges these two environments using the `ojs_define()` function. The standard workflow is:
-1. Process large datasets in R during the build phase.
-2. Export the aggregated data to OJS.
-3. Render interactive plots in the browser without needing an active R server.
+Observable JS can add controls and plots to an HTML document. Here, R creates sample data when the code is executed, and [`ojs_define()`](https://quarto.org/docs/interactive/ojs/data-sources.html) makes it available to the OJS chunk. The station selector then filters the data in the browser without rerunning R.
 
-#### Step A: Data Processing in R {-}
+#### Create the data in R {-}
 
 ```{r}
 #| message: false
@@ -951,9 +890,9 @@ ojs_define(env_data = dt_env)
 
 ```
 
-#### Step B: Interactive Plotting in Observable JS {-}
+#### Plot it with Observable JS {-}
 
-In the following `ojs` chunk, we take the data processed by R and create an interactive plot. Try changing the dropdown menu to filter the stations in real-time.
+Choose a station from the dropdown to update the plot.
 
 ```{ojs}
 //| echo: true
@@ -987,6 +926,10 @@ Plot.plot({
 })
 
 ```
+
+### System information
+
+The last chunk prints basic system information from the machine that executes the code.
 
 ```{r}
 if (Sys.info()[[1]]=="Windows") {

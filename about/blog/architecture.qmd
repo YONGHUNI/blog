@@ -3,7 +3,7 @@ title: "System Architecture"
 subtitle: "From research source to a deployed website"
 ---
 
-::: {.blog-docs}
+:::: {.blog-docs}
 <div class="docs-eyebrow">01 / FOUNDATIONS</div>
 
 ## Four layers, four distinct jobs
@@ -100,4 +100,4 @@ The source of truth is [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/mai
 
 [Next: dependencies →](dependencies.qmd)
 
-:::
+::::

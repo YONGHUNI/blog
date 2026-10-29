@@ -78,8 +78,8 @@ website:
 format:
   html:
     theme:
-      light: cosmo #sketchy
-      dark: [cosmo, ./misc/theme-dark.scss]
+      light: [sketchy, ./misc/theme-light.scss]
+      dark: [sketchy, ./misc/theme-dark.scss]
     css: ./misc/styles.css
 
 # Default: Quarto reuses committed execution results for unchanged posts.

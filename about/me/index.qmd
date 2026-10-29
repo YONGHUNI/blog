@@ -33,15 +33,9 @@ format:
 ::: {#hero-heading}
 # About Me
 
-I am a Ph.D. student in Geography at the University of Georgia (UGA), working with [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} in the GAIM Lab. My current research interests lie at the intersection of geospatial AI, weather and climate modeling, and remote sensing. I am particularly interested in evaluating AI-based weather forecasts and climate model projections, and in using machine learning to study environmental and spatiotemporal processes.
+I am pursuing a Ph.D. in Geography at the [**University of Georgia**](https://www.uga.edu/){target="_blank"}, advised by [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} in the GAIM Lab. My research interests include **GIScience, geospatial AI, and remote sensing**, with a particular interest in applying **high-performance computing (HPC)** to large-scale geospatial data analysis.
 
-Before joining UGA, I was a research intern at the [**Data Science for Humanity Group**](https://www.mpi-sp.org/cha){target="_blank"} at **the Max Planck Institute for Security and Privacy**, where I applied machine learning and remote sensing to societal and environmental problems. My work there included monitoring changes in North Korean mining activities using optical satellite imagery and mapping changes in WASH accessibility in Rohingya refugee camps using sub-meter satellite imagery.
-
-I earned my Master’s degree in Geography from Seoul National University, advised by [Dr. Gunhak Lee](https://geog.snu.ac.kr/bbs/board.php?tbl=bbs13&mode=VIEW&num=11&category=&findType=&findWord=&sort1=&sort2=&it_id=&shop_flag=&mobile_flag=&language=EN&page=1){target="_blank"}. My master's research focused on landslide susceptibility modeling using InSAR-derived displacement, rainfall, and interpretable machine learning. Prior to that, I completed my undergraduate studies at Kongju National University, earning a B.A. in Geography and a B.Sc. in Atmospheric Science.
-
-My broader research experience spans landslide susceptibility, population and settlement mapping, spatial accessibility, air quality, and satellite-based monitoring of human activities. In addition to my academic research, I have been involved in a community-based air quality project at the State University of New York at Buffalo ([UB Clean Air](https://ubairqualitystudy.github.io/EPA-Website/index.html){target="_blank"}).
-
-I primarily work with R and Python and have experience in geospatial data processing, remote sensing, machine learning, reproducible scientific workflows, Linux, and high-performance computing.
+Before joining UGA, I worked as a research intern in the [Data Science for Humanity Group](https://www.mpi-sp.org/cha){target="_blank"} at the [**Max Planck Institute for Security and Privacy**](https://www.mpi-sp.org/){target="_blank"}, where I applied satellite remote sensing to environmental and humanitarian research. I earned my M.A. in Geography from [**Seoul National University**](https://www.snu.ac.kr/){target="_blank"}, where I worked on spatial modeling projects including [building-scale population estimation](https://journal.cartography.or.kr/articles/article/Ad7w/){target="_blank"} and [landslide susceptibility analysis](https://journal.cartography.or.kr/articles/article/GmX8/){target="_blank"}.
 :::
 
 # Education
@@ -52,7 +46,7 @@ I primarily work with R and Python and have experience in geospatial data proces
 
 -   Ph.D. in Geography (in progress)
     -   Advisor: [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} (GAIM Lab)
-    -   Research interests: Geospatial AI, weather and climate modeling, and remote sensing
+    -   Research interests: GIScience, geospatial AI, remote sensing, and scalable geospatial computation
 
 ## Seoul National University
 

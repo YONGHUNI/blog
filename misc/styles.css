@@ -5,6 +5,14 @@
     }
 }
 
+/* Keep the footer clear of Quarto's docked left sidebar on desktop.
+   Use Quarto's own page grid instead of a hard-coded sidebar width. */
+@media (min-width: 992px) {
+  #quarto-content.page-columns > #quarto-sidebar ~ footer.footer {
+    grid-column: body-content-start / screen-end;
+  }
+}
+
 /* Visual documentation hub (about/blog only). No changes to regular posts. */
 .blog-docs {
   --docs-border: var(--bs-border-color, #d7dee6);

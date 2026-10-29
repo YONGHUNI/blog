@@ -4725,6 +4725,12 @@ color: black;
 }
 }
 
+@media (min-width: 992px) {
+#quarto-content.page-columns > #quarto-sidebar ~ footer.footer {
+grid-column: body-content-start / screen-end;
+}
+}
+
 .blog-docs {
 --docs-border: var(--bs-border-color, #d7dee6);
 --docs-accent: var(--bs-primary, #28669a);

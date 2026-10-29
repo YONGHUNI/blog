@@ -3,22 +3,21 @@ title: "Dependencies & Environments"
 subtitle: "How one Quarto render uses R and Python"
 ---
 
-:::: {.blog-docs}
-<div class="docs-eyebrow">02 / COMPUTATION</div>
+::::: {.blog-docs}
 
 ## One scientific runtime per site build
 
-Rather than creating a new environment for every post, the renderer gathers core and article-specific packages and launches **one shared Pixi environment**.
+The renderer combines core packages with the additional packages needed by posts that may execute. It then starts one shared Pixi environment for the site build.
 
 ```{mermaid}
 %%| fig-cap: "Packages needed by documents that may execute are merged into one Pixi call."
-flowchart LR
+flowchart TD
     A["Nix-pinned<br/>tools"] --> B["render-site.py"]
-    C["Core packages"] --> D["Merge package specs"]
+    C["Core packages"] --> D["Collect package specs"]
     E["Post A<br/>ci-packages"] --> D
     F["Post B<br/>ci-packages"] --> D
     B --> D
-    D --> G{"Version<br/>conflict?"}
+    D --> G{"Different constrained specs<br/>for the same package?"}
     G -->|Yes| X["Stop with error"]
     G -->|No| H["pixi exec"]
     H --> I["One Quarto render"]
@@ -38,9 +37,15 @@ ci-packages:
 ---
 ```
 
-`render-site.py` validates this list and resolves compatible versions of the package names across documents. Incompatible requirements cause the build to fail with a clear error.
+`render-site.py` validates each list before passing the collected specifications to Pixi. Identical specifications are deduplicated. A version constraint takes precedence over a package name with no constraint.
 
-## Inspect the environment {.panel-tabset}
+Two different constrained specifications for the same package are rejected, even if their version ranges overlap. For example, `numpy>=1.26` and `numpy>=1.26,<2` cause an error. The script does not calculate their intersection; authors must use the same specification across posts. Pixi then resolves the accepted specifications together with their dependencies.
+
+## Inspect the environment
+
+The commands below use the repository's Nix shell, which currently supports `x86_64-linux`.
+
+::: {.panel-tabset}
 
 ### Pinned tools
 
@@ -82,11 +87,11 @@ The manifest determines **dependency selection**, not Quarto execution directly.
 
 | Design choice | Benefit | Limitation |
 |---|---|---|
-| One `pixi exec` | Single render and common runtime | Version constraints must be compatible |
+| One `pixi exec` | Single render and common runtime | Different constrained specifications for the same package must be reconciled before the build |
 | `ci-packages` per QMD | Requirements visible next to analysis | Authors must maintain metadata |
 | Nix `flake.lock` | Pinned build tool versions | Doesn't lock the Pixi runtime |
 | Frozen results | Avoids unnecessary computation | External changes need manual invalidation |
 
 [Next: freeze & cache →](freeze.qmd)
 
-::::
+:::::

@@ -3,10 +3,9 @@ title: "System Architecture"
 subtitle: "From research source to a deployed website"
 ---
 
-:::: {.blog-docs}
-<div class="docs-eyebrow">01 / FOUNDATIONS</div>
+::::: {.blog-docs}
 
-## Four layers, four distinct jobs
+## Tools and outputs
 
 ```{mermaid}
 %%| fig-cap: "The logical layers of the publishing workflow."
@@ -80,7 +79,9 @@ sequenceDiagram
     end
 ```
 
-## What exactly is pinned? {.panel-tabset}
+## What is pinned?
+
+::: {.panel-tabset}
 
 ### Nix toolchain
 
@@ -88,16 +89,18 @@ sequenceDiagram
 
 ### Runtime dependencies
 
-`ci-packages` requirements are resolved together with core packages through `pixi exec`. This is convenient but **not** a fully locked Pixi environment: compatible package versions may change over time.
+The renderer collects core packages and accepted `ci-packages` specifications, then passes them to `pixi exec`. There is no committed Pixi lockfile, so resolved package versions can change between builds. The [dependency guide](dependencies.qmd) explains which specifications can be combined.
 
 ### Research inputs
 
-Source-controlled scripts, relevant data and preserved outputs support reproducibility. External datasets, remote services and cluster computations still require their own provenance and refresh decisions.
+Version control preserves scripts, committed data, and saved outputs. External datasets and cluster computations need separate records of their inputs and methods, along with a decision about when to refresh the results.
 
 :::
 
-The source of truth is [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/main/_quarto.yml), [`flake.nix`](https://github.com/YONGHUNI/blog/blob/main/flake.nix), [`render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py), and [`publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml).
+The current Nix development shell is defined for `x86_64-linux`. Using the same setup on macOS or another architecture requires changes to `flake.nix` and verification of the runtime packages.
+
+For the implementation, see [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/main/_quarto.yml), [`flake.nix`](https://github.com/YONGHUNI/blog/blob/main/flake.nix), [`render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py), and [`publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml).
 
 [Next: dependencies →](dependencies.qmd)
 
-::::
+:::::

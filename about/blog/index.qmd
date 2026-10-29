@@ -1,77 +1,70 @@
 ---
 title: "Inside the Blog"
-subtitle: "Visual documentation for this computational geography website"
-description: "Explore the Nix, Pixi, Quarto, Freeze, and GitHub Pages publishing pipeline."
+subtitle: "Build tools, code execution, and publishing"
 ---
 
-::: {.blog-docs}
+::::: {.blog-docs}
 
 ::: {.docs-hero}
-<div class="docs-eyebrow">ABOUT THE PLATFORM / DOCUMENTATION</div>
+## How this blog is built
 
-## Research that can be inspected, rerun, and published
+Posts are written in Quarto. Nix supplies the build tools, and Pixi creates the shared R/Python environment used to run code. GitHub Actions renders the site and publishes it to GitHub Pages.
 
-This site is a home for reproducible geospatial workflows. Articles are written in Quarto; Nix provides the build tools, Pixi supplies a shared R/Python runtime, and GitHub Actions publishes the result.
-
-<div class="docs-pills"><span>Quarto</span><span>Nix Flakes</span><span>Pixi</span><span>R + Python</span><span>GitHub Pages</span></div>
-
-[Explore the architecture](architecture.qmd){.btn .btn-primary} [View the source](https://github.com/YONGHUNI/blog){.btn .btn-outline-secondary target="_blank"}
+[How it works](architecture.qmd){.btn .btn-primary} [View the source](https://github.com/YONGHUNI/blog){.btn .btn-outline-secondary target="_blank"}
 :::
 
-## The publishing system at a glance
+## From source to website
 
 ```{mermaid}
-%%| fig-cap: "The build runs on GitHub Actions; readers receive a static website."
-flowchart LR
-    A["Quarto source<br/>.qmd + metadata"] --> B["GitHub<br/>main"]
-    B --> C["GitHub Actions<br/>Nix + Pixi"]
-    C --> D["Quarto<br/>one site render"]
-    D --> E["GitHub Pages<br/>gh-pages"]
-    F["Saved _freeze<br/>execution results"] <--> C
-    E --> G["Readers<br/>HTML + browser JS"]
+%%| fig-cap: "Each build renders HTML once. After publishing, changed automatic freeze results are saved for the next build."
+flowchart TD
+    A["main<br/>Quarto source + saved results"] --> B["GitHub Actions<br/>Nix + Pixi · one Quarto render"]
+    B --> C["gh-pages → GitHub Pages<br/>HTML + assets for readers"]
+    C -. "If automatic results changed" .-> D["Commit to main<br/>_freeze + manifest · skip ci"]
+    D -. "Reuse on the next build" .-> A
 ```
 
-## Explore the system
+## Guides
 
 :::: {.docs-card-grid}
 ::: {.docs-card}
-<div class="docs-card-number">01 / FOUNDATIONS</div>
+<div class="docs-card-number">01</div>
 
 ### [System architecture](architecture.qmd)
 
-How source, build tools, the scientific runtime, and static hosting fit together.
+The roles of Nix, Pixi, Quarto, and GitHub Pages.
 
 [Open guide →](architecture.qmd)
 :::
 ::: {.docs-card}
-<div class="docs-card-number">02 / COMPUTATION</div>
+<div class="docs-card-number">02</div>
 
 ### [Dependencies](dependencies.qmd)
 
-How article-level `ci-packages` declarations become one shared runtime.
+How `ci-packages` requirements are collected into a shared environment, and which combinations are rejected.
 
 [Open guide →](dependencies.qmd)
 :::
 ::: {.docs-card}
-<div class="docs-card-number">03 / EFFICIENCY</div>
+<div class="docs-card-number">03</div>
 
 ### [Freeze & caching](freeze.qmd)
 
-An interactive explorer for when Quarto reuses calculations and when it reruns them.
+When saved calculations can be reused, with an interactive explorer for common cache states.
 
 [Try cache explorer →](freeze.qmd)
 :::
 ::: {.docs-card}
-<div class="docs-card-number">04 / OPERATIONS</div>
+<div class="docs-card-number">04</div>
 
 ### [Build & deployment](deployment.qmd)
 
-A visual walk-through of GitHub Actions and the `gh-pages` publishing step.
+What the workflow checks, renders, publishes, and commits back to the repository.
 
 [Open guide →](deployment.qmd)
 :::
 ::: {.docs-card}
-<div class="docs-card-number">05 / EXPERIENCE</div>
+<div class="docs-card-number">05</div>
 
 ### [Design & interaction](customization.qmd)
 
@@ -81,14 +74,14 @@ Themes, responsive navigation, Mermaid, Observable JS, maps, and comments.
 :::
 ::::
 
-## Reproducibility, with practical limits
+## What is reproducible?
 
-A post can contain narrative, analysis, equations, figures, and interactive components in a single version-controlled `.qmd` file. On publication, computational code may run on the CI worker; the final website itself needs no running Python or R server.
+A `.qmd` file keeps a post's text, code, and figure definitions together in version control. During a build, Quarto can run the code or reuse saved execution results. Readers receive static HTML and browser-side components; the site does not need a running Python or R server.
 
 ::: {.callout-note}
-Build tools are pinned by `flake.lock`. The shared `pixi exec` environment resolves compatible conda-forge packages from specifications, not a committed Pixi lockfile. Data changes outside the Quarto source may require intentional cache invalidation.
+`flake.lock` pins the Nix build tools. The R/Python environment is resolved through `pixi exec`, without a committed Pixi lockfile, so its package versions can change. Saved results also need to be refreshed when external data or computation changes; editing a dataset alone may not trigger a rerun.
 :::
 
 For implementation details, see [`_quarto.yml`](https://github.com/YONGHUNI/blog/blob/main/_quarto.yml), [`render-site.py`](https://github.com/YONGHUNI/blog/blob/main/scripts/render-site.py), and [`publish.yml`](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml).
 
-:::
+:::::

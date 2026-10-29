@@ -3,21 +3,20 @@ title: "Build & Deployment"
 subtitle: "A single GitHub Actions job from source to static HTML"
 ---
 
-:::: {.blog-docs}
-<div class="docs-eyebrow">04 / OPERATIONS</div>
+::::: {.blog-docs}
 
-## Continuous publication, without a second render
+## Build once, then publish
 
 Changes pushed to `main` (or a manual workflow dispatch) launch the [Quarto Publish workflow](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml). It checks the renderer, builds the site once, and deploys the already-rendered result.
 
 ```{mermaid}
-%%| fig-cap: "The actual production CI/CD phases, simplified."
+%%| fig-cap: "The production workflow, including its homepage file check."
 flowchart TD
     A["Push main / manual dispatch"] --> B["Checkout + install Nix"]
     B --> C["Python unittest<br/>dependency metadata"]
     C --> D["scripts/render-site.py<br/>one Pixi environment"]
     D --> E["One Quarto HTML render<br/>_site + _freeze"]
-    E --> F["Check rendered HTML files"]
+    E --> F["Check _site/index.html<br/>exists and is not empty"]
     F --> G["Clear disposable .quarto cache"]
     G --> H["Set up matching<br/>Quarto 1.9.37"]
     H --> I["Publish to gh-pages<br/>render: false"]
@@ -46,7 +45,9 @@ sequenceDiagram
     end
 ```
 
-## Operational details {.panel-tabset}
+## Workflow settings
+
+::: {.panel-tabset}
 
 ### Trigger and concurrency
 
@@ -63,14 +64,14 @@ concurrency:
 
 The workflow is restricted to `main`; non-main pushes do not deploy through it.
 
-### Reproducible build command
+### Build command
 
 ```bash
 nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
 nix develop -c python scripts/render-site.py
 ```
 
-The renderer creates one shared `pixi exec` runtime and calls Quarto once for the whole site.
+The renderer creates one shared `pixi exec` runtime and calls Quarto once for the whole site. The Nix tool versions are pinned; the runtime package versions are not fully locked.
 
 ### Publishing without rerendering
 
@@ -96,11 +97,13 @@ On successful publish:
       push to main
 ```
 
-The computed PDF/HTML outputs are not uploaded to an always-running application server: the public site is a static GitHub Pages deployment.
+GitHub Pages serves the rendered HTML and assets as a static website.
 
 :::
 
 ## Local verification and failure diagnosis
+
+These commands use the current `x86_64-linux` Nix development shell.
 
 ```bash
 # Report dependency selection without executing:
@@ -113,10 +116,12 @@ nix develop -c python -m unittest discover -s scripts -p 'test_*.py' -v
 nix develop -c python scripts/render-site.py
 ```
 
-Look first for failed unit tests, conflicting `ci-packages`, missing explicit freeze files, or an error in a Quarto document. If rendering works but publication fails, inspect the separate publishing step and its branch permissions.
+The production workflow runs the Python tests and checks that `_site/index.html` exists and is not empty. It does not validate every HTML file, link, or rendered layout.
+
+If a build fails, check the unit tests, conflicting `ci-packages`, missing explicit freeze files, and Quarto errors. If rendering succeeds but publishing fails, inspect the publishing step and its branch permissions.
 
 **See:** [CI source](https://github.com/YONGHUNI/blog/blob/main/.github/workflows/publish.yml) · [Recent GitHub Actions runs](https://github.com/YONGHUNI/blog/actions)
 
 [Next: design & interaction →](customization.qmd)
 
-::::
+:::::

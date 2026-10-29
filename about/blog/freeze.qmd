@@ -4,10 +4,9 @@ subtitle: "When does code actually run again?"
 description: "Interactive guide to Quarto freeze, source hashes, package selection, and cache maintenance."
 ---
 
-:::: {.blog-docs}
-<div class="docs-eyebrow">03 / EFFICIENCY</div>
+::::: {.blog-docs}
 
-## Rendering a page is not the same as rerunning its code
+## Rebuild the page, reuse the calculation
 
 Quarto generates the site's HTML on every deployment. With the site-wide `execute: freeze: auto` setting, unchanged executable posts can reuse their committed `_freeze` results rather than repeating R or Python computations.
 
@@ -93,7 +92,9 @@ Inputs.table([freezeOutcomes[freezeCase]], {
 })
 ```
 
-## Automatic versus explicitly frozen work {.panel-tabset}
+## Automatic and manually frozen results
+
+::: {.panel-tabset}
 
 ### Normal articles: `freeze: auto`
 
@@ -143,4 +144,4 @@ Do not wipe `_freeze` indiscriminately if you have posts using `freeze: true`. T
 
 [Next: build & deployment →](deployment.qmd)
 
-::::
+:::::

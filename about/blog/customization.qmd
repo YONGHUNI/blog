@@ -3,16 +3,15 @@ title: "Design & Interaction"
 subtitle: "Quarto's visual layer, from diagrams to browser-side controls"
 ---
 
-::: {.blog-docs}
-<div class="docs-eyebrow">05 / EXPERIENCE</div>
+::::: {.blog-docs}
 
-## Two timescales for interactivity
+## During the build and in the browser
 
-The build may run R/Python code once to compute a figure or derived dataset. After publication, lightweight client-side features—such as Mermaid diagrams, interactive maps, and Observable JS—can operate in the reader's browser.
+A build may run R/Python code to compute a figure or derived dataset, or reuse a saved result. After publication, Mermaid diagrams, interactive maps, and Observable JS controls run in the reader's browser.
 
 ```{mermaid}
 %%| fig-cap: "Computation during publication and interaction during reading are different workloads."
-flowchart LR
+flowchart TD
     subgraph CI["At build time"]
       A["R / Python analysis"] --> B["Quarto HTML + assets"]
     end
@@ -34,12 +33,12 @@ flowchart LR
 ::: {.docs-card}
 ### Theme and layout
 
-[Cosmo](https://bootswatch.com/cosmo/) and `misc/theme-dark.scss` supply light/dark appearance. Site-specific tweaks live in `misc/styles.css`.
+[Sketchy](https://bootswatch.com/sketchy/) supplies the base theme. `misc/theme-light.scss` and `misc/theme-dark.scss` define the light and dark palettes, including the red navigation bar. `misc/styles.css` uses a system font for reading surfaces while retaining Sketchy's headings and controls.
 :::
 ::: {.docs-card}
 ### Mermaid
 
-Flowcharts and sequence diagrams communicate infrastructure without image exports. They are rendered as native browser diagrams in HTML.
+Flowcharts and sequence diagrams are written in Quarto code cells and rendered as SVG diagrams in the browser. Their colors follow the active light or dark theme.
 :::
 ::: {.docs-card}
 ### Observable JS
@@ -63,7 +62,7 @@ The custom [Lua filter](https://github.com/YONGHUNI/blog/blob/main/misc/quarto-v
 :::
 ::::
 
-## A small, readable syntax
+## Quarto components
 
 ::: {.panel-tabset}
 
@@ -89,7 +88,7 @@ Pinned tools and CLI.
 Shared R/Python runtime.
 ```
 
-Tabbed sections reduce scroll depth without hiding distinct pages behind a monolithic article.
+Tabs group related examples within a page. The sidebar links to the separate guides.
 
 ### Reactive widgets
 
@@ -103,12 +102,12 @@ This site's [interactive freeze explorer](freeze.qmd) uses built-in Observable I
 
 :::
 
-## Reader experience and maintainability
+## Layout and navigation
 
-All technical pages use the same docked navigation, in-page table of contents, and responsive layout. Diagrams are short enough to remain readable on mobile; more complex concepts are divided into separate graphics.
+These guides share a docked sidebar and an in-page table of contents where screen space allows. The overview cards switch to one column on narrow screens. Top-down flowcharts reduce the need to shrink diagrams to fit the page; longer sequence diagrams still need more horizontal space.
 
-The documentation intentionally **does not depend on a new site-wide JavaScript framework**. The existing Quarto/Cosmo structure remains the foundation, and the [blog's source repository](https://github.com/YONGHUNI/blog) remains the definitive implementation reference.
+Quarto provides the diagrams, tabs, and Observable JS integration. The documentation does not add a separate site-wide JavaScript framework. The [source repository](https://github.com/YONGHUNI/blog) contains the current settings and styles.
 
 [Return to documentation overview →](index.qmd)
 
-:::
+:::::

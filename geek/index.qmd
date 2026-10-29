@@ -2,10 +2,9 @@
 title: "Geek"
 page-layout: full
 listing:
-  contents:
-    - ../posts/envsetting/index.qmd
-    - ../posts/pyenvsetting/index.qmd
-    - ../posts/quarto_post/index.qmd
+  contents: "../posts/*/index.qmd"
+  include:
+    area: "geek"
   type: default
   sort: "date desc"
   categories: true

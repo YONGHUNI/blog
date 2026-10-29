@@ -1,6 +1,6 @@
 ---
-title: "How to boost a DBSCAN task"
-subtitle: "Utilizing High Performance Library from Python"
+title: "Speeding up a DBSCAN task"
+subtitle: "Comparing R's dbscan with a parallel Python interface"
 author: "Yonghun Suh"
 date: "Sep. 9, 2025"
 categories: ["GIScience"]
@@ -46,25 +46,20 @@ ci-packages:
 
 
 
-I was chatting with my colleague from grad school who said DBSCAN was running too slowly on their project.
+A colleague from grad school was using DBSCAN to find representative points for census tracts from residential building data. He was already using a C++ implementation through R, but still expected to wait a few days for the results.
+
+I thought, 'Why not help him out and turn this into a blog article?' The comparisons below use synthetic points and a sample of NYC taxi trips.
 
 
-He had already been using a high speed C++ implementation of DBSCAN in R. Still, however, it was giving an eternal waiting.
-
-
-
-I thought, 'Why not help him out and turn this into a blog article?'
-
-
-## **Analyzing complexity factors**
+## How input size affects runtime
 
 
 
 ::: {.callout-tip}
 
-## What is Time Complexity?
+## Reading the plot
 
-In theoretical computer science, the time complexity is the computational complexity that describes the amount of computer time it takes to run an algorithm. In the plot below, $n$ represents the size of the input, and $N$ represents the number of operations the algorithm performs. This relationship is a critical factor in defining the algorithm's performance, as the efficiency of the algorithm can be assessed by how $N$ changes as the input size $n$ increases.
+Time complexity describes how an algorithm's computational cost grows with input size. Here, $n$ is input size and $N$ is a schematic operation count. These curves illustrate growth rates; they are not measured runtimes.
 
 [Learn more](https://en.wikipedia.org/wiki/Time_complexity){target="_blank"}
 
@@ -72,9 +67,9 @@ In theoretical computer science, the time complexity is the computational comple
 
 
 ```{r, warning=FALSE}
-#| fig-cap: "Compirison of Computational Complexity"
-#| fig-subcap: "It is good to know if the algorithm can handle my problem well!"
-#| fig-alt: "A line plot of Computational Complexity"
+#| fig-cap: "Comparison of computational growth rates"
+#| fig-subcap: "Schematic growth rates, not measured runtimes."
+#| fig-alt: "Curves comparing constant, logarithmic, linear, and faster growth rates"
 
 library(data.table)
 library(ggplot2)
@@ -119,102 +114,33 @@ ggplot(df_long, aes(x = n, y = Time, color = Complexity)) +
 
 ## DBSCAN time complexity
 
-DBSCAN’s runtime is dominated by how you perform neighborhood (range) queries. The classic “it’s $O(n²)$” is only the worst case of a spectrum that depends on data distribution, dimensionality, the index used, and the radius parameter $\varepsilon$.
+Much of the work in a conventional DBSCAN implementation is finding neighbors within a radius $\varepsilon$. In $d$-dimensional Euclidean space, one distance calculation takes $O(d)$ work. Checking all pairs of $n$ points therefore takes $O(n^2 \cdot d)$ work.
 
----
+A spatial index can avoid many of those checks. How much it helps depends on the data and the search radius:
 
-### Core steps and cost drivers
+| Factor | Effect on runtime |
+|---|---|
+| Input size $n$ | More points mean more neighborhood queries. |
+| Dimensionality $d$ | Each distance uses more coordinates, and index pruning can become less effective. |
+| Radius $\varepsilon$ and local density | Larger or denser neighborhoods contain more points to inspect. |
+| `minPts` | Changes which points are core points and how clusters expand. |
+| Implementation | Search structures, memory use, and parallelism affect the cost of the same task. |
 
-- **Range queries:** For each point, find all neighbors within radius $\varepsilon$. Distance evaluation for one pair costs $O(d)$ in $d$-dimensional Euclidean space.
-- **Cluster expansion:** A queue-based flood-fill that repeatedly issues range queries starting from core points (points with at least $\text{minPts}$ neighbors within $\varepsilon$).
-
-Asymptotically, the number and cost of range queries dominate; the expansion logic is linear in the number of discovered neighbors but tied to the same range-query results.
-
----
-
-### Complexity by neighborhood search strategy
-
-#### Brute-force (no index)
-- Per range query: compute distance to all points ⇒ $O(n \cdot d)$.
-- One query per point in the simplest implementation ⇒ $O(n^2 \cdot d)$.
-- Cluster expansion may reuse queries or cause repeats; asymptotically the bound remains $\Theta(n^2 \cdot d)$ in the worst case.
-
-#### Space-partitioning trees (kd-tree, ball tree, R-tree-like)
-- Index build: typically $O(n \log n)$ time, $O(n)$ space.
-- Range query cost:
-  - Best/average (well-behaved low–moderate $d$, balanced tree, moderate $\varepsilon$): $O(\log n + k)$, where $k$ is the number of reported neighbors.
-  - Worst case (high $d$, large $\varepsilon$, or adversarial data): degenerates to $O(n)$.
-- Overall:
-  - Best/average: $O(n \log n + \sum \limits_{i=1}^{n} (\log n + k_i)) = O(n \log n + K)$, where $K = \sum k_i$ is total neighbor reports. If density per query is bounded, $K = O(n)$, giving $O(n \log n)$ plus distance cost factor $O(d)$.
-  - Worst: $O(n^2 \cdot d)$.
-
-#### Uniform grid (fixed-radius hashing) in low dimensions
-- Build grid hashing once: expected $O(n)$.
-- Range query: constant number of adjacent cells, expected $O(1 + k)$ in 2D/3D if $\varepsilon$ is aligned with cell size and data are not pathologically skewed.
-- Overall in practice: near-linear $O(n + K)$, again with distance cost $O(d)$, but this approach becomes brittle as $d$ grows.
-
-> In all cases, include the distance computation factor $O(d)$. For high dimensions, tree and grid pruning effectiveness collapses, pushing complexity toward $\Theta(n^2 \cdot d)$.
-
----
-
-## What influences the runtime
-
-- **Dimensionality $d$:** Distance costs scale with $O(d)$, and index pruning degrades with the curse of dimensionality, often turning tree queries into $O(n)$.
-- **Neighborhood radius $\varepsilon$:** Larger $\varepsilon$ increases average neighbor count $k$, raises $K=\sum k_i$, and triggers more expansions; in the limit, most points neighbor each other ⇒ near $O(n^2 \cdot d)$.
-- **Data distribution and density:** Well-separated, roughly uniform, low-density data favor subquadratic performance with indexes. Dense clusters or large connected components increase expansions and repeats.
-- **minPts:** Affects how many points become core (thus how much expansion occurs). It changes constants and practical behavior but not the worst-case big-O bound.
-- **Distance metric:** Non-Euclidean metrics can alter pruning efficacy and per-distance cost.
-- **Implementation details:** Caching of range queries, deduplication, and “expand only once per point” optimizations materially reduce constants.
-
----
-
-## Practical scenarios
-
-| Scenario | Assumptions | Typical complexity |
-|---|---|---|
-| Brute-force baseline | Any $d$, no index | $\Theta(n^2 \cdot d)$ |
-| Tree index, low–moderate $d$ | Balanced tree, moderate $\varepsilon$, bounded neighbor counts | $O(n \log n \cdot d)$ |
-| Tree index, high $d$ or large $\varepsilon$ | Poor pruning, dense neighborhoods | $\Theta(n^2 \cdot d)$ |
-| Grid index (2D/3D) | Well-chosen cell size, non-pathological data | Near $O(n \cdot d)$ |
-| Approximate NN/range | ANN structure (e.g., HNSW), approximate neighbors | Subquadratic wall-time; formal bounds vary |
-
-
-::: {.callout-note}
-- The index build cost $O(n \log n)$ (trees) or $O(n)$ (grid) is typically amortized across all range queries.
-- If each point’s neighbor count $k_i$ is bounded by a small constant on average, and pruning works, the total neighbor reports $K$ is $O(n)$, leading to near $O(n \log n)$ behavior with trees.
-:::
-
-
-
-
-
-> But... What if you neither can reduce your dataset... nor change the parameter of the DBSCAN?
-
-
+The R [`dbscan` package](https://www.jstatsoft.org/article/view/v091i01){target="_blank"} already uses C++ spatial indexing. It serves as the baseline for the comparisons below.
 
 ## Solution...? At least for this case :)
 
-**Use more efficient algorithms that fully leverage your hardware's full potential!**
+I tried [`dbscan-python`](https://github.com/wangyiqiu/dbscan-python){target="_blank"}, a Python interface to parallel C++ code for low-dimensional Euclidean data. It comes from Wang, Gu, and Shun's SIGMOD 2020 paper, [*Theoretically-Efficient and Practical Parallel DBSCAN*](https://doi.org/10.1145/3318464.3380582){target="_blank"}.
 
+The package uses the available threads automatically. The comparisons below keep the input data and clustering parameters the same, but do not set matching thread limits.
 
-For this case, I used `dbscan-python`, which is a high-performance parallel implementation of DBSCAN, based on the SIGMOD 2020 paper “[Theoretically Efficient and Practical Parallel DBSCAN](https://github.com/wangyiqiu/dbscan-python){target="_blank"}.”
-
-
-
-This work achieves theoretically-efficient clustering by minimizing total work and maintaining polylogarithmic parallel depth, enabling scalable performance on large datasets. 
-
-Compared to the naive $O(n^2)$ approach, the proposed algorithm reduces time complexity to $O(n \log n)$ work and $O(\log n)$ depth in 2D, and sub-quadratic work in higher dimensions through grid-based partitioning, parallel union-find, and spatial indexing techniques.
-
-
-
-As the name of the package implies, I need to use Python again for this experiment.
-
+So, back to Python for this experiment.
 
 # Experiments
 
-## Setups
+## Setup
 
-### Used R Packages
+### R packages
 
 ```{r warning=FALSE}
 
@@ -232,7 +158,9 @@ library(ggplot2)
 ```
 
 
-### Python Setup
+### Python through reticulate
+
+`reticulate` connects the R session to Python. This blog's build manages the Python environment with Pixi; the chunk below shows which executable is being used.
 
 ```{r}
 library(reticulate)
@@ -248,9 +176,9 @@ sys$executable
 
 
 
-## Generated Lab Dataset
+## Synthetic dataset
 
-First, I had to replicate a famous dataset for demonstrating DBSCAN.
+I generated two noisy semicircles with 100,000 points each. Both implementations use the same 200,000 coordinate pairs, with `eps = 0.08` and `minPts` / `min_samples = 200`.
 
 ```{r}
 
@@ -302,7 +230,7 @@ lab_data <- df[, !c("group"), with = FALSE]
 
 
 
-### R - Naive
+### R — `dbscan`
 
 ```{r}
 lab_data_r <- lab_data
@@ -335,7 +263,7 @@ ggplot(lab_data_r, aes(x = x, y = y, color = group)) +
 ```
 
 
-### Python - `wangyiqiu/dbscan-python`
+### Python — `wangyiqiu/dbscan-python`
 
 ```{r}
 
@@ -399,6 +327,8 @@ ggplot(lab_data_py, aes(x = x, y = y, color = group)) +
 
 ### Results
 
+The ratio below divides R's elapsed time by Python's elapsed time.
+
 ```{r}
 #speedup
 
@@ -409,10 +339,11 @@ cat(delta_t_r[[1]]/py$delta_t," times speed-up\n",sep = "")
 ```
 
 
-## Some Real World Dataset
+## NYC taxi data
 
+For the second test, I used [NYC yellow taxi trip records](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) from January 2024. The code keeps trips with positive, non-missing distance and fare values, then samples 200,000 rows.
 
-Source: [NYC Taxi Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
+The two features are trip distance and fare amount, used in their original units. Both runs use `eps = 0.3` and `minPts` / `min_samples = 10`; the radius is measured in that two-variable feature space.
 
 ```{r}
 
@@ -450,7 +381,7 @@ py$taxi_numeric_dt_200k <- as.matrix(taxi_numeric_dt_200k)
 ```
 
 
-### R - Naive
+### R — `dbscan`
 
 ```{r}
 epsilon <-  0.3
@@ -471,7 +402,7 @@ table(db_result_r$cluster)
 
 
 
-### Python - `wangyiqiu/dbscan-python`
+### Python — `wangyiqiu/dbscan-python`
 
 ```{r}
 
@@ -509,7 +440,7 @@ print(f"Elapsed time: {delta_t:.4f} seconds")
 
 ### Results
 
-The code below shows the results are valid, as it counts how many rows are assigned to each label, sorts the counts in ascending order, and returns the difference between the two label distributions.
+As a quick check, the code below compares the sorted counts of observations per label, including noise. This compares group sizes; matching counts alone would not establish that the same points were assigned to the same clusters.
 
 ```{r}
 
@@ -518,7 +449,7 @@ sort(as.vector(table(as.factor(py$labels)))) - sort(as.vector(table(as.factor(db
 
 ```
 
-A slight difference is observed. but it appears to stem from floating-point or grid based operations, hence it is negligible.
+The counts differ slightly in the output shown here. This check does not identify the cause or tell us which points changed groups. Assessing agreement would require a point-level comparison that allows for different cluster label IDs.
 
 
 ```{r}
@@ -532,24 +463,14 @@ cat(delta_t_r[[1]]/py$delta_t," times speed-up\n",sep = "")
 ```
 
 
-What a whopping improvement isn't it?
+The Python call was faster in this run. The ratio describes the two timed clustering calls on this sample.
 
 
-# Take-home message
+# What I take from this
 
-::: {.callout-tip title="DBSCAN is a slow algorithm"}
+`dbscan-python` was faster in both examples shown here. For these inputs, changing the implementation reduced the clustering time while keeping the data and parameter values the same.
 
-- Worst-case time: $\Theta(n^2 \cdot d)$ regardless of indexing.
-- Well-behaved low-dimensional data with effective indexing can approach $O(n \log n \cdot d)$.
-- As $d$ or $\varepsilon$ grow, expect degradation toward quadratic behavior.
-- Tuning $\varepsilon$, choosing appropriate indexes, and reducing $d$ (e.g., via PCA) often matter more than micro-optimizations.
-- If you cannot apply the above strategies, **use a high-performance implementation**.
-
-
-:::
-
-
-
+Each timing is a single run, and the timers cover only the clustering calls. Data loading, conversion between R and Python, and plotting are outside the timers. Thread counts are also uncontrolled, so the ratios reflect the implementations and hardware used here. A fuller benchmark would repeat the timings, control thread counts, and compare point-level cluster assignments.
 
 # Environment info
 

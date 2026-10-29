@@ -8,4 +8,6 @@ $navbar-fg: #FFFFFF;
 $navbar-hl: #FFFFFF;
 $body-bg: #FFFFFF;
 $body-color: #252525;
+// Sketchy defaults to bold body text; restore readable normal-weight prose.
+$font-weight-base: 400;
 $code-color: #A40A29;

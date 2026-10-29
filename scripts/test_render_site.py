@@ -21,7 +21,7 @@ class PackageMetadataTests(unittest.TestCase):
             (root / "_quarto.yml").write_text(
                 'project:\n  render:\n    - "*.qmd"\n    - "posts/**/*.qmd"\n'
                 '    - "research/index.qmd"\n'
-            .replace("\\\n", "\n"))
+            )
             (root / "index.qmd").write_text("---\ntitle: Home\n---\n")
             (root / "posts" / "new").mkdir(parents=True)
             (root / "posts" / "new" / "index.qmd").write_text(

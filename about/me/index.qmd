@@ -33,7 +33,7 @@ format:
 ::: {#hero-heading}
 # About Me
 
-I am a Ph.D. student in Geography at the University of Georgia, where I work with [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} on geospatial AI and environmental forecasting research. My research interests include GIScience, GeoAI, remote sensing, atmospheric science, and high-performance computing. I am particularly interested in developing scalable machine learning approaches for environmental and spatiotemporal problems. 
+I am a Ph.D. student in Geography at the University of Georgia (UGA), working with [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} in the GAIM Lab. My current research interests lie at the intersection of geospatial AI, weather and climate modeling, and remote sensing. I am particularly interested in evaluating AI-based weather forecasts and climate model projections, and in using machine learning to study environmental and spatiotemporal processes.
 
 Before joining UGA, I was a research intern at the [**Data Science for Humanity Group**](https://www.mpi-sp.org/cha){target="_blank"} at **the Max Planck Institute for Security and Privacy**, where I applied machine learning and remote sensing to societal and environmental problems. My work there included monitoring changes in North Korean mining activities using optical satellite imagery and mapping changes in WASH accessibility in Rohingya refugee camps using sub-meter satellite imagery.
 
@@ -45,6 +45,14 @@ I primarily work with R and Python and have experience in geospatial data proces
 :::
 
 # Education
+
+## University of Georgia
+
+#### Athens, Georgia, USA \| Aug 2026 – Present
+
+-   Ph.D. in Geography (in progress)
+    -   Advisor: [Dr. Weiming Hu](https://weiming.uga.edu/){target="_blank"} (GAIM Lab)
+    -   Research interests: Geospatial AI, weather and climate modeling, and remote sensing
 
 ## Seoul National University
 

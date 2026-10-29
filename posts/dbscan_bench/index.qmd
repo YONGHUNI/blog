@@ -114,27 +114,21 @@ ggplot(df_long, aes(x = n, y = Time, color = Complexity)) +
 
 ## DBSCAN time complexity
 
-Much of the work in a conventional DBSCAN implementation is finding neighbors within a radius $\varepsilon$. In $d$-dimensional Euclidean space, one distance calculation takes $O(d)$ work. Checking all pairs of $n$ points therefore takes $O(n^2 \cdot d)$ work.
+In a conventional DBSCAN implementation, much of the computation goes into finding each point's neighbors within a radius $\varepsilon$. The parameter `minPts` sets the minimum neighborhood size for a core point, including the point itself. With $n$ points and $d$ features, one Euclidean distance calculation takes $O(d)$ work. Checking every pair therefore takes $O(n^2d)$ work.
 
-A spatial index can avoid many of those checks. How much it helps depends on the data and the search radius:
+Spatial indexes can avoid many of these comparisons. The [original DBSCAN paper](https://cdn.aaai.org/KDD/1996/KDD96-037.pdf){target="_blank"} describes average $O(n\log n)$ behavior when indexed neighborhood queries are efficient and the search regions remain small. That estimate depends on favorable search conditions: increasing the dimensionality or including many points within each neighborhood can make the search more expensive.
 
-| Factor | Effect on runtime |
-|---|---|
-| Input size $n$ | More points mean more neighborhood queries. |
-| Dimensionality $d$ | Each distance uses more coordinates, and index pruning can become less effective. |
-| Radius $\varepsilon$ and local density | Larger or denser neighborhoods contain more points to inspect. |
-| `minPts` | Changes which points are core points and how clusters expand. |
-| Implementation | Search structures, memory use, and parallelism affect the cost of the same task. |
+The number of neighbors also matters. Let $k_i$ be the number of neighbors reported for point $i$, and let $K=\sum_{i=1}^{n}k_i$. An implementation that explicitly enumerates every neighborhood must process those $K$ neighbor relationships. Dense neighborhoods can make $K$ quadratic in $n$, even when an index helps locate the points efficiently.
 
-The R [`dbscan` package](https://www.jstatsoft.org/article/view/v091i01){target="_blank"} already uses C++ spatial indexing. It serves as the baseline for the comparisons below.
+Grid-based methods organize the search differently, grouping points into cells and examining nearby cells. In low dimensions, this can reduce the candidate comparisons. The total cost still depends on cell occupancy, core-point detection, and how connectivity among core points is established.
 
 ## Solution...? At least for this case :)
 
-I tried [`dbscan-python`](https://github.com/wangyiqiu/dbscan-python){target="_blank"}, a Python interface to parallel C++ code for low-dimensional Euclidean data. It comes from Wang, Gu, and Shun's SIGMOD 2020 paper, [*Theoretically-Efficient and Practical Parallel DBSCAN*](https://doi.org/10.1145/3318464.3380582){target="_blank"}.
+The R [`dbscan` package](https://www.jstatsoft.org/article/view/v091i01){target="_blank"} already uses a C++ implementation with a kd-tree for [neighborhood searches](https://search.r-project.org/CRAN/refmans/dbscan/html/dbscan.html){target="_blank"}. It provides an indexed baseline for this comparison. I wanted to see how it compared with [`dbscan-python`](https://github.com/wangyiqiu/dbscan-python){target="_blank"}, which provides a Python interface to parallel C++ code for low-dimensional Euclidean data and automatically uses the available threads.
 
-The package uses the available threads automatically. The comparisons below keep the input data and clustering parameters the same, but do not set matching thread limits.
+The paper behind that implementation, Wang, Gu, and Shun's [*Theoretically-Efficient and Practical Parallel DBSCAN*](https://doi.org/10.1145/3318464.3380582){target="_blank"}, also gives a useful theoretical perspective. For constant `minPts`, their analysis shows that exact DBSCAN in two-dimensional Euclidean space can be computed with $O(n\log n)$ work and $O(\log n)$ depth with high probability. Here, *work* means the total number of operations, while *depth* describes the longest chain of dependent operations. These guarantees concern the algorithms analyzed in the paper; measuring a package's elapsed time is a separate question.
 
-So, back to Python for this experiment.
+So, back to Python for this experiment. The comparisons below use the same inputs and clustering parameters, with thread settings left at their defaults.
 
 # Experiments
 
@@ -451,6 +445,7 @@ sort(as.vector(table(as.factor(py$labels)))) - sort(as.vector(table(as.factor(db
 
 The counts differ slightly in the output shown here. This check does not identify the cause or tell us which points changed groups. Assessing agreement would require a point-level comparison that allows for different cluster label IDs.
 
+The timing ratio is calculated as in the first example:
 
 ```{r}
 #speedup
@@ -463,14 +458,11 @@ cat(delta_t_r[[1]]/py$delta_t," times speed-up\n",sep = "")
 ```
 
 
-The Python call was faster in this run. The ratio describes the two timed clustering calls on this sample.
-
-
 # What I take from this
 
 `dbscan-python` was faster in both examples shown here. For these inputs, changing the implementation reduced the clustering time while keeping the data and parameter values the same.
 
-Each timing is a single run, and the timers cover only the clustering calls. Data loading, conversion between R and Python, and plotting are outside the timers. Thread counts are also uncontrolled, so the ratios reflect the implementations and hardware used here. A fuller benchmark would repeat the timings, control thread counts, and compare point-level cluster assignments.
+Each timing comes from a single clustering call. The timers exclude data loading, conversion between R and Python, and plotting. With thread settings left at their defaults, the ratios describe this setup. Repeated measurements with controlled thread counts and a comparison of point-level assignments would give a fuller picture.
 
 # Environment info
 

@@ -607,14 +607,14 @@ Tip
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap">tmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set tmap mode to interactive 'view' for HTML output</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
+<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load built-in World dataset for demonstration</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create an interactive map showing life expectancy</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, </span>
+<span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"life_exp"</span>, </span>
 <span>              palette <span class="op">=</span> <span class="st">"YlGnBu"</span>, </span>
 <span>              title <span class="op">=</span> <span class="st">"Life Expectancy"</span>,</span>
 <span>              id <span class="op">=</span> <span class="st">"name"</span>,</span>
@@ -881,14 +881,14 @@ y = \rho W y + X \beta + \varepsilon
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap">tmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set tmap mode to interactive 'view' for HTML output</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
+<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load built-in World dataset for demonstration</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create an interactive map showing life expectancy</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"life_exp"</span>, </span>
+<span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"life_exp"</span>, </span>
 <span>              palette <span class="op">=</span> <span class="st">"YlGnBu"</span>, </span>
 <span>              title <span class="op">=</span> <span class="st">"Life Expectancy"</span>,</span>
 <span>              id <span class="op">=</span> <span class="st">"name"</span>,</span>
@@ -1001,7 +1001,7 @@ y = \rho W y + X \beta + \varepsilon
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>  <span class="co"># need to make the increment small in order to avoid `Inf`s</span></span>
 <span></span>
 <span><span class="co"># data.table</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="op">(</span></span>
 <span>                  n <span class="op">=</span> <span class="va">n</span>,</span>
 <span>                  `O(1)` <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                  `O(log n)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
@@ -1012,23 +1012,23 @@ y = \rho W y + X \beta + \varepsilon
 <span>                  `O(n!)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
 <span>                <span class="op">)</span></span>
 <span></span>
-<span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/melt.data.table.html">melt</a></span><span class="op">(</span><span class="va">df</span>, id.vars <span class="op">=</span> <span class="st">"n"</span>, variable.name <span class="op">=</span> <span class="st">"Complexity"</span>, value.name <span class="op">=</span> <span class="st">"Time"</span><span class="op">)</span></span>
+<span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu">melt</span><span class="op">(</span><span class="va">df</span>, id.vars <span class="op">=</span> <span class="st">"n"</span>, variable.name <span class="op">=</span> <span class="st">"Complexity"</span>, value.name <span class="op">=</span> <span class="st">"Time"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_long</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">Time</span>, color <span class="op">=</span> <span class="va">Complexity</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span><span class="op">+</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_long</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">Time</span>, color <span class="op">=</span> <span class="va">Complexity</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_line</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>            <span class="fu">ylim</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
+<span>            <span class="fu">xlim</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span><span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span></span>
 <span>            <span class="co">#title = "Compirison of Computational Complexity",</span></span>
 <span>            x <span class="op">=</span> <span class="st">"Input Size (n)"</span>,</span>
 <span>            y <span class="op">=</span> <span class="st">"Number of Operations (N)"</span>,</span>
 <span>            color <span class="op">=</span> <span class="st">"Complexity"</span></span>
 <span>          <span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>            plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">16</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
-<span>            legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
-<span>            legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span>      <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span></span>
+<span>            plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">16</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>            legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
+<span>            legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1386,11 +1386,11 @@ y = \rho W y + X \beta + \varepsilon
 <span><span class="va">spatial_df</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">py</span><span class="op">$</span><span class="va">cluster_labels</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate publication-ready plot</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">spatial_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">long</span>, y <span class="op">=</span> <span class="va">lat</span>, color <span class="op">=</span> <span class="va">cluster</span>, size <span class="op">=</span> <span class="va">mag</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"plasma"</span>, name <span class="op">=</span> <span class="st">"Cluster\n(-1 = Noise)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">spatial_df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">long</span>, y <span class="op">=</span> <span class="va">lat</span>, color <span class="op">=</span> <span class="va">cluster</span>, size <span class="op">=</span> <span class="va">mag</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_viridis_d</span><span class="op">(</span>option <span class="op">=</span> <span class="st">"plasma"</span>, name <span class="op">=</span> <span class="st">"Cluster\n(-1 = Noise)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Spatial Clustering of Fiji Earthquakes"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"DBSCAN computed in Python, Plotted in R"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Longitude"</span>,</span>
@@ -1413,7 +1413,7 @@ y = \rho W y + X \beta + \varepsilon
 <span></span>
 <span><span class="co"># 1. Generate sample environmental data (e.g., temperature across stations)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="va">dt_env</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span></span>
+<span><span class="va">dt_env</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="op">(</span></span>
 <span>  station <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Station_A"</span>, <span class="st">"Station_B"</span>, <span class="st">"Station_C"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
 <span>  day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  temperature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">15</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">18</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">12</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span>

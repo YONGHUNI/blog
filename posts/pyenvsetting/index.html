@@ -679,16 +679,16 @@ document.addEventListener('DOMContentLoaded', function () {
 </details><div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: sp</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">pcp</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="op">(</span><span class="va">pcp</span>,</span>
 <span>       xmn<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">1121</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       xmx<span class="op">=</span><span class="op">(</span><span class="op">(</span><span class="fl">2305</span><span class="op">-</span><span class="fl">1121</span><span class="op">)</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       ymn<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">1681</span><span class="op">*</span><span class="fl">500</span><span class="op">)</span>,</span>
 <span>       ymx<span class="op">=</span><span class="op">(</span><span class="fl">2881</span><span class="op">-</span><span class="fl">1681</span><span class="op">)</span><span class="op">*</span><span class="fl">500</span>,</span>
-<span>       crs <span class="op">=</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs"</span><span class="op">)</span></span>
+<span>       crs <span class="op">=</span> <span class="fu">CRS</span><span class="op">(</span><span class="st">"+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +a=6378138.00 +b=6356752.314 +units=m +no_defs"</span><span class="op">)</span></span>
 <span>       <span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-12-5.png" class="img-fluid figure-img" width="672"></a></p>
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/leafem">leafem</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stderr">
 <pre><code>ℹ tmap modes "plot" - "view"</code></pre>
 </div>
@@ -718,21 +718,21 @@ This message is displayed once per session.</code></pre>
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test</span><span class="op">[</span><span class="va">test</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span><span class="op">=</span><span class="cn">NA</span></span>
 <span></span>
 <span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"OpenStreetMap.HOT"</span>, group <span class="op">=</span> <span class="st">"Open Street Map - HOT"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=y&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery w/ label"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=s&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery wo/ label"</span><span class="op">)</span><span class="op">+</span></span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span>  <span class="op">+</span>                                  </span>
-<span>        <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_raster.html">tm_raster</a></span><span class="op">(</span></span>
-<span>            col.legend <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_legend.html">tm_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Max Rainfall Intensity [mm/hr]"</span><span class="op">)</span>,</span>
-<span>            col.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_continuous.html">tm_scale_continuous</a></span><span class="op">(</span></span>
+<span>    <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"OpenStreetMap.HOT"</span>, group <span class="op">=</span> <span class="st">"Open Street Map - HOT"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=y&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery w/ label"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_basemap</span><span class="op">(</span><span class="st">"https://mt1.google.com/vt/lyrs=s&amp;hl=en&amp;z={z}&amp;x={x}&amp;y={y}"</span>, group <span class="op">=</span> <span class="st">"Google Satellite Imagery wo/ label"</span><span class="op">)</span><span class="op">+</span></span>
+<span>        <span class="fu">tm_shape</span><span class="op">(</span><span class="va">test</span><span class="op">)</span>  <span class="op">+</span>                                  </span>
+<span>        <span class="fu">tm_raster</span><span class="op">(</span></span>
+<span>            col.legend <span class="op">=</span> <span class="fu">tm_legend</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Max Rainfall Intensity [mm/hr]"</span><span class="op">)</span>,</span>
+<span>            col.scale <span class="op">=</span> <span class="fu">tm_scale_continuous</span><span class="op">(</span></span>
 <span>                values <span class="op">=</span> <span class="st">"-spectral"</span>,</span>
 <span>                <span class="op">)</span>,</span>
 <span>            group <span class="op">=</span> <span class="st">"Rainfall"</span> <span class="op">)</span> <span class="op">-&gt;</span> <span class="va">themap</span></span>
 <span>  </span>
 <span>  </span>
 <span>  </span>
-<span>      <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_leaflet.html">tmap_leaflet</a></span><span class="op">(</span><span class="va">themap</span><span class="op">)</span><span class="op">|&gt;</span></span>
-<span>          <span class="fu"><a href="https://r-spatial.github.io/leafem/reference/addMouseCoordinates.html">addMouseCoordinates</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="fu">tmap_leaflet</span><span class="op">(</span><span class="va">themap</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>          <span class="fu">addMouseCoordinates</span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">

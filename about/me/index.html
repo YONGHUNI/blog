@@ -4744,6 +4744,26 @@ font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
+body.quarto-light {
+--blog-code-bg: #f4f5f7;
+--blog-code-border: #d5d9df;
+}
+body.quarto-dark {
+--blog-code-bg: #252830;
+--blog-code-border: #454a55;
+}
+body.quarto-light div.sourceCode,
+body.quarto-dark div.sourceCode {
+background-color: var(--blog-code-bg);
+border: 1px solid var(--blog-code-border);
+border-radius: .4rem;
+}
+
+body.quarto-light div.sourceCode > pre.sourceCode,
+body.quarto-dark div.sourceCode > pre.sourceCode {
+background-color: transparent;
+}
+
 footer.footer .nav-footer {
 background-color: var(--bs-body-bg);
 color: var(--bs-body-color);
@@ -5278,7 +5298,7 @@ text-align:center; padding:0 .25rem;
 </p>
 <div class="grid">
 <div>
-<div class="quarto-layout-panel" data-layout-ncol="2" style="text-align: center;">
+<div class="quarto-layout-panel" style="text-align: center;" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">

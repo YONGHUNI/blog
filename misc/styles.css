@@ -29,6 +29,29 @@
   font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
+/* Code-input surfaces: Quarto's generated Bootstrap CSS otherwise uses a
+   nearly transparent white background in both color schemes. Scope colors to
+   the active Quarto theme, not the operating-system preference. */
+body.quarto-light {
+  --blog-code-bg: #f4f5f7;
+  --blog-code-border: #d5d9df;
+}
+body.quarto-dark {
+  --blog-code-bg: #252830;
+  --blog-code-border: #454a55;
+}
+body.quarto-light div.sourceCode,
+body.quarto-dark div.sourceCode {
+  background-color: var(--blog-code-bg);
+  border: 1px solid var(--blog-code-border);
+  border-radius: .4rem;
+}
+/* The wrapper owns the background; keep Quarto's syntax colors and scrolling. */
+body.quarto-light div.sourceCode > pre.sourceCode,
+body.quarto-dark div.sourceCode > pre.sourceCode {
+  background-color: transparent;
+}
+
 /* Respect Quarto's active light/dark theme, not the OS preference. */
 footer.footer .nav-footer {
   background-color: var(--bs-body-bg);

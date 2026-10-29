@@ -19,17 +19,17 @@ class PackageMetadataTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / "_quarto.yml").write_text(
-                'project:\\n  render:\\n    - "*.qmd"\\n    - "posts/**/*.qmd"\\n'
-                '    - "research/index.qmd"\\n'
-            .replace("\\\\n", "\\n"))
-            (root / "index.qmd").write_text("---\\ntitle: Home\\n---\\n")
+                'project:\n  render:\n    - "*.qmd"\n    - "posts/**/*.qmd"\n'
+                '    - "research/index.qmd"\n'
+            .replace("\\\n", "\n"))
+            (root / "index.qmd").write_text("---\ntitle: Home\n---\n")
             (root / "posts" / "new").mkdir(parents=True)
             (root / "posts" / "new" / "index.qmd").write_text(
-                "---\\ntitle: New\\narea: geek\\n---\\n")
+                "---\ntitle: New\narea: geek\n---\n")
             (root / "research").mkdir()
-            (root / "research" / "index.qmd").write_text("---\\ntitle: Research\\n---\\n")
+            (root / "research" / "index.qmd").write_text("---\ntitle: Research\n---\n")
             (root / "docs").mkdir()
-            (root / "docs" / "unused.qmd").write_text("---\\nci-packages: [r-arrow]\\n---\\n")
+            (root / "docs" / "unused.qmd").write_text("---\nci-packages: [r-arrow]\n---\n")
             with patch.object(render, "ROOT", root):
                 paths, whole = render.find_documents(".")
                 self.assertTrue(whole)
@@ -44,9 +44,9 @@ class PackageMetadataTests(unittest.TestCase):
             post = root / "posts" / "new" / "index.qmd"
             post.parent.mkdir(parents=True)
             with patch.object(render, "ROOT", root):
-                for value in ["", "area: typo\\n", "area: research\\n"]:
-                    post.write_text("---\\ntitle: New\\n" + value + "---\\n")
-                    if value == "area: research\\n":
+                for value in ["", "area: typo\n", "area: research\n"]:
+                    post.write_text("---\ntitle: New\n" + value + "---\n")
+                    if value == "area: research\n":
                         render.validate_posts([post])
                     else:
                         with self.assertRaisesRegex(ValueError, "area must be"):

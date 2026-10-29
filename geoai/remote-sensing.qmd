@@ -1,6 +1,0 @@
----
-title: "Remote Sensing"
-sidebar: geoai
----
-
-Future posts filed under  **Remote Sensing**. Select a category to narrow the list further.

@@ -1,6 +1,0 @@
----
-title: "Conferences"
-sidebar: life
----
-
-Posts filed under **Conferences**. Select a category to narrow the list further.

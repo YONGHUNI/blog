@@ -89,6 +89,51 @@ def spec_name(spec: str) -> str:
     return match.group(1).lower()
 
 
+def render_inputs() -> list[Path]:
+    """Resolve the QMD targets declared in Quarto's project.render.
+
+    This keeps dependency collection scoped to documents that the site builds.
+    The site's render patterns use ordinary file globs and explicit paths.
+    """
+    config = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
+    patterns = (config or {}).get("project", {}).get("render")
+    if not isinstance(patterns, list) or not patterns:
+        raise ValueError("project.render must be a nonempty list in _quarto.yml")
+    included: set[Path] = set()
+    for pattern in patterns:
+        if not isinstance(pattern, str) or not pattern:
+            raise ValueError("project.render entries must be nonempty strings")
+        exclude = pattern.startswith("!")
+        glob = pattern[1:] if exclude else pattern
+        if Path(glob).is_absolute() or ".." in Path(glob).parts:
+            raise ValueError(f"Invalid project.render pattern: {pattern}")
+        matches = {
+            p for p in ROOT.glob(glob)
+            if p.is_file() and p.suffix == ".qmd"
+            and not any(part in SKIP_DIRS or part.startswith((".", "_"))
+                        for part in p.relative_to(ROOT).parts[:-1])
+        }
+        if exclude:
+            included.difference_update(matches)
+        else:
+            included.update(matches)
+    return sorted(included)
+
+
+def validate_posts(paths: list[Path]) -> None:
+    """Fail early when a post would silently disappear from section listings."""
+    rendered = set(paths)
+    for post in sorted((ROOT / "posts").glob("*/index.qmd")):
+        if post not in rendered:
+            raise ValueError(f"Post excluded from project.render: {post.relative_to(ROOT)}")
+        area = front_matter(post).get("area")
+        if area not in ("research", "geek", "life"):
+            raise ValueError(
+                f"{post.relative_to(ROOT)}: area must be research, geek, or life "
+                f"(got {area!r})"
+            )
+
+
 def find_documents(target: str) -> tuple[list[Path], bool]:
     path = (ROOT / target).resolve()
     if not path.is_relative_to(ROOT):
@@ -101,13 +146,8 @@ def find_documents(target: str) -> tuple[list[Path], bool]:
         return [path], False
     if path != ROOT:
         raise ValueError("Only a single QMD or the whole repository is supported")
-    paths = sorted(
-        p for p in ROOT.rglob("*.qmd")
-        if not any(
-            part in SKIP_DIRS or part.startswith((".", "_"))
-            for part in p.relative_to(ROOT).parts[:-1]
-        )
-    )
+    paths = render_inputs()
+    validate_posts(paths)
     return paths, True
 
 
